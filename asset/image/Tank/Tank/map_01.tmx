@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="20" height="17" tilewidth="60" tileheight="60" infinite="0" nextlayerid="2" nextobjectid="1">
+ <tileset firstgid="1" name="TankManObj" tilewidth="58" tileheight="60" tilecount="2" columns="2">
+  <image source="TankManObj.png" width="116" height="60"/>
+ </tileset>
+ <tileset firstgid="3" name="wallpng" tilewidth="60" tileheight="60" tilecount="1" columns="1">
+  <image source="wallpng.png" width="60" height="60"/>
+ </tileset>
+ <layer id="1" name="Tile Layer 1" width="20" height="17">
+  <data encoding="csv">
+3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,
+3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,
+3,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,3,
+3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,
+3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,
+3,0,0,0,0,3,3,3,0,0,0,0,3,3,3,0,0,0,0,3,
+3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,
+3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,
+3,0,3,3,3,3,0,3,3,3,3,3,3,0,3,3,3,3,0,3,
+3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,
+3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,
+3,0,0,0,0,3,3,3,0,0,0,0,3,3,3,0,0,0,0,3,
+3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,
+3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,
+3,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,3,
+3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,
+3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3
+</data>
+ </layer>
+</map>

@@ -1,5 +1,5 @@
 import pygame
-from src import GameName
+from src import TankMan
 
 from src.env import FPS, TITLE
 from mlgame.view.view import PygameView
@@ -7,7 +7,7 @@ from mlgame.gamedev.generic import quit_or_esc
 
 if __name__ == '__main__':
     pygame.init()
-    game = GameName.GameName(user_num=1, game_mode="NORMAL", map_no=1, sound="off")
+    game = TankMan.TankMan(map_no=1, sound="off")
     scene_init_info_dict = game.get_scene_init_data()
     game_view = PygameView(scene_init_info_dict)
     frame_count = 0

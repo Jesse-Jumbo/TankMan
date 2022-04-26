@@ -2,8 +2,8 @@ from os import path
 import pygame
 
 '''width and height'''
-WIDTH = 1920
-HEIGHT = 1080
+WIDTH = 1320
+HEIGHT = 660
 
 '''environment data'''
 FPS = 60
@@ -27,19 +27,20 @@ MAGENTA = "#FF00FF"
 MEDGRAY = "#4B4B4B"
 
 '''command'''
-LEFT_CMD = "MOVE_LEFT"
-RIGHT_CMD = "MOVE_RIGHT"
-UP_CMD = "MOVE_UP"
-DOWN_CMD = "MOVE_DOWN"
+LEFT_CMD = "TURN_LEFT"
+RIGHT_CMD = "TURN_RIGHT"
+FORWARD_CMD = "FORWARD"
+BACKWARD_CMD = "BACKWARD"
+SHOOT = "SHOOT"
 
 '''data path'''
 GAME_DIR = path.dirname(__file__)
 IMAGE_DIR = path.join(GAME_DIR, "..", "asset", "image")
 SOUND_DIR = path.join(GAME_DIR, "..", "asset", "sound")
-MAP_DIR = path.join(GAME_DIR, '..', 'maps')
+MAP_DIR = path.join(GAME_DIR, '..', "asset", 'maps')
 
 '''BG View'''
-TITLE = "GameName!"
+TITLE = "TankMan!"
 BG_COLOR = DARKGREY
 TILE_X_SIZE = 60
 TILE_Y_SIZE = 60
@@ -54,6 +55,7 @@ HEIGHT_CENTER = HEIGHT / 2
 
 '''object size'''
 ALL_OBJECT_SIZE = pygame.Rect(0, 0, 60, 60)
+BULLET_SIZE = pygame.Rect(0, 0, 8, 8)
 
 """all setting"""
 DOWN_IMG = 'down'
@@ -62,27 +64,23 @@ UP_IMG = 'up'
 LEFT_IMG = 'left'
 
 """collide setting"""
-WITH_MOB = 'mob'
 WITH_PLAYER = 'player'
 
 """rect"""
-PLAYRE_HIT_RECT = pygame.Rect(0, 0, 60, 60)
-MOB_HIT_RECT = pygame.Rect(0, 0, 60, 60)
-WALL_HIT_RECT = pygame.Rect(0, 0, 60, 60)
+PLAYRE_HIT_RECT = pygame.Rect(0, 0, 59, 59)
+WALL_HIT_RECT = pygame.Rect(0, 0, 59, 59)
+BULLET_HIT_RECT = pygame.Rect(0, 0, 8, 6)
 
 """speed"""
-PLAYER_SPEED = 2.0
-MOB_SPEED = 1.0
+PLAYER_SPEED = 1 / FPS
 
 """image"""
-PLAYER_IMG = "player.png"
-MOB_IMG = "mob.png"
+PLAYER_IMG_LIST = ["player_1P.png", "player_2P.png"]
 WALL_IMG = "wall.png"
 
 """map data numbers"""
-PLAYER_IMG_NO = 0
-MOB_IMG_NO_LIST = [0]
-WALL_IMG_NO_LIST = [0]
+PLAYER_IMG_NO_LIST = [1, 2]
+WALL_IMG_NO = 3
 
 """music"""
 BGM = 'background_music.ogg/.wav/.mp3'
@@ -91,5 +89,9 @@ MENU_SND = 'MenuTheme.ogg/.wav/.mp3'
 """image url"""
 PLAYER_URL = "https://github.com/Jesse-Jumbo/GameName/master/asset/image/player.png?raw=true"
 BACKGROUND_URL = "https://github.com/Jesse-Jumbo/GameName/master/asset/image/background.jpg?raw=true"
-MOB_URL = ["https://github.com/Jesse-Jumbo/GameName/master/asset/image/mobs.png?raw=true"]
 WALL_UML = ["https://github.com/Jesse-Jumbo/GameName/master/asset/image/walls.png?raw=true"]
+
+"""image path"""
+PLAYER_IMG_PATH_LIST = [path.join(IMAGE_DIR, "player_1P.png"), path.join(IMAGE_DIR, "player_2P.png")]
+WALL_IMG_PATH = path.join(IMAGE_DIR, "wall.png")
+BULLET_IMG_PATH = path.join(IMAGE_DIR, "bullet.png")

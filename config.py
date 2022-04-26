@@ -1,13 +1,13 @@
-from .src.GameName import GameName
+from .src.TankMan import TankMan
 import pygame
 from os import path
 from mlgame.utils.parse_config import read_json_file, parse_config
 from argparse import ArgumentTypeError
 
 GAME_SETUP = {
-    "game": GameName,
+    "game": TankMan,
 
-    "ml_clients":GameName.ai_clients(),
+    "ml_clients":TankMan.ai_clients(),
     "dynamic_ml_clients":True
 }
 
