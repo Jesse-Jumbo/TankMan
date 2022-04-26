@@ -67,11 +67,13 @@ class TankMan(PaiaGame):
         self.frame_count += 1
         self.game_mode.run(commands)
         if not self.is_running():
+            self.rank()
             return "RESET"
 
     def reset(self):
         self.frame_count = 0
         self.game_mode = self.set_game_mode(self.map)
+        self.rank()
         # self.game_mode.sound_controller.player_music()
 
     def is_running(self):

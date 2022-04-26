@@ -32,8 +32,11 @@ class GameMode:
         self.bullets = pygame.sprite.Group()
         self.map = TiledMap(self.map_name)
         self.map.render()
-        self.player_1P = Player(self.map.players[0]["_no"], self.map.players[0]["x"], self.map.players[0]["y"])
-        self.player_2P = Player(self.map.players[1]["_no"], self.map.players[1]["x"], self.map.players[1]["y"])
+        for player in self.map.players:
+            if player["_no"] == 1:
+                self.player_1P = Player(player["_no"], player["x"], player["y"])
+            else:
+                self.player_2P = Player(player["_no"], player["x"], player["y"])
         self.players.add(self.player_1P)
         self.players.add(self.player_2P)
         for wall in self.map.walls:
@@ -59,20 +62,47 @@ class GameMode:
         self.all_sprites.update()
         self.players.update(command)
         self.check_collisions()
-        if command["1P"] == SHOOT:
-            self.shoot(self.player_1P)
-        if command["2P"] == SHOOT:
-            self.shoot(self.player_2P)
+        try:
+            if command["1P"] == SHOOT:
+                self.shoot(self.player_1P)
+            if command["2P"] == SHOOT:
+                self.shoot(self.player_2P)
+        except:
+            pass
         if self.player_1P.status == GameStatus.GAME_OVER:
             self.state = GameResultState.FINISH
             self.status = GameStatus.GAME_2P_WIN
-            self.player_2P.status = GameStatus.GAME_2P_WIN
+            self.player_2P.status = GameStatus.GAME_PASS
+            self.player_1P.status = GameStatus.GAME_2P_WIN
             self.playing = False
+            self.__init__(self.map_name)
+
         if self.player_2P.status == GameStatus.GAME_OVER:
             self.state = GameResultState.FAIL
             self.status = GameStatus.GAME_1P_WIN
-            self.player_1P.status = GameStatus.GAME_1P_WIN
+            self.player_2P.status = GameStatus.GAME_1P_WIN
+            self.player_1P.status = GameStatus.GAME_PASS
             self.playing = False
+            self.__init__(self.map_name)
+
+        if self.frame > 30 * FPS:
+            if self.player_1P.live > self.player_2P.live:
+                self.status = GameStatus.GAME_1P_WIN
+                self.player_2P.status = GameStatus.GAME_1P_WIN
+                self.player_1P.status = GameStatus.GAME_PASS
+            elif self.player_2P.live > self.player_1P.live:
+                self.status = GameStatus.GAME_2P_WIN
+                self.player_2P.status = GameStatus.GAME_PASS
+                self.player_1P.status = GameStatus.GAME_2P_WIN
+            else:
+                self.status = GameStatus.GAME_OVER
+                self.player_1P.status = GameStatus.GAME_OVER
+                self.player_2P.status = GameStatus.GAME_OVER
+            self.state = GameResultState.FAIL
+            self.playing = False
+            self.__init__(self.map_name)
+
+
 
     def check_events(self):
         pass

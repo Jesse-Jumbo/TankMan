@@ -72,7 +72,7 @@ WALL_HIT_RECT = pygame.Rect(0, 0, 59, 59)
 BULLET_HIT_RECT = pygame.Rect(0, 0, 8, 6)
 
 """speed"""
-PLAYER_SPEED = 1 / FPS
+PLAYER_SPEED = 3
 
 """image"""
 PLAYER_IMG_LIST = ["player_1P.png", "player_2P.png"]

@@ -1,41 +1,15 @@
 {
-  "game_name": "GameName",
+  "game_name": "TankMan",
   "version": "1.0.0",
   "url": "https://github.com/Jesse-Jumbo/your repositoriy name",
   "game_params": [
     {
-      "name": "user_num",
-      "verbose": "參賽人數",
-      "type": "int",
-      "max": 2,
-      "min": 1,
-      "default": 1,
-      "help": "set the number of user."
-    },
-    {
-      "name": "game_mode",
-      "verbose": "遊戲模式",
-      "type": "str",
-      "choices": [
-        {
-          "verbose": "NORMAL",
-          "value": "NORMAL"
-        },
-        {
-          "verbose": "RELIVE",
-          "value": "RELIVE"
-        }
-      ],
-      "help": "choose the type of game",
-      "default": "NORMAL"
-    },
-    {
       "name": "map_no",
       "verbose": "地圖編號",
       "type": "int",
-      "max": 1,
+      "max": 2,
       "min": 1,
-      "default": 1,
+      "default": 2,
       "help": "set map number for load game scene"
     },
     {

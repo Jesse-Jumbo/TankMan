@@ -31,13 +31,15 @@ class Player(pygame.sprite.Sprite):
         self.angle = 0
         self.score = 0
         self.used_frame = 0
-        self.move = {"left_up": vec(-1, -1), "right_up": vec(1, -1), "left_down": vec(-1, 1), "right_down": vec(1, 1),
-                     "left": vec(-1, 0), "right": vec(1, 0), "up": vec(0, -1), "down": vec(0, 1)}
+        self.move = {"left_up": vec(-self.speed, -self.speed), "right_up": vec(self.speed, -self.speed), "left_down": vec(-self.speed, self.speed), "right_down": vec(self.speed, self.speed),
+                     "left": vec(-self.speed, 0), "right": vec(self.speed, 0), "up": vec(0, -self.speed), "down": vec(0, self.speed)}
         self.rot = 0
         self.last_frame = self.used_frame
         self.rot_speed = 45
         self.can_shoot = True
         self.live = 100
+        self.is_forward = False
+        self.is_backward = False
 
     def update(self, commands: dict):
         if self.used_frame - self.last_frame > FPS // 4:
@@ -62,17 +64,24 @@ class Player(pygame.sprite.Sprite):
             self.rect.top = 0
 
     def handle_key_event(self, commands: dict):
-        if not commands[f"{self._no}P"]:
+        if not commands:
             return True
         else:
-            if commands[f"{self._no}P"] == LEFT_CMD:
-                self.turn_left()
-            elif commands[f"{self._no}P"] == RIGHT_CMD:
-                self.turn_right()
-            elif commands[f"{self._no}P"] == FORWARD_CMD:
-                self.forward()
-            elif commands[f"{self._no}P"] == BACKWARD_CMD:
-                self.backward()
+            try:
+                if commands[f"{self._no}P"] == LEFT_CMD:
+                    self.turn_left()
+                elif commands[f"{self._no}P"] == RIGHT_CMD:
+                    self.turn_right()
+                elif commands[f"{self._no}P"] == FORWARD_CMD:
+                    self.is_forward = True
+                    self.is_backward = False
+                    self.forward()
+                elif commands[f"{self._no}P"] == BACKWARD_CMD:
+                    self.is_backward = True
+                    self.is_forward = False
+                    self.backward()
+            except:
+                pass
 
     def forward(self):
         if self._no != 1:
@@ -126,8 +135,7 @@ class Player(pygame.sprite.Sprite):
 
     def get_info(self):
         self.player_info = {"player_id": f"{self._no}P",
-                            "pos_x": int(self.pos.x),
-                            "pos_y": int(self.pos.y),
+                            "pos": self.pos,
                             "velocity": "{:.2f}".format(self.speed),
                             "score": self.score,
                             }
@@ -135,8 +143,7 @@ class Player(pygame.sprite.Sprite):
 
     def get_result(self):
         self.result_info = {"player_id": f"{self._no}P",
-                            "pos_x": int(self.pos.x),
-                            "pos_y": int(self.pos.y),
+                            "pos": self.pos,
                             "velocity": "{:.2f}".format(self.speed),
                             "score": self.score,
                             "used_frame": self.used_frame,
@@ -144,7 +151,10 @@ class Player(pygame.sprite.Sprite):
         return self.result_info
 
     def collide_with_walls(self):
-        self.backward()
+        if self.is_forward:
+            self.backward()
+        else:
+            self.forward()
 
     def collide_with_bullets(self):
         self.live -= 10
