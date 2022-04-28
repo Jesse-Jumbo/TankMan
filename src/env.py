@@ -7,6 +7,7 @@ HEIGHT = 660
 
 '''environment data'''
 FPS = 60
+SHOOT_COOLDOWN = FPS // 4
 
 '''color'''
 BLACK = "#000000"

@@ -4,7 +4,7 @@ import pytmx
 from .env import *
 
 
-class TiledMap:
+class TankManMap:
     def __init__(self, filename: str):
         tm = pytmx.load_pygame(filename, pixealpha=True)
         self.width = tm.tilewidth

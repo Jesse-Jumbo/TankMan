@@ -1,3 +1,5 @@
+import random
+
 import pygame.draw
 
 from mlgame.gamedev.game_interface import GameStatus
@@ -42,7 +44,7 @@ class Player(pygame.sprite.Sprite):
         self.is_backward = False
 
     def update(self, commands: dict):
-        if self.used_frame - self.last_frame > FPS // 4:
+        if self.used_frame - self.last_frame > SHOOT_COOLDOWN:
             self.can_shoot = True
         new_sur = pygame.transform.rotate(self.surface, self.rot)
         self.rot = (self.rot + 360) % 360
@@ -157,7 +159,7 @@ class Player(pygame.sprite.Sprite):
             self.forward()
 
     def collide_with_bullets(self):
-        self.live -= 10
+        self.live -= random.randrange(1, 10)
         if self.live <= 0:
             self.status = GameStatus.GAME_OVER
 

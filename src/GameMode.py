@@ -6,7 +6,7 @@ import pygame.event
 from mlgame.gamedev.game_interface import GameResultState, GameStatus
 from .Bullet import Bullet
 from .Player import Player
-from .TiledMap import TiledMap
+from .TankManMap import TankManMap
 from .collide_hit_rect import *
 from games.TankMan.src.collide_hit_rect import collide_hit_rect
 from games.TankMan.src.Obstacle import Obstacle
@@ -24,13 +24,15 @@ class GameMode:
         self.playing = True
         self.draw_debug = False
         self.is_paused = False
+        self.is_collide_with_wall = True
+        self.is_collide_with_bullet = True
         self.map_name = map_name
         # initialize sprites group
         self.all_sprites = pygame.sprite.Group()
         self.players = pygame.sprite.Group()
         self.walls = pygame.sprite.Group()
         self.bullets = pygame.sprite.Group()
-        self.map = TiledMap(self.map_name)
+        self.map = TankManMap(self.map_name)
         self.map.render()
         for player in self.map.players:
             if player["_no"] == 1:
@@ -108,9 +110,12 @@ class GameMode:
         pass
 
     def check_collisions(self):
-        for player in self.players:
-            collide_with_walls(player, self.walls)
-            collide_with_bullets(player, self.bullets)
+        if self.is_collide_with_wall:
+            for player in self.players:
+                collide_with_walls(player, self.walls)
+        if self.is_collide_with_bullet:
+            for player in self.players:
+                collide_with_bullets(player, self.bullets)
         collide_bullets_with_walls(self.bullets, self.walls)
 
     def shoot(self, player):
