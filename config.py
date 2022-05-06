@@ -7,8 +7,8 @@ from argparse import ArgumentTypeError
 GAME_SETUP = {
     "game": TankMan,
 
-    "ml_clients":TankMan.ai_clients(),
-    "dynamic_ml_clients":True
+    "ml_clients": TankMan.ai_clients(),
+    "dynamic_ml_clients": True
 }
 
 config_file = path.join(path.dirname(__file__), "game_config.json")

@@ -13,6 +13,15 @@
       "help": "set map number for load game scene"
     },
     {
+      "name": "time_limit",
+      "verbose": "遊戲時間(s)",
+      "type": "int",
+      "max": 600,
+      "min": 1,
+      "default": 30,
+      "help": "set the time number of game time limit."
+    },
+    {
       "name": "sound",
       "verbose": "遊戲音效",
       "type": "str",

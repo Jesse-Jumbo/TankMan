@@ -3,21 +3,24 @@ import pygame
 from mlgame.gamedev.game_interface import PaiaGame, GameStatus
 from mlgame.view.test_decorator import check_game_result
 from mlgame.view.view_model import create_text_view_data, create_asset_init_data, create_image_view_data, \
-    Scene
-from .GameMode import GameMode
+    Scene, create_rect_view_data
+from .BattleMode import BattleMode
 from .sound_controller import *
 
 '''need some fuction same as arkanoid which without dash in the name of fuction'''
 
 
 class TankMan(PaiaGame):
-    def __init__(self, map_no: int, sound: str):
+    def __init__(self, map_no: int, time_limit: int, sound: str):
         super().__init__()
         self.scene = Scene(WIDTH, HEIGHT, BLACK)
-        self.is_sound = sound
-        # self.sound_controller = SoundController(self.is_sound)
-        self.map = ntpath.join(MAP_DIR, f"map_0{map_no}.tmx")
-        self.game_mode = self.set_game_mode(self.map)
+        self.map_path = path.join(MAP_DIR, f"map_0{map_no}.tmx")
+        self.time_limit = time_limit
+        if sound == "on":
+            self.is_sound = True
+        else:
+            self.is_sound = False
+        self.game_mode = self.set_game_mode()
         self.attachements = []
 
     def game_to_player_data(self) -> dict:
@@ -50,7 +53,7 @@ class TankMan(PaiaGame):
         """
         Get the scene information
         """
-        scene_info = {'frame': self.game_mode.frame,
+        scene_info = {'frame': self.game_mode.used_frame,
                       'status': self.game_mode.status,
                       'background': [WIDTH, HEIGHT],
                       'walls_pos': [],
@@ -58,21 +61,21 @@ class TankMan(PaiaGame):
                       'state': self.game_mode.state}
 
         for player in self.game_mode.players:
-            scene_info[f"{player._no}P_pos"] = player.pos
+            scene_info[f"{player._no}P_xy"] = player.get_pos_xy()
         for wall in self.game_mode.walls:
             scene_info["walls_pos"].append(wall.pos)
         return scene_info
 
     def update(self, commands: dict):
         self.frame_count += 1
-        self.game_mode.run(commands)
+        self.game_mode.update(commands)
         if not self.is_running():
             self.rank()
             return "RESET"
 
     def reset(self):
         self.frame_count = 0
-        self.game_mode = self.set_game_mode(self.map)
+        self.game_mode = self.set_game_mode()
         self.rank()
         # self.game_mode.sound_controller.player_music()
 
@@ -94,7 +97,7 @@ class TankMan(PaiaGame):
                                                           , BULLET_IMG_PATH, ""))
         # initialize player image
         for player in self.game_mode.players:
-            game_info['assets'].append(create_asset_init_data(f'{player._no}P', TILE_X_SIZE, TILE_Y_SIZE
+            game_info['assets'].append(create_asset_init_data(f'{player._no}P', player.get_origin_size()[0], player.get_origin_size()[1]
                                                               , player.img_path, ""))
         # initialize walls image
         for wall in self.game_mode.walls:
@@ -123,8 +126,8 @@ class TankMan(PaiaGame):
             game_progress["object_list"].append(bullet_obj)
         # update player image
         for player in self.game_mode.players:
-            player_obj = create_image_view_data(f'{player._no}P', player.rect.x, player.rect.y,
-                                                TILE_X_SIZE, TILE_Y_SIZE, player.angle)
+            player_obj = create_image_view_data(f'{player._no}P', player.get_pos_xy()[0], player.get_pos_xy()[1],
+                                                player.get_origin_size()[0], player.get_origin_size()[1], player.angle)
             game_progress["object_list"].append(player_obj)
         # update walls image
         for wall in self.game_mode.walls:
@@ -137,13 +140,13 @@ class TankMan(PaiaGame):
         game_progress["foreground"].append(create_text_view_data(f"2P_Score: {self.game_mode.player_2P.score}",
                                                                  WIDTH / 2 - 30, HEIGHT - 25, WHITE, "20px Arial"))
         # update frame text
-        game_progress["foreground"].append(create_text_view_data(f"Time: {(self.game_mode.frame // 60)}",
+        game_progress["foreground"].append(create_text_view_data(f"Time: {(self.game_mode.used_frame // 60)}",
                                                                  WIDTH - 90, 0, WHITE, "20px Arial"))
         # update 1P live text
-        game_progress["foreground"].append(create_text_view_data(f"1P live: {self.game_mode.player_1P.live}",
+        game_progress["foreground"].append(create_text_view_data(f"1P live: {self.game_mode.player_1P.shield}",
                                                                  WIDTH - 90, HEIGHT - 25, WHITE, "20px Arial"))
         # update 2P live text
-        game_progress["foreground"].append(create_text_view_data(f"2P live: {self.game_mode.player_2P.live}",
+        game_progress["foreground"].append(create_text_view_data(f"2P live: {self.game_mode.player_2P.shield}",
                                                                  5, HEIGHT - 25, WHITE, "20px Arial"))
 
         return game_progress
@@ -223,8 +226,8 @@ class TankMan(PaiaGame):
             {"name": "4P"}
         ]
 
-    def set_game_mode(self, map_name: str):
-        game_mode = GameMode(map_name)
+    def set_game_mode(self):
+        game_mode = BattleMode(self.map_path, self.time_limit, self.is_sound)
         return game_mode
 
     def rank(self):

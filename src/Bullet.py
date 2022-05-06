@@ -20,21 +20,21 @@ class Bullet(pygame.sprite.Sprite):
     def update(self):
         self.hit_rect.center = self.rect.center
         if self.rot == 0:
-            self.rect = self.rect.move(self.move["left"])
+            self.rect.center += self.move["left"]
         elif self.rot == 315 or self.rot == -45:
-            self.rect = self.rect.move(self.move["left_up"])
+            self.rect.center += self.move["left_up"]
         elif self.rot == 270 or self.rot == -90:
-            self.rect = self.rect.move(self.move["up"])
+            self.rect.center += self.move["up"]
         elif self.rot == 225 or self.rot == -135:
-            self.rect = self.rect.move(self.move["right_up"])
+            self.rect.center += self.move["right_up"]
         elif self.rot == 180 or self.rot == -180:
-            self.rect = self.rect.move(self.move["right"])
+            self.rect.center += self.move["right"]
         elif self.rot == 135 or self.rot == -225:
-            self.rect = self.rect.move(self.move["right_down"])
+            self.rect.center += self.move["right_down"]
         elif self.rot == 90 or self.rot == -270:
-            self.rect = self.rect.move(self.move["down"])
+            self.rect.center += self.move["down"]
         elif self.rot == 45 or self.rot == -315:
-            self.rect = self.rect.move(self.move["left_down"])
+            self.rect.center += self.move["left_down"]
 
         if self.rect.bottom < 0 or self.rect.top > HEIGHT or self.rect.left > WIDTH or self.rect.right < 0:
             self.kill()

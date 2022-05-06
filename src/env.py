@@ -81,7 +81,7 @@ WALL_IMG = "wall.png"
 
 """map data numbers"""
 PLAYER_IMG_NO_LIST = [1, 2]
-WALL_IMG_NO = 3
+WALL_IMG_NO_LIST = [3]
 
 """music"""
 BGM = 'background_music.ogg/.wav/.mp3'
