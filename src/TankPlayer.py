@@ -26,6 +26,7 @@ class TankPlayer(Player):
         self.rot_speed = 45
         self.shield = 100
         self.power = 10
+        self.oil = 100
         self.is_shoot = False
         self.is_forward = False
         self.is_backward = False
@@ -36,6 +37,7 @@ class TankPlayer(Player):
         self.rotate()
         if self.power > 10:
             self.power = 10
+        self.oil = round(self.oil, 2)
 
     def rotate(self):
         new_sur = pygame.transform.rotate(self.surface, self.rot)
@@ -50,24 +52,28 @@ class TankPlayer(Player):
         return shoot_info
 
     def act(self, commands: str):
-        if commands == LEFT_CMD:
-            self.turn_left()
-        elif commands == RIGHT_CMD:
-            self.turn_right()
-        elif commands == FORWARD_CMD:
-            self.is_forward = True
-            self.is_backward = False
-            self.forward()
-        elif commands == BACKWARD_CMD:
-            self.is_backward = True
-            self.is_forward = False
-            self.backward()
-        elif commands == SHOOT:
-            if self.power:
-                if self.used_frame - self.last_shoot_frame > SHOOT_COOLDOWN:
-                    self.last_shoot_frame = self.used_frame
-                    self.power -= 1
-                    self.is_shoot = True
+        if self.oil:
+            if commands == LEFT_CMD:
+                self.oil -= 0.1
+                self.turn_left()
+            elif commands == RIGHT_CMD:
+                self.oil -= 0.1
+                self.turn_right()
+            elif commands == FORWARD_CMD:
+                self.oil -= 0.1
+                self.is_forward = True
+                self.is_backward = False
+                self.forward()
+            elif commands == BACKWARD_CMD:
+                self.oil -= 0.1
+                self.is_backward = True
+                self.is_forward = False
+                self.backward()
+        if self.power and commands == SHOOT:
+            if self.used_frame - self.last_shoot_frame > SHOOT_COOLDOWN:
+                self.last_shoot_frame = self.used_frame
+                self.power -= 1
+                self.is_shoot = True
 
     def forward(self):
         if self._no != 1:

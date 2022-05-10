@@ -166,17 +166,23 @@ class TankMan(PaiaGame):
         game_progress["foreground"].append(create_text_view_data(f"Time: {(self.game_mode.used_frame // 60)}",
                                                                  WIDTH - 90, 0, WHITE, "20px Arial"))
         # update 1P lives text
-        game_progress["foreground"].append(create_text_view_data(f"1P Shield: {self.game_mode.player_1P.shield}",
-                                                                 WIDTH - 110, HEIGHT - 25, WHITE, "20px Arial"))
+        game_progress["foreground"].append(create_text_view_data(f"Shield: {self.game_mode.player_1P.shield}",
+                                                                 WIDTH - 90, HEIGHT - 25, WHITE, "20px Arial"))
         # update 2P lives text
-        game_progress["foreground"].append(create_text_view_data(f"2P Shield: {self.game_mode.player_2P.shield}",
+        game_progress["foreground"].append(create_text_view_data(f"2P Shield: {self.game_mode.player_2P.shield},",
                                                                  5, HEIGHT - 25, WHITE, "20px Arial"))
         # update 1P powers text
-        game_progress["foreground"].append(create_text_view_data(f"1P Power: {self.game_mode.player_1P.power}",
-                                                                 WIDTH - 220, HEIGHT - 25, WHITE, "20px Arial"))
+        game_progress["foreground"].append(create_text_view_data(f"Power: {self.game_mode.player_1P.power},",
+                                                                 WIDTH - 180, HEIGHT - 25, WHITE, "20px Arial"))
         # update 2P powers text
-        game_progress["foreground"].append(create_text_view_data(f"2P Power: {self.game_mode.player_2P.power}",
+        game_progress["foreground"].append(create_text_view_data(f"Power: {self.game_mode.player_2P.power},",
                                                                  130, HEIGHT - 25, WHITE, "20px Arial"))
+        # update 1P oil text
+        game_progress["foreground"].append(create_text_view_data(f"1P Oil: {self.game_mode.player_1P.oil},",
+                                                                 WIDTH - 280, HEIGHT - 25, WHITE, "20px Arial"))
+        # update 2P oil text
+        game_progress["foreground"].append(create_text_view_data(f"Oil: {self.game_mode.player_2P.oil}",
+                                                                 220, HEIGHT - 25, WHITE, "20px Arial"))
 
         return game_progress
 
