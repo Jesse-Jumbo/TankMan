@@ -32,11 +32,7 @@ class TankPlayer(Player):
 
     def update(self, commands: str):
         super().update(commands)
-        self.shoot()
         self.rotate()
-        if not self.is_shoot:
-            if self.used_frame - self.last_shoot_frame < SHOOT_COOLDOWN:
-                self.is_shoot = False
 
     def rotate(self):
         new_sur = pygame.transform.rotate(self.surface, self.rot)
@@ -46,8 +42,9 @@ class TankPlayer(Player):
         self.rect = new_sur.get_rect()
         self.rect.center = origin_center
 
-    def shoot(self):
-        return self._no, self.rect.center, self.rot
+    def create_shoot_info(self):
+        shoot_info = {"player_no": self._no, "center_pos": self.rect.center, "rot": self.rot}
+        return shoot_info
 
     def act(self, commands: str):
         if commands == LEFT_CMD:
@@ -63,8 +60,9 @@ class TankPlayer(Player):
             self.is_forward = False
             self.backward()
         elif commands == SHOOT:
-            self.last_shoot_frame = self.used_frame
-            self.is_shoot = True
+            if self.used_frame - self.last_shoot_frame > SHOOT_COOLDOWN:
+                self.last_shoot_frame = self.used_frame
+                self.is_shoot = True
 
     def forward(self):
         if self._no != 1:

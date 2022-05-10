@@ -46,13 +46,13 @@ class BattleMode(GameMode):
             self.player_1P.update(command["1P"])
             self.player_2P.update(command["2P"])
             if self.player_1P.is_shoot:
-                shoot_info = self.player_1P.shoot()
-                self.create_bullet(shoot_info[0], shoot_info[1], shoot_info[2])
+                shoot_info = self.player_1P.create_shoot_info()
+                self.create_bullet(shoot_info["player_no"], shoot_info["center_pos"], shoot_info["rot"])
                 self.player_1P.is_shoot = False
 
             if self.player_2P.is_shoot:
-                shoot_info = self.player_2P.shoot()
-                self.create_bullet(shoot_info[0], shoot_info[1], shoot_info[2] - 180)
+                shoot_info = self.player_2P.create_shoot_info()
+                self.create_bullet(shoot_info["player_no"], shoot_info["center_pos"], shoot_info["rot"] - 180)
                 self.player_2P.is_shoot = False
 
             if not self.player_1P.is_alive or not self.player_2P.is_alive:
