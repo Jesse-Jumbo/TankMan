@@ -3,6 +3,7 @@
 https://opengameart.org/content/simple-2d-tank
 https://opengameart.org/content/motor-oil-container
 https://opengameart.org/content/simple-shooter-icons
+https://opengameart.org/content/upgrade-symbols
 """
 
 from os import path
@@ -85,6 +86,7 @@ WALL_IMG = "wall.png"
 PLAYER_IMG_NO_LIST = [1, 2]
 WALL_IMG_NO_LIST = [3]
 BULLET_STATION_IMG_NO_LIST = [4]
+OIL_STATION_IMG_NO_LIST = [5]
 
 """music"""
 BGM = 'background_music.ogg/.wav/.mp3'
@@ -103,5 +105,8 @@ for i in range(1, 6):
 BULLET_IMG_PATH = path.join(IMAGE_DIR, "bullet.png")
 
 BULLET_STATION_IMG_PATH_LIST = []
-BULLET_STATION_IMG_PATH_LIST.append(path.join(IMAGE_DIR, "bullet_station.png"))
-BULLET_STATION_IMG_PATH_LIST.append(path.join(IMAGE_DIR, "bullets_station.png"))
+OIL_STATION_IMG_PATH_LIST = []
+for i in range(1, 4):
+     BULLET_STATION_IMG_PATH_LIST.append(path.join(IMAGE_DIR, f"bullets_{i}.png"))
+     OIL_STATION_IMG_PATH_LIST.append(path.join(IMAGE_DIR, f"oil_{i}.png"))
+

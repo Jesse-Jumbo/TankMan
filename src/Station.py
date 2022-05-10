@@ -3,16 +3,19 @@ from games.TankMan.src.Prop import Prop
 
 
 class Station(Prop):
-    def __init__(self, _no, x, y, width, height):
+    def __init__(self, _id: int, _no: int, x: int, y: int, width: int, height: int, capacity: int, cooldown):
         super().__init__(x, y, width, height)
+        self._id = _id
         self._no = _no
         self.count_frame = 0
-        self.power = 10
+        self.capacity = capacity
+        self.power = capacity
+        self.cool_down = cooldown
 
     def update(self):
-        if self.power != 10:
+        if self.power != self.capacity:
             self.count_frame += 1
-            if self.count_frame == 5 * FPS:
+            if self.count_frame == self.cool_down * FPS:
                 self.power += 1
                 self.count_frame = 0
 

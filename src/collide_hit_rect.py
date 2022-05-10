@@ -25,5 +25,7 @@ def collide_with_bullets(sprite: pygame.sprite.Sprite, group: pygame.sprite.Grou
 def collide_with_stations(player: pygame.sprite.Sprite, stations: pygame.sprite.Group):
     hits = pygame.sprite.spritecollide(player, stations, False, collide_hit_rect)
     if hits:
-        if isinstance(hits[0], Station):
+        if hits[0]._id == 4:
             player.power += hits[0].get_power()
+        elif hits[0]._id == 5:
+            player.oil += hits[0].get_power()

@@ -38,6 +38,17 @@ class TankPlayer(Player):
         if self.power > 10:
             self.power = 10
         self.oil = round(self.oil, 2)
+        if self.oil > 100:
+            self.oil = 100
+
+        if self.rect.right > WIDTH:
+            self.rect.right = WIDTH
+        if self.rect.left < 0:
+            self.rect.left = 0
+        if self.rect.bottom > HEIGHT:
+            self.rect.bottom = HEIGHT
+        if self.rect.top < 0:
+            self.rect.top = 0
 
     def rotate(self):
         new_sur = pygame.transform.rotate(self.surface, self.rot)

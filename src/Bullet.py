@@ -4,7 +4,7 @@ vec = pygame.math.Vector2
 
 
 class Bullet(pygame.sprite.Sprite):
-    def __init__(self, player_no, center, rot):
+    def __init__(self, player_no: int, center: tuple, rot: int):
         pygame.sprite.Sprite.__init__(self)
         self.rect = BULLET_SIZE.copy()
         self.rect.center = center

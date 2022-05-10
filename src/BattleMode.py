@@ -21,7 +21,8 @@ class BattleMode(GameMode):
         self.players = pygame.sprite.Group()
         self.walls = pygame.sprite.Group()
         self.bullets = pygame.sprite.Group()
-        self.stations = pygame.sprite.Group()
+        self.bullet_stations = pygame.sprite.Group()
+        self.oil_stations = pygame.sprite.Group()
 
         # init players
         players = self.map.create_img_init_data(PLAYER_IMG_NO_LIST)
@@ -37,12 +38,20 @@ class BattleMode(GameMode):
         for wall in walls:
             self.walls.add(Obstacle(wall["_no"], wall["x"], wall["y"], wall["width"], wall["height"]))
         self.all_sprites.add(self.walls)
-        # init stations
+        # init bullet stations
         bullet_stations = self.map.create_img_init_data(BULLET_STATION_IMG_NO_LIST)
         for bullet_station in bullet_stations:
-            self.stations.add(Station(bullet_station["_no"], bullet_station["x"], bullet_station["y"],
-                                      bullet_station["width"], bullet_station["height"]))
-        self.all_sprites.add(self.stations)
+            self.bullet_stations.add(Station(bullet_station["_id"],bullet_station["_no"],
+                                             bullet_station["x"], bullet_station["y"],
+                                             bullet_station["width"], bullet_station["height"], 10, 5))
+        self.all_sprites.add(self.bullet_stations)
+        # init oil stations
+        oil_stations = self.map.create_img_init_data(OIL_STATION_IMG_NO_LIST)
+        for oil_station in oil_stations:
+            self.oil_stations.add(Station(oil_station["_id"], oil_station["_no"] + 4,
+                                          oil_station["x"], oil_station["y"],
+                                          oil_station["width"], oil_station["height"], 100, 1))
+        self.all_sprites.add(self.oil_stations)
 
     def get_result(self) -> list:
         res = [{"1P": self.player_1P.get_info()},
@@ -90,7 +99,8 @@ class BattleMode(GameMode):
         if self.is_invincible:
             for player in self.players:
                 collide_with_bullets(player, self.bullets)
-                collide_with_stations(player, self.stations)
+                collide_with_stations(player, self.bullet_stations)
+                collide_with_stations(player, self.oil_stations)
         for wall in self.walls:
             collide_with_bullets(wall, self.bullets)
 
