@@ -47,12 +47,13 @@ class BattleMode(GameMode):
             self.player_2P.update(command["2P"])
             if self.player_1P.is_shoot:
                 shoot_info = self.player_1P.create_shoot_info()
-                self.create_bullet(shoot_info["player_no"], shoot_info["center_pos"], shoot_info["rot"])
+                self.create_bullet(shoot_info)
                 self.player_1P.is_shoot = False
 
             if self.player_2P.is_shoot:
                 shoot_info = self.player_2P.create_shoot_info()
-                self.create_bullet(shoot_info["player_no"], shoot_info["center_pos"], shoot_info["rot"] - 180)
+                shoot_info["rot"] -= 180
+                self.create_bullet(shoot_info)
                 self.player_2P.is_shoot = False
 
             if not self.player_1P.is_alive or not self.player_2P.is_alive:
@@ -82,7 +83,7 @@ class BattleMode(GameMode):
                 collide_with_bullets(player, self.bullets)
         collide_bullets_with_walls(self.bullets, self.walls)
 
-    def create_bullet(self, player_no, center, rot):
-        bullet = Bullet(player_no, center, rot)
+    def create_bullet(self, shoot_info):
+        bullet = Bullet(shoot_info["player_no"], shoot_info["center_pos"], shoot_info["rot"])
         self.bullets.add(bullet)
         self.all_sprites.add(bullet)
