@@ -1,9 +1,13 @@
+import random
+
+
 class MLPlay:
     def __init__(self):
         self.game_info = []
         self.player_2P_info = []
         self.player_1P_info = []
         print("Initial ml script")
+        self.time = 0
 
     def update(self, scene_info: dict):
         """
@@ -13,7 +17,21 @@ class MLPlay:
         if scene_info["status"] != "GAME_ALIVE":
             return "RESET"
 
-        return "FORWARD"
+        self.time += 1
+        if self.time % 30 == 0:
+            command = random.randrange(5)
+        else:
+            command = None
+        if command == 1:
+            return "TURN_RIGHT"
+        elif command == 2:
+            return "TURN_LEFT"
+        elif command == 3:
+            return "FORWARD"
+        elif command == 4:
+            return "BACKWARD"
+        elif command == 0:
+            return "SHOOT"
 
     def reset(self):
         """
