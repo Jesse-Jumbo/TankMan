@@ -1,5 +1,6 @@
 import pygame.sprite
 
+from .Station import Station
 from .env import *
 
 
@@ -21,5 +22,8 @@ def collide_with_bullets(sprite: pygame.sprite.Sprite, group: pygame.sprite.Grou
             sprite.collide_with_bullets()
 
 
-def collide_bullets_with_walls(bullets: pygame.sprite.Group, walls: pygame.sprite.Group):
-    hits = pygame.sprite.groupcollide(bullets, walls, True, False, collide_hit_rect)
+def collide_with_stations(player: pygame.sprite.Sprite, stations: pygame.sprite.Group):
+    hits = pygame.sprite.spritecollide(player, stations, False, collide_hit_rect)
+    if hits:
+        if isinstance(hits[0], Station):
+            player.power += hits[0].get_power()

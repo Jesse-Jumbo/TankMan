@@ -1,22 +1,20 @@
-import ntpath
-
-import pygame.math
-
-from .env import *
+from .env import WALL_IMG_PATH_LIST
+from .Prop import Prop
 
 
-class Obstacle(pygame.sprite.Sprite):
-    def __init__(self, x: int, y: int):
-        super().__init__()
-        self.rect = ALL_OBJECT_SIZE.copy()
-        self.rect.x = x
-        self.rect.y = y
-        self.hit_rect = WALL_HIT_RECT.copy()
-        self.hit_rect.center = self.rect.center
-        self.pos = pygame.math.Vector2(self.rect.center)
+class Obstacle(Prop):
+    def __init__(self, no: int, x: int, y: int, width: int, height: int):
+        super().__init__(x, y, width, height)
+        self._no = no
+        self.lives = 5
 
     def update(self, *args, **kwargs) -> None:
-        pass
+        if self.lives <= 0:
+            self.kill()
 
-    def get_position(self):
+    def collide_with_bullets(self):
+        if self.lives > 0:
+            self.lives -= 1
+
+    def get_pos_xy(self):
         return self.rect.x, self.rect.y

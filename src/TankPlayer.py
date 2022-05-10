@@ -24,8 +24,9 @@ class TankPlayer(Player):
         self.rot = 0
         self.last_shoot_frame = self.used_frame
         self.rot_speed = 45
-        self.is_shoot = False
         self.shield = 100
+        self.power = 10
+        self.is_shoot = False
         self.is_forward = False
         self.is_backward = False
         self.is_alive = True
@@ -33,6 +34,8 @@ class TankPlayer(Player):
     def update(self, commands: str):
         super().update(commands)
         self.rotate()
+        if self.power > 10:
+            self.power = 10
 
     def rotate(self):
         new_sur = pygame.transform.rotate(self.surface, self.rot)
@@ -60,9 +63,11 @@ class TankPlayer(Player):
             self.is_forward = False
             self.backward()
         elif commands == SHOOT:
-            if self.used_frame - self.last_shoot_frame > SHOOT_COOLDOWN:
-                self.last_shoot_frame = self.used_frame
-                self.is_shoot = True
+            if self.power:
+                if self.used_frame - self.last_shoot_frame > SHOOT_COOLDOWN:
+                    self.last_shoot_frame = self.used_frame
+                    self.power -= 1
+                    self.is_shoot = True
 
     def forward(self):
         if self._no != 1:

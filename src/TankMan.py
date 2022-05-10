@@ -31,10 +31,10 @@ class TankMan(PaiaGame):
             player_data["frame"] = scene_info["frame"]
             player_data["status"] = scene_info["status"]
             player_data["mobs_pos"] = []
-            player_data["walls_pos"] = []
+            player_data["walls_xy"] = []
 
             for wall in self.game_mode.walls:
-                player_data["walls_pos"].append(wall.pos)
+                player_data["walls_xy"].append(wall.get_pos_xy())
 
             to_player_data[player_data['player_id']] = player_data
 
@@ -56,14 +56,14 @@ class TankMan(PaiaGame):
         scene_info = {'frame': self.game_mode.used_frame,
                       'status': self.game_mode.status,
                       'background': [WIDTH, HEIGHT],
-                      'walls_pos': [],
+                      'walls_xy': [],
                       'game_result': self.game_mode.get_result(),
                       'state': self.game_mode.state}
 
         for player in self.game_mode.players:
             scene_info[f"{player._no}P_xy"] = player.get_pos_xy()
         for wall in self.game_mode.walls:
-            scene_info["walls_pos"].append(wall.pos)
+            scene_info["walls_xy"].append(wall.get_pos_xy())
         return scene_info
 
     def update(self, commands: dict):
@@ -99,10 +99,20 @@ class TankMan(PaiaGame):
         for player in self.game_mode.players:
             game_info['assets'].append(create_asset_init_data(f'{player._no}P', player.get_origin_size()[0], player.get_origin_size()[1]
                                                               , player.img_path, ""))
+        # initialize stations image
+        for station in self.game_mode.stations:
+            c = 0
+            for img_path in BULLET_STATION_IMG_PATH_LIST:
+                game_info['assets'].append(create_asset_init_data(f'{station._no}_{c}', station.get_size()[0], station.get_size()[1]
+                                                                  , img_path, ""))
+                c += 1
         # initialize walls image
         for wall in self.game_mode.walls:
-            game_info["assets"].append(create_asset_init_data("walls", TILE_X_SIZE, TILE_Y_SIZE
-                                                              , WALL_IMG_PATH, ""))
+            c = 0
+            for img_path in WALL_IMG_PATH_LIST:
+                game_info["assets"].append(create_asset_init_data(f"wall_{wall._no}_{wall.lives-c}", wall.get_size()[0], wall.get_size()[1]
+                                                                  , img_path, ""))
+                c += 1
 
         return game_info
 
@@ -124,6 +134,17 @@ class TankMan(PaiaGame):
             bullet_obj = create_image_view_data('bullets', bullet.rect.x, bullet.rect.y,
                                                 bullet.rect.width, bullet.rect.height, bullet.angle)
             game_progress["object_list"].append(bullet_obj)
+        # update stations image
+        for bullet_station in self.game_mode.stations:
+            if bullet_station.power != 10:
+                no = 0
+            else:
+                no = 1
+            game_progress["object_list"].append(create_image_view_data(f"{bullet_station._no}_{no}",
+                                                                       bullet_station.get_pos_xy()[0],
+                                                                       bullet_station.get_pos_xy()[1],
+                                                                       bullet_station.get_size()[0],
+                                                                       bullet_station.get_size()[1]))
         # update player image
         for player in self.game_mode.players:
             player_obj = create_image_view_data(f'{player._no}P', player.get_pos_xy()[0], player.get_pos_xy()[1],
@@ -131,7 +152,9 @@ class TankMan(PaiaGame):
             game_progress["object_list"].append(player_obj)
         # update walls image
         for wall in self.game_mode.walls:
-            game_progress["object_list"].append(create_image_view_data('walls', wall.rect.x, wall.rect.y,
+            if wall.lives == 0:
+                continue
+            game_progress["object_list"].append(create_image_view_data(f'wall_{wall._no}_{wall.lives}', wall.rect.x, wall.rect.y,
                                                                        TILE_X_SIZE, TILE_Y_SIZE))
         # update 1P score text
         game_progress["foreground"].append(create_text_view_data(f"1P_Score: {self.game_mode.player_1P.score}",
@@ -142,12 +165,18 @@ class TankMan(PaiaGame):
         # update frame text
         game_progress["foreground"].append(create_text_view_data(f"Time: {(self.game_mode.used_frame // 60)}",
                                                                  WIDTH - 90, 0, WHITE, "20px Arial"))
-        # update 1P live text
-        game_progress["foreground"].append(create_text_view_data(f"1P live: {self.game_mode.player_1P.shield}",
-                                                                 WIDTH - 90, HEIGHT - 25, WHITE, "20px Arial"))
-        # update 2P live text
-        game_progress["foreground"].append(create_text_view_data(f"2P live: {self.game_mode.player_2P.shield}",
+        # update 1P lives text
+        game_progress["foreground"].append(create_text_view_data(f"1P Shield: {self.game_mode.player_1P.shield}",
+                                                                 WIDTH - 110, HEIGHT - 25, WHITE, "20px Arial"))
+        # update 2P lives text
+        game_progress["foreground"].append(create_text_view_data(f"2P Shield: {self.game_mode.player_2P.shield}",
                                                                  5, HEIGHT - 25, WHITE, "20px Arial"))
+        # update 1P powers text
+        game_progress["foreground"].append(create_text_view_data(f"1P Power: {self.game_mode.player_1P.power}",
+                                                                 WIDTH - 220, HEIGHT - 25, WHITE, "20px Arial"))
+        # update 2P powers text
+        game_progress["foreground"].append(create_text_view_data(f"2P Power: {self.game_mode.player_2P.power}",
+                                                                 130, HEIGHT - 25, WHITE, "20px Arial"))
 
         return game_progress
 

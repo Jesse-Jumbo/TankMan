@@ -8,7 +8,9 @@ class Bullet(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.rect = BULLET_SIZE.copy()
         self.rect.center = center
-        self.hit_rect = BULLET_HIT_RECT.copy()
+        self.hit_rect = self.rect
+        self.hit_rect.width -= 2
+        self.hit_rect.height -= 2
         self.hit_rect.center = self.rect.center
         self.speed = 10
         self._no = player_no

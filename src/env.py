@@ -1,3 +1,10 @@
+# 圖片來源
+"""
+https://opengameart.org/content/simple-2d-tank
+https://opengameart.org/content/motor-oil-container
+https://opengameart.org/content/simple-shooter-icons
+"""
+
 from os import path
 import pygame
 
@@ -67,11 +74,6 @@ LEFT_IMG = 'left'
 """collide setting"""
 WITH_PLAYER = 'player'
 
-"""rect"""
-PLAYRE_HIT_RECT = pygame.Rect(0, 0, 59, 59)
-WALL_HIT_RECT = pygame.Rect(0, 0, 59, 59)
-BULLET_HIT_RECT = pygame.Rect(0, 0, 8, 6)
-
 """speed"""
 PLAYER_SPEED = 8
 
@@ -82,6 +84,7 @@ WALL_IMG = "wall.png"
 """map data numbers"""
 PLAYER_IMG_NO_LIST = [1, 2]
 WALL_IMG_NO_LIST = [3]
+BULLET_STATION_IMG_NO_LIST = [4]
 
 """music"""
 BGM = 'background_music.ogg/.wav/.mp3'
@@ -89,10 +92,16 @@ MENU_SND = 'MenuTheme.ogg/.wav/.mp3'
 
 """image url"""
 PLAYER_URL = "https://github.com/Jesse-Jumbo/GameName/master/asset/image/player.png?raw=true"
-BACKGROUND_URL = "https://github.com/Jesse-Jumbo/GameName/master/asset/image/background.jpg?raw=true"
 WALL_UML = ["https://github.com/Jesse-Jumbo/GameName/master/asset/image/walls.png?raw=true"]
+BACKGROUND_URL = "https://github.com/Jesse-Jumbo/GameName/master/asset/image/background.jpg?raw=true"
 
 """image path"""
 PLAYER_IMG_PATH_LIST = [path.join(IMAGE_DIR, "player_1P.png"), path.join(IMAGE_DIR, "player_2P.png")]
-WALL_IMG_PATH = path.join(IMAGE_DIR, "wall.png")
+WALL_IMG_PATH_LIST = []
+for i in range(1, 6):
+     WALL_IMG_PATH_LIST.append(path.join(IMAGE_DIR, f"wall_{i}.png"))
 BULLET_IMG_PATH = path.join(IMAGE_DIR, "bullet.png")
+
+BULLET_STATION_IMG_PATH_LIST = []
+BULLET_STATION_IMG_PATH_LIST.append(path.join(IMAGE_DIR, "bullet_station.png"))
+BULLET_STATION_IMG_PATH_LIST.append(path.join(IMAGE_DIR, "bullets_station.png"))

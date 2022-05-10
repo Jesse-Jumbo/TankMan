@@ -5,6 +5,7 @@ from games.TankMan.src.TankPlayer import TankPlayer
 from mlgame.gamedev.game_interface import GameResultState, GameStatus
 from .Bullet import Bullet
 from .GameMode import GameMode
+from .Station import Station
 from .collide_hit_rect import *
 from .env import *
 
@@ -20,6 +21,7 @@ class BattleMode(GameMode):
         self.players = pygame.sprite.Group()
         self.walls = pygame.sprite.Group()
         self.bullets = pygame.sprite.Group()
+        self.stations = pygame.sprite.Group()
 
         # init players
         players = self.map.create_img_init_data(PLAYER_IMG_NO_LIST)
@@ -33,7 +35,14 @@ class BattleMode(GameMode):
         # init walls
         walls = self.map.create_img_init_data(WALL_IMG_NO_LIST)
         for wall in walls:
-            self.walls.add(Obstacle(wall["x"], wall["y"]))
+            self.walls.add(Obstacle(wall["_no"], wall["x"], wall["y"], wall["width"], wall["height"]))
+        self.all_sprites.add(self.walls)
+        # init stations
+        bullet_stations = self.map.create_img_init_data(BULLET_STATION_IMG_NO_LIST)
+        for bullet_station in bullet_stations:
+            self.stations.add(Station(bullet_station["_no"], bullet_station["x"], bullet_station["y"],
+                                      bullet_station["width"], bullet_station["height"]))
+        self.all_sprites.add(self.stations)
 
     def get_result(self) -> list:
         res = [{"1P": self.player_1P.get_info()},
@@ -81,7 +90,9 @@ class BattleMode(GameMode):
         if self.is_invincible:
             for player in self.players:
                 collide_with_bullets(player, self.bullets)
-        collide_bullets_with_walls(self.bullets, self.walls)
+                collide_with_stations(player, self.stations)
+        for wall in self.walls:
+            collide_with_bullets(wall, self.bullets)
 
     def create_bullet(self, shoot_info):
         bullet = Bullet(shoot_info["player_no"], shoot_info["center_pos"], shoot_info["rot"])
