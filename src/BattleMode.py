@@ -89,7 +89,39 @@ class BattleMode(GameMode):
         super().reset()
 
     def check_events(self):
-        pass
+        # 要能邊前進邊射擊
+        cmd_1P = ""
+        cmd_2P = ""
+
+        key_pressed_list = pygame.key.get_pressed()
+        if key_pressed_list[pygame.K_UP]:
+            cmd_1P = FORWARD_CMD
+        elif key_pressed_list[pygame.K_DOWN]:
+            cmd_1P = BACKWARD_CMD
+
+        if key_pressed_list[pygame.K_w]:
+            cmd_2P = FORWARD_CMD
+        elif key_pressed_list[pygame.K_s]:
+            cmd_2P = BACKWARD_CMD
+
+        if key_pressed_list[pygame.K_SPACE]:
+            cmd_1P = SHOOT
+        if key_pressed_list[pygame.K_f]:
+            cmd_2P = SHOOT
+
+        for even in pygame.event.get():
+            if even.type == pygame.KEYDOWN:
+                if even.key == pygame.K_RIGHT:
+                    cmd_1P = RIGHT_CMD
+                elif even.key == pygame.K_LEFT:
+                    cmd_1P = LEFT_CMD
+
+                if even.key == pygame.K_d:
+                    cmd_2P = RIGHT_CMD
+                elif even.key == pygame.K_a:
+                    cmd_2P = LEFT_CMD
+
+        return {"1P": cmd_1P, "2P": cmd_2P}
 
     def check_collisions(self):
         if self.is_through_wall:
@@ -172,3 +204,47 @@ class BattleMode(GameMode):
              "x": WIDTH - 380, "y": HEIGHT - 35,
              "color": WHITE, "font_style": "30px Arial"})
         return all_text_data
+
+    def create_scene_info(self):
+        scene_info = {"frame": self.used_frame,
+                      "status": self.status,
+                      "background": [WIDTH, HEIGHT],
+                      "walls_xy_pos": [],
+                      "1P_xy_pos": self.player_1P.get_xy_pos(),
+                      "2P_xy_pos": self.player_2P.get_xy_pos(),
+                      "bullet_stations_xy_pos": [],
+                      "oil_stations_xy_pos": [],
+                      "game_result": self.get_result(),
+                      "state": self.state}
+
+        for wall in self.walls:
+            scene_info["walls_xy_pos"].append(wall.get_xy_pos())
+        for bullet_station in self.bullet_stations:
+            scene_info["bullet_stations_xy_pos"].append(bullet_station.get_xy_pos())
+        for oil_station in self.oil_stations:
+            scene_info["oil_stations_xy_pos"].append(oil_station.get_xy_pos())
+        return scene_info
+
+    def create_game_data_to_player(self):
+        to_player_data = {}
+        scene_info = self.create_scene_info()
+        for player in self.players:
+            info = player.get_info()
+            info["used_frame"] = self.used_frame
+            info["status"] = self.status
+            walls_info = []
+            for wall in self.walls:
+                walls_info.append(wall.get_info())
+            info["walls_info"] = walls_info
+            bullet_stations_info = []
+            for bullet_station in self.bullet_stations:
+                bullet_stations_info.append(bullet_station.get_info())
+            info["bullet_stations_info"] = bullet_stations_info
+            oil_stations_info = []
+            for oil_station in self.oil_stations:
+                oil_stations_info.append(oil_station.get_info())
+            info["oil_stations_info"] = oil_stations_info
+
+            to_player_data[f"{player._no}P"] = info
+
+        return to_player_data

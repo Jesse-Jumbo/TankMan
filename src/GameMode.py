@@ -41,7 +41,9 @@ class GameMode:
         return self.status, self.state
 
     def check_events(self):
-        pass
+        """
+        add all key events
+        """
 
     def check_collisions(self):
         pass
@@ -56,10 +58,36 @@ class GameMode:
         pygame.mixer.Sound(music_path).play(maxtime=max_time).set_volume(volume)
 
     def draw_sprite_data(self):
-        pass
+        """
+        all_sprite_data = [{"_id": "", "x": 0, "y": 0, "width": 0, "height": 0, "angle": 0}]
+        """
 
     def create_init_image_data(self):
-        pass
+        """
+        all_init_image_data = [{"_id": "", "width": 0, "height": 0, "path": "", "url": ""}]
+        """
 
     def draw_text_data(self):
-        pass
+        """
+        all_text_data = [{"content": "", "x": 0, "y": 0, "color": "", "font_style": "30px Arial"}]
+        """
+
+    def create_scene_info(self):
+        """
+        scene_info = {"frame": self.used_frame,
+                      "status": self.status,
+                      "background": [WIDTH, HEIGHT],
+                      "game_result": self.get_result(),
+                      "state": self.state}
+        """
+
+    def create_game_data_to_player(self):
+        """
+        add all required information for player training
+        to_player_data = {"1P": {"player_id": "1P",
+                                 "x": 0,
+                                 "y": 0,
+                                 "used_frame": self.used_frame,
+                                 "status": self.status},
+                          "2P": {}}
+        """

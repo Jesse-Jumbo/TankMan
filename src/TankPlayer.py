@@ -2,7 +2,6 @@ import random
 
 import pygame.draw
 
-from mlgame.gamedev.game_interface import GameStatus
 from .Player import Player
 from .env import *
 
@@ -19,8 +18,10 @@ class TankPlayer(Player):
         self.angle = 0
         self.score = 0
         self.used_frame = 0
-        self.move = {"left_up": vec(-self.speed, -self.speed), "right_up": vec(self.speed, -self.speed), "left_down": vec(-self.speed, self.speed), "right_down": vec(self.speed, self.speed),
-                     "left": vec(-self.speed, 0), "right": vec(self.speed, 0), "up": vec(0, -self.speed), "down": vec(0, self.speed)}
+        self.move = {"left_up": vec(-self.speed, -self.speed), "right_up": vec(self.speed, -self.speed),
+                     "left_down": vec(-self.speed, self.speed), "right_down": vec(self.speed, self.speed),
+                     "left": vec(-self.speed, 0), "right": vec(self.speed, 0), "up": vec(0, -self.speed),
+                     "down": vec(0, self.speed)}
         self.rot = 0
         self.last_shoot_frame = self.used_frame
         self.rot_speed = 45
@@ -150,13 +151,17 @@ class TankPlayer(Player):
             self.reset()
 
     def get_info(self):
-        player_info = {"player_id": f"{self._no}P",
-                       "x": self.rect.x,
-                       "y": self.rect.y,
-                       "speed": self.speed,
-                       "score": self.score
-                       }
-        return player_info
+        info = {"player_id": f"{self._no}P",
+                "x": self.rect.x,
+                "y": self.rect.y,
+                "speed": self.speed,
+                "score": self.score,
+                "power": self.power,
+                "oil": self.oil,
+                "shield": self.shield,
+                "lives": self.lives
+                }
+        return info
 
     def get_image_data(self):
         super().get_image_data()

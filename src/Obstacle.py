@@ -17,8 +17,12 @@ class Obstacle(Prop):
         if self.lives > 0:
             self.lives -= 1
 
-    def get_pos_xy(self):
+    def get_xy_pos(self):
         return self.rect.x, self.rect.y
+
+    def get_info(self):
+        info = {"_id": self._no, "x": self.rect.x, "y": self.rect.y, "lives": self.lives}
+        return info
 
     def get_image_data(self):
         if self.lives > 0:

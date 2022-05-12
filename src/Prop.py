@@ -13,8 +13,15 @@ class Prop(pygame.sprite.Sprite):
     def update(self):
         pass
 
-    def get_pos_xy(self):
+    def get_xy_pos(self):
         return self.rect.x, self.rect.y
+
+    def get_info(self):
+        """
+        add all required information for player training
+
+        info = {"_id": "", "x": 0, "y": 0}
+        """
 
     def get_size(self):
         return self.rect.width, self.rect.height

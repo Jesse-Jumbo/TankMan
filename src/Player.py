@@ -31,16 +31,16 @@ class Player(pygame.sprite.Sprite):
         pass
 
     def get_info(self):
-        player_info = {"player_id": f"{self._no}P",
-                       "x": self.rect.x,
-                       "y": self.rect.y,
-                       }
-        return player_info
+        """
+        add all player information
+
+        info = {"_id": "", "x", 0, "y": 0}
+        """
 
     def collide_with_walls(self):
         pass
 
-    def get_pos_xy(self):
+    def get_xy_pos(self):
         return self.rect.x, self.rect.y
 
     def get_origin_size(self):

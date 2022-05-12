@@ -11,11 +11,11 @@ class Station(Prop):
         self.power = capacity
         self.cool_down = cooldown
         self._no = 3
+        # 不確定要不要留
         if self._id == 4:
             self.station_name = "bullet_station"
         else:
             self.station_name = "oil_station"
-
 
     def update(self):
         if self.power != self.capacity:
@@ -34,6 +34,10 @@ class Station(Prop):
         power = self.power
         self.power = 0
         return power
+
+    def get_info(self):
+        info = {"_id": "", "x": self.rect.x, "y": self.rect.y, "power": self.power}
+        return info
 
     def get_image_data(self):
         super().get_image_data()

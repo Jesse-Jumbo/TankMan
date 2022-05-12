@@ -22,46 +22,14 @@ class TankMan(PaiaGame):
         self.attachements = []
 
     def game_to_player_data(self) -> dict:
-        scene_info = self.get_scene_info
-        to_player_data = {}
-        for player in self.game_mode.players:
-            player_data = player.get_info()
-            player_data["frame"] = scene_info["frame"]
-            player_data["status"] = scene_info["status"]
-            player_data["mobs_pos"] = []
-            player_data["walls_xy"] = []
-
-            for wall in self.game_mode.walls:
-                player_data["walls_xy"].append(wall.get_pos_xy())
-
-            to_player_data[player_data['player_id']] = player_data
-
-        if to_player_data:
-            return to_player_data
-        else:
-            return {
-                "1P": scene_info,
-                "2P": scene_info,
-                "3P": scene_info,
-                "4P": scene_info
-            }
+        return self.game_mode.create_game_data_to_player()
 
     @property
     def get_scene_info(self):
         """
         Get the scene information
         """
-        scene_info = {'frame': self.game_mode.used_frame,
-                      'status': self.game_mode.status,
-                      'background': [WIDTH, HEIGHT],
-                      'walls_xy': [],
-                      'game_result': self.game_mode.get_result(),
-                      'state': self.game_mode.state}
-
-        for player in self.game_mode.players:
-            scene_info[f"{player._no}P_xy"] = player.get_pos_xy()
-        for wall in self.game_mode.walls:
-            scene_info["walls_xy"].append(wall.get_pos_xy())
+        scene_info = self.game_mode.create_scene_info()
         return scene_info
 
     def update(self, commands: dict):
@@ -75,7 +43,6 @@ class TankMan(PaiaGame):
         self.frame_count = 0
         self.game_mode = self.set_game_mode()
         self.rank()
-        # self.game_mode.sound_controller.player_music()
 
     def is_running(self):
         if self.game_mode.status == GameStatus.GAME_ALIVE:
@@ -141,52 +108,14 @@ class TankMan(PaiaGame):
         """
         Get the command according to the pressed keys
         """
-        # TODO 此處回傳的資料 要與 ml_play.py 一致
-        cmd_1P = ""
-        cmd_2P = ""
-        cmd_3P = ""
-        cmd_4P = ""
-
-        key_pressed_list = pygame.key.get_pressed()
-        if key_pressed_list[pygame.K_UP]:
-            cmd_1P = FORWARD_CMD
-        elif key_pressed_list[pygame.K_DOWN]:
-            cmd_1P = BACKWARD_CMD
-
-        if key_pressed_list[pygame.K_w]:
-            cmd_2P = FORWARD_CMD
-        elif key_pressed_list[pygame.K_s]:
-            cmd_2P = BACKWARD_CMD
-
-        if key_pressed_list[pygame.K_SPACE]:
-            cmd_1P = SHOOT
-        if key_pressed_list[pygame.K_f]:
-            cmd_2P = SHOOT
-
-        for even in pygame.event.get():
-            if even.type == pygame.KEYDOWN:
-                if even.key == pygame.K_RIGHT:
-                    cmd_1P = RIGHT_CMD
-                elif even.key == pygame.K_LEFT:
-                    cmd_1P = LEFT_CMD
-
-                if even.key == pygame.K_d:
-                    cmd_2P = RIGHT_CMD
-                elif even.key == pygame.K_a:
-                    cmd_2P = LEFT_CMD
+        # 此處回傳的資料 要與 ml_play.py 一致
 
         if not self.is_running():
             return {"1P": "RESET",
                     "2P": "RESET",
-                    "3P": "RESET",
-                    "4P": "RESET",
                     }
 
-        return {"1P": cmd_1P,
-                "2P": cmd_2P,
-                "3P": cmd_3P,
-                "4P": cmd_4P,
-                }
+        return self.game_mode.check_events()
 
     @staticmethod
     def ai_clients():
@@ -194,12 +123,7 @@ class TankMan(PaiaGame):
         let MLGame know how to parse your ai,
         you can also use this names to get different cmd and send different data to each ai client
         """
-        return [
-            {"name": "1P"},
-            {"name": "2P"},
-            {"name": "3P"},
-            {"name": "4P"}
-        ]
+        return [{"name": "1P"}, {"name": "2P"}]
 
     def set_game_mode(self):
         game_mode = BattleMode(self.map_path, self.time_limit, self.is_sound)
@@ -207,6 +131,5 @@ class TankMan(PaiaGame):
 
     def rank(self):
         self.game_result_state = self.game_mode.state
-        game_result = self.game_mode.get_result()
-        self.attachements = game_result
+        self.attachements = self.game_mode.get_result()
         return self.attachements
