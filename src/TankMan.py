@@ -1,5 +1,5 @@
 from mlgame.view.view_model import Scene
-from .BattleMode import BattleMode
+from .TankBattleMode import TankBattleMode
 from .GameFramework import GameFramework
 from .sound_controller import *
 
@@ -13,5 +13,5 @@ class TankMan(GameFramework):
         self.game_mode = self.set_game_mode()
 
     def set_game_mode(self):
-        game_mode = BattleMode(self.map_path, self.time_limit, self.is_sound)
+        game_mode = TankBattleMode(self.map_path, self.time_limit, self.is_sound)
         return game_mode

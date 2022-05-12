@@ -673,7 +673,7 @@
 											"top": 391,
 											"width": 180.29248046875,
 											"height": 13,
-											"text": "BattleMode"
+											"text": "TankBattleMode"
 										},
 										{
 											"_type": "LabelView",
@@ -7006,7 +7006,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "BattleMode"
+					"name": "TankBattleMode"
 				},
 				{
 					"_type": "UMLClass",
@@ -7014,7 +7014,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "BattleMode",
+					"name": "TankBattleMode",
 					"ownedElements": [
 						{
 							"_type": "UMLAssociation",
