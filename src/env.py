@@ -46,7 +46,7 @@ SHOOT = "SHOOT"
 GAME_DIR = path.dirname(__file__)
 IMAGE_DIR = path.join(GAME_DIR, "..", "asset", "image")
 SOUND_DIR = path.join(GAME_DIR, "..", "asset", "sound")
-MAP_DIR = path.join(GAME_DIR, '..', "asset", 'maps')
+MAP_DIR = path.join(GAME_DIR, "..", "asset", 'maps')
 
 '''BG View'''
 TITLE = "TankMan!"
@@ -64,7 +64,7 @@ HEIGHT_CENTER = HEIGHT / 2
 
 '''object size'''
 ALL_OBJECT_SIZE = pygame.Rect(0, 0, 60, 60)
-BULLET_SIZE = pygame.Rect(0, 0, 8, 8)
+BULLET_SIZE = pygame.Rect(0, 0, 13, 13)
 
 """all setting"""
 DOWN_IMG = 'down'
@@ -77,10 +77,6 @@ WITH_PLAYER = 'player'
 
 """speed"""
 PLAYER_SPEED = 8
-
-"""image"""
-PLAYER_IMG_LIST = ["player_1P.png", "player_2P.png"]
-WALL_IMG = "wall.png"
 
 """map data numbers"""
 PLAYER_IMG_NO_LIST = [1, 2]

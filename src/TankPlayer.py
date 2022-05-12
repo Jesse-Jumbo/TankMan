@@ -167,8 +167,3 @@ class TankPlayer(Player):
         super().get_image_data()
         self.image_data["angle"] = self.angle
         return self.image_data
-
-    def get_image_init_data(self):
-        super().get_image_init_data()
-        self.image_init_data["path"] = self.img_path
-        return self.image_init_data

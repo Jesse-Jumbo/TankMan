@@ -30,8 +30,3 @@ class Prop(pygame.sprite.Sprite):
         self.image_data = {"_id": "", "x": self.rect.x, "y": self.rect.y, "width": self.get_size()[0],
                            "height": self.get_size()[1], "angle": 0}
 
-    def get_image_init_data(self):
-        self.image_init_data = []
-        for img_path in self.img_path_list:
-            self.image_init_data.append(
-                {"_id": "", "width": self.get_size()[0], "height": self.get_size()[1], "path": img_path, "url": ""})

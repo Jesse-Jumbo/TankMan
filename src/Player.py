@@ -34,8 +34,10 @@ class Player(pygame.sprite.Sprite):
         """
         add all player information
 
-        info = {"_id": "", "x", 0, "y": 0}
+        info = {"_id": "", "x": 0, "y": 0}
         """
+        info = {"_id": "", "x": 0, "y": 0}
+        return info
 
     def collide_with_walls(self):
         pass
@@ -52,8 +54,3 @@ class Player(pygame.sprite.Sprite):
     def get_image_data(self):
         self.image_data = {"_id": f"{self._no}P", "x": self.rect.x, "y": self.rect.y,
                            "width": self.get_origin_size()[0], "height": self.get_origin_size()[1], "angle": 0}
-
-    def get_image_init_data(self):
-        self.image_init_data = {"_id": f"{self._no}P",
-                                "width": self.get_origin_size()[0], "height": self.get_origin_size()[1],
-                                "path": "", "url": ""}

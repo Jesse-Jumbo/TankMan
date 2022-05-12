@@ -42,11 +42,3 @@ class Station(Prop):
     def get_image_data(self):
         super().get_image_data()
         return self.image_data
-
-    def get_image_init_data(self):
-        super().get_image_init_data()
-        c = 0
-        for img_path in self.img_path_list:
-            c += 1
-            self.image_init_data["path"] = img_path
-        return self.image_init_data

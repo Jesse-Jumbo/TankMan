@@ -165,44 +165,38 @@ class BattleMode(GameMode):
         c = 0
         for img_path in OIL_STATION_IMG_PATH_LIST:
             c += 1
-            all_init_image_data.append(
-                {"_id": f"oil_station_{c}", "width": TILE_X_SIZE, "height": TILE_Y_SIZE, "path": img_path, "url": ""})
+            all_init_image_data.append(self.data_creator.create_image_init_data(f"oil_station_{c}", TILE_X_SIZE, TILE_Y_SIZE, img_path,""))
         c = 0
         for img_path in BULLET_STATION_IMG_PATH_LIST:
             c += 1
-            all_init_image_data.append(
-                {"_id": f"bullet_station_{c}", "width": TILE_X_SIZE, "height": TILE_Y_SIZE, "path": img_path,
-                 "url": ""})
+            all_init_image_data.append(self.data_creator.create_image_init_data(f"bullet_station_{c}", TILE_X_SIZE, TILE_Y_SIZE, img_path, ""))
         c = 5
         for img_path in WALL_IMG_PATH_LIST:
-            all_init_image_data.append(
-                {"_id": f"wall_{c}", "width": TILE_X_SIZE, "height": TILE_Y_SIZE, "path": img_path, "url": ""})
+            all_init_image_data.append(self.data_creator.create_image_init_data(f"wall_{c}", TILE_X_SIZE, TILE_Y_SIZE, img_path, ""))
             c -= 1
-        bullet_data = {"_id": "bullets", "width": TILE_X_SIZE, "height": TILE_Y_SIZE, "path": BULLET_IMG_PATH,
-                       "url": ""}
-        all_init_image_data.append(bullet_data)
-        for player in self.players:
-            all_init_image_data.append(player.get_image_init_data())
+        all_init_image_data.append(self.data_creator.create_image_init_data("bullets", TILE_X_SIZE, TILE_Y_SIZE, BULLET_IMG_PATH, ""))
+        c = 1
+        for img_path in PLAYER_IMG_PATH_LIST:
+            all_init_image_data.append(self.data_creator.create_image_init_data(f"{c}P", TILE_X_SIZE, TILE_Y_SIZE, img_path, ""))
+            c += 1
 
         return all_init_image_data
 
     def draw_text_data(self):
         all_text_data = []
-        all_text_data.append(
-            {"content": f"1P_Score: {self.player_1P.score}", "x": WIDTH_CENTER + WIDTH_CENTER // 2 - 45, "y": 0,
-             "color": WHITE, "font_style": "30px Arial"})
-        all_text_data.append({"content": f"2P_Score: {self.player_2P.score}", "x": WIDTH_CENTER // 2 - 45, "y": 0,
-                              "color": WHITE, "font_style": "30px Arial"})
-        all_text_data.append({"content": f"Time: {self.used_frame // 60}", "x": WIDTH - 100, "y": 0,
-                              "color": WHITE, "font_style": "30px Arial"})
-        all_text_data.append(
-            {"content": f"2P Shield: {self.player_2P.shield} Power: {self.player_2P.power} Oil: {self.player_2P.oil}",
-             "x": 5, "y": HEIGHT - 35,
-             "color": WHITE, "font_style": "30px Arial"})
-        all_text_data.append(
-            {"content": f"1P Oil: {self.player_1P.oil} Power {self.player_1P.power} Shield: {self.player_1P.shield}",
-             "x": WIDTH - 380, "y": HEIGHT - 35,
-             "color": WHITE, "font_style": "30px Arial"})
+        all_text_data.append(self.data_creator.create_text_data(f"1P_Score: {self.player_1P.score}",
+                                                                WIDTH_CENTER + WIDTH_CENTER // 2 - 45, 0, WHITE,
+                                                                "30px Arial"))
+        all_text_data.append(self.data_creator.create_text_data(f"2P_Score: {self.player_2P.score}",
+                                                                WIDTH_CENTER // 2 - 45, 0, WHITE, "30px Arial"))
+        all_text_data.append(self.data_creator.create_text_data(f"Time: {self.used_frame // 60}", WIDTH - 100, 0, WHITE,
+                                                                "30px Arial"))
+        all_text_data.append(self.data_creator.create_text_data(
+            f"2P Shield: {self.player_2P.shield} Power: {self.player_2P.power} Oil: {self.player_2P.oil} Lives: {self.player_2P.lives}",
+            5, HEIGHT - 35, WHITE, "30px Arial"))
+        all_text_data.append(self.data_creator.create_text_data(
+            f"1P Lives: {self.player_2P.lives} Oil: {self.player_1P.oil} Power {self.player_1P.power} Shield: {self.player_1P.shield}",
+            WIDTH_CENTER + 200, HEIGHT - 35, WHITE, "30px Arial"))
         return all_text_data
 
     def create_scene_info(self):
@@ -218,33 +212,40 @@ class BattleMode(GameMode):
                       "state": self.state}
 
         for wall in self.walls:
-            scene_info["walls_xy_pos"].append(wall.get_xy_pos())
+            if isinstance(wall, Obstacle):
+                scene_info["walls_xy_pos"].append(wall.get_xy_pos())
         for bullet_station in self.bullet_stations:
-            scene_info["bullet_stations_xy_pos"].append(bullet_station.get_xy_pos())
+            if isinstance(bullet_station, Station):
+                scene_info["bullet_stations_xy_pos"].append(bullet_station.get_xy_pos())
         for oil_station in self.oil_stations:
-            scene_info["oil_stations_xy_pos"].append(oil_station.get_xy_pos())
+            if isinstance(oil_station, Station):
+                scene_info["oil_stations_xy_pos"].append(oil_station.get_xy_pos())
         return scene_info
 
     def create_game_data_to_player(self):
         to_player_data = {}
         scene_info = self.create_scene_info()
         for player in self.players:
-            info = player.get_info()
-            info["used_frame"] = self.used_frame
-            info["status"] = self.status
-            walls_info = []
-            for wall in self.walls:
-                walls_info.append(wall.get_info())
-            info["walls_info"] = walls_info
-            bullet_stations_info = []
-            for bullet_station in self.bullet_stations:
-                bullet_stations_info.append(bullet_station.get_info())
-            info["bullet_stations_info"] = bullet_stations_info
-            oil_stations_info = []
-            for oil_station in self.oil_stations:
-                oil_stations_info.append(oil_station.get_info())
-            info["oil_stations_info"] = oil_stations_info
+            if isinstance(player, TankPlayer):
+                info = player.get_info()
+                info["used_frame"] = self.used_frame
+                info["status"] = self.status
+                walls_info = []
+                for wall in self.walls:
+                    if isinstance(wall, Obstacle):
+                        walls_info.append(wall.get_info())
+                info["walls_info"] = walls_info
+                bullet_stations_info = []
+                for bullet_station in self.bullet_stations:
+                    if isinstance(bullet_station, Station):
+                        bullet_stations_info.append(bullet_station.get_info())
+                info["bullet_stations_info"] = bullet_stations_info
+                oil_stations_info = []
+                for oil_station in self.oil_stations:
+                    if isinstance(oil_station, Station):
+                        oil_stations_info.append(oil_station.get_info())
+                info["oil_stations_info"] = oil_stations_info
 
-            to_player_data[f"{player._no}P"] = info
+                to_player_data[f"{player._no}P"] = info
 
         return to_player_data
