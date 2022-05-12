@@ -16,8 +16,10 @@ class Bullet(pygame.sprite.Sprite):
         self._no = player_no
         self.rot = rot
         self.angle = 3.14 / 180 * (self.rot + 90)
-        self.move = {"left_up": vec(-self.speed, -self.speed), "right_up": vec(self.speed, -self.speed), "left_down": vec(-self.speed, self.speed), "right_down": vec(self.speed, self.speed),
-                     "left": vec(-self.speed, 0), "right": vec(self.speed, 0), "up": vec(0, -self.speed), "down": vec(0, self.speed)}
+        self.move = {"left_up": vec(-self.speed, -self.speed), "right_up": vec(self.speed, -self.speed),
+                     "left_down": vec(-self.speed, self.speed), "right_down": vec(self.speed, self.speed),
+                     "left": vec(-self.speed, 0), "right": vec(self.speed, 0), "up": vec(0, -self.speed),
+                     "down": vec(0, self.speed)}
 
     def update(self):
         self.hit_rect.center = self.rect.center
@@ -40,3 +42,8 @@ class Bullet(pygame.sprite.Sprite):
 
         if self.rect.bottom < 0 or self.rect.top > HEIGHT or self.rect.left > WIDTH or self.rect.right < 0:
             self.kill()
+
+    def get_image_data(self):
+        image_data = {"_id": "bullets", "x": self.rect.x, "y": self.rect.y,
+                      "width": self.rect.width, "height": self.rect.height, "angle": self.angle}
+        return image_data

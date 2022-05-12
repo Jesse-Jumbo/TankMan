@@ -143,9 +143,10 @@ class TankPlayer(Player):
             self.forward()
 
     def collide_with_bullets(self):
-        self.shield -= random.randrange(1, 10)
+        self.shield -= random.randrange(1, 11)
         if self.shield <= 0:
             self.lives -= 1
+            self.shield = 100
             self.reset()
 
     def get_info(self):
@@ -156,3 +157,13 @@ class TankPlayer(Player):
                        "score": self.score
                        }
         return player_info
+
+    def get_image_data(self):
+        super().get_image_data()
+        self.image_data["angle"] = self.angle
+        return self.image_data
+
+    def get_image_init_data(self):
+        super().get_image_init_data()
+        self.image_init_data["path"] = self.img_path
+        return self.image_init_data

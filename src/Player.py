@@ -17,6 +17,8 @@ class Player(pygame.sprite.Sprite):
         self.vel = vec(0, 0)
         self.is_alive = True
         self.origin_size = (width, height)
+        self.image_data = {}
+        self.image_init_data = {}
 
     def update(self, commands: str):
         self.used_frame += 1
@@ -46,3 +48,12 @@ class Player(pygame.sprite.Sprite):
 
     def reset(self):
         self.rect.center = self.origin_center
+
+    def get_image_data(self):
+        self.image_data = {"_id": f"{self._no}P", "x": self.rect.x, "y": self.rect.y,
+                           "width": self.get_origin_size()[0], "height": self.get_origin_size()[1], "angle": 0}
+
+    def get_image_init_data(self):
+        self.image_init_data = {"_id": f"{self._no}P",
+                                "width": self.get_origin_size()[0], "height": self.get_origin_size()[1],
+                                "path": "", "url": ""}

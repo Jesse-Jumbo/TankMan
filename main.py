@@ -16,7 +16,6 @@ if __name__ == '__main__':
         clock.tick_busy_loop(FPS)
         game.update(game.get_keyboard_command())
         game_progress_data = game.get_scene_progress_data()
-        game_view.draw_screen()
         game_view.draw(game_progress_data)
         game_view.flip()
         frame_count += 1

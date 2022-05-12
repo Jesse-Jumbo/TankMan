@@ -54,3 +54,12 @@ class GameMode:
 
     def play_sound(self, music_path: str, volume: float, max_time: int):
         pygame.mixer.Sound(music_path).play(maxtime=max_time).set_volume(volume)
+
+    def draw_sprite_data(self):
+        pass
+
+    def create_init_image_data(self):
+        pass
+
+    def draw_text_data(self):
+        pass

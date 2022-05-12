@@ -1,9 +1,7 @@
-import ntpath
-import pygame
 from mlgame.gamedev.game_interface import PaiaGame, GameStatus
 from mlgame.view.test_decorator import check_game_result
 from mlgame.view.view_model import create_text_view_data, create_asset_init_data, create_image_view_data, \
-    Scene, create_rect_view_data
+    Scene
 from .BattleMode import BattleMode
 from .sound_controller import *
 
@@ -92,34 +90,12 @@ class TankMan(PaiaGame):
         game_info = {'scene': self.scene.__dict__,
                      'assets': []}
 
-        # initialize bullets image
-        game_info["assets"].append(create_asset_init_data("bullets", TILE_X_SIZE, TILE_Y_SIZE
-                                                          , BULLET_IMG_PATH, ""))
-        # initialize player image
-        for player in self.game_mode.players:
-            game_info['assets'].append(create_asset_init_data(f'{player._no}P', player.get_origin_size()[0], player.get_origin_size()[1]
-                                                              , player.img_path, ""))
-        # initialize bullet stations image
-        for bullet_station in self.game_mode.bullet_stations:
-            c = 0
-            for img_path in BULLET_STATION_IMG_PATH_LIST:
-                c += 1
-                game_info['assets'].append(create_asset_init_data(f'{bullet_station._no}_{c}', bullet_station.get_size()[0], bullet_station.get_size()[1]
-                                                                  , img_path, ""))
-        # initialize oil stations image
-        for oil_station in self.game_mode.oil_stations:
-            c = 0
-            for img_path in OIL_STATION_IMG_PATH_LIST:
-                c += 1
-                game_info['assets'].append(create_asset_init_data(f'{oil_station._no}_{c}', oil_station.get_size()[0], oil_station.get_size()[1]
-                                                                  , img_path, ""))
-        # initialize walls image
-        for wall in self.game_mode.walls:
-            c = 0
-            for img_path in WALL_IMG_PATH_LIST:
-                game_info["assets"].append(create_asset_init_data(f"wall_{wall._no}_{wall.lives-c}", wall.get_size()[0], wall.get_size()[1]
-                                                                  , img_path, ""))
-                c += 1
+        images_init_data = self.game_mode.create_init_image_data()
+        for image_init_data in images_init_data:
+            obj_init = create_asset_init_data(image_init_data["_id"], image_init_data["width"],
+                                              image_init_data["height"],
+                                              image_init_data["path"], image_init_data["url"])
+            game_info["assets"].append(obj_init)
 
         return game_info
 
@@ -136,75 +112,17 @@ class TankMan(PaiaGame):
                          'user_info': [],
                          'game_sys_info': {}}
 
-        # update bullet image
-        for bullet in self.game_mode.bullets:
-            bullet_obj = create_image_view_data('bullets', bullet.rect.x, bullet.rect.y,
-                                                bullet.rect.width, bullet.rect.height, bullet.angle)
-            game_progress["object_list"].append(bullet_obj)
-        # update bullet stations image
-        for bullet_station in self.game_mode.bullet_stations:
-            if bullet_station.power < bullet_station.capacity // 3:
-                no = 1
-            elif bullet_station.power != bullet_station.capacity:
-                no = 2
-            else:
-                no = 3
-            game_progress["object_list"].append(create_image_view_data(f"{bullet_station._no}_{no}",
-                                                                       bullet_station.get_pos_xy()[0],
-                                                                       bullet_station.get_pos_xy()[1],
-                                                                       bullet_station.get_size()[0],
-                                                                       bullet_station.get_size()[1]))
-        # update oil stations image
-        for oil_station in self.game_mode.oil_stations:
-            if oil_station.power < oil_station.capacity // 3:
-                no = 1
-            elif oil_station.power != oil_station.capacity:
-                no = 2
-            else:
-                no = 3
-            game_progress["object_list"].append(create_image_view_data(f"{oil_station._no}_{no}",
-                                                                       oil_station.get_pos_xy()[0],
-                                                                       oil_station.get_pos_xy()[1],
-                                                                       oil_station.get_size()[0],
-                                                                       oil_station.get_size()[1]))
-        # update player image
-        for player in self.game_mode.players:
-            player_obj = create_image_view_data(f'{player._no}P', player.get_pos_xy()[0], player.get_pos_xy()[1],
-                                                player.get_origin_size()[0], player.get_origin_size()[1], player.angle)
-            game_progress["object_list"].append(player_obj)
-        # update walls image
-        for wall in self.game_mode.walls:
-            if wall.lives == 0:
-                continue
-            game_progress["object_list"].append(create_image_view_data(f'wall_{wall._no}_{wall.lives}', wall.rect.x, wall.rect.y,
-                                                                       TILE_X_SIZE, TILE_Y_SIZE))
-        # update 1P score text
-        game_progress["foreground"].append(create_text_view_data(f"1P_Score: {self.game_mode.player_1P.score}",
-                                                                 WIDTH / 2 - 30, 0, WHITE, "20px Arial"))
-        # update 1P score text
-        game_progress["foreground"].append(create_text_view_data(f"2P_Score: {self.game_mode.player_2P.score}",
-                                                                 WIDTH / 2 - 30, HEIGHT - 25, WHITE, "20px Arial"))
-        # update frame text
-        game_progress["foreground"].append(create_text_view_data(f"Time: {(self.game_mode.used_frame // 60)}",
-                                                                 WIDTH - 90, 0, WHITE, "20px Arial"))
-        # update 1P lives text
-        game_progress["foreground"].append(create_text_view_data(f"Shield: {self.game_mode.player_1P.shield}",
-                                                                 WIDTH - 90, HEIGHT - 25, WHITE, "20px Arial"))
-        # update 2P lives text
-        game_progress["foreground"].append(create_text_view_data(f"2P Shield: {self.game_mode.player_2P.shield},",
-                                                                 5, HEIGHT - 25, WHITE, "20px Arial"))
-        # update 1P powers text
-        game_progress["foreground"].append(create_text_view_data(f"Power: {self.game_mode.player_1P.power},",
-                                                                 WIDTH - 180, HEIGHT - 25, WHITE, "20px Arial"))
-        # update 2P powers text
-        game_progress["foreground"].append(create_text_view_data(f"Power: {self.game_mode.player_2P.power},",
-                                                                 130, HEIGHT - 25, WHITE, "20px Arial"))
-        # update 1P oil text
-        game_progress["foreground"].append(create_text_view_data(f"1P Oil: {self.game_mode.player_1P.oil},",
-                                                                 WIDTH - 280, HEIGHT - 25, WHITE, "20px Arial"))
-        # update 2P oil text
-        game_progress["foreground"].append(create_text_view_data(f"Oil: {self.game_mode.player_2P.oil}",
-                                                                 220, HEIGHT - 25, WHITE, "20px Arial"))
+        images_data = self.game_mode.draw_sprite_data()
+        for image_data in images_data:
+            obj = create_image_view_data(image_data["_id"], image_data["x"], image_data["y"],
+                                         image_data["width"], image_data["height"], image_data["angle"])
+            game_progress["object_list"].append(obj)
+
+        all_text_data = self.game_mode.draw_text_data()
+        for text_data in all_text_data:
+            text = create_text_view_data(text_data["content"], text_data["x"], text_data["y"],
+                                         text_data["color"], text_data["font_style"])
+            game_progress["foreground"].append(text)
 
         return game_progress
 

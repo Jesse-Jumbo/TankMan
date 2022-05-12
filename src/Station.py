@@ -3,14 +3,19 @@ from games.TankMan.src.Prop import Prop
 
 
 class Station(Prop):
-    def __init__(self, _id: int, _no: int, x: int, y: int, width: int, height: int, capacity: int, cooldown):
+    def __init__(self, _id: int, x: int, y: int, width: int, height: int, capacity: int, cooldown):
         super().__init__(x, y, width, height)
         self._id = _id
-        self._no = _no
         self.count_frame = 0
         self.capacity = capacity
         self.power = capacity
         self.cool_down = cooldown
+        self._no = 3
+        if self._id == 4:
+            self.station_name = "bullet_station"
+        else:
+            self.station_name = "oil_station"
+
 
     def update(self):
         if self.power != self.capacity:
@@ -18,8 +23,26 @@ class Station(Prop):
             if self.count_frame == self.cool_down * FPS:
                 self.power += 1
                 self.count_frame = 0
+        if self.power < self.capacity // 3:
+            self._no = 1
+        elif self.power != self.capacity:
+            self._no = 2
+        else:
+            self._no = 3
 
     def get_power(self):
         power = self.power
         self.power = 0
         return power
+
+    def get_image_data(self):
+        super().get_image_data()
+        return self.image_data
+
+    def get_image_init_data(self):
+        super().get_image_init_data()
+        c = 0
+        for img_path in self.img_path_list:
+            c += 1
+            self.image_init_data["path"] = img_path
+        return self.image_init_data
