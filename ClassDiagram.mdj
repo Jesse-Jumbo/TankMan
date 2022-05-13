@@ -3453,7 +3453,7 @@
 											"top": 703,
 											"width": 288.6787109375,
 											"height": 13,
-											"text": "Obstacle"
+											"text": "TankWall"
 										},
 										{
 											"_type": "LabelView",
@@ -5912,7 +5912,7 @@
 											"top": 703,
 											"width": 341.43408203125,
 											"height": 13,
-											"text": "Station"
+											"text": "TankStation"
 										},
 										{
 											"_type": "LabelView",
@@ -9056,7 +9056,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Obstacle",
+					"name": "TankWall",
 					"attributes": [
 						{
 							"_type": "UMLAttribute",
@@ -9728,7 +9728,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Station",
+					"name": "TankStation",
 					"ownedElements": [
 						{
 							"_type": "UMLGeneralization",

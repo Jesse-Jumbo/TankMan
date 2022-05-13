@@ -2,7 +2,7 @@ from .env import WALL_IMG_PATH_DICT
 from .Props import Props
 
 
-class Obstacle(Props):
+class TankWall(Props):
     def __init__(self, _id: int, x: int, y: int, width: int, height: int):
         super().__init__(x, y, width, height)
         self._id = _id
@@ -26,6 +26,6 @@ class Obstacle(Props):
 
     def get_image_data(self):
         if self.lives > 0:
-            super().get_image_data()
-            self.image_data["id"] = f"wall_{self._id}.{self.lives}"
-            return self.image_data
+            image_data = {"id": f"wall_{self._id}.{self.lives}", "x": self.rect.x, "y": self.rect.y,
+                          "width": self.rect.width, "height": self.rect.height, "angle": 0}
+            return image_data

@@ -1,6 +1,6 @@
 import pygame.sprite
 
-from .Station import Station
+from .TankStation import TankStation
 from .env import *
 
 

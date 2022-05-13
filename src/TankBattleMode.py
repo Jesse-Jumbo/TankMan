@@ -1,6 +1,6 @@
 import pygame.event
 
-from games.TankMan.src.Obstacle import Obstacle
+from games.TankMan.src.TankWall import TankWall
 from games.TankMan.src.TankPlayer import TankPlayer
 from mlgame.gamedev.game_interface import GameResultState, GameStatus
 from .BattleMode import BattleMode
@@ -33,21 +33,21 @@ class TankBattleMode(BattleMode):
         # init walls
         walls = self.map.create_obj_init_data(WALL_IMG_NO_LIST)
         for wall in walls:
-            self.walls.add(Obstacle(wall['id'], wall["x"], wall["y"], wall["width"], wall["height"]))
+            self.walls.add(TankWall(wall['id'], wall["x"], wall["y"], wall["width"], wall["height"]))
         self.all_sprites.add(self.walls)
         # init bullet stations
         bullet_stations = self.map.create_obj_init_data(BULLET_STATION_IMG_NO_LIST)
         for bullet_station in bullet_stations:
-            self.bullet_stations.add(Station(bullet_station["id"], 3,
-                                             bullet_station["x"], bullet_station["y"],
-                                             bullet_station["width"], bullet_station["height"], 10, 5))
+            self.bullet_stations.add(TankStation(bullet_station["id"], 3,
+                                                 bullet_station["x"], bullet_station["y"],
+                                                 bullet_station["width"], bullet_station["height"], 10, 5))
         self.all_sprites.add(self.bullet_stations)
         # init oil stations
         oil_stations = self.map.create_obj_init_data(OIL_STATION_IMG_NO_LIST)
         for oil_station in oil_stations:
-            self.oil_stations.add(Station(oil_station["id"], 3,
-                                          oil_station["x"], oil_station["y"],
-                                          oil_station["width"], oil_station["height"], 100, 1))
+            self.oil_stations.add(TankStation(oil_station["id"], 3,
+                                              oil_station["x"], oil_station["y"],
+                                              oil_station["width"], oil_station["height"], 100, 1))
         self.all_sprites.add(self.oil_stations)
 
     def update(self, command: dict):
@@ -120,11 +120,11 @@ class TankBattleMode(BattleMode):
         # 有辦法減少迴圈嗎?
         all_sprite_data = []
         for oil_station in self.oil_stations:
-            if isinstance(oil_station, Station):
+            if isinstance(oil_station, TankStation):
                 oil_station_image_data = oil_station.get_image_data()
                 all_sprite_data.append(oil_station_image_data)
         for bullet_station in self.bullet_stations:
-            if isinstance(bullet_station, Station):
+            if isinstance(bullet_station, TankStation):
                 bullet_station_image_data = bullet_station.get_image_data()
                 all_sprite_data.append(bullet_station_image_data)
         for bullet in self.bullets:
@@ -134,7 +134,7 @@ class TankBattleMode(BattleMode):
             if isinstance(player, TankPlayer):
                 all_sprite_data.append(player.get_image_data())
         for wall in self.walls:
-            if isinstance(wall, Obstacle):
+            if isinstance(wall, TankWall):
                 if wall.get_image_data():
                     all_sprite_data.append(wall.get_image_data())
 
@@ -189,13 +189,13 @@ class TankBattleMode(BattleMode):
                       "state": self.state}
 
         for wall in self.walls:
-            if isinstance(wall, Obstacle):
+            if isinstance(wall, TankWall):
                 scene_info["walls_xy_pos"].append(wall.get_xy_pos())
         for bullet_station in self.bullet_stations:
-            if isinstance(bullet_station, Station):
+            if isinstance(bullet_station, TankStation):
                 scene_info["bullet_stations_xy_pos"].append(bullet_station.get_xy_pos())
         for oil_station in self.oil_stations:
-            if isinstance(oil_station, Station):
+            if isinstance(oil_station, TankStation):
                 scene_info["oil_stations_xy_pos"].append(oil_station.get_xy_pos())
         return scene_info
 
@@ -208,24 +208,20 @@ class TankBattleMode(BattleMode):
                 info["status"] = self.status
                 walls_info = []
                 for wall in self.walls:
-                    if isinstance(wall, Obstacle):
+                    if isinstance(wall, TankWall):
                         walls_info.append(wall.get_info())
                 info["walls_info"] = walls_info
                 bullet_stations_info = []
                 for bullet_station in self.bullet_stations:
-                    if isinstance(bullet_station, Station):
-                        bullet_station_info = bullet_station.get_info()
-                        bullet_station_info["id"] = "bullet_station"
-                        bullet_stations_info.append(bullet_station_info)
+                    if isinstance(bullet_station, TankStation):
+                        bullet_stations_info.append(bullet_station.get_info())
                 info["bullet_stations_info"] = bullet_stations_info
                 oil_stations_info = []
                 for oil_station in self.oil_stations:
-                    if isinstance(oil_station, Station):
-                        oil_station_info = oil_station.get_info()
-                        oil_station_info["id"] = "oil_station"
-                        oil_stations_info.append(oil_station_info)
+                    if isinstance(oil_station, TankStation):
+                        oil_stations_info.append(oil_station.get_info())
                 info["oil_stations_info"] = oil_stations_info
 
-                to_player_data[f"{player._no}P"] = info
+                to_player_data[f"{player._id}P"] = info
 
         return to_player_data
