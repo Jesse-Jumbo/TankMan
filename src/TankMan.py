@@ -1,7 +1,7 @@
 from mlgame.view.view_model import Scene
 from .TankBattleMode import TankBattleMode
-from .MyGame import GameFramework
-from .sound_controller import *
+from GameFramework.MyGame import GameFramework
+from .env import WIDTH, HEIGHT, BLACK
 
 '''need some fuction same as arkanoid which without dash in the name of fuction'''
 

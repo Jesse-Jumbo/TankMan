@@ -2,8 +2,8 @@ import random
 
 import pygame.draw
 
-from .Player import Player
-from .env import *
+from GameFramework.Player import Player
+from .env import WIDTH, HEIGHT, LEFT_CMD, RIGHT_CMD, FORWARD_CMD, BACKWARD_CMD, SHOOT, SHOOT_COOLDOWN
 
 vec = pygame.math.Vector2
 
@@ -13,7 +13,7 @@ class TankPlayer(Player):
         super().__init__(_id, _no, x, y, width, height)
         self._id = _id
         self.surface = pygame.Surface((width, height))
-        self.speed = PLAYER_SPEED
+        self.speed = 8
         self.angle = 0
         self.score = 0
         self.used_frame = 0

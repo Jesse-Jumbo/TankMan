@@ -1,5 +1,4 @@
-from .Station import Station
-from .env import FPS
+from GameFramework.Station import Station
 
 
 class TankStation(Station):

@@ -76,9 +76,6 @@ LEFT_IMG = 'left'
 """collide setting"""
 WITH_PLAYER = 'player'
 
-"""speed"""
-PLAYER_SPEED = 8
-
 """map data numbers"""
 PLAYER_IMG_NO_LIST = [1, 2]
 WALL_IMG_NO_LIST = [3]

@@ -1,6 +1,6 @@
 import pygame
 
-from .Bullet import Bullet
+from GameFramework.Bullet import Bullet
 from .env import HEIGHT, WIDTH
 
 

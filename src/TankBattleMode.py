@@ -2,8 +2,7 @@ import pygame.event
 
 from games.TankMan.src.TankWall import TankWall
 from games.TankMan.src.TankPlayer import TankPlayer
-from mlgame.gamedev.game_interface import GameResultState, GameStatus
-from .BattleMode import BattleMode
+from GameFramework.BattleMode import BattleMode
 from .TankBullet import TankBullet
 from .collide_hit_rect import *
 from .env import *

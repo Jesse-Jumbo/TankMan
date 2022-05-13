@@ -1,5 +1,5 @@
 from .env import WALL_IMG_PATH_DICT
-from .Props import Props
+from GameFramework.Props import Props
 
 
 class TankWall(Props):
@@ -7,7 +7,6 @@ class TankWall(Props):
         super().__init__(x, y, width, height)
         self._id = _id
         self.lives = 5
-        self.img_path_list = WALL_IMG_PATH_DICT
 
     def update(self, *args, **kwargs) -> None:
         if self.lives <= 0:
