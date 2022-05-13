@@ -5579,7 +5579,7 @@
 											"top": 695,
 											"width": 289.40869140625,
 											"height": 13,
-											"text": "Bullet"
+											"text": "TankBullet"
 										},
 										{
 											"_type": "LabelView",
@@ -9607,7 +9607,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Bullet",
+					"name": "TankBullet",
 					"attributes": [
 						{
 							"_type": "UMLAttribute",

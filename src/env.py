@@ -65,7 +65,7 @@ HEIGHT_CENTER = HEIGHT / 2
 
 '''object size'''
 ALL_OBJECT_SIZE = pygame.Rect(0, 0, 60, 60)
-BULLET_SIZE = pygame.Rect(0, 0, 13, 13)
+BULLET_SIZE = (13, 13)
 
 """all setting"""
 DOWN_IMG = 'down'

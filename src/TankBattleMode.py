@@ -4,7 +4,7 @@ from games.TankMan.src.TankWall import TankWall
 from games.TankMan.src.TankPlayer import TankPlayer
 from mlgame.gamedev.game_interface import GameResultState, GameStatus
 from .BattleMode import BattleMode
-from .Bullet import Bullet
+from .TankBullet import TankBullet
 from .collide_hit_rect import *
 from .env import *
 
@@ -112,7 +112,7 @@ class TankBattleMode(BattleMode):
             collide_with_bullets(wall, self.bullets)
 
     def create_bullet(self, shoot_info):
-        bullet = Bullet(shoot_info["id"], shoot_info["center_pos"], shoot_info["rot"])
+        bullet = TankBullet(shoot_info["id"], shoot_info["center_pos"], BULLET_SIZE[0], BULLET_SIZE[1], shoot_info["rot"])
         self.bullets.add(bullet)
         self.all_sprites.add(bullet)
 
@@ -128,7 +128,7 @@ class TankBattleMode(BattleMode):
                 bullet_station_image_data = bullet_station.get_image_data()
                 all_sprite_data.append(bullet_station_image_data)
         for bullet in self.bullets:
-            if isinstance(bullet, Bullet):
+            if isinstance(bullet, TankBullet):
                 all_sprite_data.append(bullet.get_image_data())
         for player in self.players:
             if isinstance(player, TankPlayer):
