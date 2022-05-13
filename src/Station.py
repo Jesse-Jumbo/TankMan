@@ -5,17 +5,12 @@ from games.TankMan.src.Props import Props
 class Station(Props):
     def __init__(self, _id: int, x: int, y: int, width: int, height: int, capacity: int, cooldown):
         super().__init__(x, y, width, height)
-        self._id = _id
         self.count_frame = 0
         self.capacity = capacity
         self.power = capacity
         self.cool_down = cooldown
+        self._id = _id
         self._no = 3
-        # 不確定要不要留
-        if self._id == 4:
-            self.station_name = "bullet_station"
-        else:
-            self.station_name = "oil_station"
 
     def update(self):
         if self.power != self.capacity:

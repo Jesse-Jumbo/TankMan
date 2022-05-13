@@ -33,7 +33,7 @@ class TankBattleMode(BattleMode):
         # init walls
         walls = self.map.create_obj_init_data(WALL_IMG_NO_LIST)
         for wall in walls:
-            self.walls.add(Obstacle(wall["_no"], wall["x"], wall["y"], wall["width"], wall["height"]))
+            self.walls.add(Obstacle(wall["_id"] + 0.1, wall["x"], wall["y"], wall["width"], wall["height"]))
         self.all_sprites.add(self.walls)
         # init bullet stations
         bullet_stations = self.map.create_obj_init_data(BULLET_STATION_IMG_NO_LIST)
@@ -121,9 +121,9 @@ class TankBattleMode(BattleMode):
         all_sprite_data = []
         for oil_station in self.oil_stations:
             if isinstance(oil_station, Station):
-                bullet_station_image_data = oil_station.get_image_data()
-                bullet_station_image_data["_id"] = f"oil_station_{oil_station._no}"
-                all_sprite_data.append(bullet_station_image_data)
+                oil_station_image_data = oil_station.get_image_data()
+                oil_station_image_data["_id"] = f"oil_station_{oil_station._no}"
+                all_sprite_data.append(oil_station_image_data)
         for bullet_station in self.bullet_stations:
             if isinstance(bullet_station, Station):
                 bullet_station_image_data = bullet_station.get_image_data()
@@ -155,7 +155,7 @@ class TankBattleMode(BattleMode):
             all_init_image_data.append(self.data_creator.create_image_init_data(f"bullet_station_{c}", TILE_X_SIZE,
                                                                                 TILE_Y_SIZE, img_path, BULLETS_URL[c]))
         c = 5
-        for img_path in WALL_IMG_PATH_LIST:
+        for img_path in WALL_IMG_PATH_DICT:
             all_init_image_data.append(self.data_creator.create_image_init_data(f"wall_{c}", TILE_X_SIZE, TILE_Y_SIZE,
                                                                                 img_path, WALL_URL[c]))
             c -= 1

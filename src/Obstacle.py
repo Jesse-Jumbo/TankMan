@@ -1,13 +1,13 @@
-from .env import WALL_IMG_PATH_LIST
+from .env import WALL_IMG_PATH_DICT
 from .Props import Props
 
 
 class Obstacle(Props):
-    def __init__(self, no: int, x: int, y: int, width: int, height: int):
+    def __init__(self, id: int, x: int, y: int, width: int, height: int):
         super().__init__(x, y, width, height)
-        self._no = no
+        self._id = id
         self.lives = 5
-        self.img_path_list = WALL_IMG_PATH_LIST
+        self.img_path_list = WALL_IMG_PATH_DICT
 
     def update(self, *args, **kwargs) -> None:
         if self.lives <= 0:
@@ -21,7 +21,7 @@ class Obstacle(Props):
         return self.rect.x, self.rect.y
 
     def get_info(self):
-        info = {"_id": self._no, "x": self.rect.x, "y": self.rect.y, "lives": self.lives}
+        info = {"_id": self._id, "x": self.rect.x, "y": self.rect.y, "lives": self.lives}
         return info
 
     def get_image_data(self):
