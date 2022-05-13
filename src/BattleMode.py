@@ -82,7 +82,8 @@ class BattleMode(GameMode):
         all_init_image_data = []
         c = 1
         for img_path in PLAYER_IMG_PATH_LIST:
-            all_init_image_data.append(self.data_creator.create_image_init_data(f"{c}P", TILE_X_SIZE, TILE_Y_SIZE, img_path, ""))
+            all_init_image_data.append(self.data_creator.create_image_init_data(f"{c}P", TILE_X_SIZE, TILE_Y_SIZE,
+                                                                                img_path, PLAYER_URL[f"{c}P"]))
             c += 1
 
         return all_init_image_data

@@ -147,19 +147,24 @@ class TankBattleMode(BattleMode):
         c = 0
         for img_path in OIL_STATION_IMG_PATH_LIST:
             c += 1
-            all_init_image_data.append(self.data_creator.create_image_init_data(f"oil_station_{c}", TILE_X_SIZE, TILE_Y_SIZE, img_path,""))
+            all_init_image_data.append(self.data_creator.create_image_init_data(f"oil_station_{c}", TILE_X_SIZE,
+                                                                                TILE_Y_SIZE, img_path, OIL_URL[c]))
         c = 0
         for img_path in BULLET_STATION_IMG_PATH_LIST:
             c += 1
-            all_init_image_data.append(self.data_creator.create_image_init_data(f"bullet_station_{c}", TILE_X_SIZE, TILE_Y_SIZE, img_path, ""))
+            all_init_image_data.append(self.data_creator.create_image_init_data(f"bullet_station_{c}", TILE_X_SIZE,
+                                                                                TILE_Y_SIZE, img_path, BULLETS_URL[c]))
         c = 5
         for img_path in WALL_IMG_PATH_LIST:
-            all_init_image_data.append(self.data_creator.create_image_init_data(f"wall_{c}", TILE_X_SIZE, TILE_Y_SIZE, img_path, ""))
+            all_init_image_data.append(self.data_creator.create_image_init_data(f"wall_{c}", TILE_X_SIZE, TILE_Y_SIZE,
+                                                                                img_path, WALL_URL[c]))
             c -= 1
-        all_init_image_data.append(self.data_creator.create_image_init_data("bullets", TILE_X_SIZE, TILE_Y_SIZE, BULLET_IMG_PATH, ""))
+        all_init_image_data.append(self.data_creator.create_image_init_data("bullets", TILE_X_SIZE, TILE_Y_SIZE,
+                                                                            BULLET_IMG_PATH, BULLET_URL))
         c = 1
         for img_path in PLAYER_IMG_PATH_LIST:
-            all_init_image_data.append(self.data_creator.create_image_init_data(f"{c}P", TILE_X_SIZE, TILE_Y_SIZE, img_path, ""))
+            all_init_image_data.append(self.data_creator.create_image_init_data(f"{c}P", TILE_X_SIZE, TILE_Y_SIZE,
+                                                                                img_path, PLAYER_URL[f"{c}P"]))
             c += 1
 
         return all_init_image_data
@@ -206,7 +211,6 @@ class TankBattleMode(BattleMode):
 
     def create_game_data_to_player(self):
         to_player_data = {}
-        scene_info = self.create_scene_info()
         for player in self.players:
             if isinstance(player, TankPlayer):
                 info = player.get_info()
