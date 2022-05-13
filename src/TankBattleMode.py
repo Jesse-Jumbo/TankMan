@@ -224,12 +224,16 @@ class TankBattleMode(BattleMode):
                 bullet_stations_info = []
                 for bullet_station in self.bullet_stations:
                     if isinstance(bullet_station, Station):
-                        bullet_stations_info.append(bullet_station.get_info())
+                        bullet_station_info = bullet_station.get_info()
+                        bullet_station_info["_id"] = "bullet_station"
+                        bullet_stations_info.append(bullet_station_info)
                 info["bullet_stations_info"] = bullet_stations_info
                 oil_stations_info = []
                 for oil_station in self.oil_stations:
                     if isinstance(oil_station, Station):
-                        oil_stations_info.append(oil_station.get_info())
+                        oil_station_info = oil_station.get_info()
+                        oil_station_info["_id"] = "oil_station"
+                        oil_stations_info.append(oil_station_info)
                 info["oil_stations_info"] = oil_stations_info
 
                 to_player_data[f"{player._no}P"] = info
