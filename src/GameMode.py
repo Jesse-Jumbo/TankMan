@@ -2,7 +2,7 @@ import pygame.event
 
 from mlgame.gamedev.game_interface import GameResultState, GameStatus
 from .DataCreator import DataCreator
-from .TankManMap import TankManMap
+from .TiledMap import TiledMap
 from .env import *
 
 
@@ -17,7 +17,7 @@ class GameMode:
         # initialize sprites group
         self.all_sprites = pygame.sprite.Group()
         # initialize map
-        self.map = TankManMap(self.map_path)
+        self.map = TiledMap(self.map_path)
         # Game attribute
         self.used_frame = 0
         self.state = GameResultState.FAIL
@@ -66,16 +66,16 @@ class GameMode:
     def draw_sprite_data(self):
         """
         Draw pictures in the order in which they were added
-        all_sprite_data = [{"_id": "", "x": 0, "y": 0, "width": 0, "height": 0, "angle": 0}]
+        all_sprite_data = [{"id": "", "x": 0, "y": 0, "width": 0, "height": 0, "angle": 0}]
         """
-        all_sprite_data = [{"_id": "", "x": 0, "y": 0, "width": 0, "height": 0, "angle": 0}]
+        all_sprite_data = [{"id": "", "x": 0, "y": 0, "width": 0, "height": 0, "angle": 0}]
         return all_sprite_data
 
     def create_init_image_data(self):
         """
-        all_init_image_data = [{"_id": "", "width": 0, "height": 0, "path": "", "url": ""}]
+        all_init_image_data = [{"id": "", "width": 0, "height": 0, "path": "", "url": ""}]
         """
-        all_init_image_data = [{"_id": "", "width": 0, "height": 0, "path": "", "url": ""}]
+        all_init_image_data = [{"id": "", "width": 0, "height": 0, "path": "", "url": ""}]
         return all_init_image_data
 
     def draw_text_data(self):

@@ -2,7 +2,7 @@ import pytmx
 
 
 # Map 讀取地圖資料
-class TankManMap:
+class TiledMap:
     def __init__(self, filepath: str):
         tm = pytmx.load_pygame(filepath, pixealpha=True)
         self.width = tm.tilewidth
@@ -19,7 +19,7 @@ class TankManMap:
                         if layer.parent.tiledgidmap[gid] in img_no_list:
                             img_id = layer.parent.tiledgidmap[gid]
                             obj_no += 1
-                            img_info = {"_id": img_id, "_no": obj_no,
+                            img_info = {"id": img_id, "_no": obj_no,
                                         "x": x * self.width, "y": y * self.height,
                                         "width": self.width, "height": self.height}
                             img_result.append(img_info)

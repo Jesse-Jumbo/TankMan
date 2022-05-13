@@ -4,7 +4,7 @@ vec = pygame.math.Vector2
 
 
 class Bullet(pygame.sprite.Sprite):
-    def __init__(self, player_no: int, center: tuple, rot: int):
+    def __init__(self, _id: int, center: tuple, rot: int):
         pygame.sprite.Sprite.__init__(self)
         self.rect = BULLET_SIZE.copy()
         self.rect.center = center
@@ -13,7 +13,7 @@ class Bullet(pygame.sprite.Sprite):
         self.hit_rect.height -= 2
         self.hit_rect.center = self.rect.center
         self.speed = 10
-        self._no = player_no
+        self._id = _id
         self.rot = rot
         self.angle = 3.14 / 180 * (self.rot + 90)
         self.move = {"left_up": vec(-self.speed, -self.speed), "right_up": vec(self.speed, -self.speed),
@@ -44,6 +44,6 @@ class Bullet(pygame.sprite.Sprite):
             self.kill()
 
     def get_image_data(self):
-        image_data = {"_id": "bullets", "x": self.rect.x, "y": self.rect.y,
+        image_data = {"id": "bullets", "x": self.rect.x, "y": self.rect.y,
                       "width": self.rect.width, "height": self.rect.height, "angle": self.angle}
         return image_data

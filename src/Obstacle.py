@@ -3,9 +3,9 @@ from .Props import Props
 
 
 class Obstacle(Props):
-    def __init__(self, id: int, x: int, y: int, width: int, height: int):
+    def __init__(self, _id: int, x: int, y: int, width: int, height: int):
         super().__init__(x, y, width, height)
-        self._id = id
+        self._id = _id
         self.lives = 5
         self.img_path_list = WALL_IMG_PATH_DICT
 
@@ -21,11 +21,11 @@ class Obstacle(Props):
         return self.rect.x, self.rect.y
 
     def get_info(self):
-        info = {"_id": self._id, "x": self.rect.x, "y": self.rect.y, "lives": self.lives}
+        info = {"id": f"wall_{self._id}.{self.lives}", "x": self.rect.x, "y": self.rect.y, "lives": self.lives}
         return info
 
     def get_image_data(self):
         if self.lives > 0:
             super().get_image_data()
-            self.image_data["_id"] = f"wall_{self.lives}"
+            self.image_data["id"] = f"wall_{self._id}.{self.lives}"
             return self.image_data

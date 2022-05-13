@@ -92,11 +92,11 @@ MENU_SND = 'MenuTheme.ogg/.wav/.mp3'
 """image url"""
 PLAYER_URL = {"1P": "https://github.com/Jesse-Jumbo/TankMan/blob/main/asset/image/player_1P.png",
               "2P": "https://github.com/Jesse-Jumbo/TankMan/blob/main/asset/image/player_2P.png"}
-WALL_URL = {3.5: "https://github.com/Jesse-Jumbo/TankMan/blob/main/asset/image/wall_3.5.png",
-            3.4: "https://github.com/Jesse-Jumbo/TankMan/blob/main/asset/image/wall_3.4.png",
-            3.3: "https://github.com/Jesse-Jumbo/TankMan/blob/main/asset/image/wall_3.3png",
-            3.2: "https://github.com/Jesse-Jumbo/TankMan/blob/main/asset/image/wall_3.2.png",
-            3.1: "https://github.com/Jesse-Jumbo/TankMan/blob/main/asset/image/wall_3.1.png"}
+WALL_URL = {"3.5": "https://github.com/Jesse-Jumbo/TankMan/blob/main/asset/image/wall_3.5.png",
+            "3.4": "https://github.com/Jesse-Jumbo/TankMan/blob/main/asset/image/wall_3.4.png",
+            "3.3": "https://github.com/Jesse-Jumbo/TankMan/blob/main/asset/image/wall_3.3png",
+            "3.2": "https://github.com/Jesse-Jumbo/TankMan/blob/main/asset/image/wall_3.2.png",
+            "3.1": "https://github.com/Jesse-Jumbo/TankMan/blob/main/asset/image/wall_3.1.png"}
 OIL_URL = {1: "https://github.com/Jesse-Jumbo/TankMan/blob/main/asset/image/oil_1.png",
            2: "https://github.com/Jesse-Jumbo/TankMan/blob/main/asset/image/oil_2.png",
            3: "https://github.com/Jesse-Jumbo/TankMan/blob/main/asset/image/oil_3.png", }
@@ -106,10 +106,13 @@ BULLETS_URL = {1: "https://github.com/Jesse-Jumbo/TankMan/blob/main/asset/image/
 BULLET_URL = "https://github.com/Jesse-Jumbo/TankMan/blob/main/asset/image/bullet.png"
 
 """image path"""
-PLAYER_IMG_PATH_LIST = [path.join(IMAGE_DIR, "player_1P.png"), path.join(IMAGE_DIR, "player_2P.png")]
+PLAYER_IMG_PATH_DICT = {}
+for i in range(1, 3):
+    PLAYER_IMG_PATH_DICT[f"{i}P"] = path.join(IMAGE_DIR, f"player_{i}P.png")
 WALL_IMG_PATH_DICT = {}
-for key, value in WALL_URL:
-    WALL_IMG_PATH_DICT[key] = value
+for i in range(5, 0, -1):
+    key = f"3.{i}"
+    WALL_IMG_PATH_DICT[key] = path.join(IMAGE_DIR, f"wall_{key}.png")
 BULLET_IMG_PATH = path.join(IMAGE_DIR, "bullet.png")
 
 BULLET_STATION_IMG_PATH_LIST = []

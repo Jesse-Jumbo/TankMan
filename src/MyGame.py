@@ -60,7 +60,7 @@ class GameFramework(PaiaGame):
 
         images_init_data = self.game_mode.create_init_image_data()
         for image_init_data in images_init_data:
-            obj_init = create_asset_init_data(image_init_data["_id"], image_init_data["width"],
+            obj_init = create_asset_init_data(image_init_data["id"], image_init_data["width"],
                                               image_init_data["height"],
                                               image_init_data["path"], image_init_data["url"])
             game_info["assets"].append(obj_init)
@@ -82,7 +82,7 @@ class GameFramework(PaiaGame):
 
         images_data = self.game_mode.draw_sprite_data()
         for image_data in images_data:
-            obj = create_image_view_data(image_data["_id"], image_data["x"], image_data["y"],
+            obj = create_image_view_data(image_data["id"], image_data["x"], image_data["y"],
                                          image_data["width"], image_data["height"], image_data["angle"])
             game_progress["object_list"].append(obj)
 

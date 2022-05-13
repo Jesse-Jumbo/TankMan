@@ -9,10 +9,9 @@ vec = pygame.math.Vector2
 
 
 class TankPlayer(Player):
-    def __init__(self, _no: int, x: int, y: int, width: int, height: int):
-        super().__init__(_no, x, y, width, height)
-        self.image_id = f"player_{self._no}P"
-        self.img_path = PLAYER_IMG_PATH_LIST[self._no - 1]
+    def __init__(self, _id: int, _no: int, x: int, y: int, width: int, height: int):
+        super().__init__(_id, _no, x, y, width, height)
+        self._id = _id
         self.surface = pygame.Surface((width, height))
         self.speed = PLAYER_SPEED
         self.angle = 0
@@ -60,7 +59,7 @@ class TankPlayer(Player):
         self.rect.center = origin_center
 
     def create_shoot_info(self):
-        shoot_info = {"player_no": self._no, "center_pos": self.rect.center, "rot": self.rot}
+        shoot_info = {"id": self._id, "center_pos": self.rect.center, "rot": self.rot}
         return shoot_info
 
     def act(self, commands: str):
@@ -88,7 +87,7 @@ class TankPlayer(Player):
                 self.is_shoot = True
 
     def forward(self):
-        if self._no != 1:
+        if self._id != 1:
             rot = self.rot - 180
         else:
             rot = self.rot
@@ -110,7 +109,7 @@ class TankPlayer(Player):
             self.rect.center += self.move["left_down"]
 
     def backward(self):
-        if self._no != 1:
+        if self._id != 1:
             rot = self.rot - 180
         else:
             rot = self.rot
@@ -151,7 +150,7 @@ class TankPlayer(Player):
             self.reset()
 
     def get_info(self):
-        info = {"player_id": f"{self._no}P",
+        info = {"id": f"{self._id}P",
                 "x": self.rect.x,
                 "y": self.rect.y,
                 "speed": self.speed,

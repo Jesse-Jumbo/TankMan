@@ -8539,7 +8539,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "TankManMap",
+					"name": "TiledMap",
 					"ownedElements": [
 						{
 							"_type": "UMLGeneralization",

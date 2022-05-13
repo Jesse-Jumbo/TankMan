@@ -25,27 +25,27 @@ class TankBattleMode(BattleMode):
         players = self.map.create_obj_init_data(PLAYER_IMG_NO_LIST)
         # TODO how better
         for player in players:
-            if player["_id"] == 1:
-                self.player_1P = TankPlayer(1, player["x"], player["y"], player["width"], player["height"])
+            if player["id"] == 1:
+                self.player_1P = TankPlayer(player['id'], player["_no"], player["x"], player["y"], player["width"], player["height"])
             else:
-                self.player_2P = TankPlayer(2, player["x"], player["y"], player["width"], player["height"])
+                self.player_2P = TankPlayer(player['id'], player["_no"], player["x"], player["y"], player["width"], player["height"])
         self.players.add(self.player_1P, self.player_2P)
         # init walls
         walls = self.map.create_obj_init_data(WALL_IMG_NO_LIST)
         for wall in walls:
-            self.walls.add(Obstacle(wall["_id"] + 0.1, wall["x"], wall["y"], wall["width"], wall["height"]))
+            self.walls.add(Obstacle(wall['id'], wall["x"], wall["y"], wall["width"], wall["height"]))
         self.all_sprites.add(self.walls)
         # init bullet stations
         bullet_stations = self.map.create_obj_init_data(BULLET_STATION_IMG_NO_LIST)
         for bullet_station in bullet_stations:
-            self.bullet_stations.add(Station(bullet_station["_id"],
+            self.bullet_stations.add(Station(bullet_station["id"],
                                              bullet_station["x"], bullet_station["y"],
                                              bullet_station["width"], bullet_station["height"], 10, 5))
         self.all_sprites.add(self.bullet_stations)
         # init oil stations
         oil_stations = self.map.create_obj_init_data(OIL_STATION_IMG_NO_LIST)
         for oil_station in oil_stations:
-            self.oil_stations.add(Station(oil_station["_id"],
+            self.oil_stations.add(Station(oil_station["id"],
                                           oil_station["x"], oil_station["y"],
                                           oil_station["width"], oil_station["height"], 100, 1))
         self.all_sprites.add(self.oil_stations)
@@ -112,7 +112,7 @@ class TankBattleMode(BattleMode):
             collide_with_bullets(wall, self.bullets)
 
     def create_bullet(self, shoot_info):
-        bullet = Bullet(shoot_info["player_no"], shoot_info["center_pos"], shoot_info["rot"])
+        bullet = Bullet(shoot_info["id"], shoot_info["center_pos"], shoot_info["rot"])
         self.bullets.add(bullet)
         self.all_sprites.add(bullet)
 
@@ -122,12 +122,12 @@ class TankBattleMode(BattleMode):
         for oil_station in self.oil_stations:
             if isinstance(oil_station, Station):
                 oil_station_image_data = oil_station.get_image_data()
-                oil_station_image_data["_id"] = f"oil_station_{oil_station._no}"
+                oil_station_image_data["id"] = f"oil_station_{oil_station._no}"
                 all_sprite_data.append(oil_station_image_data)
         for bullet_station in self.bullet_stations:
             if isinstance(bullet_station, Station):
                 bullet_station_image_data = bullet_station.get_image_data()
-                bullet_station_image_data["_id"] = f"bullet_station_{bullet_station._no}"
+                bullet_station_image_data["id"] = f"bullet_station_{bullet_station._no}"
                 all_sprite_data.append(bullet_station_image_data)
         for bullet in self.bullets:
             if isinstance(bullet, Bullet):
@@ -154,18 +154,14 @@ class TankBattleMode(BattleMode):
             c += 1
             all_init_image_data.append(self.data_creator.create_image_init_data(f"bullet_station_{c}", TILE_X_SIZE,
                                                                                 TILE_Y_SIZE, img_path, BULLETS_URL[c]))
-        c = 5
-        for img_path in WALL_IMG_PATH_DICT:
-            all_init_image_data.append(self.data_creator.create_image_init_data(f"wall_{c}", TILE_X_SIZE, TILE_Y_SIZE,
-                                                                                img_path, WALL_URL[c]))
-            c -= 1
+        for _id, img_path in WALL_IMG_PATH_DICT.items():
+            all_init_image_data.append(self.data_creator.create_image_init_data(f"wall_{_id}", TILE_X_SIZE, TILE_Y_SIZE,
+                                                                                img_path, WALL_URL[_id]))
         all_init_image_data.append(self.data_creator.create_image_init_data("bullets", TILE_X_SIZE, TILE_Y_SIZE,
                                                                             BULLET_IMG_PATH, BULLET_URL))
-        c = 1
-        for img_path in PLAYER_IMG_PATH_LIST:
-            all_init_image_data.append(self.data_creator.create_image_init_data(f"{c}P", TILE_X_SIZE, TILE_Y_SIZE,
-                                                                                img_path, PLAYER_URL[f"{c}P"]))
-            c += 1
+        for _id, img_path in PLAYER_IMG_PATH_DICT.items():
+            all_init_image_data.append(self.data_creator.create_image_init_data(_id, TILE_X_SIZE, TILE_Y_SIZE,
+                                                                                img_path, PLAYER_URL[_id]))
 
         return all_init_image_data
 
@@ -225,14 +221,14 @@ class TankBattleMode(BattleMode):
                 for bullet_station in self.bullet_stations:
                     if isinstance(bullet_station, Station):
                         bullet_station_info = bullet_station.get_info()
-                        bullet_station_info["_id"] = "bullet_station"
+                        bullet_station_info["id"] = "bullet_station"
                         bullet_stations_info.append(bullet_station_info)
                 info["bullet_stations_info"] = bullet_stations_info
                 oil_stations_info = []
                 for oil_station in self.oil_stations:
                     if isinstance(oil_station, Station):
                         oil_station_info = oil_station.get_info()
-                        oil_station_info["_id"] = "oil_station"
+                        oil_station_info["id"] = "oil_station"
                         oil_stations_info.append(oil_station_info)
                 info["oil_stations_info"] = oil_stations_info
 

@@ -20,13 +20,13 @@ class Props(pygame.sprite.Sprite):
         """
         add all required information for player training
 
-        info = {"_id": "", "x": 0, "y": 0}
+        info = {"id": f"{self.id}", "x": 0, "y": 0}
         """
 
     def get_size(self):
         return self.rect.width, self.rect.height
 
     def get_image_data(self):
-        self.image_data = {"_id": "", "x": self.rect.x, "y": self.rect.y, "width": self.get_size()[0],
+        self.image_data = {"id": f"", "x": self.rect.x, "y": self.rect.y, "width": self.get_size()[0],
                            "height": self.get_size()[1], "angle": 0}
 

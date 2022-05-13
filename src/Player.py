@@ -4,8 +4,9 @@ vec = pygame.math.Vector2
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, _no: int, x: int, y: int, width: int, height: int):
+    def __init__(self, _id: int, _no: int, x: int, y: int, width: int, height: int):
         super().__init__()
+        self._id = _id
         self._no = _no
         self.rect = pygame.Rect(x, y, width, height)
         self.origin_center = self.rect.center
@@ -34,9 +35,9 @@ class Player(pygame.sprite.Sprite):
         """
         add all player information
 
-        info = {"_id": "", "x": 0, "y": 0}
+        info = {"id": "", "x": 0, "y": 0}
         """
-        info = {"_id": "", "x": 0, "y": 0}
+        info = {"id": f"{self._id}P", "x": 0, "y": 0}
         return info
 
     def collide_with_walls(self):
@@ -52,5 +53,5 @@ class Player(pygame.sprite.Sprite):
         self.rect.center = self.origin_center
 
     def get_image_data(self):
-        self.image_data = {"_id": f"{self._no}P", "x": self.rect.x, "y": self.rect.y,
+        self.image_data = {"id": f"{self._id}P", "x": self.rect.x, "y": self.rect.y,
                            "width": self.get_origin_size()[0], "height": self.get_origin_size()[1], "angle": 0}

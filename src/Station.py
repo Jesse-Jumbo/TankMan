@@ -31,7 +31,7 @@ class Station(Props):
         return power
 
     def get_info(self):
-        info = {"_id": "", "x": self.rect.x, "y": self.rect.y, "power": self.power}
+        info = {"id": "", "x": self.rect.x, "y": self.rect.y, "power": self.power}
         return info
 
     def get_image_data(self):

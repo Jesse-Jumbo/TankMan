@@ -19,10 +19,10 @@ class BattleMode(GameMode):
         players = self.map.create_obj_init_data(PLAYER_IMG_NO_LIST)
         # TODO how better
         for player in players:
-            if player["_id"] == 1:
-                self.player_1P = Player(1, player["x"], player["y"], player["width"], player["height"])
+            if player["id"] == 1:
+                self.player_1P = Player(player['id'], player["_no"], player["x"], player["y"], player["width"], player["height"])
             else:
-                self.player_2P = Player(2, player["x"], player["y"], player["width"], player["height"])
+                self.player_2P = Player(player['id'], player["_no"], player["x"], player["y"], player["width"], player["height"])
         self.players.add(self.player_1P, self.player_2P)
 
     def get_result(self) -> list:
@@ -80,11 +80,9 @@ class BattleMode(GameMode):
 
     def create_init_image_data(self):
         all_init_image_data = []
-        c = 1
-        for img_path in PLAYER_IMG_PATH_LIST:
-            all_init_image_data.append(self.data_creator.create_image_init_data(f"{c}P", TILE_X_SIZE, TILE_Y_SIZE,
-                                                                                img_path, PLAYER_URL[f"{c}P"]))
-            c += 1
+        for _id, img_path in PLAYER_IMG_PATH_DICT.items():
+            all_init_image_data.append(self.data_creator.create_image_init_data(_id, TILE_X_SIZE, TILE_Y_SIZE,
+                                                                                img_path, PLAYER_URL[_id]))
 
         return all_init_image_data
 
@@ -122,6 +120,6 @@ class BattleMode(GameMode):
                 info = player.get_info()
                 info["used_frame"] = self.used_frame
                 info["status"] = self.status
-                to_player_data[f"{player._no}P"] = info
+                to_player_data[f"{player._id}P"] = info
 
         return to_player_data

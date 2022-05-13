@@ -1,6 +1,6 @@
 class DataCreator:
     def __init__(self):
-        self._id = "_id"
+        self.id = "id"
         self.x = "x"
         self.y = "y"
         self.width = "width"
@@ -14,10 +14,10 @@ class DataCreator:
 
     # 不確定是否要存在
     def create_image_progress_data(self, _id: str, x: int, y: int, width: int, height: int, angle: 0):
-        return {self._id: _id, self.x: x, self.y: y, self.width: width, self.height: height, self.angle: angle}
+        return {self.id: _id, self.x: x, self.y: y, self.width: width, self.height: height, self.angle: angle}
 
     def create_image_init_data(self, _id: str, width: int, height: int, path: str, url: str):
-        return {self._id: _id, self.width: width, self.height: height, self.path: path, self.url: url}
+        return {self.id: _id, self.width: width, self.height: height, self.path: path, self.url: url}
 
     def create_text_data(self, content: str, x: int, y: int, color: str, font_style: str):
-        return {"content": content, self.x: x, self.y: y, self.color: color, self.font_style: font_style}
+        return {self.content: content, self.x: x, self.y: y, self.color: color, self.font_style: font_style}

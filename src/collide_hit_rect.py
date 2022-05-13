@@ -17,7 +17,7 @@ def collide_with_walls(sprite: pygame.sprite.Sprite, group: pygame.sprite.Group)
 def collide_with_bullets(sprite: pygame.sprite.Sprite, group: pygame.sprite.Group):
     hits = pygame.sprite.spritecollide(sprite, group, False, collide_hit_rect)
     for hit in hits:
-        if hit._no != sprite._no:
+        if hit._id != sprite._id:
             hit.kill()
             sprite.collide_with_bullets()
 
