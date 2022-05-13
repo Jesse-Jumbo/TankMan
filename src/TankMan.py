@@ -1,6 +1,6 @@
 from mlgame.view.view_model import Scene
 from .TankBattleMode import TankBattleMode
-from .GameFramework import GameFramework
+from .MyGame import GameFramework
 from .sound_controller import *
 
 '''need some fuction same as arkanoid which without dash in the name of fuction'''

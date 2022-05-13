@@ -12,20 +12,18 @@ class BattleMode(GameMode):
         super().__init__(map_path, time_limit, is_sound)
         # control variables
         self.is_debug = False
-        self.is_invincible = True
-        self.is_through_wall = True
         # initialize sprites group
         self.players = pygame.sprite.Group()
 
         # init players
-        players = self.map.create_img_init_data(PLAYER_IMG_NO_LIST)
+        players = self.map.create_obj_init_data(PLAYER_IMG_NO_LIST)
+        # TODO how better
         for player in players:
             if player["_id"] == 1:
                 self.player_1P = Player(1, player["x"], player["y"], player["width"], player["height"])
             else:
                 self.player_2P = Player(2, player["x"], player["y"], player["width"], player["height"])
-        self.players.add(self.player_1P)
-        self.players.add(self.player_2P)
+        self.players.add(self.player_1P, self.player_2P)
 
     def get_result(self) -> list:
         res = [{"1P": self.player_1P.get_info()},
@@ -50,17 +48,19 @@ class BattleMode(GameMode):
         else:
             self.status = GameStatus.GAME_OVER
             self.state = GameResultState.FAIL
-        super().reset()
 
     def check_events(self):
-        # 要能邊前進邊射擊
-        cmd_1P = ""
-        cmd_2P = ""
-
+        """
+        Define the action represented by the key
+        (1) press to execute
         key_pressed_list = pygame.key.get_pressed()
-
+        (2)
+        get key to execute
         for even in pygame.event.get():
             pass
+        """
+        cmd_1P = ""
+        cmd_2P = ""
 
         return {"1P": cmd_1P, "2P": cmd_2P}
 
@@ -68,6 +68,9 @@ class BattleMode(GameMode):
         pass
 
     def draw_sprite_data(self):
+        """
+        Draw pictures in the order in which they were added
+        """
         all_sprite_data = []
         for player in self.players:
             if isinstance(player, Player):
@@ -113,7 +116,6 @@ class BattleMode(GameMode):
 
     def create_game_data_to_player(self):
         to_player_data = {}
-        scene_info = self.create_scene_info()
         for player in self.players:
             if isinstance(player, Player):
                 info = player.get_info()

@@ -9,7 +9,7 @@ class TankManMap:
         self.height = tm.tileheight
         self.tmx_data = tm
 
-    def create_img_init_data(self, img_no_list: list):
+    def create_obj_init_data(self, img_no_list: list):
         img_result = []
         obj_no = 0
         for layer in self.tmx_data.visible_layers:

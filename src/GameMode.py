@@ -40,13 +40,16 @@ class GameMode:
                 self.reset()
 
     def reset(self):
-        return self.status, self.state
+        """
+        Determine the game result state and status
+        """
 
     def check_events(self):
         """
         add all key events
         """
-        return ""
+        cmd_1P = ""
+        return {"1P": cmd_1P}
 
     def check_collisions(self):
         pass
@@ -62,6 +65,7 @@ class GameMode:
 
     def draw_sprite_data(self):
         """
+        Draw pictures in the order in which they were added
         all_sprite_data = [{"_id": "", "x": 0, "y": 0, "width": 0, "height": 0, "angle": 0}]
         """
         all_sprite_data = [{"_id": "", "x": 0, "y": 0, "width": 0, "height": 0, "angle": 0}]

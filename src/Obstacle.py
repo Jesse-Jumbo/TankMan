@@ -1,8 +1,8 @@
 from .env import WALL_IMG_PATH_LIST
-from .Prop import Prop
+from .Props import Props
 
 
-class Obstacle(Prop):
+class Obstacle(Props):
     def __init__(self, no: int, x: int, y: int, width: int, height: int):
         super().__init__(x, y, width, height)
         self._no = no

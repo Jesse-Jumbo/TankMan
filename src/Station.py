@@ -1,8 +1,8 @@
 from .env import FPS
-from games.TankMan.src.Prop import Prop
+from games.TankMan.src.Props import Props
 
 
-class Station(Prop):
+class Station(Props):
     def __init__(self, _id: int, x: int, y: int, width: int, height: int, capacity: int, cooldown):
         super().__init__(x, y, width, height)
         self._id = _id

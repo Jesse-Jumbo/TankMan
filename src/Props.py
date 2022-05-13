@@ -1,7 +1,7 @@
 import pygame
 
 
-class Prop(pygame.sprite.Sprite):
+class Props(pygame.sprite.Sprite):
     def __init__(self, x: int, y: int, width: int, height: int):
         super().__init__()
         self.rect = pygame.Rect(x, y, width, height)
