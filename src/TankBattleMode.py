@@ -38,14 +38,14 @@ class TankBattleMode(BattleMode):
         # init bullet stations
         bullet_stations = self.map.create_obj_init_data(BULLET_STATION_IMG_NO_LIST)
         for bullet_station in bullet_stations:
-            self.bullet_stations.add(Station(bullet_station["id"],
+            self.bullet_stations.add(Station(bullet_station["id"], 3,
                                              bullet_station["x"], bullet_station["y"],
                                              bullet_station["width"], bullet_station["height"], 10, 5))
         self.all_sprites.add(self.bullet_stations)
         # init oil stations
         oil_stations = self.map.create_obj_init_data(OIL_STATION_IMG_NO_LIST)
         for oil_station in oil_stations:
-            self.oil_stations.add(Station(oil_station["id"],
+            self.oil_stations.add(Station(oil_station["id"], 3,
                                           oil_station["x"], oil_station["y"],
                                           oil_station["width"], oil_station["height"], 100, 1))
         self.all_sprites.add(self.oil_stations)
@@ -122,12 +122,10 @@ class TankBattleMode(BattleMode):
         for oil_station in self.oil_stations:
             if isinstance(oil_station, Station):
                 oil_station_image_data = oil_station.get_image_data()
-                oil_station_image_data["id"] = f"oil_station_{oil_station._no}"
                 all_sprite_data.append(oil_station_image_data)
         for bullet_station in self.bullet_stations:
             if isinstance(bullet_station, Station):
                 bullet_station_image_data = bullet_station.get_image_data()
-                bullet_station_image_data["id"] = f"bullet_station_{bullet_station._no}"
                 all_sprite_data.append(bullet_station_image_data)
         for bullet in self.bullets:
             if isinstance(bullet, Bullet):
@@ -144,24 +142,20 @@ class TankBattleMode(BattleMode):
 
     def create_init_image_data(self):
         all_init_image_data = []
-        c = 0
-        for img_path in OIL_STATION_IMG_PATH_LIST:
-            c += 1
-            all_init_image_data.append(self.data_creator.create_image_init_data(f"oil_station_{c}", TILE_X_SIZE,
-                                                                                TILE_Y_SIZE, img_path, OIL_URL[c]))
-        c = 0
-        for img_path in BULLET_STATION_IMG_PATH_LIST:
-            c += 1
-            all_init_image_data.append(self.data_creator.create_image_init_data(f"bullet_station_{c}", TILE_X_SIZE,
-                                                                                TILE_Y_SIZE, img_path, BULLETS_URL[c]))
+        for _id, img_path in OIL_STATION_IMG_PATH_DICT.items():
+            all_init_image_data.append(self.data_creator.create_image_init_data(f"oil_station_{_id}", TILE_X_SIZE,
+                                                                                TILE_Y_SIZE, img_path, OIL_URL[_id]))
+        for _id, img_path in BULLET_STATION_IMG_PATH_DICT.items():
+            all_init_image_data.append(self.data_creator.create_image_init_data(f"bullet_station_{_id}", TILE_X_SIZE,
+                                                                                TILE_Y_SIZE, img_path, BULLETS_URL[_id]))
         for _id, img_path in WALL_IMG_PATH_DICT.items():
             all_init_image_data.append(self.data_creator.create_image_init_data(f"wall_{_id}", TILE_X_SIZE, TILE_Y_SIZE,
                                                                                 img_path, WALL_URL[_id]))
         all_init_image_data.append(self.data_creator.create_image_init_data("bullets", TILE_X_SIZE, TILE_Y_SIZE,
                                                                             BULLET_IMG_PATH, BULLET_URL))
-        for _id, img_path in PLAYER_IMG_PATH_DICT.items():
-            all_init_image_data.append(self.data_creator.create_image_init_data(_id, TILE_X_SIZE, TILE_Y_SIZE,
-                                                                                img_path, PLAYER_URL[_id]))
+        for id, img_path in PLAYER_IMG_PATH_DICT.items():
+            all_init_image_data.append(self.data_creator.create_image_init_data(id, TILE_X_SIZE, TILE_Y_SIZE,
+                                                                                img_path, PLAYER_URL[id]))
 
         return all_init_image_data
 
