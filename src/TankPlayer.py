@@ -12,6 +12,7 @@ class TankPlayer(Player):
     def __init__(self, _id: int, _no: int, x: int, y: int, width: int, height: int):
         super().__init__(_id, _no, x, y, width, height)
         self._id = _id
+        self.origin_size = (width, height)
         self.surface = pygame.Surface((width, height))
         self.speed = 8
         self.angle = 0
@@ -32,8 +33,7 @@ class TankPlayer(Player):
         self.is_backward = False
         self.is_alive = True
 
-    def update(self, commands: str):
-        super().update(commands)
+    def player_update(self):
         self.rotate()
         if self.power > 10:
             self.power = 10
@@ -163,6 +163,6 @@ class TankPlayer(Player):
         return info
 
     def get_image_data(self):
-        super().get_image_data()
-        self.image_data["angle"] = self.angle
-        return self.image_data
+        image_data = {"id": f"{self._id}P", "x": self.rect.x, "y": self.rect.y,
+                      "width": self.origin_size[0], "height": self.origin_size[1], "angle": self.angle}
+        return image_data

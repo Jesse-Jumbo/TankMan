@@ -24,33 +24,32 @@ class TankBattleMode(BattleMode):
         players = self.map.create_obj_init_data(PLAYER_IMG_NO_LIST)
         # TODO how better
         for player in players:
-            if player["id"] == 1:
-                self.player_1P = TankPlayer(player['id'], player["_no"], player["x"], player["y"], player["width"], player["height"])
+            if player["_id"] == 1:
+                self.player_1P = TankPlayer(player['_id'], player["_no"], player["x"], player["y"], player["width"], player["height"])
             else:
-                self.player_2P = TankPlayer(player['id'], player["_no"], player["x"], player["y"], player["width"], player["height"])
+                self.player_2P = TankPlayer(player['_id'], player["_no"], player["x"], player["y"], player["width"], player["height"])
         self.players.add(self.player_1P, self.player_2P)
         # init walls
         walls = self.map.create_obj_init_data(WALL_IMG_NO_LIST)
         for wall in walls:
-            self.walls.add(TankWall(wall['id'], wall["x"], wall["y"], wall["width"], wall["height"]))
+            self.walls.add(TankWall(wall['_id'], wall["x"], wall["y"], wall["width"], wall["height"]))
         self.all_sprites.add(self.walls)
         # init bullet stations
         bullet_stations = self.map.create_obj_init_data(BULLET_STATION_IMG_NO_LIST)
         for bullet_station in bullet_stations:
-            self.bullet_stations.add(TankStation(bullet_station["id"], 3,
+            self.bullet_stations.add(TankStation(bullet_station["_id"], 3,
                                                  bullet_station["x"], bullet_station["y"],
                                                  bullet_station["width"], bullet_station["height"], 10, 5))
         self.all_sprites.add(self.bullet_stations)
         # init oil stations
         oil_stations = self.map.create_obj_init_data(OIL_STATION_IMG_NO_LIST)
         for oil_station in oil_stations:
-            self.oil_stations.add(TankStation(oil_station["id"], 3,
+            self.oil_stations.add(TankStation(oil_station["_id"], 3,
                                               oil_station["x"], oil_station["y"],
                                               oil_station["width"], oil_station["height"], 100, 1))
         self.all_sprites.add(self.oil_stations)
 
-    def update(self, command: dict):
-        super().update(command)
+    def game_update(self, command: dict):
         if not self.is_paused:
             if self.player_1P.is_shoot:
                 shoot_info = self.player_1P.create_shoot_info()
@@ -64,7 +63,7 @@ class TankBattleMode(BattleMode):
                 self.player_2P.is_shoot = False
 
     def check_events(self):
-        # 要能邊前進邊射擊
+        # TODO 要能邊前進邊射擊
         cmd_1P = ""
         cmd_2P = ""
 

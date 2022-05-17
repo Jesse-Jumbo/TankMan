@@ -63,7 +63,7 @@
 											"top": 15,
 											"width": 394.18310546875,
 											"height": 13,
-											"text": "GameMode"
+											"text": "SingleMode"
 										},
 										{
 											"_type": "LabelView",
@@ -4057,7 +4057,7 @@
 											"top": 15,
 											"width": 139.08984375,
 											"height": 13,
-											"text": "Player"
+											"text": "PacPlayer"
 										},
 										{
 											"_type": "LabelView",
@@ -7147,7 +7147,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "GameMode",
+					"name": "SingleMode",
 					"ownedElements": [
 						{
 							"_type": "UMLAssociation",
@@ -9220,7 +9220,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Player",
+					"name": "PacPlayer",
 					"attributes": [
 						{
 							"_type": "UMLAttribute",
