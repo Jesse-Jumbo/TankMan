@@ -26,15 +26,15 @@
      showgrid="false"
      inkscape:snap-bbox="true"
      inkscape:snap-bbox-midpoints="false"
-     inkscape:zoom="2.8284271"
-     inkscape:cx="687.83812"
-     inkscape:cy="511.2382"
-     inkscape:window-width="1920"
-     inkscape:window-height="1001"
-     inkscape:window-x="-9"
-     inkscape:window-y="41"
+     inkscape:zoom="2"
+     inkscape:cx="689.75"
+     inkscape:cy="474"
+     inkscape:window-width="2400"
+     inkscape:window-height="1271"
+     inkscape:window-x="2391"
+     inkscape:window-y="-9"
      inkscape:window-maximized="1"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="g4259"
      inkscape:bbox-nodes="false"
      inkscape:snap-bbox-edge-midpoints="false"
      inkscape:bbox-paths="false"
@@ -851,8 +851,8 @@
     </g>
     <g
        id="g48"
-       transform="matrix(3.6672689,0,0,3.6666839,210.14189,-3655.8701)"
-       inkscape:export-filename="C:\Users\Jesse\Documents\PAIA\MLGame\games\TankMan\asset\image\bullet_station.png"
+       transform="matrix(3.6672689,0,0,3.6666839,212.38695,-3644.3641)"
+       inkscape:export-filename="C:\Users\Jesse\Documents\PAIA\MLGame\games\TankMan\asset\image\bullets_2png.png"
        inkscape:export-xdpi="96"
        inkscape:export-ydpi="96">
       <g
@@ -980,40 +980,43 @@
        inkscape:export-filename="C:\Users\Jesse\Documents\PAIA\MLGame\games\TankMan\asset\image\oil_3.png"
        inkscape:export-xdpi="96"
        inkscape:export-ydpi="96">
-      <path
-         d="m 242.33207,140.98623 a 7.9375,7.9362338 0 1 1 -15.875,0 7.9375,7.9362338 0 1 1 15.875,0 z"
-         id="path4245"
-         style="fill:#1c191e;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.661405" />
-      <path
-         d="m 241.00915,140.98623 a 6.6145836,6.6135285 0 1 1 -13.22916,0 6.6145836,6.6135285 0 1 1 13.22916,0 z"
-         id="path4247"
-         style="fill:#6a1088;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.551172" />
-      <path
-         d="m 234.39457,135.69557 c -2.49699,0 -4.59041,1.72481 -5.14697,4.05059 l 5.14697,6.5311 5.14697,-6.5311 c -0.55656,-2.32578 -2.64998,-4.05059 -5.14697,-4.05059 z"
-         id="path4249"
-         style="fill:#1c191e;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.661405" />
-      <path
-         d="m 234.39457,137.01815 c -1.81113,0 -3.32725,1.21513 -3.80339,2.87284 l 3.80339,5.06333 3.80338,-5.06333 c -0.47613,-1.65771 -1.99225,-2.87284 -3.80338,-2.87284 z"
-         id="path4251"
-         style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.661405" />
-      <path
-         d="m 234.39457,138.34072 c -1.81113,0 -3.32725,1.21514 -3.80339,2.87285 l 0.35141,0.47556 c 0.67714,-1.21 1.96549,-2.02547 3.45198,-2.02547 1.48649,0 2.77484,0.81547 3.45198,2.02547 l 0.3514,-0.47556 c -0.47613,-1.65771 -1.99225,-2.87285 -3.80338,-2.87285 z"
-         id="path4253"
-         style="fill:#1c191e;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.661405" />
-      <path
-         d="m 234.39457,140.98623 c -1.22913,0 -2.31405,0.56907 -3.03857,1.44687 l 0.57877,0.72344 c 0.67341,-0.5346 1.53074,-0.84737 2.4598,-0.84737 0.92906,0 1.78638,0.31167 2.4598,0.84737 l 0.57877,-0.72344 c -0.72453,-0.8778 -1.80945,-1.44687 -3.03857,-1.44687 z"
-         id="path4255"
-         style="fill:#1c191e;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.661405" />
-      <path
-         d="m 234.39457,143.63174 c -0.63086,0 -1.22875,0.15034 -1.757,0.41324 l 0.82682,1.03327 c 0.30057,-0.0733 0.60687,-0.12467 0.93018,-0.12467 0.32965,0 0.64506,0.044 0.95085,0.12467 l 0.80615,-1.01237 c -0.52888,-0.26767 -1.12199,-0.43414 -1.757,-0.43414 z"
-         id="path4257"
-         style="fill:#1c191e;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.661405" />
+      <g
+         id="g7544">
+        <path
+           d="m 242.33207,140.98623 a 7.9375,7.9362338 0 1 1 -15.875,0 7.9375,7.9362338 0 1 1 15.875,0 z"
+           id="path4245"
+           style="fill:#1c191e;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.661405" />
+        <path
+           d="m 241.00915,140.98623 a 6.6145836,6.6135285 0 1 1 -13.22916,0 6.6145836,6.6135285 0 1 1 13.22916,0 z"
+           id="path4247"
+           style="fill:#6a1088;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.551172" />
+        <path
+           d="m 234.39457,135.69557 c -2.49699,0 -4.59041,1.72481 -5.14697,4.05059 l 5.14697,6.5311 5.14697,-6.5311 c -0.55656,-2.32578 -2.64998,-4.05059 -5.14697,-4.05059 z"
+           id="path4249"
+           style="fill:#1c191e;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.661405" />
+        <path
+           d="m 234.39457,137.01815 c -1.81113,0 -3.32725,1.21513 -3.80339,2.87284 l 3.80339,5.06333 3.80338,-5.06333 c -0.47613,-1.65771 -1.99225,-2.87284 -3.80338,-2.87284 z"
+           id="path4251"
+           style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.661405" />
+        <path
+           d="m 234.39457,138.34072 c -1.81113,0 -3.32725,1.21514 -3.80339,2.87285 l 0.35141,0.47556 c 0.67714,-1.21 1.96549,-2.02547 3.45198,-2.02547 1.48649,0 2.77484,0.81547 3.45198,2.02547 l 0.3514,-0.47556 c -0.47613,-1.65771 -1.99225,-2.87285 -3.80338,-2.87285 z"
+           id="path4253"
+           style="fill:#1c191e;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.661405" />
+        <path
+           d="m 234.39457,140.98623 c -1.22913,0 -2.31405,0.56907 -3.03857,1.44687 l 0.57877,0.72344 c 0.67341,-0.5346 1.53074,-0.84737 2.4598,-0.84737 0.92906,0 1.78638,0.31167 2.4598,0.84737 l 0.57877,-0.72344 c -0.72453,-0.8778 -1.80945,-1.44687 -3.03857,-1.44687 z"
+           id="path4255"
+           style="fill:#1c191e;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.661405" />
+        <path
+           d="m 234.39457,143.63174 c -0.63086,0 -1.22875,0.15034 -1.757,0.41324 l 0.82682,1.03327 c 0.30057,-0.0733 0.60687,-0.12467 0.93018,-0.12467 0.32965,0 0.64506,0.044 0.95085,0.12467 l 0.80615,-1.01237 c -0.52888,-0.26767 -1.12199,-0.43414 -1.757,-0.43414 z"
+           id="path4257"
+           style="fill:#1c191e;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.661405" />
+      </g>
     </g>
     <g
-       id="g7328"
        inkscape:export-filename="C:\Users\Jesse\Documents\PAIA\MLGame\games\TankMan\asset\image\oil_1.png"
        inkscape:export-xdpi="96"
-       inkscape:export-ydpi="96">
+       inkscape:export-ydpi="96"
+       id="g7328">
       <path
          d="m 234.00662,141.07977 a 7.9375,7.9362338 0 1 1 -15.875,0 7.9375,7.9362338 0 1 1 15.875,0 z"
          id="path4261"

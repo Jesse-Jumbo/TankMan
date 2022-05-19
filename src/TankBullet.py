@@ -20,8 +20,7 @@ class TankBullet(Bullet):
                      "left": vec(-self.speed, 0), "right": vec(self.speed, 0), "up": vec(0, -self.speed),
                      "down": vec(0, self.speed)}
 
-    def update(self):
-        super().update()
+    def update_bullet(self):
         if self.rot == 0:
             self.rect.center += self.move["left"]
         elif self.rot == 315 or self.rot == -45:

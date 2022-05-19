@@ -63,7 +63,7 @@
 											"top": 15,
 											"width": 394.18310546875,
 											"height": 13,
-											"text": "SingleMode"
+											"text": "GameMode"
 										},
 										{
 											"_type": "LabelView",
@@ -673,7 +673,7 @@
 											"top": 391,
 											"width": 180.29248046875,
 											"height": 13,
-											"text": "BattleMode"
+											"text": "TankBattleMode"
 										},
 										{
 											"_type": "LabelView",
@@ -1057,7 +1057,7 @@
 											"top": 31,
 											"width": 318.5,
 											"height": 13,
-											"text": "GameFramework"
+											"text": "MyGame"
 										},
 										{
 											"_type": "LabelView",
@@ -1385,8 +1385,8 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 609,
-									"top": 364,
+									"left": 776,
+									"top": 314,
 									"height": 13,
 									"alpha": 1.5707963267948966,
 									"distance": 15,
@@ -1406,8 +1406,8 @@
 									},
 									"visible": null,
 									"font": "Arial;13;0",
-									"left": 595,
-									"top": 368,
+									"left": 764,
+									"top": 305,
 									"height": 13,
 									"alpha": 1.5707963267948966,
 									"distance": 30,
@@ -1427,8 +1427,8 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 638,
-									"top": 355,
+									"left": 799,
+									"top": 333,
 									"height": 13,
 									"alpha": -1.5707963267948966,
 									"distance": 15,
@@ -1440,13 +1440,13 @@
 							],
 							"font": "Arial;13;0",
 							"head": {
-								"$ref": "AAAAAAGAXjxqhKVg3/0="
+								"$ref": "AAAAAAGAux1Tbu7gIiM="
 							},
 							"tail": {
 								"$ref": "AAAAAAGAk4Bm7aZpz/0="
 							},
 							"lineStyle": 1,
-							"points": "629:383;619:349",
+							"points": "748:383;829:277",
 							"showVisibility": true,
 							"nameLabel": {
 								"$ref": "AAAAAAGAk5CJqcAubIk="
@@ -3453,7 +3453,7 @@
 											"top": 703,
 											"width": 288.6787109375,
 											"height": 13,
-											"text": "TankWall"
+											"text": "Obstacle"
 										},
 										{
 											"_type": "LabelView",
@@ -4057,7 +4057,7 @@
 											"top": 15,
 											"width": 139.08984375,
 											"height": 13,
-											"text": "PacPlayer"
+											"text": "Player"
 										},
 										{
 											"_type": "LabelView",
@@ -4674,7 +4674,7 @@
 											"top": 567,
 											"width": 246.04150390625,
 											"height": 13,
-											"text": "Props"
+											"text": "Prop"
 										},
 										{
 											"_type": "LabelView",
@@ -5579,7 +5579,7 @@
 											"top": 695,
 											"width": 289.40869140625,
 											"height": 13,
-											"text": "TankBullet"
+											"text": "Bullet"
 										},
 										{
 											"_type": "LabelView",
@@ -5912,7 +5912,7 @@
 											"top": 703,
 											"width": 341.43408203125,
 											"height": 13,
-											"text": "TankStation"
+											"text": "Station"
 										},
 										{
 											"_type": "LabelView",
@@ -7138,6 +7138,276 @@
 							"headQualifiersCompartment": {
 								"$ref": "AAAAAAGAt2yu7tgAudQ="
 							}
+						},
+						{
+							"_type": "UMLClassView",
+							"_id": "AAAAAAGAux1Tbu7gIiM=",
+							"_parent": {
+								"$ref": "AAAAAAFF+qBtyKM79qY="
+							},
+							"model": {
+								"$ref": "AAAAAAGAux1Tbe7ewXU="
+							},
+							"subViews": [
+								{
+									"_type": "UMLNameCompartmentView",
+									"_id": "AAAAAAGAux1Tbu7hkco=",
+									"_parent": {
+										"$ref": "AAAAAAGAux1Tbu7gIiM="
+									},
+									"model": {
+										"$ref": "AAAAAAGAux1Tbe7ewXU="
+									},
+									"subViews": [
+										{
+											"_type": "LabelView",
+											"_id": "AAAAAAGAux1Tbu7iqmA=",
+											"_parent": {
+												"$ref": "AAAAAAGAux1Tbu7hkco="
+											},
+											"visible": false,
+											"font": "Arial;13;0",
+											"left": 81.4150390625,
+											"top": -304,
+											"height": 13
+										},
+										{
+											"_type": "LabelView",
+											"_id": "AAAAAAGAux1Tb+7jxoQ=",
+											"_parent": {
+												"$ref": "AAAAAAGAux1Tbu7hkco="
+											},
+											"font": "Arial;13;1",
+											"left": 813,
+											"top": 239,
+											"width": 70.05908203125,
+											"height": 13,
+											"text": "BattleMode"
+										},
+										{
+											"_type": "LabelView",
+											"_id": "AAAAAAGAux1Tb+7kIqY=",
+											"_parent": {
+												"$ref": "AAAAAAGAux1Tbu7hkco="
+											},
+											"visible": false,
+											"font": "Arial;13;0",
+											"left": 81.4150390625,
+											"top": -304,
+											"width": 73.67724609375,
+											"height": 13,
+											"text": "(from Model)"
+										},
+										{
+											"_type": "LabelView",
+											"_id": "AAAAAAGAux1Tb+7lW9A=",
+											"_parent": {
+												"$ref": "AAAAAAGAux1Tbu7hkco="
+											},
+											"visible": false,
+											"font": "Arial;13;0",
+											"left": 81.4150390625,
+											"top": -304,
+											"height": 13,
+											"horizontalAlignment": 1
+										}
+									],
+									"font": "Arial;13;0",
+									"left": 808,
+									"top": 232,
+									"width": 80.05908203125,
+									"height": 25,
+									"stereotypeLabel": {
+										"$ref": "AAAAAAGAux1Tbu7iqmA="
+									},
+									"nameLabel": {
+										"$ref": "AAAAAAGAux1Tb+7jxoQ="
+									},
+									"namespaceLabel": {
+										"$ref": "AAAAAAGAux1Tb+7kIqY="
+									},
+									"propertyLabel": {
+										"$ref": "AAAAAAGAux1Tb+7lW9A="
+									}
+								},
+								{
+									"_type": "UMLAttributeCompartmentView",
+									"_id": "AAAAAAGAux1Tb+7mkiQ=",
+									"_parent": {
+										"$ref": "AAAAAAGAux1Tbu7gIiM="
+									},
+									"model": {
+										"$ref": "AAAAAAGAux1Tbe7ewXU="
+									},
+									"font": "Arial;13;0",
+									"left": 808,
+									"top": 257,
+									"width": 80.05908203125,
+									"height": 10
+								},
+								{
+									"_type": "UMLOperationCompartmentView",
+									"_id": "AAAAAAGAux1Tb+7nlpE=",
+									"_parent": {
+										"$ref": "AAAAAAGAux1Tbu7gIiM="
+									},
+									"model": {
+										"$ref": "AAAAAAGAux1Tbe7ewXU="
+									},
+									"font": "Arial;13;0",
+									"left": 808,
+									"top": 267,
+									"width": 80.05908203125,
+									"height": 10
+								},
+								{
+									"_type": "UMLReceptionCompartmentView",
+									"_id": "AAAAAAGAux1Tb+7oIbk=",
+									"_parent": {
+										"$ref": "AAAAAAGAux1Tbu7gIiM="
+									},
+									"model": {
+										"$ref": "AAAAAAGAux1Tbe7ewXU="
+									},
+									"visible": false,
+									"font": "Arial;13;0",
+									"left": 40.70751953125,
+									"top": -152,
+									"width": 10,
+									"height": 10
+								},
+								{
+									"_type": "UMLTemplateParameterCompartmentView",
+									"_id": "AAAAAAGAux1Tb+7peBE=",
+									"_parent": {
+										"$ref": "AAAAAAGAux1Tbu7gIiM="
+									},
+									"model": {
+										"$ref": "AAAAAAGAux1Tbe7ewXU="
+									},
+									"visible": false,
+									"font": "Arial;13;0",
+									"left": 40.70751953125,
+									"top": -152,
+									"width": 10,
+									"height": 10
+								}
+							],
+							"font": "Arial;13;0",
+							"containerChangeable": true,
+							"left": 808,
+							"top": 232,
+							"width": 80.05908203125,
+							"height": 45,
+							"nameCompartment": {
+								"$ref": "AAAAAAGAux1Tbu7hkco="
+							},
+							"attributeCompartment": {
+								"$ref": "AAAAAAGAux1Tb+7mkiQ="
+							},
+							"operationCompartment": {
+								"$ref": "AAAAAAGAux1Tb+7nlpE="
+							},
+							"receptionCompartment": {
+								"$ref": "AAAAAAGAux1Tb+7oIbk="
+							},
+							"templateParameterCompartment": {
+								"$ref": "AAAAAAGAux1Tb+7peBE="
+							}
+						},
+						{
+							"_type": "UMLGeneralizationView",
+							"_id": "AAAAAAGAux1WsO9jHLk=",
+							"_parent": {
+								"$ref": "AAAAAAFF+qBtyKM79qY="
+							},
+							"model": {
+								"$ref": "AAAAAAGAux1Wr+9hCM4="
+							},
+							"subViews": [
+								{
+									"_type": "EdgeLabelView",
+									"_id": "AAAAAAGAux1WsO9kFRQ=",
+									"_parent": {
+										"$ref": "AAAAAAGAux1WsO9jHLk="
+									},
+									"model": {
+										"$ref": "AAAAAAGAux1Wr+9hCM4="
+									},
+									"visible": false,
+									"font": "Arial;13;0",
+									"left": 785,
+									"top": 246,
+									"height": 13,
+									"alpha": 1.5707963267948966,
+									"distance": 15,
+									"hostEdge": {
+										"$ref": "AAAAAAGAux1WsO9jHLk="
+									},
+									"edgePosition": 1
+								},
+								{
+									"_type": "EdgeLabelView",
+									"_id": "AAAAAAGAux1WsO9l69Y=",
+									"_parent": {
+										"$ref": "AAAAAAGAux1WsO9jHLk="
+									},
+									"model": {
+										"$ref": "AAAAAAGAux1Wr+9hCM4="
+									},
+									"visible": null,
+									"font": "Arial;13;0",
+									"left": 782,
+									"top": 261,
+									"height": 13,
+									"alpha": 1.5707963267948966,
+									"distance": 30,
+									"hostEdge": {
+										"$ref": "AAAAAAGAux1WsO9jHLk="
+									},
+									"edgePosition": 1
+								},
+								{
+									"_type": "EdgeLabelView",
+									"_id": "AAAAAAGAux1WsO9mhi4=",
+									"_parent": {
+										"$ref": "AAAAAAGAux1WsO9jHLk="
+									},
+									"model": {
+										"$ref": "AAAAAAGAux1Wr+9hCM4="
+									},
+									"visible": false,
+									"font": "Arial;13;0",
+									"left": 792,
+									"top": 217,
+									"height": 13,
+									"alpha": -1.5707963267948966,
+									"distance": 15,
+									"hostEdge": {
+										"$ref": "AAAAAAGAux1WsO9jHLk="
+									},
+									"edgePosition": 1
+								}
+							],
+							"font": "Arial;13;0",
+							"head": {
+								"$ref": "AAAAAAGAXjxqhKVg3/0="
+							},
+							"tail": {
+								"$ref": "AAAAAAGAux1Tbu7gIiM="
+							},
+							"lineStyle": 1,
+							"points": "807:243;772:234",
+							"showVisibility": true,
+							"nameLabel": {
+								"$ref": "AAAAAAGAux1WsO9kFRQ="
+							},
+							"stereotypeLabel": {
+								"$ref": "AAAAAAGAux1WsO9l69Y="
+							},
+							"propertyLabel": {
+								"$ref": "AAAAAAGAux1WsO9mhi4="
+							}
 						}
 					]
 				},
@@ -7147,7 +7417,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "SingleMode",
+					"name": "GameMode",
 					"ownedElements": [
 						{
 							"_type": "UMLAssociation",
@@ -7792,7 +8062,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "BattleMode",
+					"name": "TankBattleMode",
 					"ownedElements": [
 						{
 							"_type": "UMLAssociation",
@@ -7982,7 +8252,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "GameFramework",
+					"name": "MyGame",
 					"ownedElements": [
 						{
 							"_type": "UMLAssociation",
@@ -8300,7 +8570,7 @@
 								"$ref": "AAAAAAGAk4Bm7aZnfh4="
 							},
 							"target": {
-								"$ref": "AAAAAAGAXjxqgqVefzo="
+								"$ref": "AAAAAAGAux1Tbe7ewXU="
 							}
 						}
 					]
@@ -8539,7 +8809,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "TiledMap",
+					"name": "TankManMap",
 					"ownedElements": [
 						{
 							"_type": "UMLGeneralization",
@@ -9056,7 +9326,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "TankWall",
+					"name": "Obstacle",
 					"attributes": [
 						{
 							"_type": "UMLAttribute",
@@ -9220,7 +9490,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "PacPlayer",
+					"name": "Player",
 					"attributes": [
 						{
 							"_type": "UMLAttribute",
@@ -9472,7 +9742,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Props",
+					"name": "Prop",
 					"attributes": [
 						{
 							"_type": "UMLAttribute",
@@ -9607,7 +9877,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "TankBullet",
+					"name": "Bullet",
 					"attributes": [
 						{
 							"_type": "UMLAttribute",
@@ -9728,7 +9998,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "TankStation",
+					"name": "Station",
 					"ownedElements": [
 						{
 							"_type": "UMLGeneralization",
@@ -9944,6 +10214,29 @@
 								"$ref": "AAAAAAGAt2yrkNd9c4Q="
 							},
 							"name": "create_text_data"
+						}
+					]
+				},
+				{
+					"_type": "UMLClass",
+					"_id": "AAAAAAGAux1Tbe7ewXU=",
+					"_parent": {
+						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
+					},
+					"name": "BattleMode",
+					"ownedElements": [
+						{
+							"_type": "UMLGeneralization",
+							"_id": "AAAAAAGAux1Wr+9hCM4=",
+							"_parent": {
+								"$ref": "AAAAAAGAux1Tbe7ewXU="
+							},
+							"source": {
+								"$ref": "AAAAAAGAux1Tbe7ewXU="
+							},
+							"target": {
+								"$ref": "AAAAAAGAXjxqgqVefzo="
+							}
 						}
 					]
 				}

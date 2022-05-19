@@ -49,7 +49,7 @@ class TankBattleMode(BattleMode):
                                               oil_station["width"], oil_station["height"], 100, 1))
         self.all_sprites.add(self.oil_stations)
 
-    def game_update(self, command: dict):
+    def update_game(self):
         if not self.is_paused:
             if self.player_1P.is_shoot:
                 shoot_info = self.player_1P.create_shoot_info()

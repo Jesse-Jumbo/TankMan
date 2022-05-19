@@ -33,7 +33,7 @@ class TankPlayer(Player):
         self.is_backward = False
         self.is_alive = True
 
-    def new_update(self):
+    def update_children(self):
         self.rotate()
         if self.power > 10:
             self.power = 10
@@ -165,5 +165,4 @@ class TankPlayer(Player):
     def get_image_data(self):
         image_data = {"id": f"{self._id}P", "x": self.rect.x, "y": self.rect.y,
                       "width": self.origin_size[0], "height": self.origin_size[1], "angle": self.angle}
-        print(self.angle)
         return image_data
