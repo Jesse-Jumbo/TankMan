@@ -29,3 +29,4 @@ def collide_with_stations(player: pygame.sprite.Sprite, stations: pygame.sprite.
             player.power += hits[0].get_power()
         elif hits[0]._id == 5:
             player.oil += hits[0].get_power()
+        return True

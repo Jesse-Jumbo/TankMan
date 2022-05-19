@@ -5,6 +5,11 @@ https://opengameart.org/content/motor-oil-container
 https://opengameart.org/content/simple-shooter-icons
 https://opengameart.org/content/upgrade-symbols
 """
+# sound sours
+"""
+BGM: https://opengameart.org/content/commando-team-action-loop-cut
+SHOOT: https://opengameart.org/content/random-low-quality-sfx
+"""
 
 from os import path
 

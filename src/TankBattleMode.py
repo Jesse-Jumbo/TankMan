@@ -4,6 +4,7 @@ from games.TankMan.src.TankWall import TankWall
 from games.TankMan.src.TankPlayer import TankPlayer
 from GameFramework.BattleMode import BattleMode
 from .TankBullet import TankBullet
+from .TankSoundController import TankSoundController
 from .collide_hit_rect import *
 from .env import *
 
@@ -12,6 +13,8 @@ class TankBattleMode(BattleMode):
     def __init__(self, map_path: str, time_limit: int, is_sound: bool):
         super().__init__(map_path, time_limit, is_sound)
         self.players.__init__()
+        self.sound_controller = TankSoundController(is_sound)
+        self.sound_controller.play_bgm()
         # control variables
         self.is_invincible = True
         self.is_through_wall = True
@@ -110,6 +113,7 @@ class TankBattleMode(BattleMode):
             collide_with_bullets(wall, self.bullets)
 
     def create_bullet(self, shoot_info):
+        self.sound_controller.play_shoot_sound()
         bullet = TankBullet(shoot_info["id"], shoot_info["center_pos"], BULLET_SIZE[0], BULLET_SIZE[1], shoot_info["rot"])
         self.bullets.add(bullet)
         self.all_sprites.add(bullet)
