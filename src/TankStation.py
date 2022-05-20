@@ -2,12 +2,12 @@ from GameFramework.Station import Station
 
 
 class TankStation(Station):
-    def __init__(self, _id: int, level: int, x: int, y: int, width: int, height: int, capacity: int, cooldown):
-        super().__init__(level, x, y, width, height, capacity, cooldown)
+    def __init__(self, _id: int, level: int, x: int, y: int, width: int, height: int, capacity: int, cooldown_time):
+        super().__init__(level, x, y, width, height, capacity, cooldown_time)
         self._id = _id
         self.level = level
 
-    def update(self):
+    def update_children(self):
         if self.power < self.capacity // 3:
             self.level = 1
         elif self.power != self.capacity:

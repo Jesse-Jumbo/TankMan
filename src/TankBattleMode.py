@@ -66,37 +66,36 @@ class TankBattleMode(BattleMode):
                 self.player_2P.is_shoot = False
 
     def check_events(self):
-        # TODO 要能邊前進邊射擊
-        cmd_1P = ""
-        cmd_2P = ""
+        cmd_1P = []
+        cmd_2P = []
 
         key_pressed_list = pygame.key.get_pressed()
         if key_pressed_list[pygame.K_UP]:
-            cmd_1P = FORWARD_CMD
+            cmd_1P.append(FORWARD_CMD)
         elif key_pressed_list[pygame.K_DOWN]:
-            cmd_1P = BACKWARD_CMD
+            cmd_1P.append(BACKWARD_CMD)
 
         if key_pressed_list[pygame.K_w]:
-            cmd_2P = FORWARD_CMD
+            cmd_2P.append(FORWARD_CMD)
         elif key_pressed_list[pygame.K_s]:
-            cmd_2P = BACKWARD_CMD
+            cmd_2P.append(BACKWARD_CMD)
 
         if key_pressed_list[pygame.K_SPACE]:
-            cmd_1P = SHOOT
+            cmd_1P.append(SHOOT)
         if key_pressed_list[pygame.K_f]:
-            cmd_2P = SHOOT
+            cmd_2P.append(SHOOT)
 
         for even in pygame.event.get():
             if even.type == pygame.KEYDOWN:
                 if even.key == pygame.K_RIGHT:
-                    cmd_1P = RIGHT_CMD
+                    cmd_1P.append(RIGHT_CMD)
                 elif even.key == pygame.K_LEFT:
-                    cmd_1P = LEFT_CMD
+                    cmd_1P.append(LEFT_CMD)
 
                 if even.key == pygame.K_d:
-                    cmd_2P = RIGHT_CMD
+                    cmd_2P.append(RIGHT_CMD)
                 elif even.key == pygame.K_a:
-                    cmd_2P = LEFT_CMD
+                    cmd_2P.append(LEFT_CMD)
 
         return {"1P": cmd_1P, "2P": cmd_2P}
 
@@ -107,8 +106,8 @@ class TankBattleMode(BattleMode):
         if self.is_invincible:
             for player in self.players:
                 collide_with_bullets(player, self.bullets)
-                collide_with_stations(player, self.bullet_stations)
-                collide_with_stations(player, self.oil_stations)
+                collide_with_bullet_stations(player, self.bullet_stations)
+                collide_with_oil_stations(player, self.oil_stations)
         for wall in self.walls:
             collide_with_bullets(wall, self.bullets)
 

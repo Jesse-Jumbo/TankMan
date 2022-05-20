@@ -62,25 +62,25 @@ class TankPlayer(Player):
         shoot_info = {"id": self._id, "center_pos": self.rect.center, "rot": self.rot}
         return shoot_info
 
-    def act(self, commands: str):
+    def act(self, commands: list):
         if self.oil:
-            if commands == LEFT_CMD:
+            if LEFT_CMD in commands:
                 self.oil -= 0.1
                 self.turn_left()
-            elif commands == RIGHT_CMD:
+            elif RIGHT_CMD in commands:
                 self.oil -= 0.1
                 self.turn_right()
-            elif commands == FORWARD_CMD:
+            elif FORWARD_CMD in commands:
                 self.oil -= 0.1
                 self.is_forward = True
                 self.is_backward = False
                 self.forward()
-            elif commands == BACKWARD_CMD:
+            elif BACKWARD_CMD in commands:
                 self.oil -= 0.1
                 self.is_backward = True
                 self.is_forward = False
                 self.backward()
-        if self.power and commands == SHOOT:
+        if self.power and SHOOT in commands:
             if self.used_frame - self.last_shoot_frame > SHOOT_COOLDOWN:
                 self.last_shoot_frame = self.used_frame
                 self.power -= 1
@@ -148,6 +148,12 @@ class TankPlayer(Player):
             self.lives -= 1
             self.shield = 100
             self.reset()
+
+    def get_power(self, power):
+        self.power += power
+
+    def get_oil(self, oil):
+        self.oil += oil
 
     def get_info(self):
         info = {"id": f"{self._id}P",

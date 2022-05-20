@@ -1,5 +1,6 @@
 import pygame.sprite
 
+from .TankPlayer import TankPlayer
 from .TankStation import TankStation
 from .env import *
 
@@ -22,11 +23,13 @@ def collide_with_bullets(sprite: pygame.sprite.Sprite, group: pygame.sprite.Grou
             sprite.collide_with_bullets()
 
 
-def collide_with_stations(player: pygame.sprite.Sprite, stations: pygame.sprite.Group):
+def collide_with_bullet_stations(player: TankPlayer, stations: pygame.sprite.Group):
     hits = pygame.sprite.spritecollide(player, stations, False, collide_hit_rect)
     if hits:
-        if hits[0]._id == 4:
-            player.power += hits[0].get_power()
-        elif hits[0]._id == 5:
-            player.oil += hits[0].get_power()
-        return True
+        player.get_power(hits[0].get_supply())
+
+
+def collide_with_oil_stations(player: TankPlayer, stations: pygame.sprite.Group):
+    hits = pygame.sprite.spritecollide(player, stations, False, collide_hit_rect)
+    if hits:
+        player.get_oil(hits[0].get_supply())
