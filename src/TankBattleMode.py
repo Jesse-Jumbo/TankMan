@@ -1,8 +1,9 @@
 import pygame.event
 
-from games.TankMan.src.TankWall import TankWall
-from games.TankMan.src.TankPlayer import TankPlayer
 from GameFramework.BattleMode import BattleMode
+from GameFramework.constants import ID, X, Y, WIDTH, HEIGHT, ANGLE
+from games.TankMan.src.TankWall import TankWall
+from mlgame.view.view_model import create_asset_init_data, create_image_view_data, create_text_view_data
 from .TankBullet import TankBullet
 from .TankSoundController import TankSoundController
 from .collide_hit_rect import *
@@ -28,9 +29,11 @@ class TankBattleMode(BattleMode):
         # TODO how better
         for player in players:
             if player["_id"] == 1:
-                self.player_1P = TankPlayer(player['_id'], player["_no"], player["x"], player["y"], player["width"], player["height"])
+                self.player_1P = TankPlayer(player['_id'], player["_no"], player["x"], player["y"], player["width"],
+                                            player["height"])
             else:
-                self.player_2P = TankPlayer(player['_id'], player["_no"], player["x"], player["y"], player["width"], player["height"])
+                self.player_2P = TankPlayer(player['_id'], player["_no"], player["x"], player["y"], player["width"],
+                                            player["height"])
         self.players.add(self.player_1P, self.player_2P)
         # init walls
         walls = self.map.create_obj_init_data(WALL_IMG_NO_LIST)
@@ -53,22 +56,22 @@ class TankBattleMode(BattleMode):
         self.all_sprites.add(self.oil_stations)
 
     def update_game(self):
-        if not self.is_paused:
-            if self.player_1P.is_shoot:
-                shoot_info = self.player_1P.create_shoot_info()
-                self.create_bullet(shoot_info)
-                self.player_1P.is_shoot = False
+        if self.player_1P.is_shoot:
+            shoot_info = self.player_1P.create_shoot_info()
+            self.create_bullet(shoot_info)
+            self.player_1P.is_shoot = False
 
-            if self.player_2P.is_shoot:
-                shoot_info = self.player_2P.create_shoot_info()
-                shoot_info["rot"] -= 180
-                self.create_bullet(shoot_info)
-                self.player_2P.is_shoot = False
+        if self.player_2P.is_shoot:
+            shoot_info = self.player_2P.create_shoot_info()
+            shoot_info["rot"] -= 180
+            self.create_bullet(shoot_info)
+            self.player_2P.is_shoot = False
 
     def check_events(self):
         cmd_1P = []
         cmd_2P = []
 
+        # TODO 解決前進並後退時會穿牆
         key_pressed_list = pygame.key.get_pressed()
         if key_pressed_list[pygame.K_UP]:
             cmd_1P.append(FORWARD_CMD)
@@ -100,6 +103,7 @@ class TankBattleMode(BattleMode):
         return {"1P": cmd_1P, "2P": cmd_2P}
 
     def check_collisions(self):
+        # TODO check hti rect of station and player
         if self.is_through_wall:
             for player in self.players:
                 collide_with_walls(player, self.walls)
@@ -113,81 +117,86 @@ class TankBattleMode(BattleMode):
 
     def create_bullet(self, shoot_info):
         self.sound_controller.play_shoot_sound()
-        bullet = TankBullet(shoot_info["id"], shoot_info["center_pos"], BULLET_SIZE[0], BULLET_SIZE[1], shoot_info["rot"])
+        bullet = TankBullet(shoot_info["id"], shoot_info["center_pos"], BULLET_SIZE[0], BULLET_SIZE[1],
+                            shoot_info["rot"])
         self.bullets.add(bullet)
         self.all_sprites.add(bullet)
 
     def draw_sprite_data(self):
-        # 有辦法減少迴圈嗎?
         all_sprite_data = []
         for oil_station in self.oil_stations:
             if isinstance(oil_station, TankStation):
-                oil_station_image_data = oil_station.get_image_data()
-                all_sprite_data.append(oil_station_image_data)
+                data = oil_station.get_image_data()
+                all_sprite_data.append(create_image_view_data(data[ID], data[X], data[Y], data[WIDTH], data[HEIGHT],
+                                                              data[ANGLE]))
+
         for bullet_station in self.bullet_stations:
             if isinstance(bullet_station, TankStation):
-                bullet_station_image_data = bullet_station.get_image_data()
-                all_sprite_data.append(bullet_station_image_data)
+                data = bullet_station.get_image_data()
+                all_sprite_data.append(create_image_view_data(data[ID], data[X], data[Y], data[WIDTH], data[HEIGHT],
+                                                              data[ANGLE]))
+
         for bullet in self.bullets:
             if isinstance(bullet, TankBullet):
-                all_sprite_data.append(bullet.get_image_data())
-        for player in self.players:
-            if isinstance(player, TankPlayer):
-                all_sprite_data.append(player.get_image_data())
+                data = bullet.get_image_data()
+                all_sprite_data.append(create_image_view_data(data[ID], data[X], data[Y], data[WIDTH], data[HEIGHT],
+                                                              data[ANGLE]))
+
+        for player in self.draw_players():
+            all_sprite_data.append(player)
+
         for wall in self.walls:
             if isinstance(wall, TankWall):
-                if wall.get_image_data():
-                    all_sprite_data.append(wall.get_image_data())
+                data = wall.get_image_data()
+                if data:
+                    all_sprite_data.append(create_image_view_data(data[ID], data[X], data[Y], data[WIDTH], data[HEIGHT],
+                                                                  data[ANGLE]))
 
         return all_sprite_data
 
     def create_init_image_data(self):
         all_init_image_data = []
         for _id, img_path in OIL_STATION_IMG_PATH_DICT.items():
-            all_init_image_data.append(self.data_creator.create_image_init_data(f"oil_station_{_id}", TILE_X_SIZE,
-                                                                                TILE_Y_SIZE, img_path, OIL_URL[_id]))
+            all_init_image_data.append(create_asset_init_data(f"oil_station_{_id}", TILE_X_SIZE,
+                                                              TILE_Y_SIZE, img_path, OIL_URL[_id]))
         for _id, img_path in BULLET_STATION_IMG_PATH_DICT.items():
-            all_init_image_data.append(self.data_creator.create_image_init_data(f"bullet_station_{_id}", TILE_X_SIZE,
-                                                                                TILE_Y_SIZE, img_path, BULLETS_URL[_id]))
+            all_init_image_data.append(create_asset_init_data(f"bullet_station_{_id}", TILE_X_SIZE,
+                                                              TILE_Y_SIZE, img_path, BULLETS_URL[_id]))
         for _id, img_path in WALL_IMG_PATH_DICT.items():
-            all_init_image_data.append(self.data_creator.create_image_init_data(f"wall_{_id}", TILE_X_SIZE, TILE_Y_SIZE,
-                                                                                img_path, WALL_URL[_id]))
-        all_init_image_data.append(self.data_creator.create_image_init_data("bullets", TILE_X_SIZE, TILE_Y_SIZE,
-                                                                            BULLET_IMG_PATH, BULLET_URL))
+            all_init_image_data.append(create_asset_init_data(f"wall_{_id}", TILE_X_SIZE, TILE_Y_SIZE,
+                                                              img_path, WALL_URL[_id]))
+        all_init_image_data.append(create_asset_init_data("bullets", TILE_X_SIZE, TILE_Y_SIZE,
+                                                          BULLET_IMG_PATH, BULLET_URL))
         for id, img_path in PLAYER_IMG_PATH_DICT.items():
-            all_init_image_data.append(self.data_creator.create_image_init_data(id, TILE_X_SIZE, TILE_Y_SIZE,
-                                                                                img_path, PLAYER_URL[id]))
+            all_init_image_data.append(create_asset_init_data(id, TILE_X_SIZE, TILE_Y_SIZE,
+                                                              img_path, PLAYER_URL[id]))
 
         return all_init_image_data
 
     def draw_text_data(self):
         all_text_data = []
-        all_text_data.append(self.data_creator.create_text_data(f"1P_Score: {self.player_1P.score}",
-                                                                WIDTH_CENTER + WIDTH_CENTER // 2 - 45, 0, WHITE,
-                                                                "30px Arial"))
-        all_text_data.append(self.data_creator.create_text_data(f"2P_Score: {self.player_2P.score}",
-                                                                WIDTH_CENTER // 2 - 45, 0, WHITE, "30px Arial"))
-        all_text_data.append(self.data_creator.create_text_data(f"Time: {self.used_frame // 60}", WIDTH - 100, 0, WHITE,
-                                                                "30px Arial"))
-        all_text_data.append(self.data_creator.create_text_data(
+        all_text_data.append(create_text_view_data(f"1P_Score: {self.player_1P.score}",
+                                                   WIDTH_CENTER + WIDTH_CENTER // 2 - 45, 0, WHITE,
+                                                   "30px Arial"))
+        all_text_data.append(create_text_view_data(f"2P_Score: {self.player_2P.score}",
+                                                   WIDTH_CENTER // 2 - 45, 0, WHITE, "30px Arial"))
+        all_text_data.append(create_text_view_data(f"Time: {self.used_frame // 60}", WINDOW_WIDTH - 100, 0, WHITE,
+                                                   "30px Arial"))
+        all_text_data.append(create_text_view_data(
             f"2P Shield: {self.player_2P.shield} Power: {self.player_2P.power} Oil: {self.player_2P.oil} Lives: {self.player_2P.lives}",
-            5, HEIGHT - 35, WHITE, "30px Arial"))
-        all_text_data.append(self.data_creator.create_text_data(
+            5, WINDOW_HEIGHT - 35, WHITE, "30px Arial"))
+        all_text_data.append(create_text_view_data(
             f"1P Lives: {self.player_2P.lives} Oil: {self.player_1P.oil} Power {self.player_1P.power} Shield: {self.player_1P.shield}",
-            WIDTH_CENTER + 200, HEIGHT - 35, WHITE, "30px Arial"))
+            WIDTH_CENTER + 200, WINDOW_HEIGHT - 35, WHITE, "30px Arial"))
+
         return all_text_data
 
     def create_scene_info(self):
-        scene_info = {"frame": self.used_frame,
-                      "status": self.status,
-                      "background": [WIDTH, HEIGHT],
-                      "walls_xy_pos": [],
-                      "1P_xy_pos": self.player_1P.get_xy_pos(),
-                      "2P_xy_pos": self.player_2P.get_xy_pos(),
-                      "bullet_stations_xy_pos": [],
-                      "oil_stations_xy_pos": [],
-                      "game_result": self.get_result(),
-                      "state": self.state}
+        scene_info = self.get_scene_info()
+        scene_info["background"] = [WINDOW_WIDTH, WINDOW_HEIGHT]
+        scene_info["walls_xy_pos"] = []
+        scene_info["bullet_stations_xy_pos"] = []
+        scene_info["oil_stations_xy_pos"] = []
 
         for wall in self.walls:
             if isinstance(wall, TankWall):

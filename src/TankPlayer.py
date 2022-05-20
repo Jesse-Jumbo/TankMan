@@ -3,7 +3,8 @@ import random
 import pygame.draw
 
 from GameFramework.Player import Player
-from .env import WIDTH, HEIGHT, LEFT_CMD, RIGHT_CMD, FORWARD_CMD, BACKWARD_CMD, SHOOT, SHOOT_COOLDOWN
+from GameFramework.constants import ID, X, Y, HEIGHT, WIDTH, ANGLE
+from .env import WINDOW_WIDTH, WINDOW_HEIGHT, LEFT_CMD, RIGHT_CMD, FORWARD_CMD, BACKWARD_CMD, SHOOT, SHOOT_COOLDOWN
 
 vec = pygame.math.Vector2
 
@@ -41,12 +42,12 @@ class TankPlayer(Player):
         if self.oil > 100:
             self.oil = 100
 
-        if self.rect.right > WIDTH:
-            self.rect.right = WIDTH
+        if self.rect.right > WINDOW_WIDTH:
+            self.rect.right = WINDOW_WIDTH
         if self.rect.left < 0:
             self.rect.left = 0
-        if self.rect.bottom > HEIGHT:
-            self.rect.bottom = HEIGHT
+        if self.rect.bottom > WINDOW_HEIGHT:
+            self.rect.bottom = WINDOW_HEIGHT
         if self.rect.top < 0:
             self.rect.top = 0
 
@@ -169,6 +170,6 @@ class TankPlayer(Player):
         return info
 
     def get_image_data(self):
-        image_data = {"id": f"{self._id}P", "x": self.rect.x, "y": self.rect.y,
-                      "width": self.origin_size[0], "height": self.origin_size[1], "angle": self.angle}
+        image_data = {ID: f"{self._id}P", X: self.rect.x, Y: self.rect.y,
+                      WIDTH: self.origin_size[0], HEIGHT: self.origin_size[1], ANGLE: self.angle}
         return image_data

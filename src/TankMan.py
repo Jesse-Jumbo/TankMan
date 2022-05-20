@@ -3,7 +3,7 @@ from os import path
 from mlgame.view.view_model import Scene
 from .TankBattleMode import TankBattleMode
 from GameFramework.MyGame import GameFramework
-from .env import WIDTH, HEIGHT, BLACK, MAP_DIR
+from .env import WINDOW_WIDTH, WINDOW_HEIGHT, BLACK, MAP_DIR
 
 '''need some fuction same as arkanoid which without dash in the name of fuction'''
 
@@ -11,7 +11,7 @@ from .env import WIDTH, HEIGHT, BLACK, MAP_DIR
 class TankMan(GameFramework):
     def __init__(self, map_no: int, time_limit: int, sound: str):
         super().__init__(map_no, time_limit, sound)
-        self.scene = Scene(WIDTH, HEIGHT, BLACK)
+        self.scene = Scene(WINDOW_WIDTH, WINDOW_HEIGHT, BLACK)
         self.game_mode = self.set_game_mode()
 
     def set_game_mode(self):

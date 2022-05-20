@@ -1,7 +1,7 @@
 import pygame
 
 from GameFramework.Bullet import Bullet
-from .env import HEIGHT, WIDTH
+from .env import WINDOW_HEIGHT, WINDOW_WIDTH
 
 
 vec = pygame.math.Vector2
@@ -10,8 +10,8 @@ vec = pygame.math.Vector2
 class TankBullet(Bullet):
     def __init__(self, _id: int, center: tuple, width: int, height: int, rot: int):
         super().__init__(center, width, height)
-        self.map_width = WIDTH
-        self.map_height = HEIGHT
+        self.map_width = WINDOW_WIDTH
+        self.map_height = WINDOW_HEIGHT
         self._id = _id
         self.rot = rot
         self.angle = 3.14 / 180 * (self.rot + 90)

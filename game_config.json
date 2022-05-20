@@ -7,7 +7,7 @@
       "name": "map_no",
       "verbose": "地圖編號",
       "type": "int",
-      "max": 2,
+      "max": 3,
       "min": 1,
       "default": 1,
       "help": "set map number for load game scene"
