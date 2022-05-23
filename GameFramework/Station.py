@@ -1,5 +1,5 @@
 from games.TankMan.src.env import FPS
-from GameFramework.Props import Props
+from .Props import Props
 
 
 class Station(Props):

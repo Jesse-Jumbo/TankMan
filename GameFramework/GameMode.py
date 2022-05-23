@@ -1,9 +1,9 @@
 import pygame.event
 
-from GameFramework.sound_controller import SoundController
+from .sound_controller import SoundController
 from mlgame.gamedev.game_interface import GameResultState, GameStatus
 
-from GameFramework.TiledMap import TiledMap
+from .TiledMap import TiledMap
 from games.TankMan.src.env import *
 
 
