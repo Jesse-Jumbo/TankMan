@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "url": "https://github.com/Jesse-Jumbo/TankMan",
   "description": "坦克人(TankMan)，一款經典的雙人對戰遊戲，時間內分數高者獲勝，除了擊中對手外，破壞遊戲物件，以獲得更高積分。注意: 場上資源恢復皆須時間，先到者得，你需要這些補充品以提供前進和射擊的燃油和子彈。",
-  "log": [
-    "",
-    ""
+  "logo": [
+    "./asset/image/player_1P.png",
+    "https://github.com/Jesse-Jumbo/TankMan/blob/main/asset/image/player_1P.png"
   ],
   "game_params": [
     {
