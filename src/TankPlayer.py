@@ -2,9 +2,9 @@ import random
 
 import pygame.draw
 
-from GameFramework.Player import Player
-from GameFramework.constants import ID, X, Y, HEIGHT, WIDTH, ANGLE
 from .env import WINDOW_WIDTH, WINDOW_HEIGHT, LEFT_CMD, RIGHT_CMD, FORWARD_CMD, BACKWARD_CMD, SHOOT, SHOOT_COOLDOWN
+from ..GameFramework.Player import Player
+from ..GameFramework.constants import ID, X, Y, HEIGHT, WIDTH, ANGLE
 
 vec = pygame.math.Vector2
 

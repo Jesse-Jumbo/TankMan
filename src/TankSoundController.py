@@ -1,7 +1,7 @@
 from os import path
 
-from GameFramework.sound_controller import SoundController
 from games.TankMan.src.env import SOUND_DIR
+from ..GameFramework.sound_controller import SoundController
 
 
 class TankSoundController(SoundController):

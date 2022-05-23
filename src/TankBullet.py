@@ -1,7 +1,7 @@
 import pygame
 
-from GameFramework.Bullet import Bullet
 from .env import WINDOW_HEIGHT, WINDOW_WIDTH
+from ..GameFramework.Bullet import Bullet
 
 
 vec = pygame.math.Vector2

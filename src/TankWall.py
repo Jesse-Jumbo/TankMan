@@ -1,5 +1,4 @@
-from .env import WALL_IMG_PATH_DICT
-from GameFramework.Props import Props
+from ..GameFramework.Props import Props
 
 
 class TankWall(Props):

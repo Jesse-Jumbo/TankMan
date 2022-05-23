@@ -1,0 +1,43 @@
+{
+    "INIT_INFO": [
+        ["side", "player number", "玩家編號"]
+    ],
+    "PLAYER_STATUS":[
+        ["1P", "1P", "1P"],
+        ["2P", "2P", "2P"]
+    ],
+    "GAME_STATUS": [
+        ["GAME_ALIVE", "alive", "存活"],
+        ["GAME_OVER", "over", "失敗"],
+        ["GAME_1P_WIN", "1P wins", "1P 獲勝"],
+        ["GAME_2P_WIN", "2P wins", "2P 獲勝"]
+    ],
+    "SCENE_INFO": [
+        ["scene_info['frame']", "# frame", "# 幀數"],
+        ["scene_info['status']", "game status", "遊戲狀態"],
+        ["scene_info['1P_xy_pos'][0]", "x coordinate of player_1P", "玩家1P 的 x 座標"],
+        ["scene_info['1P_xy_pos'][1]", "y coordinate of player_1P", "玩家1P 的 y 座標"],
+        ["scene_info['2P_xy_pos'][0]", "x coordinate of player_2P", "玩家2P 的 x 座標"],
+        ["scene_info['2P_xy_pos'][1]", "y coordinate of player_2P", "玩家2P 的 y 座標"],
+        ["scene_info['walls_xy_pos']", "coordinate of all walls", "所有牆的座標"],
+        ["scene_info['bullet_stations_xy_pos']", "coordinate of all walls", "所有彈藥庫的座標"],
+        ["scene_info['oil_stations_xy_pos']", "coordinate of all walls", "所有加油站的座標"]
+    ],
+    "CONSTANT": [
+        [0, "left boundary", "左邊界"],
+        [1320, "right boundary", "右邊界"],
+        [0, "top boundary", "上邊界"],
+        [660, "bottom boundary", "下邊界"],
+        [60, "platform width", "物件寬度"],
+        [60, "platform height", "物件高度"]
+    ],
+    "ACTION": [
+        ["FORWARD", "forward", "前進"],
+        ["BACKWARD", "backward", "後退"],
+        ["TURN_LEFT", "turn left", "左轉"],
+        ["TURN_RIGHT", "turn right", "右轉"],
+        ["SHOOT", "shoot", "射擊"],
+        ["NONE", "doing nothing", "不動作"],
+        ["RESET", "reset", "重置遊戲"]
+    ]
+}
