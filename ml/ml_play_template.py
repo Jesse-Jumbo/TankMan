@@ -19,19 +19,27 @@ class MLPlay:
 
         self.time += 1
         if self.time % 30 == 0:
-            command = random.randrange(5)
+            command = random.randrange(9)
         else:
             command = None
         if command == 1:
-            return "TURN_RIGHT"
+            return ["TURN_RIGHT"]
         elif command == 2:
-            return "TURN_LEFT"
+            return ["TURN_LEFT"]
         elif command == 3:
-            return "FORWARD"
+            return ["FORWARD"]
         elif command == 4:
-            return "BACKWARD"
+            return ["BACKWARD"]
+        elif command == 5:
+            return ["TURN_RIGHT", "SHOOT"]
+        elif command == 6:
+            return ["TURN_LEFT", "SHOOT"]
+        elif command == 7:
+            return ["FORWARD", "SHOOT"]
+        elif command == 8:
+            return ["BACKWARD", "SHOOT"]
         elif command == 0:
-            return "SHOOT"
+            return ["SHOOT"]
 
     def reset(self):
         """

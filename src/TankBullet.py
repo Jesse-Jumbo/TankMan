@@ -1,8 +1,7 @@
 import pygame
 
 from .env import WINDOW_HEIGHT, WINDOW_WIDTH
-from ..GameFramework.Bullet import Bullet
-
+from games.TankMan.GameFramework.Bullet import Bullet
 
 vec = pygame.math.Vector2
 

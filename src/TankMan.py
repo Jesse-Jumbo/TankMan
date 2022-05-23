@@ -3,7 +3,7 @@ from os import path
 from mlgame.view.view_model import Scene
 from .TankBattleMode import TankBattleMode
 from .env import WINDOW_WIDTH, WINDOW_HEIGHT, BLACK, MAP_DIR
-from ..GameFramework.MyGame import GameFramework
+from games.TankMan.GameFramework.MyGame import GameFramework
 
 '''need some fuction same as arkanoid which without dash in the name of fuction'''
 

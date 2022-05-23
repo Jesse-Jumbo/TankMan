@@ -3,8 +3,8 @@ import random
 import pygame.draw
 
 from .env import WINDOW_WIDTH, WINDOW_HEIGHT, LEFT_CMD, RIGHT_CMD, FORWARD_CMD, BACKWARD_CMD, SHOOT, SHOOT_COOLDOWN
-from ..GameFramework.Player import Player
-from ..GameFramework.constants import ID, X, Y, HEIGHT, WIDTH, ANGLE
+from games.TankMan.GameFramework.Player import Player
+from games.TankMan.GameFramework.constants import ID, X, Y, HEIGHT, WIDTH, ANGLE
 
 vec = pygame.math.Vector2
 
@@ -64,6 +64,8 @@ class TankPlayer(Player):
         return shoot_info
 
     def act(self, commands: list):
+        if not commands:
+            return None
         if self.oil:
             if LEFT_CMD in commands:
                 self.oil -= 0.1
@@ -71,12 +73,12 @@ class TankPlayer(Player):
             elif RIGHT_CMD in commands:
                 self.oil -= 0.1
                 self.turn_right()
-            elif FORWARD_CMD in commands:
+            elif FORWARD_CMD in commands and BACKWARD_CMD not in commands:
                 self.oil -= 0.1
                 self.is_forward = True
                 self.is_backward = False
                 self.forward()
-            elif BACKWARD_CMD in commands:
+            elif BACKWARD_CMD in commands and FORWARD_CMD not in commands:
                 self.oil -= 0.1
                 self.is_backward = True
                 self.is_forward = False

@@ -1,4 +1,4 @@
-from ..GameFramework.Station import Station
+from games.TankMan.GameFramework.Station import Station
 
 
 class TankStation(Station):

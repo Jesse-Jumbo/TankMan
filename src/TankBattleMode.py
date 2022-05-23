@@ -1,13 +1,15 @@
 import pygame.event
 
 from games.TankMan.src.TankWall import TankWall
+from mlgame.gamedev.game_interface import GameStatus, GameResultState
 from mlgame.view.view_model import create_asset_init_data, create_image_view_data, create_text_view_data
 from .TankBullet import TankBullet
 from .TankSoundController import TankSoundController
+from .TankStation import TankStation
 from .collide_hit_rect import *
 from .env import *
-from ..GameFramework.BattleMode import BattleMode
-from ..GameFramework.constants import ID, X, Y, WIDTH, HEIGHT, ANGLE
+from games.TankMan.GameFramework.BattleMode import BattleMode
+from games.TankMan.GameFramework.constants import ID, X, Y, WIDTH, HEIGHT, ANGLE
 
 
 class TankBattleMode(BattleMode):
@@ -67,6 +69,21 @@ class TankBattleMode(BattleMode):
             self.create_bullet(shoot_info)
             self.player_2P.is_shoot = False
 
+    def calculate_score(self):
+        score_1P = 100 - self.player_2P.shield + (3 - self.player_2P.lives) * 100
+        score_2P = 100 - self.player_1P.shield + (3 - self.player_1P.lives) * 100
+        return score_1P, score_2P
+
+    def reset_game_mode(self):
+        score_1P = self.player_1P.score + self.calculate_score()[0]
+        score_2P = self.player_2P.score + self.calculate_score()[1]
+        if score_1P > score_2P:
+            self.status = GameStatus.GAME_1P_WIN
+            self.state = GameResultState.FINISH
+        elif score_1P < score_2P:
+            self.status = GameStatus.GAME_2P_WIN
+            self.state = GameResultState.FINISH
+
     def check_events(self):
         cmd_1P = []
         cmd_2P = []
@@ -113,7 +130,10 @@ class TankBattleMode(BattleMode):
                 collide_with_bullet_stations(player, self.bullet_stations)
                 collide_with_oil_stations(player, self.oil_stations)
         for wall in self.walls:
-            collide_with_bullets(wall, self.bullets)
+            player_id, score = collide_with_bullets(wall, self.bullets)
+            for player in self.players:
+                if player._id == player_id:
+                    player.score += score
 
     def create_bullet(self, shoot_info):
         self.sound_controller.play_shoot_sound()
@@ -154,6 +174,24 @@ class TankBattleMode(BattleMode):
 
         return all_sprite_data
 
+    def draw_text_data(self):
+        all_text_data = []
+        all_text_data.append(create_text_view_data(f"1P_Score: {self.player_1P.score + self.calculate_score()[0]}",
+                                                   WIDTH_CENTER + WIDTH_CENTER // 2 - 45, 0, WHITE,
+                                                   "30px Arial"))
+        all_text_data.append(create_text_view_data(f"2P_Score: {self.player_2P.score + self.calculate_score()[1]}",
+                                                   WIDTH_CENTER // 2 - 45, 0, WHITE, "30px Arial"))
+        all_text_data.append(create_text_view_data(f"Time: {self.used_frame // 60}", WINDOW_WIDTH - 100, 0, WHITE,
+                                                   "30px Arial"))
+        all_text_data.append(create_text_view_data(
+            f"2P Shield: {self.player_2P.shield} Power: {self.player_2P.power} Oil: {self.player_2P.oil} Lives: {self.player_2P.lives}",
+            5, WINDOW_HEIGHT - 35, WHITE, "30px Arial"))
+        all_text_data.append(create_text_view_data(
+            f"1P Lives: {self.player_2P.lives} Oil: {self.player_1P.oil} Power {self.player_1P.power} Shield: {self.player_1P.shield}",
+            WIDTH_CENTER + 200, WINDOW_HEIGHT - 35, WHITE, "30px Arial"))
+
+        return all_text_data
+
     def create_init_image_data(self):
         all_init_image_data = []
         for _id, img_path in OIL_STATION_IMG_PATH_DICT.items():
@@ -170,26 +208,7 @@ class TankBattleMode(BattleMode):
         for id, img_path in PLAYER_IMG_PATH_DICT.items():
             all_init_image_data.append(create_asset_init_data(id, TILE_X_SIZE, TILE_Y_SIZE,
                                                               img_path, PLAYER_URL[id]))
-
         return all_init_image_data
-
-    def draw_text_data(self):
-        all_text_data = []
-        all_text_data.append(create_text_view_data(f"1P_Score: {self.player_1P.score}",
-                                                   WIDTH_CENTER + WIDTH_CENTER // 2 - 45, 0, WHITE,
-                                                   "30px Arial"))
-        all_text_data.append(create_text_view_data(f"2P_Score: {self.player_2P.score}",
-                                                   WIDTH_CENTER // 2 - 45, 0, WHITE, "30px Arial"))
-        all_text_data.append(create_text_view_data(f"Time: {self.used_frame // 60}", WINDOW_WIDTH - 100, 0, WHITE,
-                                                   "30px Arial"))
-        all_text_data.append(create_text_view_data(
-            f"2P Shield: {self.player_2P.shield} Power: {self.player_2P.power} Oil: {self.player_2P.oil} Lives: {self.player_2P.lives}",
-            5, WINDOW_HEIGHT - 35, WHITE, "30px Arial"))
-        all_text_data.append(create_text_view_data(
-            f"1P Lives: {self.player_2P.lives} Oil: {self.player_1P.oil} Power {self.player_1P.power} Shield: {self.player_1P.shield}",
-            WIDTH_CENTER + 200, WINDOW_HEIGHT - 35, WHITE, "30px Arial"))
-
-        return all_text_data
 
     def create_scene_info(self):
         scene_info = self.get_scene_info()

@@ -16,10 +16,14 @@ def collide_with_walls(sprite: pygame.sprite.Sprite, group: pygame.sprite.Group)
 
 def collide_with_bullets(sprite: pygame.sprite.Sprite, group: pygame.sprite.Group):
     hits = pygame.sprite.spritecollide(sprite, group, False, collide_hit_rect)
-    for hit in hits:
-        if hit._id != sprite._id:
-            hit.kill()
-            sprite.collide_with_bullets()
+    if hits and hits[0]._id != sprite._id:
+        hits[0].kill()
+        score = 1
+        if sprite.lives == 1:
+            score += 5
+        sprite.collide_with_bullets()
+        return hits[0]._id, score
+    return None, None
 
 
 def collide_with_bullet_stations(player: TankPlayer, stations: pygame.sprite.Group):

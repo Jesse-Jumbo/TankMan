@@ -1,12 +1,12 @@
 import pygame.event
 
-from GameFramework.Player import Player
-from GameFramework.constants import ID, X, Y, WIDTH, HEIGHT, ANGLE
-from mlgame.gamedev.game_interface import GameResultState, GameStatus
-from mlgame.view.view_model import create_asset_init_data, create_image_view_data
-from .GameMode import GameMode
+from games.TankMan.GameFramework.GameMode import GameMode
+from games.TankMan.GameFramework.Player import Player
+from games.TankMan.GameFramework.constants import ID, X, Y, WIDTH, HEIGHT, ANGLE
 from games.TankMan.src.collide_hit_rect import *
 from games.TankMan.src.env import *
+from mlgame.gamedev.game_interface import GameResultState, GameStatus
+from mlgame.view.view_model import create_image_view_data
 
 
 class BattleMode(GameMode):
@@ -43,9 +43,16 @@ class BattleMode(GameMode):
         elif not self.player_1P.is_alive and self.player_2P.is_alive:
             self.status = GameStatus.GAME_2P_WIN
             self.state = GameResultState.FINISH
+        elif self.player_1P.score > self.player_2P.score:
+            self.status = GameStatus.GAME_1P_WIN
+            self.state = GameResultState.FAIL
+        elif self.player_1P.score < self.player_2P.score:
+            self.status = GameStatus.GAME_2P_WIN
+            self.state = GameResultState.FAIL
         else:
             self.status = GameStatus.GAME_OVER
             self.state = GameResultState.FAIL
+        self.reset_game_mode()
 
     def check_events(self):
         """
@@ -81,7 +88,7 @@ class BattleMode(GameMode):
             if isinstance(player, Player):
                 data = player.get_image_data()
                 player_data.append(create_image_view_data(data[ID], data[X], data[Y], data[WIDTH], data[HEIGHT],
-                                                              data[ANGLE]))
+                                                          data[ANGLE]))
 
         return player_data
 
@@ -137,3 +144,6 @@ class BattleMode(GameMode):
         return to_player_data
         """
         print("Please overwrite 'self.create_game_data_to_player' method")
+
+    def reset_game_mode(self):
+        pass
