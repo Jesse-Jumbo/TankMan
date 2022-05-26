@@ -1,7 +1,5 @@
 import pygame.mixer
 
-from games.PacMan.src.env import *
-
 
 class SoundController:
     def __init__(self, is_sound: bool):

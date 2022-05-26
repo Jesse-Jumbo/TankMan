@@ -1,37 +1,36 @@
-import random
+"""
+The template of the main script of the machine learning process
+"""
+
+import pygame
 
 
 class MLPlay:
     def __init__(self):
-        self.game_info = []
-        self.player_2P_info = []
-        self.player_1P_info = []
         print("Initial ml script")
-        self.time = 0
 
-    def update(self, scene_info: dict):
+    def update(self, scene_info: dict, keyboard: list, *args, **kwargs):
         """
         Generate the command according to the received scene information
         """
         # print(scene_info)
-        if scene_info["status"] != "GAME_ALIVE":
+        # print(keyboard)
+        if keyboard is None:
+            keyboard = []
             return "RESET"
 
         command = []
-        self.time += 1
-        if self.time % 30 == 0:
-            act = random.randrange(5)
-        else:
-            act = None
-        if act == 1:
+
+        if pygame.K_RIGHT in keyboard:
             command.append("TURN_RIGHT")
-        elif act == 2:
+        elif pygame.K_LEFT in keyboard:
             command.append("TURN_LEFT")
-        elif act == 3:
+        elif pygame.K_UP in keyboard:
             command.append("FORWARD")
-        elif act == 4:
+        elif pygame.K_DOWN in keyboard:
             command.append("BACKWARD")
-        if act == 0:
+
+        if pygame.K_SPACE in keyboard:
             command.append("SHOOT")
 
         return command
@@ -41,4 +40,3 @@ class MLPlay:
         Reset the status
         """
         print("reset ml script")
-

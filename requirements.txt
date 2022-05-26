@@ -1,0 +1,2 @@
+pygame
+pytmx == 3.31

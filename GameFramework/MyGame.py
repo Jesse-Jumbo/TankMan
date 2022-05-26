@@ -1,7 +1,6 @@
 from mlgame.gamedev.game_interface import PaiaGame, GameStatus
 from mlgame.view.test_decorator import check_game_result
 from mlgame.view.view_model import Scene
-from .GameMode import GameMode
 
 '''need some fuction same as arkanoid which without dash in the name of fuction'''
 
@@ -64,6 +63,7 @@ class GameFramework(PaiaGame):
 
         game_progress = {'background': [],
                          'object_list': self.game_mode.draw_sprite_data(),
+                         'toggle_with_bias': [],
                          'toggle': [],
                          'foreground': self.game_mode.draw_text_data(),
                          'user_info': [],
@@ -102,9 +102,12 @@ class GameFramework(PaiaGame):
         return [{"name": "1P"}, {"name": "2P"}, {"name": "3P"}, {"name": "4P"}]
 
     def set_game_mode(self):
+        print("please overwrite 'self.set_game_mode' method")
+        """
+        Example:
         game_mode = GameMode(self.map_name, self.time_limit, self.is_sound)
         return game_mode
-
+        """
     def rank(self):
         self.game_result_state = self.game_mode.state
         self.attachements = self.game_mode.get_result()
