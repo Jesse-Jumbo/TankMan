@@ -9,7 +9,7 @@ class MLPlay:
         @param side A string "1P" or "2P" indicates that the `MLPlay` is used by
                which side.
         """
-        print("Initial ml script 2P")
+        print("Initial TankMan ml script 2P")
         self.side = side
         self.time = 0
 
@@ -44,4 +44,4 @@ class MLPlay:
         """
         Reset the status
         """
-        print(f"reset {self.side}")
+        print(f"reset TankMan {self.side}")
