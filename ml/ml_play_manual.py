@@ -5,9 +5,19 @@ The template of the main script of the machine learning process
 import pygame
 
 
+
 class MLPlay:
-    def __init__(self):
-        print("Initial ml script")
+    def __init__(self, side):
+        """
+        Constructor
+
+        @param side A string "1P" or "2P" indicates that the `MLPlay` is used by
+               which side.
+        """
+        self.side = side
+        print(f"Initial {side} ml script")
+        self.time = 0
+        pygame.display.set_caption("TankMan！")
 
     def update(self, scene_info: dict, keyboard: list, *args, **kwargs):
         """
@@ -15,23 +25,33 @@ class MLPlay:
         """
         # print(scene_info)
         # print(keyboard)
-        if keyboard is None:
-            keyboard = []
+        if scene_info["status"] != "GAME_ALIVE":
             return "RESET"
 
         command = []
+        if self.side == "1P":
+            if pygame.K_RIGHT in keyboard:
+                command.append("TURN_RIGHT")
+            elif pygame.K_LEFT in keyboard:
+                command.append("TURN_LEFT")
+            elif pygame.K_UP in keyboard:
+                command.append("FORWARD")
+            elif pygame.K_DOWN in keyboard:
+                command.append("BACKWARD")
+            if pygame.K_SPACE in keyboard:
+                command.append("SHOOT")
+        else:
+            if pygame.K_d in keyboard:
+                command.append("TURN_RIGHT")
+            elif pygame.K_a in keyboard:
+                command.append("TURN_LEFT")
+            elif pygame.K_w in keyboard:
+                command.append("FORWARD")
+            elif pygame.K_s in keyboard:
+                command.append("BACKWARD")
 
-        if pygame.K_RIGHT in keyboard:
-            command.append("TURN_RIGHT")
-        elif pygame.K_LEFT in keyboard:
-            command.append("TURN_LEFT")
-        elif pygame.K_UP in keyboard:
-            command.append("FORWARD")
-        elif pygame.K_DOWN in keyboard:
-            command.append("BACKWARD")
-
-        if pygame.K_SPACE in keyboard:
-            command.append("SHOOT")
+            if pygame.K_f in keyboard:
+                command.append("SHOOT")
 
         return command
 
@@ -39,4 +59,4 @@ class MLPlay:
         """
         Reset the status
         """
-        print("reset ml script")
+        print(f"reset {self.side}")

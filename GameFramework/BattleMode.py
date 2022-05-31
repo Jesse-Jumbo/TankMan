@@ -14,12 +14,11 @@ class BattleMode(GameMode):
         super().__init__(map_path, time_limit, is_sound)
         self.players = pygame.sprite.Group()
 
+    # TODO refactor result info and position
     def get_result(self) -> list:
         res = []
-        c = 1
         for player in self.players:
-            res.append({f"{c}P": player.get_info()})
-            c = 2
+            res.append(player.get_info())
         return res
 
     def update_game_mode(self, command: dict):

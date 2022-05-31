@@ -2,14 +2,18 @@ import random
 
 
 class MLPlay:
-    def __init__(self):
-        self.game_info = []
-        self.player_2P_info = []
-        self.player_1P_info = []
-        print("Initial ml script")
+    def __init__(self, side):
+        """
+        Constructor
+
+        @param side A string "1P" or "2P" indicates that the `MLPlay` is used by
+               which side.
+        """
+        print("Initial ml script 1P")
+        self.side = side
         self.time = 0
 
-    def update(self, scene_info: dict):
+    def update(self, scene_info: dict, *args, **kwargs):
         """
         Generate the command according to the received scene information
         """
@@ -18,11 +22,11 @@ class MLPlay:
             return "RESET"
 
         command = []
+        act = None
         self.time += 1
         if self.time % 30 == 0:
             act = random.randrange(5)
-        else:
-            act = None
+
         if act == 1:
             command.append("TURN_RIGHT")
         elif act == 2:
@@ -40,5 +44,4 @@ class MLPlay:
         """
         Reset the status
         """
-        print("reset ml script")
-
+        print(f"reset {self.side}")
