@@ -89,7 +89,10 @@ class GameFramework(PaiaGame):
         # 此處回傳的資料 要與 ml_play.py 一致
 
         if not self.is_running():
-            return {"1P": "RESET", "2P": "RESET", "3P": "RESET", "4P": "RESET"}
+            reset_dict = {}
+            for i in range(1, len(self.game_mode.playes)+1):
+                reset_dict[f"{i}P"] = "RESET"
+            return reset_dict
 
         return self.game_mode.check_events()
 

@@ -78,32 +78,21 @@ class TankBattleMode(BattleMode):
         score_1P = self.player_1P.score + self.calculate_score()[0]
         score_2P = self.player_2P.score + self.calculate_score()[1]
         if score_1P > score_2P:
-            self.status = GameStatus.GAME_1P_WIN
-            self.state = GameResultState.FINISH
+            self.reset(GameResultState.FINISH, GameStatus.GAME_1P_WIN)
         elif score_1P < score_2P:
-            self.status = GameStatus.GAME_2P_WIN
-            self.state = GameResultState.FINISH
+            self.reset(GameResultState.FINISH, GameStatus.GAME_2P_WIN)
 
-    def check_events(self):
+    # TODO 解決前進並後退時會穿牆
+    def get_1P_command(self):
         cmd_1P = []
-        cmd_2P = []
-
-        # TODO 解決前進並後退時會穿牆
         key_pressed_list = pygame.key.get_pressed()
         if key_pressed_list[pygame.K_UP]:
             cmd_1P.append(FORWARD_CMD)
         elif key_pressed_list[pygame.K_DOWN]:
             cmd_1P.append(BACKWARD_CMD)
 
-        if key_pressed_list[pygame.K_w]:
-            cmd_2P.append(FORWARD_CMD)
-        elif key_pressed_list[pygame.K_s]:
-            cmd_2P.append(BACKWARD_CMD)
-
         if key_pressed_list[pygame.K_SPACE]:
             cmd_1P.append(SHOOT)
-        if key_pressed_list[pygame.K_f]:
-            cmd_2P.append(SHOOT)
 
         for even in pygame.event.get():
             if even.type == pygame.KEYDOWN:
@@ -112,12 +101,27 @@ class TankBattleMode(BattleMode):
                 elif even.key == pygame.K_LEFT:
                     cmd_1P.append(LEFT_CMD)
 
+        return cmd_1P
+
+    def get_2P_command(self):
+        cmd_2P = []
+        key_pressed_list = pygame.key.get_pressed()
+        if key_pressed_list[pygame.K_w]:
+            cmd_2P.append(FORWARD_CMD)
+        elif key_pressed_list[pygame.K_s]:
+            cmd_2P.append(BACKWARD_CMD)
+
+        if key_pressed_list[pygame.K_f]:
+            cmd_2P.append(SHOOT)
+
+        for even in pygame.event.get():
+            if even.type == pygame.KEYDOWN:
                 if even.key == pygame.K_d:
                     cmd_2P.append(RIGHT_CMD)
                 elif even.key == pygame.K_a:
                     cmd_2P.append(LEFT_CMD)
 
-        return {"1P": cmd_1P, "2P": cmd_2P}
+        return cmd_2P
 
     def check_collisions(self):
         # TODO check hti rect of station and player

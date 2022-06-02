@@ -16,6 +16,7 @@ class BattleMode(GameMode):
 
     # TODO refactor result info and position
     def get_result(self) -> list:
+        """Define the end of game will return the player's info for user"""
         res = []
         for player in self.players:
             res.append(player.get_info())
@@ -34,23 +35,18 @@ class BattleMode(GameMode):
         """Define update of this template's child"""
         print("please overwrite 'self.update_game' method")
 
-    def reset(self):
+    def check_game_is_end(self):
         # TODO how better
         if self.player_1P.is_alive and not self.player_2P.is_alive:
-            self.status = GameStatus.GAME_1P_WIN
-            self.state = GameResultState.FINISH
+            self.reset(GameResultState.FINISH, GameStatus.GAME_1P_WIN)
         elif not self.player_1P.is_alive and self.player_2P.is_alive:
-            self.status = GameStatus.GAME_2P_WIN
-            self.state = GameResultState.FINISH
+            self.reset(GameResultState.FINISH, GameStatus.GAME_2P_WIN)
         elif self.player_1P.score > self.player_2P.score:
-            self.status = GameStatus.GAME_1P_WIN
-            self.state = GameResultState.FAIL
+            self.reset(GameResultState.FAIL, GameStatus.GAME_1P_WIN)
         elif self.player_1P.score < self.player_2P.score:
-            self.status = GameStatus.GAME_2P_WIN
-            self.state = GameResultState.FAIL
+            self.reset(GameResultState.FAIL, GameStatus.GAME_2P_WIN)
         else:
-            self.status = GameStatus.GAME_OVER
-            self.state = GameResultState.FAIL
+            self.reset(GameResultState.FAIL, GameStatus.GAME_OVER)
         self.reset_game_mode()
 
     def check_events(self):
@@ -63,13 +59,24 @@ class BattleMode(GameMode):
         for even in pygame.event.get():
             pass
         """
-        '''
-        cmd_1P = ""
-        cmd_2P = ""
+        cmd_1P = self.get_1P_command()
+        cmd_2P = self.get_2P_command()
 
         return {"1P": cmd_1P, "2P": cmd_2P}
-        '''
-        print("please overwrite 'self.check_events' method")
+
+    def get_1P_command(self):
+        """
+        Define command to control 1P
+        """
+        print("Please overwrite 'self.get_1P_command()' method")
+        return
+
+    def get_2P_command(self):
+        """
+        Define command to control 1P
+        """
+        print("Please overwrite 'self.get_2P_command()' method")
+        return
 
     def check_collisions(self):
         pass

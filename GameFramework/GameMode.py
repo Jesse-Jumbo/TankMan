@@ -23,7 +23,8 @@ class GameMode:
 
     def get_result(self) -> list:
         """Define the end of game will return the player's info for user
-        res = [{"1P": {}}]
+        res = []
+        res.append(player.get_info())
         return res
         """
         print("please overwrite 'self.get_result' method")
@@ -37,17 +38,22 @@ class GameMode:
 
             if self.used_frame > self.frame_limit:
                 self.reset()
+            self.check_game_is_end()
             self.update_game_mode(command)
 
     def update_game_mode(self, command: dict):
         """Define belong to the children update"""
         print("please overwrite 'self.update_game' method")
 
-    def reset(self):
+    def check_game_is_end(self):
         """
-        Determine the game result state and status
+        Judge rur self.reset() should in what situation
         """
-        print("please overwrite 'self.reset' method")
+        print("please overwrite 'self.check_game_is_end' method")
+
+    def reset(self, state: str, status: str):
+        self.state = state
+        self.status = status
 
     def check_events(self):
         """

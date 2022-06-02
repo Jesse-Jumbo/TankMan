@@ -4,6 +4,7 @@ import pytmx
 # Map 讀取地圖資料
 class TiledMap:
     def __init__(self, filepath: str):
+        print(filepath)
         tm = pytmx.load_pygame(filepath, pixealpha=True)
         self.width = tm.tilewidth
         self.height = tm.tileheight
