@@ -3,13 +3,13 @@ from mlgame.gamedev.game_interface import GameResultState, GameStatus
 
 
 class BattleMode(GameMode):
-    def check_game_is_end(self):
+    def reset(self):
         if self.player_1P.is_alive and not self.player_2P.is_alive:
-            self.reset(GameResultState.FINISH, GameStatus.GAME_1P_WIN)
+            self.set_result(GameResultState.FINISH, GameStatus.GAME_1P_WIN)
         elif not self.player_1P.is_alive and self.player_2P.is_alive:
-            self.reset(GameResultState.FINISH, GameStatus.GAME_2P_WIN)
+            self.set_result(GameResultState.FINISH, GameStatus.GAME_2P_WIN)
         else:
-            self.check_game_is_end_again()
+            self.reset_2()
 
     def get_act_command(self):
         """
@@ -51,5 +51,5 @@ class BattleMode(GameMode):
 
         return scene_info
 
-    def check_game_is_end_again(self):
+    def reset_2(self):
         pass

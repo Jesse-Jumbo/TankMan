@@ -87,6 +87,7 @@ class GameFramework(PaiaGame):
         Get the command according to the pressed keys
         """
         # 此處回傳的資料 要與 ml_play.py 一致
+        print(self.is_running())
 
         if not self.is_running():
             reset_dict = {}

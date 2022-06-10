@@ -36,10 +36,14 @@ class GameMode:
         """Define the end of game will return the player's info for user"""
         res = []
         for player in self.players:
-            res.append(player.get_info())
+            get_res = player.get_info()
+            get_res["state"] = self.state
+            get_res["status"] = self.status
+            res.append(get_res)
         return res
 
     def update_game_mode(self, command: dict):
+        self.set_result(GameResultState.FAIL, GameStatus.GAME_ALIVE)
         self.get_act_command()
         if not self.is_paused:
             self.used_frame += 1
@@ -48,25 +52,17 @@ class GameMode:
             for player in self.players:
                 player.update(command[f"{number}P"])
                 number += 1
+                if not player.is_alive or self.used_frame > self.frame_limit:
+                    self.reset()
             self.check_collisions()
-            if self.used_frame > self.frame_limit:
-                self.reset(state=GameResultState.FAIL, status=GameStatus.GAME_OVER)
-                print("Time Out")
-            for player in self.players:
-                if not player.is_alive:
-                    # TODO refactor methods
-                    self.check_game_is_end()
-                else:
-                    self.state, self.status = GameResultState.FAIL, GameStatus.GAME_ALIVE
 
-
-    def check_game_is_end(self):
+    def reset(self):
         """
         Judge rur self.reset() should in what situation
         """
         print("please overwrite 'self.check_game_is_end' method")
 
-    def reset(self, state: str, status: str):
+    def set_result(self, state: str, status: str):
         self.state = state
         self.status = status
 

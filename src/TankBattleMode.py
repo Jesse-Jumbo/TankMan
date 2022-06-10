@@ -59,15 +59,15 @@ class TankBattleMode(BattleMode):
         score_2P = 100 - self.player_1P.shield + (3 - self.player_1P.lives) * 100
         return score_1P, score_2P
 
-    def check_game_is_end_again(self):
+    def reset_2(self):
         score_1P = self.player_1P.score + self.calculate_score()[0]
         score_2P = self.player_2P.score + self.calculate_score()[1]
         if score_1P > score_2P:
-            self.reset(GameResultState.FINISH, GameStatus.GAME_1P_WIN)
+            self.set_result(GameResultState.FINISH, GameStatus.GAME_1P_WIN)
         elif score_1P < score_2P:
-            self.reset(GameResultState.FINISH, GameStatus.GAME_2P_WIN)
+            self.set_result(GameResultState.FINISH, GameStatus.GAME_2P_WIN)
         else:
-            self.reset(GameResultState.FAIL, GameStatus.GAME_OVER)
+            self.set_result(GameResultState.FAIL, GameStatus.GAME_DRAW)
 
     # TODO 解決前進並後退時會穿牆
     def get_1P_command(self):
@@ -182,7 +182,7 @@ class TankBattleMode(BattleMode):
             f"2P Shield: {self.player_2P.shield} Power: {self.player_2P.power} Oil: {round(self.player_2P.oil, 2)} Lives: {self.player_2P.lives}",
             5, WINDOW_HEIGHT - 35, WHITE, "30px Arial"))
         all_text_data.append(create_text_view_data(
-            f"1P Lives: {self.player_2P.lives} Oil: {self.player_1P.oil} Power {self.player_1P.power} Shield: {self.player_1P.shield}",
+            f"1P Lives: {self.player_2P.lives} Oil: {round(self.player_1P.oil,2)} Power {self.player_1P.power} Shield: {self.player_1P.shield}",
             WIDTH_CENTER + 200, WINDOW_HEIGHT - 35, WHITE, "30px Arial"))
 
         return all_text_data
