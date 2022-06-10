@@ -94,7 +94,7 @@ class GameFramework(PaiaGame):
                 reset_dict[f"{i}P"] = "RESET"
             return reset_dict
 
-        return self.game_mode.check_events()
+        return self.game_mode.get_act_command()
 
     @staticmethod
     def ai_clients():

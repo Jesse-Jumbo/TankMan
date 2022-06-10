@@ -1,20 +1,22 @@
 import random
+from os import path
 
 import pygame.draw
 
-from .env import WINDOW_WIDTH, WINDOW_HEIGHT, LEFT_CMD, RIGHT_CMD, FORWARD_CMD, BACKWARD_CMD, SHOOT, SHOOT_COOLDOWN
+from mlgame.view.view_model import create_asset_init_data
+from .env import WINDOW_WIDTH, WINDOW_HEIGHT, LEFT_CMD, RIGHT_CMD, FORWARD_CMD, BACKWARD_CMD, SHOOT, SHOOT_COOLDOWN, \
+    IMAGE_DIR
 from games.TankMan.GameFramework.Player import Player
-from games.TankMan.GameFramework.constants import ID, X, Y, HEIGHT, WIDTH, ANGLE
+from games.TankMan.GameFramework.constants import *
 
 vec = pygame.math.Vector2
 
 
 class TankPlayer(Player):
-    def __init__(self, _id: int, _no: int, x: int, y: int, width: int, height: int):
-        super().__init__(_id, _no, x, y, width, height)
-        self._id = _id
-        self.origin_size = (width, height)
-        self.surface = pygame.Surface((width, height))
+    def __init__(self, construction, **kwargs):
+        super().__init__(construction, **kwargs)
+        self.origin_size = (self.rect.width, self.rect.height)
+        self.surface = pygame.Surface((self.rect.width, self.rect.height))
         self.speed = 8
         self.angle = 0
         self.score = 0
@@ -159,7 +161,7 @@ class TankPlayer(Player):
         self.oil += oil
 
     def get_info(self):
-        info = {"id": f"{self._id}P",
+        info = {"id": f"player_{self._id}P",
                 "x": self.rect.x,
                 "y": self.rect.y,
                 "speed": self.speed,
@@ -172,6 +174,15 @@ class TankPlayer(Player):
         return info
 
     def get_image_data(self):
-        image_data = {ID: f"{self._id}P", X: self.rect.x, Y: self.rect.y,
+        image_data = {ID: f"player_{self._id}P", X: self.rect.x, Y: self.rect.y,
                       WIDTH: self.origin_size[0], HEIGHT: self.origin_size[1], ANGLE: self.angle}
         return image_data
+
+    def get_image_init_data(self):
+        img_data = {"player_1P": "https://github.com/Jesse-Jumbo/TankMan/blob/main/asset/image/player_1P.png",
+                    "player_2P": "https://github.com/Jesse-Jumbo/TankMan/blob/main/asset/image/player_2P.png"}
+        image_init_data = []
+        for id, url in img_data.items():
+            image_init_data.append(create_asset_init_data(id, self.origin_size[0], self.origin_size[1],
+                               path.join(IMAGE_DIR, f"{id}.png"), url))
+        return image_init_data

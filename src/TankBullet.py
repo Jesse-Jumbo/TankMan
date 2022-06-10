@@ -1,6 +1,9 @@
+from os import path
+
 import pygame
 
-from .env import WINDOW_HEIGHT, WINDOW_WIDTH
+from mlgame.view.view_model import create_asset_init_data
+from .env import WINDOW_HEIGHT, WINDOW_WIDTH, IMAGE_DIR
 from games.TankMan.GameFramework.Bullet import Bullet
 
 vec = pygame.math.Vector2
@@ -36,3 +39,9 @@ class TankBullet(Bullet):
             self.rect.center += self.move["down"]
         elif self.rot == 45 or self.rot == -315:
             self.rect.center += self.move["left_down"]
+
+    def get_image_init_data(self):
+        img_data = {"bullet": "https://github.com/Jesse-Jumbo/TankMan/blob/main/asset/image/bullet.png"}
+        id, url = img_data.items()
+        image_init_data = create_asset_init_data(id, self.rect.width, self.rect.height, path.join(IMAGE_DIR, f"{id}.png"), url)
+        return image_init_data

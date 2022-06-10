@@ -5,7 +5,6 @@ The template of the main script of the machine learning process
 import pygame
 
 
-
 class MLPlay:
     def __init__(self, side):
         """

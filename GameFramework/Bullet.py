@@ -2,7 +2,7 @@ import pygame.sprite
 
 
 class Bullet(pygame.sprite.Sprite):
-    def __init__(self, center: tuple, width: int, height: int ):
+    def __init__(self, center: tuple, width: int, height: int):
         super().__init__()
         self.rect = pygame.Rect(0, 0, width, height)
         self.rect.center = center
@@ -26,6 +26,13 @@ class Bullet(pygame.sprite.Sprite):
         print("please overwrite 'self.update_bullet' method")
 
     def get_image_data(self):
-        image_data = {"id": "bullets", "x": self.rect.x, "y": self.rect.y,
+        image_data = {"id": "bullet", "x": self.rect.x, "y": self.rect.y,
                       "width": self.rect.width, "height": self.rect.height, "angle": self.angle}
         return image_data
+
+    def get_image_init_data(self):
+        """
+        return image_init_data = {"id": "image_id", "width": 0, "height": 0, "path": "image_path, "url": 0}
+        """
+        print("please overwrite 'self.get_image_init_data' method")
+

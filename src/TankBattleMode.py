@@ -9,13 +9,11 @@ from .TankStation import TankStation
 from .collide_hit_rect import *
 from .env import *
 from games.TankMan.GameFramework.BattleMode import BattleMode
-from games.TankMan.GameFramework.constants import ID, X, Y, WIDTH, HEIGHT, ANGLE
 
 
 class TankBattleMode(BattleMode):
     def __init__(self, map_path: str, time_limit: int, is_sound: bool):
         super().__init__(map_path, time_limit, is_sound)
-        self.players.__init__()
         self.sound_controller = TankSoundController(is_sound)
         self.sound_controller.play_bgm()
         # control variables
@@ -27,37 +25,24 @@ class TankBattleMode(BattleMode):
         self.bullet_stations = pygame.sprite.Group()
         self.oil_stations = pygame.sprite.Group()
         # init players
-        players = self.map.create_obj_init_data(PLAYER_IMG_NO_LIST)
-        # TODO how better
-        for player in players:
-            if player["_id"] == 1:
-                self.player_1P = TankPlayer(player['_id'], player["_no"], player["x"], player["y"], player["width"],
-                                            player["height"])
-            else:
-                self.player_2P = TankPlayer(player['_id'], player["_no"], player["x"], player["y"], player["width"],
-                                            player["height"])
+        self.player_1P = self.map.create_init_obj(PLAYER_1_IMG_NO, TankPlayer)
+        self.player_2P = self.map.create_init_obj(PLAYER_2_IMG_NO, TankPlayer)
         self.players.add(self.player_1P, self.player_2P)
         # init walls
-        walls = self.map.create_obj_init_data(WALL_IMG_NO_LIST)
-        for wall in walls:
-            self.walls.add(TankWall(wall['_id'], wall["x"], wall["y"], wall["width"], wall["height"]))
+        walls = self.map.create_init_obj_list(WALL_IMG_NO, TankWall)
+        [self.walls.add(wall) for wall in walls]
         self.all_sprites.add(self.walls)
         # init bullet stations
-        bullet_stations = self.map.create_obj_init_data(BULLET_STATION_IMG_NO_LIST)
-        for bullet_station in bullet_stations:
-            self.bullet_stations.add(TankStation(bullet_station["_id"], 3,
-                                                 bullet_station["x"], bullet_station["y"],
-                                                 bullet_station["width"], bullet_station["height"], 10, 5))
+        bullet_stations = self.map.create_init_obj_list(BULLET_STATION_IMG_NO, TankStation, capacity=10, cd_time=5, level=3)
+        [self.bullet_stations.add(bullet_station) for bullet_station in bullet_stations]
         self.all_sprites.add(self.bullet_stations)
         # init oil stations
-        oil_stations = self.map.create_obj_init_data(OIL_STATION_IMG_NO_LIST)
-        for oil_station in oil_stations:
-            self.oil_stations.add(TankStation(oil_station["_id"], 3,
-                                              oil_station["x"], oil_station["y"],
-                                              oil_station["width"], oil_station["height"], 100, 1))
+        oil_stations = self.map.create_init_obj_list(OIL_STATION_IMG_NO, TankStation, capacity=100, cd_time=1, level=3)
+        [self.oil_stations.add(oil_station) for oil_station in oil_stations]
         self.all_sprites.add(self.oil_stations)
 
-    def update_game(self):
+    def update(self, command: dict):
+        self.update_game_mode(command)
         if self.player_1P.is_shoot:
             shoot_info = self.player_1P.create_shoot_info()
             self.create_bullet(shoot_info)
@@ -74,13 +59,15 @@ class TankBattleMode(BattleMode):
         score_2P = 100 - self.player_1P.shield + (3 - self.player_1P.lives) * 100
         return score_1P, score_2P
 
-    def reset_game_mode(self):
+    def check_game_is_end_again(self):
         score_1P = self.player_1P.score + self.calculate_score()[0]
         score_2P = self.player_2P.score + self.calculate_score()[1]
         if score_1P > score_2P:
             self.reset(GameResultState.FINISH, GameStatus.GAME_1P_WIN)
         elif score_1P < score_2P:
             self.reset(GameResultState.FINISH, GameStatus.GAME_2P_WIN)
+        else:
+            self.reset(GameResultState.FAIL, GameStatus.GAME_OVER)
 
     # TODO 解決前進並後退時會穿牆
     def get_1P_command(self):
@@ -151,20 +138,23 @@ class TankBattleMode(BattleMode):
         for oil_station in self.oil_stations:
             if isinstance(oil_station, TankStation):
                 data = oil_station.get_image_data()
-                all_sprite_data.append(create_image_view_data(data[ID], data[X], data[Y], data[WIDTH], data[HEIGHT],
-                                                              data[ANGLE]))
+                all_sprite_data.append(create_image_view_data(data[self._ID], data[self._X], data[self._Y],
+                                                              data[self._WIDTH], data[self._HEIGHT],
+                                                              data[self._ANGLE]))
 
         for bullet_station in self.bullet_stations:
             if isinstance(bullet_station, TankStation):
                 data = bullet_station.get_image_data()
-                all_sprite_data.append(create_image_view_data(data[ID], data[X], data[Y], data[WIDTH], data[HEIGHT],
-                                                              data[ANGLE]))
+                all_sprite_data.append(create_image_view_data(data[self._ID], data[self._X], data[self._Y],
+                                                              data[self._WIDTH], data[self._HEIGHT],
+                                                              data[self._ANGLE]))
 
         for bullet in self.bullets:
             if isinstance(bullet, TankBullet):
                 data = bullet.get_image_data()
-                all_sprite_data.append(create_image_view_data(data[ID], data[X], data[Y], data[WIDTH], data[HEIGHT],
-                                                              data[ANGLE]))
+                all_sprite_data.append(create_image_view_data(data[self._ID], data[self._X], data[self._Y],
+                                                              data[self._WIDTH], data[self._HEIGHT],
+                                                              data[self._ANGLE]))
 
         for player in self.draw_players():
             all_sprite_data.append(player)
@@ -173,8 +163,9 @@ class TankBattleMode(BattleMode):
             if isinstance(wall, TankWall):
                 data = wall.get_image_data()
                 if data:
-                    all_sprite_data.append(create_image_view_data(data[ID], data[X], data[Y], data[WIDTH], data[HEIGHT],
-                                                                  data[ANGLE]))
+                    all_sprite_data.append(create_image_view_data(data[self._ID], data[self._X], data[self._Y],
+                                                                  data[self._WIDTH], data[self._HEIGHT],
+                                                                  data[self._ANGLE]))
 
         return all_sprite_data
 
@@ -198,20 +189,22 @@ class TankBattleMode(BattleMode):
 
     def create_init_image_data(self):
         all_init_image_data = []
-        for _id, img_path in OIL_STATION_IMG_PATH_DICT.items():
-            all_init_image_data.append(create_asset_init_data(f"oil_station_{_id}", TILE_X_SIZE,
-                                                              TILE_Y_SIZE, img_path, OIL_URL[_id]))
-        for _id, img_path in BULLET_STATION_IMG_PATH_DICT.items():
-            all_init_image_data.append(create_asset_init_data(f"bullet_station_{_id}", TILE_X_SIZE,
-                                                              TILE_Y_SIZE, img_path, BULLETS_URL[_id]))
-        for _id, img_path in WALL_IMG_PATH_DICT.items():
-            all_init_image_data.append(create_asset_init_data(f"wall_{_id}", TILE_X_SIZE, TILE_Y_SIZE,
-                                                              img_path, WALL_URL[_id]))
-        all_init_image_data.append(create_asset_init_data("bullets", TILE_X_SIZE, TILE_Y_SIZE,
-                                                          BULLET_IMG_PATH, BULLET_URL))
-        for id, img_path in PLAYER_IMG_PATH_DICT.items():
-            all_init_image_data.append(create_asset_init_data(id, TILE_X_SIZE, TILE_Y_SIZE,
-                                                              img_path, PLAYER_URL[id]))
+        for station in self.oil_stations:
+            if isinstance(station, TankStation):
+                for data in station.get_image_init_data():
+                    all_init_image_data.append(data)
+                break
+        for wall in self.walls:
+            if isinstance(wall, TankWall):
+                for data in wall.get_image_init_data():
+                    all_init_image_data.append(data)
+                break
+        img_id = "bullet"
+        img_url = "https://github.com/Jesse-Jumbo/TankMan/blob/main/asset/image/bullet.png"
+        image_init_data = create_asset_init_data(img_id, BULLET_SIZE[0], BULLET_SIZE[1], path.join(IMAGE_DIR, f"{img_id}.png"), img_url)
+        all_init_image_data.append(image_init_data)
+        for data in self.player_1P.get_image_init_data():
+            all_init_image_data.append(data)
         return all_init_image_data
 
     def create_scene_info(self):

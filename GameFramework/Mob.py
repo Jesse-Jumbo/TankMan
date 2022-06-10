@@ -3,34 +3,29 @@ import pygame
 vec = pygame.math.Vector2
 
 
-class Player(pygame.sprite.Sprite):
+class Mob(pygame.sprite.Sprite):
     def __init__(self, construction, **kwargs):
         super().__init__()
         self._id = construction["_id"]
         self._no = construction["_no"]
         self.rect = pygame.Rect(construction["x"], construction["y"], construction["width"], construction["height"])
         self.origin_center = self.rect.center
-        self.hit_rect = pygame.Rect(0, 0, construction["width"]-2, construction["height"]-2)
+        self.hit_rect = pygame.Rect(0, 0, construction["width"] - 2, construction["height"] - 2)
         self.hit_rect.center = self.rect.center
-        self.score = 0
         self.used_frame = 0
-        self.lives = 3
         self.vel = vec(0, 0)
-        self.is_alive = True
 
-    def update(self, commands):
+    def update(self):
         self.used_frame += 1
         self.hit_rect.center = self.rect.center
         self.update_children()
-        self.act(commands)
-        if self.lives < 0:
-            self.is_alive = False
+        self.act()
 
     def update_children(self):
         """Define belong to the children update"""
         print("please overwrite this update")
 
-    def act(self, commands):
+    def act(self):
         """Define when receive act commands will run what method"""
         print("please overwrite 'self.act' method")
 
@@ -56,9 +51,3 @@ class Player(pygame.sprite.Sprite):
         return image_data = {"id": "image_id", "x": 0, "y": 0, "width": 0, "height": 0, "angle": 0}
         """
         print("please overwrite 'self.get_image_data' method")
-
-    def get_image_init_data(self):
-        """
-        return image_init_data = {"id": "image_id", "width": 0, "height": 0, "path": "image_path, "url": 0}
-        """
-        print("please overwrite 'self.get_image_init_data' method")

@@ -1,5 +1,7 @@
 import pygame.event
 
+from mlgame.view.view_model import create_image_view_data
+from .constants import ID, X, Y, WIDTH, HEIGHT, ANGLE
 from .sound_controller import SoundController
 from mlgame.gamedev.game_interface import GameResultState, GameStatus
 
@@ -8,6 +10,13 @@ from games.TankMan.src.env import *
 
 
 class GameMode:
+    _ID = ID
+    _X = X
+    _Y = Y
+    _WIDTH = WIDTH
+    _HEIGHT = HEIGHT
+    _ANGLE = ANGLE
+
     def __init__(self, map_path: str, time_limit: int, is_sound: bool):
         self.window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
         self.map_path = map_path
@@ -20,30 +29,36 @@ class GameMode:
         self.used_frame = 0
         self.state = GameResultState.FAIL
         self.status = GameStatus.GAME_ALIVE
+        self.players = pygame.sprite.Group()
 
+    # TODO refactor result info and position
     def get_result(self) -> list:
-        """Define the end of game will return the player's info for user
+        """Define the end of game will return the player's info for user"""
         res = []
-        res.append(player.get_info())
+        for player in self.players:
+            res.append(player.get_info())
         return res
-        """
-        print("please overwrite 'self.get_result' method")
 
-    def update(self, command: dict):
-        self.check_events()
+    def update_game_mode(self, command: dict):
+        self.get_act_command()
         if not self.is_paused:
             self.used_frame += 1
             self.all_sprites.update()
+            c = 1
+            for player in self.players:
+                player.update(command[f"{c}P"])
+                c += 1
             self.check_collisions()
-
             if self.used_frame > self.frame_limit:
-                self.reset()
-            self.check_game_is_end()
-            self.update_game_mode(command)
+                self.reset(state=GameResultState.FAIL, status=GameStatus.GAME_OVER)
+                print("Time Out")
+            for player in self.players:
+                if not player.is_alive:
+                    # TODO refactor methods
+                    self.check_game_is_end()
+                else:
+                    self.state, self.status = GameResultState.FAIL, GameStatus.GAME_ALIVE
 
-    def update_game_mode(self, command: dict):
-        """Define belong to the children update"""
-        print("please overwrite 'self.update_game' method")
 
     def check_game_is_end(self):
         """
@@ -55,7 +70,7 @@ class GameMode:
         self.state = state
         self.status = status
 
-    def check_events(self):
+    def get_act_command(self):
         """
         Define you want add all key events
         return {"1P": cmd_1P}
@@ -64,6 +79,16 @@ class GameMode:
 
     def check_collisions(self):
         pass
+
+    def draw_players(self):
+        player_data = []
+        for player in self.players:
+            data = player.get_image_data()
+            player_data.append(create_image_view_data(data[self._ID], data[self._X], data[self._Y],
+                                                      data[self._WIDTH], data[self._HEIGHT],
+                                                      data[self._ANGLE]))
+
+        return player_data
 
     def draw_sprite_data(self):
         """

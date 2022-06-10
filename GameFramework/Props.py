@@ -2,10 +2,13 @@ import pygame
 
 
 class Props(pygame.sprite.Sprite):
-    def __init__(self, x: int, y: int, width: int, height: int):
+    def __init__(self, construction, **kwargs):
         super().__init__()
-        self.rect = pygame.Rect(x, y, width, height)
-        self.hit_rect = pygame.Rect(x, y, width - 2, height - 2)
+        self.rect = pygame.Rect(construction["x"], construction["y"], construction["width"], construction["height"])
+        self.hit_rect = pygame.Rect(0, 0, construction["width"]-2, construction["height"]-2)
+        self.hit_rect.center = self.rect.center
+        self._id = construction["_id"]
+        self._no = construction["_no"]
 
     def update(self):
         pass
@@ -29,4 +32,8 @@ class Props(pygame.sprite.Sprite):
                            "height": self.get_size()[1], "angle": 0}
         """
 
-
+    def get_image_init_data(self):
+        """
+        return image_init_data = {"id": "image_id", "width": 0, "height": 0, "path": "image_path, "url": 0}
+        """
+        print("please overwrite 'self.get_image_init_data' method")

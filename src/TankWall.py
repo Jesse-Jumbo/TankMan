@@ -1,10 +1,13 @@
+from os import path
+
 from games.TankMan.GameFramework.Props import Props
+from games.TankMan.src.env import IMAGE_DIR
+from mlgame.view.view_model import create_asset_init_data
 
 
 class TankWall(Props):
-    def __init__(self, _id: int, x: int, y: int, width: int, height: int):
-        super().__init__(x, y, width, height)
-        self._id = _id
+    def __init__(self, construction, **kwargs):
+        super().__init__(construction, **kwargs)
         self.lives = 5
 
     def update(self, *args, **kwargs) -> None:
@@ -19,11 +22,22 @@ class TankWall(Props):
         return self.rect.x, self.rect.y
 
     def get_info(self):
-        info = {"id": f"wall_{self._id}.{self.lives}", "x": self.rect.x, "y": self.rect.y, "lives": self.lives}
+        info = {"id": f"wall_{self.lives}", "x": self.rect.x, "y": self.rect.y, "lives": self.lives}
         return info
 
     def get_image_data(self):
         if self.lives > 0:
-            image_data = {"id": f"wall_{self._id}.{self.lives}", "x": self.rect.x, "y": self.rect.y,
+            image_data = {"id": f"wall_{self.lives}", "x": self.rect.x, "y": self.rect.y,
                           "width": self.rect.width, "height": self.rect.height, "angle": 0}
             return image_data
+
+    def get_image_init_data(self):
+        img_data = {}
+        for i in range(1, 6):
+            img_data[f"wall_{i}"] = f"https://github.com/Jesse-Jumbo/TankMan/blob/main/asset/image/wall_3.{i}.png"
+        image_init_data = []
+        for id, url in img_data.items():
+            image_init_data.append(create_asset_init_data(id, self.rect.width, self.rect.height,
+                                                          path.join(IMAGE_DIR, f"{id}.png"), url))
+        return image_init_data
+
