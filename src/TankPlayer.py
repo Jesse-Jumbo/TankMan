@@ -40,7 +40,6 @@ class TankPlayer(Player):
         self.rotate()
         if self.power > 10:
             self.power = 10
-        self.oil = round(self.oil, 2)
         if self.oil > 100:
             self.oil = 100
 

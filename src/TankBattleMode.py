@@ -179,7 +179,7 @@ class TankBattleMode(BattleMode):
         all_text_data.append(create_text_view_data(f"Time: {self.used_frame // 60}", WINDOW_WIDTH - 130, 0, WHITE,
                                                    "30px Arial"))
         all_text_data.append(create_text_view_data(
-            f"2P Shield: {self.player_2P.shield} Power: {self.player_2P.power} Oil: {self.player_2P.oil} Lives: {self.player_2P.lives}",
+            f"2P Shield: {self.player_2P.shield} Power: {self.player_2P.power} Oil: {round(self.player_2P.oil, 2)} Lives: {self.player_2P.lives}",
             5, WINDOW_HEIGHT - 35, WHITE, "30px Arial"))
         all_text_data.append(create_text_view_data(
             f"1P Lives: {self.player_2P.lives} Oil: {self.player_1P.oil} Power {self.player_1P.power} Shield: {self.player_1P.shield}",
