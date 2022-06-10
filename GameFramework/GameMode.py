@@ -44,10 +44,10 @@ class GameMode:
         if not self.is_paused:
             self.used_frame += 1
             self.all_sprites.update()
-            c = 1
+            number = 1
             for player in self.players:
-                player.update(command[f"{c}P"])
-                c += 1
+                player.update(command[f"{number}P"])
+                number += 1
             self.check_collisions()
             if self.used_frame > self.frame_limit:
                 self.reset(state=GameResultState.FAIL, status=GameStatus.GAME_OVER)

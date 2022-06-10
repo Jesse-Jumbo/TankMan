@@ -102,8 +102,7 @@ class GameFramework(PaiaGame):
         let MLGame know how to parse your ai,
         you can also use this names to get different cmd and send different data to each ai client
         """
-        return [{"name": "1P", "args": ("1P",)}, {"name": "2P", "args": ("2P",)},
-                {"name": "3P", "args": ("3P",)}, {"name": "4P", "args": ("4P",)}]
+        return [{"name": "1P", "args": ("1P",)}, {"name": "2P", "args": ("2P",)}]
 
     def set_game_mode(self):
         print("please overwrite 'self.set_game_mode' method")
