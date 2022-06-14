@@ -42,6 +42,14 @@ class Player(pygame.sprite.Sprite):
         """
         print("please overwrite 'self.get_info' method")
 
+    def get_result(self):
+        """
+        add all player information
+
+        info = {"id": "", "x": 0, "y": 0}
+        """
+        print("please overwrite 'self.get_result' method")
+
     def collide_with_walls(self):
         pass
 

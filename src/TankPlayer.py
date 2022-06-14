@@ -160,7 +160,7 @@ class TankPlayer(Player):
         self.oil += oil
 
     def get_info(self):
-        info = {"id": f"player_{self._id}P",
+        info = {"id": f"{self._id}P",
                 "x": self.rect.x,
                 "y": self.rect.y,
                 "speed": self.speed,
@@ -172,14 +172,24 @@ class TankPlayer(Player):
                 }
         return info
 
+    def get_result(self):
+        info = {"id": f"{self._id}P",
+                "x": self.rect.x,
+                "y": self.rect.y,
+                "score": self.score,
+                "shield": self.shield,
+                "lives": self.lives
+                }
+        return info
+
     def get_image_data(self):
-        image_data = {ID: f"player_{self._id}P", X: self.rect.x, Y: self.rect.y,
+        image_data = {ID: f"{self._id}P", X: self.rect.x, Y: self.rect.y,
                       WIDTH: self.origin_size[0], HEIGHT: self.origin_size[1], ANGLE: self.angle}
         return image_data
 
     def get_image_init_data(self):
-        img_data = {"player_1P": "https://github.com/Jesse-Jumbo/TankMan/blob/main/asset/image/player_1P.png",
-                    "player_2P": "https://github.com/Jesse-Jumbo/TankMan/blob/main/asset/image/player_2P.png"}
+        img_data = {"1P": "https://github.com/Jesse-Jumbo/TankMan/blob/main/asset/image/1P.png",
+                    "2P": "https://github.com/Jesse-Jumbo/TankMan/blob/main/asset/image/2P.png"}
         image_init_data = []
         for id, url in img_data.items():
             image_init_data.append(create_asset_init_data(id, self.origin_size[0], self.origin_size[1],

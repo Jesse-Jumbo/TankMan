@@ -36,7 +36,7 @@ class GameMode:
         """Define the end of game will return the player's info for user"""
         res = []
         for player in self.players:
-            get_res = player.get_info()
+            get_res = player.get_result()
             get_res["state"] = self.state
             get_res["status"] = self.status
             res.append(get_res)
