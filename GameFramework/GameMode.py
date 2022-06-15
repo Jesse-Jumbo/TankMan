@@ -18,7 +18,6 @@ class GameMode:
     _ANGLE = ANGLE
 
     def __init__(self, map_path: str, time_limit: int, is_sound: bool):
-        self.window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
         self.map_path = map_path
         self.frame_limit = time_limit * FPS
         self.sound_controller = SoundController(is_sound)
