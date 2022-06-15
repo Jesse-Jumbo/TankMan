@@ -34,7 +34,7 @@ class TankWall(Props):
     def get_image_init_data(self):
         img_data = {}
         for i in range(1, 6):
-            img_data[f"wall_{i}"] = f"https://github.com/Jesse-Jumbo/TankMan/blob/main/asset/image/wall_{i}.png?raw=true"
+            img_data[f"wall_{i}"] = f"https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/wall_{i}.png"
         image_init_data = []
         for id, url in img_data.items():
             image_init_data.append(create_asset_init_data(id, self.rect.width, self.rect.height,

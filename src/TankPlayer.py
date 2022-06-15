@@ -189,7 +189,7 @@ class TankPlayer(Player):
 
     def get_image_init_data(self):
         img_data = {"1P": "https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/1P.png",
-                    "2P": "https://github.com/Jesse-Jumbo/TankMan/blob/main/asset/image/2P.png?raw=true"}
+                    "2P": "https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/2P.png"}
         image_init_data = []
         for id, url in img_data.items():
             image_init_data.append(create_asset_init_data(id, self.origin_size[0], self.origin_size[1],
