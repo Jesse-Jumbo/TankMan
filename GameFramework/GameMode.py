@@ -43,7 +43,6 @@ class GameMode:
 
     def update_game_mode(self, command: dict):
         self.set_result(GameResultState.FAIL, GameStatus.GAME_ALIVE)
-        self.get_act_command()
         if not self.is_paused:
             self.used_frame += 1
             self.all_sprites.update()
