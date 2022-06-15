@@ -39,8 +39,8 @@ class TankStation(Station):
     def get_image_init_data(self):
         img_data = {}
         for i in range(1, 4):
-            img_data[f"bullets_{i}"] = f"https://github.com/Jesse-Jumbo/TankMan/blob/main/asset/image/bullets_{i}.png"
-            img_data[f"oil_{i}"] = f"https://github.com/Jesse-Jumbo/TankMan/blob/main/asset/image/oil_{i}.png"
+            img_data[f"bullets_{i}"] = f"https://github.com/Jesse-Jumbo/TankMan/blob/main/asset/image/bullets_{i}.png?raw=true"
+            img_data[f"oil_{i}"] = f"https://github.com/Jesse-Jumbo/TankMan/blob/main/asset/image/oil_{i}.png?raw=true"
         image_init_data = []
         for id, url in img_data.items():
             image_init_data.append(create_asset_init_data(id, self.rect.width, self.rect.height,

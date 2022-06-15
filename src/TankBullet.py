@@ -41,7 +41,7 @@ class TankBullet(Bullet):
             self.rect.center += self.move["left_down"]
 
     def get_image_init_data(self):
-        img_data = {"bullet": "https://github.com/Jesse-Jumbo/TankMan/blob/main/asset/image/bullet.png"}
+        img_data = {"bullet": "https://github.com/Jesse-Jumbo/TankMan/blob/main/asset/image/bullet.png?raw=true"}
         id, url = img_data.items()
         image_init_data = create_asset_init_data(id, self.rect.width, self.rect.height, path.join(IMAGE_DIR, f"{id}.png"), url)
         return image_init_data

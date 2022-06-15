@@ -17,7 +17,7 @@ class MLPlay:
         print(f"Initial TankMan {side} ml script")
         self.time = 0
 
-    def update(self, scene_info: dict, keyboard: list, *args, **kwargs):
+    def update(self, scene_info: dict, keyboard=[], *args, **kwargs):
         """
         Generate the command according to the received scene information
         """
