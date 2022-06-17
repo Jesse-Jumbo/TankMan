@@ -1,10 +1,11 @@
 <xml xmlns="https://developers.google.com/blockly/xml">
   <variables>
-    <variable id="pOY$_k7}^}@b2EVBF*Iz">玩家ID</variable>
     <variable id="bZ+|PJdVbiuFw3KO=ry7">遊戲次數</variable>
-    <variable id="?M5Iy-OBl_dbq,Q_y26#">move_way</variable>
+    <variable id="pOY$_k7}^}@b2EVBF*Iz">玩家ID</variable>
+    <variable id="R:P3x9rFhhJn3r!c)$]+">move_1P</variable>
+    <variable id="?M5Iy-OBl_dbq,Q_y26#">move_2P</variable>
   </variables>
-  <block type="mlplay_class" id="kT4*=I#)Jm$C=[8p0q4r" x="-912" y="-1612">
+  <block type="mlplay_class" id="kT4*=I#)Jm$C=[8p0q4r" x="-937" y="-1712">
     <statement name="INIT">
       <block type="variables_set" id="421^z]sV^enY}zg$Kd/i">
         <field name="VAR" id="bZ+|PJdVbiuFw3KO=ry7">遊戲次數</field>
@@ -13,6 +14,26 @@
             <field name="NUM">0</field>
           </block>
         </value>
+        <next>
+          <block type="variables_set" id="8R1`/W5;ofyn/iZk3%LQ">
+            <field name="VAR" id="R:P3x9rFhhJn3r!c)$]+">move_1P</field>
+            <value name="VALUE">
+              <block type="math_number" id="u/VHC=fZXKv8jP.!j:T5">
+                <field name="NUM">0</field>
+              </block>
+            </value>
+            <next>
+              <block type="variables_set" id="uuZSDl$zVO?B([j.2{S{">
+                <field name="VAR" id="?M5Iy-OBl_dbq,Q_y26#">move_2P</field>
+                <value name="VALUE">
+                  <block type="math_number" id="fHehsN3jME;[0R.4)p#Y">
+                    <field name="NUM">0</field>
+                  </block>
+                </value>
+              </block>
+            </next>
+          </block>
+        </next>
       </block>
     </statement>
     <statement name="UPDATE">
@@ -42,208 +63,41 @@
               </block>
             </value>
             <statement name="DO0">
-              <block type="variables_set" id="e@yp#1977|zZC]WHGOk[">
-                <field name="VAR" id="?M5Iy-OBl_dbq,Q_y26#">move_way</field>
-                <value name="VALUE">
-                  <block type="math_random_int" id="S28$!q_F}MzE$C8-C~yx">
-                    <value name="FROM">
-                      <shadow type="math_number" id="|edRSErZ)kERvedQO6Zg">
-                        <field name="NUM">0</field>
-                      </shadow>
-                    </value>
-                    <value name="TO">
-                      <shadow type="math_number" id="rFdh1~cT:DyUyVE+x+`y">
-                        <field name="NUM">9</field>
-                      </shadow>
-                    </value>
+              <block type="math_change" id="%@Kx^=;3Rk-nC`ANWc=6">
+                <field name="VAR" id="R:P3x9rFhhJn3r!c)$]+">move_1P</field>
+                <value name="DELTA">
+                  <shadow type="math_number" id="]=DNE=.(!!h^+A6l0(x5">
+                    <field name="NUM">1</field>
+                  </shadow>
+                  <block type="math_number" id="MYQewdTwx{%tRXKTS3IH">
+                    <field name="NUM">1</field>
                   </block>
                 </value>
                 <next>
-                  <block type="controls_if" id="E+(MQ`ZENXcw;0pY_?As">
-                    <mutation elseif="8" else="1"></mutation>
+                  <block type="controls_if" id="}d@s^w4VLe0yarM6^xo5">
+                    <mutation else="1"></mutation>
                     <value name="IF0">
-                      <block type="logic_compare" id="B:KP/)XUS+nwY73#LgYD">
-                        <field name="OP">EQ</field>
-                        <value name="A">
-                          <block type="variables_get" id="B`x1v6[H.n9sd$#j3ic}">
-                            <field name="VAR" id="?M5Iy-OBl_dbq,Q_y26#">move_way</field>
-                          </block>
-                        </value>
-                        <value name="B">
-                          <block type="math_number" id="mP3]qLw_!OH(LHuOL7U`">
+                      <block type="math_number_property" id="`4CFIPUK*Lj5KyQI;ms5">
+                        <mutation divisor_input="false"></mutation>
+                        <field name="PROPERTY">EVEN</field>
+                        <value name="NUMBER_TO_CHECK">
+                          <shadow type="math_number" id="Uj)Z!QpR_ccjN$)(r)?*">
                             <field name="NUM">0</field>
+                          </shadow>
+                          <block type="variables_get" id="+}5Te?{m2/Qzq7}aXN:x">
+                            <field name="VAR" id="R:P3x9rFhhJn3r!c)$]+">move_1P</field>
                           </block>
                         </value>
                       </block>
                     </value>
                     <statement name="DO0">
-                      <block type="mlplay_return_action" id="=y;t4L#dok[ix?I+UM+]">
-                        <field name="ACTION">['TURN_RIGHT']</field>
-                      </block>
-                    </statement>
-                    <value name="IF1">
-                      <block type="logic_compare" id="};^,B9VVMTV]3[VGqBS-">
-                        <field name="OP">EQ</field>
-                        <value name="A">
-                          <block type="variables_get" id="{}^rWC:{ma]e{dqsEBLm">
-                            <field name="VAR" id="?M5Iy-OBl_dbq,Q_y26#">move_way</field>
-                          </block>
-                        </value>
-                        <value name="B">
-                          <block type="math_number" id="uY{OrJL)lp^*NfpZ1JLO">
-                            <field name="NUM">1</field>
-                          </block>
-                        </value>
-                      </block>
-                    </value>
-                    <statement name="DO1">
-                      <block type="mlplay_return_action" id="qV%73]ugB%ccB5JUQJB?">
-                        <field name="ACTION">['TURN_LEFT']</field>
-                      </block>
-                    </statement>
-                    <value name="IF2">
-                      <block type="logic_compare" id="2ulc`56,%!w={Vf.chmZ">
-                        <field name="OP">EQ</field>
-                        <value name="A">
-                          <block type="variables_get" id="fT[UIj=iY%psefC?+QC4">
-                            <field name="VAR" id="?M5Iy-OBl_dbq,Q_y26#">move_way</field>
-                          </block>
-                        </value>
-                        <value name="B">
-                          <block type="math_number" id="T;b]PuY||`;VAs(E-Np=">
-                            <field name="NUM">2</field>
-                          </block>
-                        </value>
-                      </block>
-                    </value>
-                    <statement name="DO2">
-                      <block type="mlplay_return_action" id="Kuht^3V^7TG5DDk[NX}7">
-                        <field name="ACTION">['FORWARD']</field>
-                      </block>
-                    </statement>
-                    <value name="IF3">
-                      <block type="logic_compare" id="#pbA}$UVt]zuqcGA$Wtk">
-                        <field name="OP">EQ</field>
-                        <value name="A">
-                          <block type="variables_get" id="$r|LX$=CaiLU:u:=SvHD">
-                            <field name="VAR" id="?M5Iy-OBl_dbq,Q_y26#">move_way</field>
-                          </block>
-                        </value>
-                        <value name="B">
-                          <block type="math_number" id="ZFG%;?0H5jvyCN{bO7R{">
-                            <field name="NUM">3</field>
-                          </block>
-                        </value>
-                      </block>
-                    </value>
-                    <statement name="DO3">
-                      <block type="mlplay_return_action" id="LuG93wyyGyP([SW)GC}X">
-                        <field name="ACTION">['BACKWARD']</field>
-                      </block>
-                    </statement>
-                    <value name="IF4">
-                      <block type="logic_compare" id="#^_)*%PBrPbAg?~N,KLC">
-                        <field name="OP">EQ</field>
-                        <value name="A">
-                          <block type="variables_get" id="4;739J+{:LbGUT$Vs)pX">
-                            <field name="VAR" id="?M5Iy-OBl_dbq,Q_y26#">move_way</field>
-                          </block>
-                        </value>
-                        <value name="B">
-                          <block type="math_number" id="[QhR`EjT;Boy~r}BUJBN">
-                            <field name="NUM">4</field>
-                          </block>
-                        </value>
-                      </block>
-                    </value>
-                    <statement name="DO4">
-                      <block type="mlplay_return_action" id=")Atchv{RV7e.alIgTsr1">
-                        <field name="ACTION">['SHOOT']</field>
-                      </block>
-                    </statement>
-                    <value name="IF5">
-                      <block type="logic_compare" id="n_Ien7Z+1q9M=fMk+`i;">
-                        <field name="OP">EQ</field>
-                        <value name="A">
-                          <block type="variables_get" id="$f|O^on|2k`]2-@By5F8">
-                            <field name="VAR" id="?M5Iy-OBl_dbq,Q_y26#">move_way</field>
-                          </block>
-                        </value>
-                        <value name="B">
-                          <block type="math_number" id="5U!m)t2vTPjfdyzgD0m=">
-                            <field name="NUM">5</field>
-                          </block>
-                        </value>
-                      </block>
-                    </value>
-                    <statement name="DO5">
-                      <block type="mlplay_return_action" id="V![c?Z?]NVpM_#8(~|M+">
-                        <field name="ACTION">['FORWARD', 'SHOOT']</field>
-                      </block>
-                    </statement>
-                    <value name="IF6">
-                      <block type="logic_compare" id=")Kud|^Itl3LGZUkQv^G[">
-                        <field name="OP">EQ</field>
-                        <value name="A">
-                          <block type="variables_get" id="vR!h?M+*c~eB+ED5h:G]">
-                            <field name="VAR" id="?M5Iy-OBl_dbq,Q_y26#">move_way</field>
-                          </block>
-                        </value>
-                        <value name="B">
-                          <block type="math_number" id="Cw?eK1bW|te^Bd_8w-SC">
-                            <field name="NUM">6</field>
-                          </block>
-                        </value>
-                      </block>
-                    </value>
-                    <statement name="DO6">
-                      <block type="mlplay_return_action" id="{?udzhsCcMlB2~*%w*fy">
-                        <field name="ACTION">['BACKWARD', 'SHOOT']</field>
-                      </block>
-                    </statement>
-                    <value name="IF7">
-                      <block type="logic_compare" id="Yg,yJ^m{Nt^kR6jYn3j@">
-                        <field name="OP">EQ</field>
-                        <value name="A">
-                          <block type="variables_get" id="^e5RIKz5qTOrcJDtUl6%">
-                            <field name="VAR" id="?M5Iy-OBl_dbq,Q_y26#">move_way</field>
-                          </block>
-                        </value>
-                        <value name="B">
-                          <block type="math_number" id="4Zwu]U]|=/)zaYl#{u7^">
-                            <field name="NUM">7</field>
-                          </block>
-                        </value>
-                      </block>
-                    </value>
-                    <statement name="DO7">
-                      <block type="mlplay_return_action" id="_JV7FM@xnDW~a`=uYG7C">
-                        <field name="ACTION">['TURN_LEFT', 'SHOOT']</field>
-                      </block>
-                    </statement>
-                    <value name="IF8">
-                      <block type="logic_compare" id="b59QoBex;76Jr5,T=(}0">
-                        <field name="OP">EQ</field>
-                        <value name="A">
-                          <block type="variables_get" id="R3*YC%6oBrHS0@3lvxB4">
-                            <field name="VAR" id="?M5Iy-OBl_dbq,Q_y26#">move_way</field>
-                          </block>
-                        </value>
-                        <value name="B">
-                          <block type="math_number" id="a!7]#c9SW]}P7OY!#=DF">
-                            <field name="NUM">7</field>
-                          </block>
-                        </value>
-                      </block>
-                    </value>
-                    <statement name="DO8">
                       <block type="mlplay_return_action" id="@U_lvbXxsT@b?H3,BbJU">
                         <field name="ACTION">['TURN_RIGHT', 'SHOOT']</field>
                       </block>
                     </statement>
                     <statement name="ELSE">
-                      <block type="mlplay_return_action" id="n5::x.yy9d]L-!w{}p01">
-                        <field name="ACTION">['NONE']</field>
+                      <block type="mlplay_return_action" id="Kuht^3V^7TG5DDk[NX}7">
+                        <field name="ACTION">['TURN_LEFT', 'SHOOT']</field>
                       </block>
                     </statement>
                   </block>
@@ -251,208 +105,41 @@
               </block>
             </statement>
             <statement name="ELSE">
-              <block type="variables_set" id="|L585sW(*18jpDC}l;}8">
-                <field name="VAR" id="?M5Iy-OBl_dbq,Q_y26#">move_way</field>
-                <value name="VALUE">
-                  <block type="math_random_int" id="XWJ}2R$x[9Qo3gEc9}Z.">
-                    <value name="FROM">
-                      <shadow type="math_number" id="|M^IOk+M-V_-)fOl$*-y">
-                        <field name="NUM">0</field>
-                      </shadow>
-                    </value>
-                    <value name="TO">
-                      <shadow type="math_number" id="vm8;7fk4Sc=:UpfZ/w^*">
-                        <field name="NUM">9</field>
-                      </shadow>
-                    </value>
+              <block type="math_change" id="(3;%v.GT:A#K.6Yz~e=s">
+                <field name="VAR" id="?M5Iy-OBl_dbq,Q_y26#">move_2P</field>
+                <value name="DELTA">
+                  <shadow type="math_number" id="+S7g~#E~O6|ftEjm|bwl">
+                    <field name="NUM">1</field>
+                  </shadow>
+                  <block type="math_number" id="MVks-cF|=:K3`h#lVC_.">
+                    <field name="NUM">1</field>
                   </block>
                 </value>
                 <next>
-                  <block type="controls_if" id="LtaNko_(D=k$E:]#2`Yk">
-                    <mutation elseif="8" else="1"></mutation>
+                  <block type="controls_if" id="t_K1#Oa%I%k%u}a4G$S*">
+                    <mutation else="1"></mutation>
                     <value name="IF0">
-                      <block type="logic_compare" id="8mhWQ7A;^K^vQ?#X?rml">
-                        <field name="OP">EQ</field>
-                        <value name="A">
-                          <block type="variables_get" id="L`Xts@TRB.X}~qfmb)yu">
-                            <field name="VAR" id="?M5Iy-OBl_dbq,Q_y26#">move_way</field>
-                          </block>
-                        </value>
-                        <value name="B">
-                          <block type="math_number" id="5#0%xj!U5C^``c/N#a70">
+                      <block type="math_number_property" id="izkhnoU{h$KQ8gqJ(A)B">
+                        <mutation divisor_input="false"></mutation>
+                        <field name="PROPERTY">EVEN</field>
+                        <value name="NUMBER_TO_CHECK">
+                          <shadow type="math_number">
                             <field name="NUM">0</field>
+                          </shadow>
+                          <block type="variables_get" id="?E_N,YZ2jgLC|yG.K)Xk">
+                            <field name="VAR" id="?M5Iy-OBl_dbq,Q_y26#">move_2P</field>
                           </block>
                         </value>
                       </block>
                     </value>
                     <statement name="DO0">
-                      <block type="mlplay_return_action" id="[2Ry2ORV7{Is(8@;h-NK">
-                        <field name="ACTION">['TURN_RIGHT']</field>
-                      </block>
-                    </statement>
-                    <value name="IF1">
-                      <block type="logic_compare" id="t-)3yH52*~EoR4gEFj0W">
-                        <field name="OP">EQ</field>
-                        <value name="A">
-                          <block type="variables_get" id="mtCz6fe01YJXudVyAL;$">
-                            <field name="VAR" id="?M5Iy-OBl_dbq,Q_y26#">move_way</field>
-                          </block>
-                        </value>
-                        <value name="B">
-                          <block type="math_number" id="IBz`oA5)i6cL?/`dUl1n">
-                            <field name="NUM">1</field>
-                          </block>
-                        </value>
-                      </block>
-                    </value>
-                    <statement name="DO1">
-                      <block type="mlplay_return_action" id="N*xfg3P@mXk,=`U0ZQrN">
-                        <field name="ACTION">['TURN_LEFT']</field>
-                      </block>
-                    </statement>
-                    <value name="IF2">
-                      <block type="logic_compare" id=";)Pe(L3K~S8Iq-Y5p]!r">
-                        <field name="OP">EQ</field>
-                        <value name="A">
-                          <block type="variables_get" id="+}5Te?{m2/Qzq7}aXN:x">
-                            <field name="VAR" id="?M5Iy-OBl_dbq,Q_y26#">move_way</field>
-                          </block>
-                        </value>
-                        <value name="B">
-                          <block type="math_number" id=":tuX~4}d^W0b]7(+;zPz">
-                            <field name="NUM">2</field>
-                          </block>
-                        </value>
-                      </block>
-                    </value>
-                    <statement name="DO2">
-                      <block type="mlplay_return_action" id="BSW^_gR8)dq(OJ=i?dzw">
-                        <field name="ACTION">['FORWARD']</field>
-                      </block>
-                    </statement>
-                    <value name="IF3">
-                      <block type="logic_compare" id="B6A(L+IE)mWwJ5)oCnm1">
-                        <field name="OP">EQ</field>
-                        <value name="A">
-                          <block type="variables_get" id="z%2+y:i$O~kLz@5](ADs">
-                            <field name="VAR" id="?M5Iy-OBl_dbq,Q_y26#">move_way</field>
-                          </block>
-                        </value>
-                        <value name="B">
-                          <block type="math_number" id="GovXZ{uqIEJ?J52I~YFC">
-                            <field name="NUM">3</field>
-                          </block>
-                        </value>
-                      </block>
-                    </value>
-                    <statement name="DO3">
-                      <block type="mlplay_return_action" id=")k^Zfz6$~SGA.K*B51]4">
-                        <field name="ACTION">['BACKWARD']</field>
-                      </block>
-                    </statement>
-                    <value name="IF4">
-                      <block type="logic_compare" id="L36IKVJwVlB*+a@/L({G">
-                        <field name="OP">EQ</field>
-                        <value name="A">
-                          <block type="variables_get" id="u?A,AGZJ4ucag|/$d7fe">
-                            <field name="VAR" id="?M5Iy-OBl_dbq,Q_y26#">move_way</field>
-                          </block>
-                        </value>
-                        <value name="B">
-                          <block type="math_number" id="t*N*K|?3rf@q?gh-Z.[6">
-                            <field name="NUM">4</field>
-                          </block>
-                        </value>
-                      </block>
-                    </value>
-                    <statement name="DO4">
-                      <block type="mlplay_return_action" id="FA(?UaQOID;n1v3?s*nv">
-                        <field name="ACTION">['SHOOT']</field>
-                      </block>
-                    </statement>
-                    <value name="IF5">
-                      <block type="logic_compare" id="ck..Fy8FUm:QU5_x@2Ph">
-                        <field name="OP">EQ</field>
-                        <value name="A">
-                          <block type="variables_get" id="GIZr+HNq2i2E*4z?rH?8">
-                            <field name="VAR" id="?M5Iy-OBl_dbq,Q_y26#">move_way</field>
-                          </block>
-                        </value>
-                        <value name="B">
-                          <block type="math_number" id="@#j^r+K2tdmH2DaOfW%x">
-                            <field name="NUM">5</field>
-                          </block>
-                        </value>
-                      </block>
-                    </value>
-                    <statement name="DO5">
-                      <block type="mlplay_return_action" id="{Y:#=b[+s)l)5*7@uC#K">
+                      <block type="mlplay_return_action" id="G*n]|EN$n@-K$z1i6]T^">
                         <field name="ACTION">['FORWARD', 'SHOOT']</field>
                       </block>
                     </statement>
-                    <value name="IF6">
-                      <block type="logic_compare" id="um(}GIsKd7)OW.Q%K$PW">
-                        <field name="OP">EQ</field>
-                        <value name="A">
-                          <block type="variables_get" id="o_oLL)ui`qN:0uxa(3p#">
-                            <field name="VAR" id="?M5Iy-OBl_dbq,Q_y26#">move_way</field>
-                          </block>
-                        </value>
-                        <value name="B">
-                          <block type="math_number" id="G)Wu~HQO97}A|,U9!y:C">
-                            <field name="NUM">6</field>
-                          </block>
-                        </value>
-                      </block>
-                    </value>
-                    <statement name="DO6">
-                      <block type="mlplay_return_action" id="N,(^-4rh#b;3mAZXq-54">
-                        <field name="ACTION">['BACKWARD', 'SHOOT']</field>
-                      </block>
-                    </statement>
-                    <value name="IF7">
-                      <block type="logic_compare" id="8eSST.Y)i{kT.=gVZ42R">
-                        <field name="OP">EQ</field>
-                        <value name="A">
-                          <block type="variables_get" id="GSdUH3OR{pSQ!o.Ko3e-">
-                            <field name="VAR" id="?M5Iy-OBl_dbq,Q_y26#">move_way</field>
-                          </block>
-                        </value>
-                        <value name="B">
-                          <block type="math_number" id=".{y;l%6t}=:AV!04J1~(">
-                            <field name="NUM">7</field>
-                          </block>
-                        </value>
-                      </block>
-                    </value>
-                    <statement name="DO7">
-                      <block type="mlplay_return_action" id="u^8-@,w]~rB+b3[3wYog">
-                        <field name="ACTION">['TURN_LEFT', 'SHOOT']</field>
-                      </block>
-                    </statement>
-                    <value name="IF8">
-                      <block type="logic_compare" id="x{kp93n/(K%%C:Ii%sc9">
-                        <field name="OP">EQ</field>
-                        <value name="A">
-                          <block type="variables_get" id="I]%6H1Fw(8($RCgX!M`y">
-                            <field name="VAR" id="?M5Iy-OBl_dbq,Q_y26#">move_way</field>
-                          </block>
-                        </value>
-                        <value name="B">
-                          <block type="math_number" id="_5T5p%@^GESa}NULwmow">
-                            <field name="NUM">7</field>
-                          </block>
-                        </value>
-                      </block>
-                    </value>
-                    <statement name="DO8">
-                      <block type="mlplay_return_action" id="1;}KZvFiF%mz#Cy%o}U+">
-                        <field name="ACTION">['TURN_RIGHT', 'SHOOT']</field>
-                      </block>
-                    </statement>
                     <statement name="ELSE">
-                      <block type="mlplay_return_action" id="u4|Cl!z7d-%TK.gRwT0_">
-                        <field name="ACTION">['NONE']</field>
+                      <block type="mlplay_return_action" id="gP+v7qTT?Vci4-W@.+CU">
+                        <field name="ACTION">['BACKWARD', 'SHOOT']</field>
                       </block>
                     </statement>
                   </block>

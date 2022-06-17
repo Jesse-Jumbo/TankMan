@@ -72,28 +72,30 @@ class TankPlayer(Player):
     def act(self, commands: list):
         if not commands:
             return None
-        if self.oil:
-            if LEFT_CMD in commands:
-                self.oil -= 0.1
-                self.turn_left()
-            elif RIGHT_CMD in commands:
-                self.oil -= 0.1
-                self.turn_right()
-            elif FORWARD_CMD in commands and BACKWARD_CMD not in commands:
-                self.oil -= 0.1
-                self.is_forward = True
-                self.is_backward = False
-                self.forward()
-            elif BACKWARD_CMD in commands and FORWARD_CMD not in commands:
-                self.oil -= 0.1
-                self.is_backward = True
-                self.is_forward = False
-                self.backward()
         if self.power and SHOOT in commands:
             if self.used_frame - self.last_shoot_frame > SHOOT_COOLDOWN:
                 self.last_shoot_frame = self.used_frame
                 self.power -= 1
                 self.is_shoot = True
+        if self.oil <= 0:
+            self.oil = 0
+            return
+        if LEFT_CMD in commands:
+            self.oil -= 0.1
+            self.turn_left()
+        elif RIGHT_CMD in commands:
+            self.oil -= 0.1
+            self.turn_right()
+        elif FORWARD_CMD in commands and BACKWARD_CMD not in commands:
+            self.oil -= 0.1
+            self.is_forward = True
+            self.is_backward = False
+            self.forward()
+        elif BACKWARD_CMD in commands and FORWARD_CMD not in commands:
+            self.oil -= 0.1
+            self.is_backward = True
+            self.is_forward = False
+            self.backward()
 
     def forward(self):
         if self._id != 1:
