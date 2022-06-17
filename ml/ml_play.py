@@ -28,28 +28,32 @@ class MLPlay:
 
         command = []
         if self.side == "1P":
-            if pygame.K_RIGHT in keyboard:
-                command.append("TURN_RIGHT")
-            elif pygame.K_LEFT in keyboard:
-                command.append("TURN_LEFT")
-            elif pygame.K_UP in keyboard:
-                command.append("FORWARD")
-            elif pygame.K_DOWN in keyboard:
-                command.append("BACKWARD")
-
-            if pygame.K_SPACE in keyboard:
+            # if pygame.K_RIGHT in keyboard:
+            #     command.append("TURN_RIGHT")
+            # elif pygame.K_LEFT in keyboard:
+            #     command.append("TURN_LEFT")
+            # elif pygame.K_UP in keyboard:
+            #     command.append("FORWARD")
+            # elif pygame.K_DOWN in keyboard:
+            #     command.append("BACKWARD")
+            #
+            # if pygame.K_SPACE in keyboard:
+            #     command.append("SHOOT")
+            if scene_info["used_frame"] % 120 == 0:
                 command.append("SHOOT")
         else:
-            if pygame.K_d in keyboard:
-                command.append("TURN_RIGHT")
-            elif pygame.K_a in keyboard:
-                command.append("TURN_LEFT")
-            elif pygame.K_w in keyboard:
-                command.append("FORWARD")
-            elif pygame.K_s in keyboard:
-                command.append("BACKWARD")
-
-            if pygame.K_f in keyboard:
+            # if pygame.K_d in keyboard:
+            #     command.append("TURN_RIGHT")
+            # elif pygame.K_a in keyboard:
+            #     command.append("TURN_LEFT")
+            # elif pygame.K_w in keyboard:
+            #     command.append("FORWARD")
+            # elif pygame.K_s in keyboard:
+            #     command.append("BACKWARD")
+            #
+            # if pygame.K_f in keyboard:
+            #     command.append("SHOOT")
+            if scene_info["used_frame"] % 180 == 0:
                 command.append("SHOOT")
 
         return command

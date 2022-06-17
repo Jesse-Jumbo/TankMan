@@ -189,6 +189,9 @@ class TankBattleMode(BattleMode):
 
     def create_init_image_data(self):
         all_init_image_data = []
+
+        img_id = "BG"
+        img_url = ""
         for station in self.oil_stations:
             if isinstance(station, TankStation):
                 for data in station.get_image_init_data():
@@ -200,7 +203,7 @@ class TankBattleMode(BattleMode):
                     all_init_image_data.append(data)
                 break
         img_id = "bullet"
-        img_url = "https://github.com/Jesse-Jumbo/TankMan/blob/main/asset/image/bullet.png"
+        img_url = "https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/version_0.0.10/asset/image/bullet.png"
         image_init_data = create_asset_init_data(img_id, BULLET_SIZE[0], BULLET_SIZE[1], path.join(IMAGE_DIR, f"{img_id}.png"), img_url)
         all_init_image_data.append(image_init_data)
         for data in self.player_1P.get_image_init_data():
