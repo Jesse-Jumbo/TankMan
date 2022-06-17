@@ -2,7 +2,7 @@ import pygame.event
 
 from mlgame.view.view_model import create_image_view_data
 from .constants import ID, X, Y, WIDTH, HEIGHT, ANGLE
-from .sound_controller import SoundController
+from .SoundController import SoundController
 from mlgame.gamedev.game_interface import GameResultState, GameStatus
 
 from .TiledMap import TiledMap

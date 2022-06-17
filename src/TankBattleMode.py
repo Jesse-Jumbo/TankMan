@@ -176,7 +176,7 @@ class TankBattleMode(BattleMode):
                                                    "30px Arial"))
         all_text_data.append(create_text_view_data(f"2P_Score: {self.player_2P.score + self.calculate_score()[1]}",
                                                    WIDTH_CENTER // 2 - 45, 0, WHITE, "30px Arial"))
-        all_text_data.append(create_text_view_data(f"Time: {self.used_frame // 60}", WINDOW_WIDTH - 130, 0, WHITE,
+        all_text_data.append(create_text_view_data(f"Frame: {self.used_frame}", WINDOW_WIDTH - 200, 0, WHITE,
                                                    "30px Arial"))
         all_text_data.append(create_text_view_data(
             f"2P Shield: {self.player_2P.shield} Power: {self.player_2P.power} Oil: {round(self.player_2P.oil, 2)} Lives: {self.player_2P.lives}",
@@ -189,9 +189,6 @@ class TankBattleMode(BattleMode):
 
     def create_init_image_data(self):
         all_init_image_data = []
-
-        img_id = "BG"
-        img_url = ""
         for station in self.oil_stations:
             if isinstance(station, TankStation):
                 for data in station.get_image_init_data():

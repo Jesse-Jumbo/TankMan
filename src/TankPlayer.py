@@ -27,6 +27,7 @@ class TankPlayer(Player):
                      "down": vec(0, self.speed)}
         self.rot = 0
         self.last_shoot_frame = self.used_frame
+        self.turn_cd = self.used_frame
         self.rot_speed = 45
         self.shield = 100
         self.power = 10
@@ -35,6 +36,7 @@ class TankPlayer(Player):
         self.is_forward = False
         self.is_backward = False
         self.is_alive = True
+        self.is_turn = False
 
     def update_children(self):
         self.rotate()
@@ -42,6 +44,9 @@ class TankPlayer(Player):
             self.power = 10
         if self.oil > 100:
             self.oil = 100
+
+        if self.used_frame - self.turn_cd > 30:
+            self.is_turn = False
 
         if self.rect.right > WINDOW_WIDTH:
             self.rect.right = WINDOW_WIDTH
@@ -135,10 +140,16 @@ class TankPlayer(Player):
             self.rect.center += self.move["right_up"]
 
     def turn_left(self):
-        self.rot += self.rot_speed
+        if not self.is_turn:
+            self.turn_cd = self.used_frame
+            self.rot += self.rot_speed
+            self.is_turn = True
 
     def turn_right(self):
-        self.rot -= self.rot_speed
+        if not self.is_turn:
+            self.turn_cd = self.used_frame
+            self.rot -= self.rot_speed
+            self.is_turn = True
 
     def collide_with_walls(self):
         if self.is_forward:
@@ -193,5 +204,5 @@ class TankPlayer(Player):
         image_init_data = []
         for id, url in img_data.items():
             image_init_data.append(create_asset_init_data(id, self.origin_size[0], self.origin_size[1],
-                               path.join(IMAGE_DIR, f"{id}.png"), url))
+                                                          path.join(IMAGE_DIR, f"{id}.png"), url))
         return image_init_data
