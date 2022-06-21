@@ -29,15 +29,15 @@ class TankBattleMode(BattleMode):
         self.player_2P = self.map.create_init_obj(PLAYER_2_IMG_NO, TankPlayer)
         self.players.add(self.player_1P, self.player_2P)
         # init walls
-        walls = self.map.create_init_obj_list(WALL_IMG_NO, TankWall)
+        walls = self.map.create_init_obj_list(WALL_IMG_NO, TankWall, margin=8, spacing=8)
         [self.walls.add(wall) for wall in walls]
         self.all_sprites.add(self.walls)
         # init bullet stations
-        bullet_stations = self.map.create_init_obj_list(BULLET_STATION_IMG_NO, TankStation, capacity=10, cd_time=5, level=3)
+        bullet_stations = self.map.create_init_obj_list(BULLET_STATION_IMG_NO, TankStation, margin=2, spacing=2, capacity=10, cd_time=5, level=3)
         [self.bullet_stations.add(bullet_station) for bullet_station in bullet_stations]
         self.all_sprites.add(self.bullet_stations)
         # init oil stations
-        oil_stations = self.map.create_init_obj_list(OIL_STATION_IMG_NO, TankStation, capacity=100, cd_time=1, level=3)
+        oil_stations = self.map.create_init_obj_list(OIL_STATION_IMG_NO, TankStation, margin=2, spacing=2, capacity=100, cd_time=1, level=3)
         [self.oil_stations.add(oil_station) for oil_station in oil_stations]
         self.all_sprites.add(self.oil_stations)
 
@@ -69,7 +69,6 @@ class TankBattleMode(BattleMode):
         else:
             self.set_result(GameResultState.FAIL, GameStatus.GAME_DRAW)
 
-    # TODO 解決前進並後退時會穿牆
     def get_1P_command(self):
         cmd_1P = []
         key_pressed_list = pygame.key.get_pressed()
@@ -111,7 +110,6 @@ class TankBattleMode(BattleMode):
         return cmd_2P
 
     def check_collisions(self):
-        # TODO check hti rect of station and player
         if self.is_through_wall:
             for player in self.players:
                 collide_with_walls(player, self.walls)

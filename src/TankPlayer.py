@@ -33,10 +33,10 @@ class TankPlayer(Player):
         self.power = 10
         self.oil = 100
         self.is_shoot = False
-        self.is_forward = False
-        self.is_backward = False
         self.is_alive = True
         self.is_turn = False
+        self.is_forward = False
+        self.is_backward = False
 
     def update_children(self):
         self.rotate()
@@ -48,14 +48,9 @@ class TankPlayer(Player):
         if self.used_frame - self.turn_cd > 30:
             self.is_turn = False
 
-        if self.rect.right > WINDOW_WIDTH:
-            self.rect.right = WINDOW_WIDTH
-        if self.rect.left < 0:
-            self.rect.left = 0
-        if self.rect.bottom > WINDOW_HEIGHT:
-            self.rect.bottom = WINDOW_HEIGHT
-        if self.rect.top < 0:
-            self.rect.top = 0
+        if self.hit_rect.right > WINDOW_WIDTH+8 or self.hit_rect.left < -8 \
+                or self.hit_rect.bottom > WINDOW_HEIGHT+8 or self.hit_rect.top < -8:
+            self.collide_with_walls()
 
     def rotate(self):
         new_sur = pygame.transform.rotate(self.surface, self.rot)
@@ -88,14 +83,14 @@ class TankPlayer(Player):
             self.turn_right()
         elif FORWARD_CMD in commands and BACKWARD_CMD not in commands:
             self.oil -= 0.1
+            self.forward()
             self.is_forward = True
             self.is_backward = False
-            self.forward()
         elif BACKWARD_CMD in commands and FORWARD_CMD not in commands:
             self.oil -= 0.1
+            self.backward()
             self.is_backward = True
             self.is_forward = False
-            self.backward()
 
     def forward(self):
         if self._id != 1:
@@ -103,21 +98,21 @@ class TankPlayer(Player):
         else:
             rot = self.rot
         if rot == 0:
-            self.rect.center += self.move["left"]
-        elif rot == 315 or rot == -45:
-            self.rect.center += self.move["left_up"]
-        elif rot == 270 or rot == -90:
-            self.rect.center += self.move["up"]
-        elif rot == 225 or rot == -135:
-            self.rect.center += self.move["right_up"]
-        elif rot == 180 or rot == -180:
-            self.rect.center += self.move["right"]
-        elif rot == 135 or rot == -225:
-            self.rect.center += self.move["right_down"]
-        elif rot == 90 or rot == -270:
-            self.rect.center += self.move["down"]
-        elif rot == 45 or rot == -315:
-            self.rect.center += self.move["left_down"]
+            self.hit_rect.center += self.move["left"]
+        elif rot == 315:
+            self.hit_rect.center += self.move["left_up"]
+        elif rot == 270:
+            self.hit_rect.center += self.move["up"]
+        elif rot == 225:
+            self.hit_rect.center += self.move["right_up"]
+        elif rot == 180:
+            self.hit_rect.center += self.move["right"]
+        elif rot == 135:
+            self.hit_rect.center += self.move["right_down"]
+        elif rot == 90:
+            self.hit_rect.center += self.move["down"]
+        elif rot == 45:
+            self.hit_rect.center += self.move["left_down"]
 
     def backward(self):
         if self._id != 1:
@@ -125,21 +120,21 @@ class TankPlayer(Player):
         else:
             rot = self.rot
         if rot == 0:
-            self.rect.center += self.move["right"]
-        elif rot == 315 or rot == -45:
-            self.rect.center += self.move["right_down"]
-        elif rot == 270 or rot == -90:
-            self.rect.center += self.move["down"]
-        elif rot == 225 or rot == -135:
-            self.rect.center += self.move["left_down"]
-        elif rot == 180 or rot == -180:
-            self.rect.center += self.move["left"]
-        elif rot == 135 or rot == -225:
-            self.rect.center += self.move["left_up"]
-        elif rot == 90 or rot == -270:
-            self.rect.center += self.move["up"]
-        elif rot == 45 or rot == -315:
-            self.rect.center += self.move["right_up"]
+            self.hit_rect.center += self.move["right"]
+        elif rot == 315:
+            self.hit_rect.center += self.move["right_down"]
+        elif rot == 270:
+            self.hit_rect.center += self.move["down"]
+        elif rot == 225:
+            self.hit_rect.center += self.move["left_down"]
+        elif rot == 180:
+            self.hit_rect.center += self.move["left"]
+        elif rot == 135:
+            self.hit_rect.center += self.move["left_up"]
+        elif rot == 90:
+            self.hit_rect.center += self.move["up"]
+        elif rot == 45:
+            self.hit_rect.center += self.move["right_up"]
 
     def turn_left(self):
         if not self.is_turn:

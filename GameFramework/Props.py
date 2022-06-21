@@ -5,7 +5,8 @@ class Props(pygame.sprite.Sprite):
     def __init__(self, construction, **kwargs):
         super().__init__()
         self.rect = pygame.Rect(construction["x"], construction["y"], construction["width"], construction["height"])
-        self.hit_rect = pygame.Rect(0, 0, construction["width"]-2, construction["height"]-2)
+        self.hit_rect = pygame.Rect(0, 0, construction["width"]-kwargs["margin"]
+                                    , construction["height"]-kwargs["spacing"])
         self.hit_rect.center = self.rect.center
         self._id = construction["_id"]
         self._no = construction["_no"]

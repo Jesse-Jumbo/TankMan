@@ -20,7 +20,7 @@ class Player(pygame.sprite.Sprite):
 
     def update(self, commands):
         self.used_frame += 1
-        self.hit_rect.center = self.rect.center
+        self.rect.center = self.hit_rect.center
         self.update_children()
         self.act(commands)
         if self.lives < 0:
