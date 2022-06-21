@@ -8,8 +8,8 @@ from .constants import ID, X, Y, ANGLE, HEIGHT, WIDTH
 
 
 class SingleMode(GameMode):
-    def __init__(self, map_path: str, time_limit: int, is_sound: bool):
-        super().__init__(map_path, time_limit, is_sound)
+    def __init__(self, map_path: str, frame_limit: int, is_sound: bool):
+        super().__init__(map_path, frame_limit, is_sound)
         self.player = pygame.sprite.Sprite
         self.players.add(self.player)
 

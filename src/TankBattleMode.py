@@ -12,8 +12,8 @@ from games.TankMan.GameFramework.BattleMode import BattleMode
 
 
 class TankBattleMode(BattleMode):
-    def __init__(self, map_path: str, time_limit: int, is_sound: bool):
-        super().__init__(map_path, time_limit, is_sound)
+    def __init__(self, map_path: str, frame_limit: int, is_sound: bool):
+        super().__init__(map_path, frame_limit, is_sound)
         self.sound_controller = TankSoundController(is_sound)
         self.sound_controller.play_bgm()
         # control variables

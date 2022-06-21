@@ -6,11 +6,11 @@ from mlgame.view.view_model import Scene
 
 
 class GameFramework(PaiaGame):
-    def __init__(self, map_no: int, time_limit: int, sound: str):
+    def __init__(self, map_no: int, frame_limit: int, sound: str):
         super().__init__()
         self.scene = Scene(0, 0, "#000000")
         self.map_name = f"map_0{map_no}.tmx"
-        self.time_limit = time_limit
+        self.frame_limit = frame_limit
         if sound == "on":
             self.is_sound = True
         else:
@@ -109,7 +109,7 @@ class GameFramework(PaiaGame):
         print("please overwrite 'self.set_game_mode' method")
         """
         Example:
-        game_mode = GameMode(self.map_name, self.time_limit, self.is_sound)
+        game_mode = GameMode(self.map_name, self.frame_limit, self.is_sound)
         return game_mode
         """
     def rank(self):

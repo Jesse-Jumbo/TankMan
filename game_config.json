@@ -1,6 +1,6 @@
 {
   "game_name": "TankMan",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "url": "https://github.com/Jesse-Jumbo/TankMan",
   "description": "坦克人(Tank Man)，一款經典的雙人對戰遊戲，時間內率先擊殺對手獲勝，否則以分數高者獲勝，除了擊中對手外，破壞遊戲物件，以獲得更高積分。注意: 場上資源恢復皆須時間，先到者得，你需要這些補充品以提供前進和射擊的燃油和子彈。",
   "logo": [
@@ -12,19 +12,19 @@
       "name": "map_no",
       "verbose": "地圖編號",
       "type": "int",
-      "max": 3,
+      "max": 4,
       "min": 0,
       "default": 1,
       "help": "set map number for load game scene"
     },
     {
-      "name": "time_limit",
-      "verbose": "遊戲時間(s)",
+      "name": "frame_limit",
+      "verbose": "遊戲總幀數(Frame)",
       "type": "int",
-      "max": 600,
-      "min": 1,
-      "default": 30,
-      "help": "set the time number of game time limit."
+      "max": 30000,
+      "min": 30,
+      "default": 3600,
+      "help": "set the frame number of game frame limit."
     },
     {
       "name": "sound",

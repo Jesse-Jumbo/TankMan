@@ -26,16 +26,16 @@
 ## 遊戲參數設定
 ```python
 # main.py
-game = TankMan.TankMan(map_no=1, time_limit=300, sound="off")
+game = TankMan.TankMan(map_no=1, frame_limit=300, sound="off")
 ```
 - `TankMan`後不輸入參數，則默認使用預設值，即範例參數值。
 ```bash
 # MLGame.py
 # Copy and Paste to play the game with manual
-python MLGame.py -i ml_play_manual.py -f 120 TankMan --map_no 1 --sound on --time_limit 30
+python MLGame.py -i ml_play_manual.py -f 120 TankMan --map_no 1 --sound on --frame_limit 30
 
 # Copy and Paste to play the game with AI
-python MLGame.py -i ml_play_template_1P.py -i ml_play_template_2P.py -f 120 TankMan --sound on --time_limit 30 --map_no 1
+python MLGame.py -i ml_play_template_1P.py -i ml_play_template_2P.py -f 120 TankMan --sound on --frame_limit 30 --map_no 1
 ```
 - `map_no`:  輸入地圖編號，以選擇遊戲的地圖。
 - `sound`:  輸入`on`或`off`，控制是否播放遊戲音效。

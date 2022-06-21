@@ -17,9 +17,9 @@ class GameMode:
     _HEIGHT = HEIGHT
     _ANGLE = ANGLE
 
-    def __init__(self, map_path: str, time_limit: int, is_sound: bool):
+    def __init__(self, map_path: str, frame_limit: int, is_sound: bool):
         self.map_path = map_path
-        self.frame_limit = time_limit * FPS
+        self.frame_limit = frame_limit
         self.sound_controller = SoundController(is_sound)
         self.is_paused = False
         self.is_debug = False
