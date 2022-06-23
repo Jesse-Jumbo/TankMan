@@ -40,10 +40,6 @@ class TankPlayer(Player):
 
     def update_children(self):
         self.rotate()
-        if self.power > 10:
-            self.power = 10
-        if self.oil > 100:
-            self.oil = 100
 
         if self.used_frame - self.turn_cd > 30:
             self.is_turn = False
@@ -60,7 +56,7 @@ class TankPlayer(Player):
         self.rect = new_sur.get_rect()
         self.rect.center = origin_center
 
-    def create_shoot_info(self):
+    def create_shoot_info(self) -> dict:
         shoot_info = {"id": self._id, "center_pos": self.rect.center, "rot": self.rot}
         return shoot_info
 
@@ -161,13 +157,21 @@ class TankPlayer(Player):
             self.shield = 100
             self.reset()
 
-    def get_power(self, power):
+    def get_power(self, power: int) -> int:
         self.power += power
+        if self.power > 10:
+            self.power = 10
+        elif self.power < 0:
+            self.power = 0
 
-    def get_oil(self, oil):
+    def get_oil(self, oil: int) -> int:
         self.oil += oil
+        if self.oil > 100:
+            self.oil = 100
+        elif self.oil < 0:
+            self.oil = 0
 
-    def get_info(self):
+    def get_info(self) -> dict:
         info = {"id": f"{self._id}P",
                 "x": self.rect.x,
                 "y": self.rect.y,
@@ -180,7 +184,7 @@ class TankPlayer(Player):
                 }
         return info
 
-    def get_result(self):
+    def get_result(self) -> dict:
         info = {"id": f"{self._id}P",
                 "x": self.rect.x,
                 "y": self.rect.y,
@@ -190,12 +194,12 @@ class TankPlayer(Player):
                 }
         return info
 
-    def get_image_data(self):
+    def get_image_data(self) -> dict:
         image_data = {ID: f"{self._id}P", X: self.rect.x, Y: self.rect.y,
                       WIDTH: self.origin_size[0], HEIGHT: self.origin_size[1], ANGLE: self.angle}
         return image_data
 
-    def get_image_init_data(self):
+    def get_image_init_data(self) -> list:
         img_data = {"1P": "https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/1P.png",
                     "2P": "https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/2P.png"}
         image_init_data = []

@@ -14,6 +14,7 @@ from games.TankMan.GameFramework.BattleMode import BattleMode
 class TankBattleMode(BattleMode):
     def __init__(self, map_path: str, frame_limit: int, is_sound: bool):
         super().__init__(map_path, frame_limit, is_sound)
+        pygame.init()
         self.sound_controller = TankSoundController(is_sound)
         self.sound_controller.play_bgm()
         # control variables
@@ -54,7 +55,7 @@ class TankBattleMode(BattleMode):
             self.create_bullet(shoot_info)
             self.player_2P.is_shoot = False
 
-    def calculate_score(self):
+    def calculate_score(self) -> tuple:
         score_1P = 100 - self.player_2P.shield + (3 - self.player_2P.lives) * 100
         score_2P = 100 - self.player_1P.shield + (3 - self.player_1P.lives) * 100
         return score_1P, score_2P
@@ -69,7 +70,7 @@ class TankBattleMode(BattleMode):
         else:
             self.set_result(GameResultState.FAIL, GameStatus.GAME_DRAW)
 
-    def get_1P_command(self):
+    def get_1P_command(self) -> list:
         cmd_1P = []
         key_pressed_list = pygame.key.get_pressed()
         if key_pressed_list[pygame.K_UP]:
@@ -89,7 +90,7 @@ class TankBattleMode(BattleMode):
 
         return cmd_1P
 
-    def get_2P_command(self):
+    def get_2P_command(self) -> list:
         cmd_2P = []
         key_pressed_list = pygame.key.get_pressed()
         if key_pressed_list[pygame.K_w]:
