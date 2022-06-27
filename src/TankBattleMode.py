@@ -174,7 +174,7 @@ class TankBattleMode(BattleMode):
                                                    5, 0, GREEN,
                                                    "30px Arial"))
         all_text_data.append(create_text_view_data(f"2P_Score: {self.player_2P.score + self.calculate_score()[1]}",
-                                                   WIDTH_CENTER // 2, 0, BLUE, "30px Arial"))
+                                                   WIDTH_CENTER, 0, BLUE, "30px Arial"))
         all_text_data.append(create_text_view_data(f"CountDownFrame: {self.frame_limit - self.used_frame}",
                                                    WIDTH_CENTER + WIDTH_CENTER // 2 + 30, 0, RED,
                                                    "30px Arial"))
