@@ -81,6 +81,7 @@ class TestTankPlayer(object):
         assert self.player.move == move
 
     def test_act(self):
+        # TODO 增加限制type
         # TODO how test shoot act
         self.player.act(["SHOOT"])
         # assert self.player.is_shoot and self.player.power == 9 and self.player.last_shoot_frame == 50

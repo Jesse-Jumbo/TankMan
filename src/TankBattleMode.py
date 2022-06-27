@@ -171,18 +171,19 @@ class TankBattleMode(BattleMode):
     def draw_text_data(self):
         all_text_data = []
         all_text_data.append(create_text_view_data(f"1P_Score: {self.player_1P.score + self.calculate_score()[0]}",
-                                                   WIDTH_CENTER + WIDTH_CENTER // 2 - 45, 0, WHITE,
+                                                   5, 0, GREEN,
                                                    "30px Arial"))
         all_text_data.append(create_text_view_data(f"2P_Score: {self.player_2P.score + self.calculate_score()[1]}",
-                                                   WIDTH_CENTER // 2 - 45, 0, WHITE, "30px Arial"))
-        all_text_data.append(create_text_view_data(f"Frame: {self.used_frame}", WINDOW_WIDTH - 170, 0, WHITE,
+                                                   WIDTH_CENTER // 2, 0, BLUE, "30px Arial"))
+        all_text_data.append(create_text_view_data(f"CountDownFrame: {self.frame_limit - self.used_frame}",
+                                                   WIDTH_CENTER + WIDTH_CENTER // 2 + 30, 0, RED,
                                                    "30px Arial"))
         all_text_data.append(create_text_view_data(
-            f"2P Shield: {self.player_2P.shield} Power: {self.player_2P.power} Oil: {int(self.player_2P.oil)} Lives: {self.player_2P.lives}",
-            5, WINDOW_HEIGHT - 35, WHITE, "30px Arial"))
+            f"2P Lives: {self.player_2P.lives} Oil: {int(self.player_2P.oil)} Power: {self.player_2P.power} Shield: {self.player_2P.shield}",
+            WIDTH_CENTER, WINDOW_HEIGHT - 35, BLUE, "30px Arial"))
         all_text_data.append(create_text_view_data(
             f"1P Lives: {self.player_2P.lives} Oil: {int(self.player_1P.oil)} Power {self.player_1P.power} Shield: {self.player_1P.shield}",
-            WIDTH_CENTER + 200, WINDOW_HEIGHT - 35, WHITE, "30px Arial"))
+            5, WINDOW_HEIGHT - 35, GREEN, "30px Arial"))
 
         return all_text_data
 

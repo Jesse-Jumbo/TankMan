@@ -157,14 +157,14 @@ class TankPlayer(Player):
             self.shield = 100
             self.reset()
 
-    def get_power(self, power: int) -> int:
+    def get_power(self, power: int):
         self.power += power
         if self.power > 10:
             self.power = 10
         elif self.power < 0:
             self.power = 0
 
-    def get_oil(self, oil: int) -> int:
+    def get_oil(self, oil: int):
         self.oil += oil
         if self.oil > 100:
             self.oil = 100
