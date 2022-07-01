@@ -41,6 +41,7 @@ class TankBattleMode(BattleMode):
         oil_stations = self.map.create_init_obj_list(OIL_STATION_IMG_NO, TankStation, margin=2, spacing=2, capacity=100, cd_time=1, level=3)
         [self.oil_stations.add(oil_station) for oil_station in oil_stations]
         self.all_sprites.add(self.oil_stations)
+        self.WIDTH_CENTER = self.map.map_width // 2
 
     def update(self, command: dict):
         self.update_game_mode(command)
@@ -174,13 +175,13 @@ class TankBattleMode(BattleMode):
                                                    5, 0, GREEN,
                                                    "30px Arial"))
         all_text_data.append(create_text_view_data(f"2P_Score: {self.player_2P.score + self.calculate_score()[1]}",
-                                                   WIDTH_CENTER, 0, BLUE, "30px Arial"))
+                                                   self.WIDTH_CENTER, 0, BLUE, "30px Arial"))
         all_text_data.append(create_text_view_data(f"CountDownFrame: {self.frame_limit - self.used_frame}",
-                                                   WIDTH_CENTER + WIDTH_CENTER // 2 + 30, 0, RED,
+                                                   self.WIDTH_CENTER + self.WIDTH_CENTER // 2 + 30, 0, RED,
                                                    "30px Arial"))
         all_text_data.append(create_text_view_data(
             f"2P Lives: {self.player_2P.lives} Oil: {int(self.player_2P.oil)} Power: {self.player_2P.power} Shield: {self.player_2P.shield}",
-            WIDTH_CENTER, WINDOW_HEIGHT - 35, BLUE, "30px Arial"))
+            self.WIDTH_CENTER, WINDOW_HEIGHT - 35, BLUE, "30px Arial"))
         all_text_data.append(create_text_view_data(
             f"1P Lives: {self.player_2P.lives} Oil: {int(self.player_1P.oil)} Power {self.player_1P.power} Shield: {self.player_1P.shield}",
             5, WINDOW_HEIGHT - 35, GREEN, "30px Arial"))

@@ -11,7 +11,7 @@ from games.TankMan.GameFramework.MyGame import GameFramework
 class TankMan(GameFramework):
     def __init__(self, map_no: int, frame_limit: int, sound: str):
         super().__init__(map_no, frame_limit, sound)
-        self.scene = Scene(WINDOW_WIDTH, WINDOW_HEIGHT, BLACK)
+        # self.scene = Scene(WINDOW_WIDTH, WINDOW_HEIGHT, BLACK)
         self.game_mode = self.set_game_mode()
 
     def set_game_mode(self):

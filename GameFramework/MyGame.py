@@ -8,14 +8,14 @@ from mlgame.view.view_model import Scene
 class GameFramework(PaiaGame):
     def __init__(self, map_no: int, frame_limit: int, sound: str):
         super().__init__()
-        self.scene = Scene(0, 0, "#000000")
         self.map_name = f"map_0{map_no}.tmx"
         self.frame_limit = frame_limit
         if sound == "on":
             self.is_sound = True
         else:
             self.is_sound = False
-        self.game_mode = None
+        self.game_mode = self.set_game_mode()
+        self.scene = Scene(self.game_mode.map_width, self.game_mode.map_height, "#000000")
         self.attachements = []
 
     def game_to_player_data(self) -> dict:

@@ -5,8 +5,12 @@ import pytmx
 class TiledMap:
     def __init__(self, filepath: str):
         tm = pytmx.TiledMap(filepath)
-        self.width = tm.tilewidth
-        self.height = tm.tileheight
+        self.tile_width = tm.tilewidth
+        self.tile_height = tm.tileheight
+        self.width = tm.width
+        self.height = tm.height
+        self.map_width = self.tile_width * self.width
+        self.map_height = self.tile_height * self.height
         self.tmx_data = tm
 
     def create_init_obj(self, img_no: str, class_name, **kwargs) -> dict:
@@ -19,8 +23,8 @@ class TiledMap:
                             img_id = layer.parent.tiledgidmap[gid]
                             obj_no += 1
                             img_info = {"_id": img_id, "_no": obj_no,
-                                        "x": x * self.width, "y": y * self.height,
-                                        "width": self.width, "height": self.height}
+                                        "x": x * self.tile_width, "y": y * self.tile_height,
+                                        "width": self.tile_width, "height": self.tile_height}
                             obj = class_name(img_info, **kwargs)
                             return obj
 
@@ -37,7 +41,7 @@ class TiledMap:
                             img_id = layer.parent.tiledgidmap[gid]
                             obj_no += 1
                             img_info = {"_id": img_id, "_no": obj_no,
-                                        "x": x * self.width, "y": y * self.height,
-                                        "width": self.width, "height": self.height}
+                                        "x": x * self.tile_width, "y": y * self.tile_height,
+                                        "width": self.tile_width, "height": self.tile_height}
                             obj_result.append(class_name(img_info, **kwargs))
         return obj_result

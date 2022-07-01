@@ -29,6 +29,8 @@ class GameMode:
         self.state = GameResultState.FAIL
         self.status = GameStatus.GAME_ALIVE
         self.players = pygame.sprite.Group()
+        self.map_width = self.map.map_width
+        self.map_height = self.map.map_height
 
     # TODO refactor result info and position
     def get_result(self) -> list:
