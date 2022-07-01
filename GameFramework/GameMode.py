@@ -104,13 +104,21 @@ class GameMode:
         """
         print("please overwrite 'self.create_init_image_data' method")
 
-    def draw_text_data(self):
+    def draw_foreground_data(self):
         """
         Example:
-        all_text_data = [{"content": "", "x": 0, "y": 0, "color": "", "font_style": "30px Arial"}]
-        return all_text_data
+        all_foreground_data = [{"content": "", "x": 0, "y": 0, "color": "", "font_style": "24px Arial"}]
+        return all_foreground_data
         """
-        print("Please overwrite 'self.draw_text_data' method")
+        print("Please overwrite 'self.draw_foreground_data' method")
+
+    def draw_toggle_data(self):
+        """
+        Example:
+        all_toggle_data = [{"content": "", "x": 0, "y": 0, "color": "", "font_style": "24px Arial"}]
+        return all_toggle_data
+        """
+        print("Please overwrite 'self.draw_toggle_data' method")
 
     def create_scene_info(self):
         """

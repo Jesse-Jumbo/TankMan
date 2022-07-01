@@ -2,7 +2,8 @@ import pygame.event
 
 from games.TankMan.src.TankWall import TankWall
 from mlgame.gamedev.game_interface import GameStatus, GameResultState
-from mlgame.view.view_model import create_asset_init_data, create_image_view_data, create_text_view_data
+from mlgame.view.view_model import create_asset_init_data, create_image_view_data, create_text_view_data, \
+    create_rect_view_data, create_line_view_data
 from .TankBullet import TankBullet
 from .TankSoundController import TankSoundController
 from .TankStation import TankStation
@@ -166,27 +167,32 @@ class TankBattleMode(BattleMode):
                     all_sprite_data.append(create_image_view_data(data[self._ID], data[self._X], data[self._Y],
                                                                   data[self._WIDTH], data[self._HEIGHT],
                                                                   data[self._ANGLE]))
+        all_sprite_data.append(create_image_view_data("border", 0, 0, self.map.map_width, self.map.map_height, 0))
 
         return all_sprite_data
 
-    def draw_text_data(self):
+    def draw_foreground_data(self):
         all_text_data = []
         all_text_data.append(create_text_view_data(f"1P_Score: {self.player_1P.score + self.calculate_score()[0]}",
                                                    5, 0, GREEN,
-                                                   "30px Arial"))
+                                                   "24px Arial"))
         all_text_data.append(create_text_view_data(f"2P_Score: {self.player_2P.score + self.calculate_score()[1]}",
-                                                   self.WIDTH_CENTER, 0, BLUE, "30px Arial"))
+                                                   self.WIDTH_CENTER, 0, BLUE, "24px Arial"))
         all_text_data.append(create_text_view_data(f"CountDownFrame: {self.frame_limit - self.used_frame}",
-                                                   self.WIDTH_CENTER + self.WIDTH_CENTER // 2 + 30, 0, RED,
-                                                   "30px Arial"))
+                                                   self.WIDTH_CENTER + self.WIDTH_CENTER // 2 + 24, 0, RED,
+                                                   "24px Arial"))
         all_text_data.append(create_text_view_data(
             f"2P Lives: {self.player_2P.lives} Oil: {int(self.player_2P.oil)} Power: {self.player_2P.power} Shield: {self.player_2P.shield}",
-            self.WIDTH_CENTER, WINDOW_HEIGHT - 35, BLUE, "30px Arial"))
+            self.WIDTH_CENTER, WINDOW_HEIGHT - 35, BLUE, "24px Arial"))
         all_text_data.append(create_text_view_data(
             f"1P Lives: {self.player_2P.lives} Oil: {int(self.player_1P.oil)} Power {self.player_1P.power} Shield: {self.player_1P.shield}",
-            5, WINDOW_HEIGHT - 35, GREEN, "30px Arial"))
+            5, WINDOW_HEIGHT - 35, GREEN, "24px Arial"))
 
         return all_text_data
+
+    def draw_toggle_data(self):
+        all_toggle_data = []
+        return all_toggle_data
 
     def create_init_image_data(self):
         all_init_image_data = []
@@ -202,8 +208,10 @@ class TankBattleMode(BattleMode):
                 break
         img_id = "bullet"
         img_url = "https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/version_0.0.10/asset/image/bullet.png"
-        image_init_data = create_asset_init_data(img_id, BULLET_SIZE[0], BULLET_SIZE[1], path.join(IMAGE_DIR, f"{img_id}.png"), img_url)
-        all_init_image_data.append(image_init_data)
+        bullet_image_init_data = create_asset_init_data(img_id, BULLET_SIZE[0], BULLET_SIZE[1], path.join(IMAGE_DIR, f"{img_id}.png"), img_url)
+        all_init_image_data.append(bullet_image_init_data)
+        border_image_init_data = create_asset_init_data("border", self.map.map_width, self.map.map_height, path.join(IMAGE_DIR, "border.png"), "")
+        all_init_image_data.append(border_image_init_data)
         for data in self.player_1P.get_image_init_data():
             all_init_image_data.append(data)
         return all_init_image_data

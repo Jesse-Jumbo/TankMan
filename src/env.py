@@ -16,8 +16,8 @@ from os import path
 import pygame
 
 '''width and height'''
-WINDOW_WIDTH = 1320
-WINDOW_HEIGHT = 660
+WINDOW_WIDTH = 1000
+WINDOW_HEIGHT = 600
 
 '''environment data'''
 FPS = 60

@@ -64,8 +64,8 @@ class GameFramework(PaiaGame):
         game_progress = {'background': [],
                          'object_list': self.game_mode.draw_sprite_data(),
                          'toggle_with_bias': [],
-                         'toggle': [],
-                         'foreground': self.game_mode.draw_text_data(),
+                         'toggle': self.game_mode.draw_toggle_data(),
+                         'foreground': self.game_mode.draw_foreground_data(),
                          'user_info': [],
                          'game_sys_info': {}}
 
