@@ -12,9 +12,9 @@
       "name": "map_no",
       "verbose": "地圖編號",
       "type": "int",
-      "max": 4,
+      "max": 5,
       "min": 0,
-      "default": 1,
+      "default": 4,
       "help": "set map number for load game scene"
     },
     {

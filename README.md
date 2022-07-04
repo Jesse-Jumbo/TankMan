@@ -1,8 +1,15 @@
 # TankMan
-
 ## 遊戲說明
-- 坦克人(Tank Man)，一款經典的雙人對戰遊戲，時間內率先擊殺對手獲勝，否則以分數高者獲勝，除了擊中對手外，破壞遊戲物件，以獲得更高積分。
-- 注意: 場上資源恢復皆須時間，先到者得，你需要這些補充品以提供前進和射擊的燃油和子彈。
+![logo.png](.\asset\image\logo.png)
+
+![TankMan](https://img.shields.io/github/v/tag/Jesse-Jumbo/TankMan)
+[![Python 3.9](https://img.shields.io/badge/python-3.9-blue.svg)](https://www.python.org/downloads/release/python-390/)
+[![MLGame](https://img.shields.io/badge/MLGame-9.3.*-<COLOR>.svg)](https://github.com/PAIA-Playful-AI-Arena/MLGame)
+[![pygame](https://img.shields.io/badge/pygame-2.0.1-<COLOR>.svg)](https://github.com/pygame/pygame/releases/tag/2.0.1)
+
+坦克人(Tank Man)，一款經典的雙人對戰遊戲，時間內率先擊殺對手獲勝，否則以分數高者獲勝，除了擊中對手外，破壞遊戲物件，以獲得更高積分。 
+！注意: 場上資源恢復皆須時間，先到者得，你需要這些補充品以提供前進和射擊的燃油和子彈。
+![game.gif](.\asset\image\game.gif)
 ---
 ## Requirements
 - Python==3.9
