@@ -38,10 +38,15 @@ class GameMode:
         res = []
         for player in self.players:
             get_res = player.get_result()
+            get_res = self.get_other_result(get_res)
             get_res["state"] = self.state
             get_res["status"] = self.status
             res.append(get_res)
         return res
+
+    def get_other_result(self, origin_result):
+        """You can overwrite or append new result to origin result, when you finished, return origin_result"""
+        return origin_result
 
     def update_game_mode(self, command: dict):
         self.set_result(GameResultState.FAIL, GameStatus.GAME_ALIVE)

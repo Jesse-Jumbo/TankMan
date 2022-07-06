@@ -297,3 +297,10 @@ class TankBattleMode(BattleMode):
                 to_player_data[f"{player._id}P"] = info
 
         return to_player_data
+
+    def get_other_result(self, origin_result):
+        if origin_result["id"] == "1P":
+            origin_result["score"] = self.player_1P.score + self.calculate_score()[0]
+        else:
+            origin_result["score"] = self.player_2P.score + self.calculate_score()[1]
+        return origin_result
