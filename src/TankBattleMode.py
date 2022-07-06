@@ -247,9 +247,9 @@ class TankBattleMode(BattleMode):
         all_init_image_data.append(border_image_init_data)
         for data in self.player_1P.get_image_init_data():
             all_init_image_data.append(data)
-        lives_image_init_data_1 = create_asset_init_data("1P_lives", 30, 30, path.join(IMAGE_DIR, "1P_lives.png"), "")
+        lives_image_init_data_1 = create_asset_init_data("1P_lives", 30, 30, path.join(IMAGE_DIR, "1P_lives.png"), "https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/1P_lives.png")
         all_init_image_data.append(lives_image_init_data_1)
-        lives_image_init_data_2 = create_asset_init_data("2P_lives", 30, 30, path.join(IMAGE_DIR, "2P_lives.png"), "")
+        lives_image_init_data_2 = create_asset_init_data("2P_lives", 30, 30, path.join(IMAGE_DIR, "2P_lives.png"), "https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/2P_lives.png")
         all_init_image_data.append(lives_image_init_data_2)
         return all_init_image_data
 
