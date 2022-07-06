@@ -43,6 +43,7 @@ class TankBattleMode(BattleMode):
         [self.oil_stations.add(oil_station) for oil_station in oil_stations]
         self.all_sprites.add(self.oil_stations)
         self.WIDTH_CENTER = self.map.map_width // 2
+        self.HEIGHT_CENTER = self.map.map_height // 2
 
     def update(self, command: dict):
         self.update_game_mode(command)
@@ -172,23 +173,55 @@ class TankBattleMode(BattleMode):
         return all_sprite_data
 
     def draw_foreground_data(self):
-        all_text_data = []
-        all_text_data.append(create_text_view_data(f"1P_Score: {self.player_1P.score + self.calculate_score()[0]}",
-                                                   70, 8, GREEN,
+        all_foreground_data = []
+        score_1P = self.player_1P.score + self.calculate_score()[0]
+        score_2P = self.player_2P.score + self.calculate_score()[1]
+        x = 10
+        for score in range(min(score_1P, score_2P)):
+            all_foreground_data.append(create_rect_view_data("score", x, 20, 1, 10, YELLOW))
+            x += 2
+        for score in range(abs(score_1P - score_2P)):
+            if score_1P > score_2P:
+                all_foreground_data.append(create_rect_view_data("score", x, 20, 1, 10, GREEN))
+            else:
+                all_foreground_data.append(create_rect_view_data("score", x, 20, 1, 10, BLUE))
+            x += 2
+        x = 10
+        for frame in range((self.frame_limit - self.used_frame) // 30):
+            all_foreground_data.append(create_rect_view_data("frame", x, 8, 1, 10, RED))
+            x += 2
+        all_foreground_data.append(create_text_view_data(f"Score: {score_1P}",
+                                                   self.WIDTH_CENTER + 50, 8, GREEN,
                                                    "24px Arial"))
-        all_text_data.append(create_text_view_data(f"2P_Score: {self.player_2P.score + self.calculate_score()[1]}",
-                                                   self.WIDTH_CENTER + 60, 8, BLUE, "24px Arial"))
-        all_text_data.append(create_text_view_data(f"Frame: {self.frame_limit - self.used_frame}",
+        all_foreground_data.append(create_text_view_data(f"Score: {score_2P}",
+                                                   self.WIDTH_CENTER + 190, 8, BLUE, "24px Arial"))
+        all_foreground_data.append(create_text_view_data(f"Frame: {self.frame_limit - self.used_frame}",
                                                    self.WIDTH_CENTER + self.WIDTH_CENTER // 2 + 85, 8, RED,
                                                    "24px Arial"))
-        all_text_data.append(create_text_view_data(
-            f"2P Lives: {self.player_2P.lives} Oil: {int(self.player_2P.oil)} Power: {self.player_2P.power} Shield: {self.player_2P.shield}",
-            self.WIDTH_CENTER + 60, WINDOW_HEIGHT - 35, BLUE, "24px Arial"))
-        all_text_data.append(create_text_view_data(
-            f"1P Lives: {self.player_2P.lives} Oil: {int(self.player_1P.oil)} Power {self.player_1P.power} Shield: {self.player_1P.shield}",
-            70, WINDOW_HEIGHT - 35, GREEN, "24px Arial"))
+        # 1P
+        x = 10
+        for live in range(self.player_1P.lives):
+            all_foreground_data.append(create_image_view_data("1P_lives", x, WINDOW_HEIGHT - 35, 30, 30))
+            x += 35
+        all_foreground_data.append(create_rect_view_data("1P_shield", 135, WINDOW_HEIGHT - 25, self.player_1P.shield, 10, RED))
+        all_foreground_data.append(create_rect_view_data("1P_oil", 255, WINDOW_HEIGHT - 25, int(self.player_1P.oil), 10, YELLOW))
+        x = 375
+        for power in range(self.player_1P.power):
+            all_foreground_data.append(create_rect_view_data("1P_power", x, WINDOW_HEIGHT - 25, 8, 10, BLUE))
+            x += 10
+        # 2P
+        x = self.WIDTH_CENTER + 10
+        for live in range(self.player_2P.lives):
+            all_foreground_data.append(create_image_view_data("2P_lives", x, WINDOW_HEIGHT - 35, 30, 30))
+            x += 35
+        all_foreground_data.append(create_rect_view_data("2P_shield", self.WIDTH_CENTER + 135, WINDOW_HEIGHT - 25, self.player_2P.shield, 10, RED))
+        all_foreground_data.append(create_rect_view_data("2P_oil", self.WIDTH_CENTER + 255, WINDOW_HEIGHT - 25, int(self.player_2P.oil), 10, YELLOW))
+        x = self.WIDTH_CENTER + 375
+        for power in range(self.player_2P.power):
+            all_foreground_data.append(create_rect_view_data("2P_power", x, WINDOW_HEIGHT - 25, 8, 10, BLUE))
+            x += 10
 
-        return all_text_data
+        return all_foreground_data
 
     def draw_toggle_data(self):
         all_toggle_data = []
@@ -214,6 +247,10 @@ class TankBattleMode(BattleMode):
         all_init_image_data.append(border_image_init_data)
         for data in self.player_1P.get_image_init_data():
             all_init_image_data.append(data)
+        lives_image_init_data_1 = create_asset_init_data("1P_lives", 30, 30, path.join(IMAGE_DIR, "1P_lives.png"), "")
+        all_init_image_data.append(lives_image_init_data_1)
+        lives_image_init_data_2 = create_asset_init_data("2P_lives", 30, 30, path.join(IMAGE_DIR, "2P_lives.png"), "")
+        all_init_image_data.append(lives_image_init_data_2)
         return all_init_image_data
 
     def create_scene_info(self):
