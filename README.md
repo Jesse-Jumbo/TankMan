@@ -29,8 +29,7 @@
 
 ---
 ## 畫面說明:
-![view_ex.png](https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/view_ex.png)
-
+<img src="https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/view_ex.png" alt="view_ex.png" width="1000" height="600"/> 
 ---
 # 遊戲細節：
 ## 啟動方式:
