@@ -57,7 +57,7 @@ class Player(pygame.sprite.Sprite):
         return self.rect.x, self.rect.y
 
     def reset(self):
-        self.rect.center = self.origin_center
+        self.hit_rect.center = self.origin_center
 
     def get_image_data(self):
         """
