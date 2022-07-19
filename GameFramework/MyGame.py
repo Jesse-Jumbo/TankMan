@@ -1,13 +1,13 @@
-from mlgame.gamedev.game_interface import PaiaGame, GameStatus
-from mlgame.view.test_decorator import check_game_result
+from mlgame.game.paia_game import PaiaGame, GameStatus
 from mlgame.view.view_model import Scene
 
 '''need some fuction same as arkanoid which without dash in the name of fuction'''
 
 
 class GameFramework(PaiaGame):
-    def __init__(self, map_no: int, frame_limit: int, sound: str):
-        super().__init__()
+    def __init__(self, user_num: int, map_no: int, frame_limit: int, sound: str):
+        super().__init__(user_num)
+        self._user_num = user_num
         self.map_name = f"map_0{map_no}.tmx"
         self.frame_limit = frame_limit
         if sound == "on":
@@ -18,7 +18,7 @@ class GameFramework(PaiaGame):
         self.scene = Scene(self.game_mode.map_width, self.game_mode.map_height, "#000000")
         self.attachements = []
 
-    def game_to_player_data(self) -> dict:
+    def get_data_from_game_to_player(self) -> dict:
         return self.game_mode.create_game_data_to_player()
 
     @property
@@ -55,13 +55,12 @@ class GameFramework(PaiaGame):
 
         return game_info
 
-    # @check_game_progress
     def get_scene_progress_data(self) -> dict:
         """
         Get the position of src objects for drawing on the web
         """
 
-        game_progress = {'background': [],
+        scene_progress = {'background': [],
                          'object_list': self.game_mode.draw_sprite_data(),
                          'toggle_with_bias': [],
                          'toggle': self.game_mode.draw_toggle_data(),
@@ -69,9 +68,8 @@ class GameFramework(PaiaGame):
                          'user_info': [],
                          'game_sys_info': {}}
 
-        return game_progress
+        return scene_progress
 
-    @check_game_result
     def get_game_result(self):
         """
         Get the src result for the web
@@ -96,14 +94,6 @@ class GameFramework(PaiaGame):
             return reset_dict
 
         return self.game_mode.get_act_command()
-
-    @staticmethod
-    def ai_clients():
-        """
-        let MLGame know how to parse your ai,
-        you can also use this names to get different cmd and send different data to each ai client
-        """
-        return [{"name": "1P", "args": ("1P",)}, {"name": "2P", "args": ("2P",)}]
 
     def set_game_mode(self):
         print("please overwrite 'self.set_game_mode' method")

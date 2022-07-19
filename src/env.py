@@ -21,7 +21,7 @@ WINDOW_WIDTH = 1000
 WINDOW_HEIGHT = 600
 
 '''environment data'''
-FPS = 60
+FPS = 30
 SHOOT_COOLDOWN = FPS // 4
 
 '''color'''

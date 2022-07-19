@@ -1,8 +1,12 @@
+from mlgame.game.paia_game import GameResultState, GameStatus
+from mlgame.utils.enum import get_ai_name
+
 from games.TankMan.GameFramework.GameMode import GameMode
-from mlgame.gamedev.game_interface import GameResultState, GameStatus
 
 
 class BattleMode(GameMode):
+    def __init__(self, user_num:int, map_path: str, frame_limit: int, is_sound: bool):
+        super().__init__(user_num, map_path, frame_limit, is_sound)
     def reset(self):
         if self.player_1P.is_alive and not self.player_2P.is_alive:
             self.set_result(GameResultState.FINISH, GameStatus.GAME_1P_WIN)
@@ -21,10 +25,12 @@ class BattleMode(GameMode):
         for even in pygame.event.get():
             pass
         """
+        ai_1P = get_ai_name[0]
+        ai_2P = get_ai_name[1]
         cmd_1P = self.get_1P_command()
         cmd_2P = self.get_2P_command()
 
-        return {"1P": cmd_1P, "2P": cmd_2P}
+        return {ai_1P: cmd_1P, ai_2P: cmd_2P}
 
     def get_1P_command(self):
         """

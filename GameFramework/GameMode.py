@@ -1,9 +1,9 @@
 import pygame.event
+from mlgame.game.paia_game import GameResultState, GameStatus
 
 from mlgame.view.view_model import create_image_view_data
 from .constants import ID, X, Y, WIDTH, HEIGHT, ANGLE
 from .SoundController import SoundController
-from mlgame.gamedev.game_interface import GameResultState, GameStatus
 
 from .TiledMap import TiledMap
 from games.TankMan.src.env import *
@@ -17,7 +17,8 @@ class GameMode:
     _HEIGHT = HEIGHT
     _ANGLE = ANGLE
 
-    def __init__(self, map_path: str, frame_limit: int, is_sound: bool):
+    def __init__(self, user_num: int, map_path: str, frame_limit: int, is_sound: bool):
+        self._user_num = user_num
         self.map_path = map_path
         self.frame_limit = frame_limit
         self.sound_controller = SoundController(is_sound)

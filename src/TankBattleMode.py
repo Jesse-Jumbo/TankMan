@@ -1,7 +1,7 @@
 import pygame.event
+from mlgame.game.paia_game import GameResultState, GameStatus
 
 from games.TankMan.src.TankWall import TankWall
-from mlgame.gamedev.game_interface import GameStatus, GameResultState
 from mlgame.view.view_model import create_asset_init_data, create_image_view_data, create_text_view_data, \
     create_rect_view_data, create_line_view_data
 from .TankBullet import TankBullet
@@ -13,8 +13,8 @@ from games.TankMan.GameFramework.BattleMode import BattleMode
 
 
 class TankBattleMode(BattleMode):
-    def __init__(self, map_path: str, frame_limit: int, is_sound: bool):
-        super().__init__(map_path, frame_limit, is_sound)
+    def __init__(self, user_num: int, map_path: str, frame_limit: int, is_sound: bool):
+        super().__init__(user_num, map_path, frame_limit, is_sound)
         pygame.init()
         self.sound_controller = TankSoundController(is_sound)
         self.sound_controller.play_bgm()

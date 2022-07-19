@@ -7,6 +7,10 @@
     "./asset/image/TankMan.svg",
     "https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/49dc8cb825ddd8dea61936fb6d339c846fe68d6c/asset/image/TankMan.svg"
   ],
+  "user_num": {
+    "min": 2,
+    "max": 2
+  },
   "game_params": [
     {
       "name": "map_no",
@@ -31,11 +35,17 @@
       "verbose": "遊戲音效",
       "type": "str",
       "choices": [
-        "on",
-        "off"
+        {
+          "verbose": "開",
+          "value": "on"
+        },
+        {
+          "verbose": "關",
+          "value": "off"
+        }
       ],
-      "help": "'off' can turn off the sound.",
-      "default": "on"
+      "help": "'on' can turn on the sound.",
+      "default": "off"
     }
   ]
 }
