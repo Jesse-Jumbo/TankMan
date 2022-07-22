@@ -6,7 +6,8 @@ class Bullet(pygame.sprite.Sprite):
         super().__init__()
         self.rect = pygame.Rect(0, 0, width, height)
         self.rect.center = center
-        self.hit_rect = pygame.Rect(self.rect.x, self.rect.y, width - 2, height - 2)
+        self.hit_rect = pygame.Rect(0, 0, width - 2, height - 2)
+        self.hit_rect.center = self.rect.center
         self.speed = 10
         self.map_height = 0
         self.map_width = 0
@@ -36,3 +37,10 @@ class Bullet(pygame.sprite.Sprite):
         """
         print("please overwrite 'self.get_image_init_data' method")
 
+    def get_info(self):
+        """
+        add all bullet information
+
+        info = {"id": "", "x": 0, "y": 0}
+        """
+        print("please overwrite 'self.get_info' method")

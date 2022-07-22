@@ -138,14 +138,12 @@ class TankPlayer(Player):
 
     def turn_left(self):
         if not self.is_turn:
-            print(self.rot)
             self.turn_cd = self.used_frame
             self.rot += self.rot_speed
             self.is_turn = True
 
     def turn_right(self):
         if not self.is_turn:
-            print(self.rot)
             self.turn_cd = self.used_frame
             self.rot -= self.rot_speed
             self.is_turn = True

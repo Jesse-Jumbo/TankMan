@@ -53,7 +53,6 @@ class GameMode:
         self.set_result(GameResultState.FAIL, GameStatus.GAME_ALIVE)
         if not self.is_paused:
             self.used_frame += 1
-            self.all_sprites.update()
             number = 1
             for player in self.players:
                 player.update(command[f"{number}P"])

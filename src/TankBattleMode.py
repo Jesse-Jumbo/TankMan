@@ -30,6 +30,7 @@ class TankBattleMode(BattleMode):
         self.player_1P = self.map.create_init_obj(PLAYER_1_IMG_NO, TankPlayer)
         self.player_2P = self.map.create_init_obj(PLAYER_2_IMG_NO, TankPlayer)
         self.players.add(self.player_1P, self.player_2P)
+        self.all_sprites.add(self.player_1P, self.player_2P)
         # init walls
         walls = self.map.create_init_obj_list(WALL_IMG_NO, TankWall, margin=8, spacing=8)
         [self.walls.add(wall) for wall in walls]
@@ -47,6 +48,10 @@ class TankBattleMode(BattleMode):
 
     def update(self, command: dict):
         self.update_game_mode(command)
+        self.walls.update()
+        self.oil_stations.update()
+        self.bullet_stations.update()
+        self.bullets.update()
         if self.player_1P.is_shoot:
             shoot_info = self.player_1P.create_shoot_info()
             self.create_bullet(shoot_info)
@@ -236,6 +241,8 @@ class TankBattleMode(BattleMode):
 
     def draw_toggle_data(self):
         all_toggle_data = []
+        for sprite in self.all_sprites:
+            all_toggle_data.extend(self.draw_rect(sprite))
         return all_toggle_data
 
     def create_init_image_data(self):
@@ -315,3 +322,12 @@ class TankBattleMode(BattleMode):
         else:
             origin_result["score"] = self.player_2P.score + self.calculate_score()[1]
         return origin_result
+
+    def draw_rect(self, sprite):
+        all_line = []
+        point = [(sprite.rect.x, sprite.rect.y), sprite.rect.topright, sprite.rect.bottomright, sprite.rect.bottomleft, (sprite.rect.x, sprite.rect.y)]
+        hit_point = [(sprite.hit_rect.x, sprite.hit_rect.y), sprite.hit_rect.topright, sprite.hit_rect.bottomright, sprite.hit_rect.bottomleft, (sprite.hit_rect.x, sprite.hit_rect.y)]
+        for i in range(4):
+            all_line.append(create_line_view_data(f"{sprite.get_info()['id']}", point[i][0], point[i][1], point[i+1][0], point[i+1][1], YELLOW, 2))
+            all_line.append(create_line_view_data(f"hit_{sprite.get_info()['id']}", hit_point[i][0], hit_point[i][1], hit_point[i+1][0], hit_point[i+1][1], RED, 2))
+        return all_line

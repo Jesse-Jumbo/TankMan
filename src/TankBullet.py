@@ -45,3 +45,12 @@ class TankBullet(Bullet):
         id, url = img_data.items()
         image_init_data = create_asset_init_data(id, self.rect.width, self.rect.height, path.join(IMAGE_DIR, f"{id}.png"), url)
         return image_init_data
+
+    def get_info(self) -> dict:
+        info = {"id": f"{self._id}P_bullet",
+                "x": self.rect.x,
+                "y": self.rect.y,
+                "speed": self.speed,
+                "rot": self.rot
+                }
+        return info

@@ -16,7 +16,6 @@ class MLPlay:
         self.side = ai_name
         print(f"Initial TankMan {ai_name} ml script")
         self.time = 0
-        print(self.side)
 
     def update(self, scene_info: dict, keyboard=[], *args, **kwargs):
         """
