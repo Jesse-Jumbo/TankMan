@@ -1,6 +1,7 @@
 """
 The template of the main script of the machine learning process
 """
+import random
 
 import pygame
 
@@ -26,34 +27,37 @@ class MLPlay:
         if scene_info["status"] != "GAME_ALIVE":
             return "RESET"
 
+        if scene_info["used_frame"] % 30 == 0:
+            act = random.randrange(5)
+            is_shoot = random.randrange(2)
+        else:
+            act = 0
+            is_shoot = 0
+
         command = []
         if self.side == "1P":
-            # if pygame.K_RIGHT in keyboard:
-            #     command.append("TURN_RIGHT")
-            # elif pygame.K_LEFT in keyboard:
-            #     command.append("TURN_LEFT")
-            # elif pygame.K_UP in keyboard:
-            #     command.append("FORWARD")
-            # elif pygame.K_DOWN in keyboard:
-            #     command.append("BACKWARD")
-            #
-            # if pygame.K_SPACE in keyboard:
-            #     command.append("SHOOT")
-            if scene_info["used_frame"] % 120 == 0:
+            if act == 1:
+                command.append("TURN_RIGHT")
+            elif act == 2:
+                command.append("TURN_LEFT")
+            elif act == 3:
+                command.append("FORWARD")
+            elif act == 4:
+                command.append("BACKWARD")
+
+            if is_shoot:
                 command.append("SHOOT")
-        else:
-            # if pygame.K_d in keyboard:
-            #     command.append("TURN_RIGHT")
-            # elif pygame.K_a in keyboard:
-            #     command.append("TURN_LEFT")
-            # elif pygame.K_w in keyboard:
-            #     command.append("FORWARD")
-            # elif pygame.K_s in keyboard:
-            #     command.append("BACKWARD")
-            #
-            # if pygame.K_f in keyboard:
-            #     command.append("SHOOT")
-            if scene_info["used_frame"] % 180 == 0:
+        elif self.side == "2P":
+            if act == 1:
+                command.append("TURN_RIGHT")
+            elif act == 2:
+                command.append("TURN_LEFT")
+            elif act == 3:
+                command.append("FORWARD")
+            elif act == 4:
+                command.append("BACKWARD")
+
+            if is_shoot:
                 command.append("SHOOT")
 
         return command

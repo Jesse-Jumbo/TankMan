@@ -1,8 +1,9 @@
 # TankMan
 ## 遊戲說明
-![TankManLogo](https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/49dc8cb825ddd8dea61936fb6d339c846fe68d6c/asset/image/TankMan.svg)
+<img src="https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/49dc8cb825ddd8dea61936fb6d339c846fe68d6c/asset/image/TankMan.svg" alt="logo" width="100"/> 
 
-![TankMan](https://img.shields.io/github/v/tag/Jesse-Jumbo/TankMan)
+
+[![TankMan](https://img.shields.io/github/v/tag/Jesse-Jumbo/TankMan)](https://github.com/Jesse-Jumbo/TankMan/tree/0.1.9)
 [![Python 3.9](https://img.shields.io/badge/python-3.9-blue.svg)](https://www.python.org/downloads/release/python-390/)
 [![MLGame](https://img.shields.io/badge/MLGame-9.3.*-<COLOR>.svg)](https://github.com/PAIA-Playful-AI-Arena/MLGame)
 [![pygame](https://img.shields.io/badge/pygame-2.0.1-<COLOR>.svg)](https://github.com/pygame/pygame/releases/tag/2.0.1)
@@ -27,7 +28,10 @@
 雙人對戰遊戲，1P玩家透過方向鍵操控綠色坦克車，2P玩家透過WASD操控藍色坦克車，按下空白鍵與F鍵可射擊砲彈，場上會有各類補給站，經過以補給該資源。
 
 ---
+## 畫面說明:
+<img src="https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/view_ex.png" alt="view_ex.png" width="1000" height="600"/> 
 
+---
 # 遊戲細節：
 ## 啟動方式:
 - 直接啟動`main.py`即可執行。
@@ -48,6 +52,7 @@ python MLGame.py -i ml_play_manual.py -f 120 TankMan --map_no 1 --sound on --fra
 python MLGame.py -i ml_play_template_1P.py -i ml_play_template_2P.py -f 120 TankMan --sound on --frame_limit 30 --map_no 1
 ```
 - `map_no`:  輸入地圖編號，以選擇遊戲的地圖。
+- `frame_limit`:  輸入遊戲總frame數，以決定遊戲的幀數。
 - `sound`:  輸入`on`或`off`，控制是否播放遊戲音效。
 - 如果在`MLgame.py`後加上`-1`，代表只執行一次遊戲。
 ---
@@ -102,8 +107,8 @@ python MLGame.py -i ml_play_template_1P.py -i ml_play_template_2P.py -f 120 Tank
 
 ---
 # 地圖說明
-### 寬1320 pixel；高660 pixel
-### 每格60 * 60 pixel，可放置一個物件
+- 寬1320 pixel；高660 pixel
+- 每格60 * 60 pixel，可放置一個物件
 
 ---
 ## 地圖製作
