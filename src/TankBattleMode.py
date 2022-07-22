@@ -177,15 +177,26 @@ class TankBattleMode(BattleMode):
         score_1P = self.player_1P.score + self.calculate_score()[0]
         score_2P = self.player_2P.score + self.calculate_score()[1]
         x = 10
+        y = 20
+        _x = 0
         for score in range(min(score_1P, score_2P)):
-            all_foreground_data.append(create_rect_view_data("score", x, 20, 1, 10, YELLOW))
+            all_foreground_data.append(create_rect_view_data("score", x, y, 1, 10, YELLOW))
             x += 2
+            if x > 500:
+                y = 32
+                x = 10
+                _x = x
         for score in range(abs(score_1P - score_2P)):
             if score_1P > score_2P:
-                all_foreground_data.append(create_rect_view_data("score", x, 20, 1, 10, GREEN))
+                all_foreground_data.append(create_rect_view_data("score", x, y, 1, 10, GREEN))
             else:
-                all_foreground_data.append(create_rect_view_data("score", x, 20, 1, 10, BLUE))
+                all_foreground_data.append(create_rect_view_data("score", x, y, 1, 10, BLUE))
             x += 2
+            if x > 500:
+                y = 32
+                x = 10
+                if _x:
+                    x = _x
         x = 10
         for frame in range((self.frame_limit - self.used_frame) // 30):
             all_foreground_data.append(create_rect_view_data("frame", x, 8, 1, 10, RED))

@@ -90,7 +90,9 @@ class TankPlayer(Player):
 
     def forward(self):
         if self._id != 1:
-            rot = self.rot - 180 + 360
+            rot = self.rot + 180
+            if rot >= 360:
+                rot -= 360
         else:
             rot = self.rot
         if rot == 0:
@@ -112,7 +114,9 @@ class TankPlayer(Player):
 
     def backward(self):
         if self._id != 1:
-            rot = self.rot - 180 + 360
+            rot = self.rot + 180
+            if rot >= 360:
+                rot -= 360
         else:
             rot = self.rot
         if rot == 0:
