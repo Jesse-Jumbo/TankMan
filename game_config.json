@@ -17,7 +17,7 @@
       "verbose": "地圖編號",
       "type": "int",
       "max": 5,
-      "min": 0,
+      "min": 1,
       "default": 4,
       "help": "set map number for load game scene"
     },
