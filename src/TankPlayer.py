@@ -1,13 +1,11 @@
 import random
-from os import path
-
 import pygame.draw
-
+from os import path
 from mlgame.view.view_model import create_asset_init_data
 from .env import WINDOW_WIDTH, WINDOW_HEIGHT, LEFT_CMD, RIGHT_CMD, FORWARD_CMD, BACKWARD_CMD, SHOOT, SHOOT_COOLDOWN, \
     IMAGE_DIR
-from games.TankMan.GameFramework.Player import Player
-from games.TankMan.GameFramework.constants import *
+from .GameFramework.Player import Player
+from .GameFramework.constants import *
 
 vec = pygame.math.Vector2
 

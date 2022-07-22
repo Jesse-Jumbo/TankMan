@@ -1,11 +1,9 @@
-import sys
 from os import path
 
 from mlgame.view.view_model import create_asset_init_data, create_image_view_data
-from .TankBattleMode import TankBattleMode
-from .TankPlayer import TankPlayer
-from .env import MAP_DIR
-from ..GameFramework.constants import *
+from TankBattleMode import TankBattleMode
+from TankPlayer import TankPlayer
+from env import MAP_DIR
 
 
 class TestTankBattleMode(object):

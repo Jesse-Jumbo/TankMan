@@ -1,11 +1,6 @@
 import pygame.event
 
 from .GameMode import GameMode
-from games.PacMan.src.SquareGrid import *
-from mlgame.gamedev.game_interface import GameResultState, GameStatus
-from mlgame.view.view_model import create_asset_init_data, create_image_view_data, create_text_view_data
-from .constants import ID, X, Y, ANGLE, HEIGHT, WIDTH
-
 
 class SingleMode(GameMode):
     def __init__(self, map_path: str, frame_limit: int, is_sound: bool):

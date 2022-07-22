@@ -1,10 +1,8 @@
-from os import path
-
 import pygame
-
+from os import path
 from mlgame.view.view_model import create_asset_init_data
 from .env import WINDOW_HEIGHT, WINDOW_WIDTH, IMAGE_DIR
-from games.TankMan.GameFramework.Bullet import Bullet
+from .GameFramework.Bullet import Bullet
 
 vec = pygame.math.Vector2
 

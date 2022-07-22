@@ -6,8 +6,6 @@ from .constants import ID, X, Y, WIDTH, HEIGHT, ANGLE
 from .SoundController import SoundController
 
 from .TiledMap import TiledMap
-from games.TankMan.src.env import *
-
 
 class GameMode:
     _ID = ID

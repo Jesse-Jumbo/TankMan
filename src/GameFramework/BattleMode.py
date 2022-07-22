@@ -1,7 +1,7 @@
 from mlgame.game.paia_game import GameResultState, GameStatus
 from mlgame.utils.enum import get_ai_name
 
-from games.TankMan.GameFramework.GameMode import GameMode
+from .GameMode import GameMode
 
 
 class BattleMode(GameMode):

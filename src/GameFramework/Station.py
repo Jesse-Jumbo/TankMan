@@ -1,4 +1,3 @@
-from games.TankMan.src.env import FPS
 from .Props import Props
 
 
@@ -13,7 +12,7 @@ class Station(Props):
     def update(self):
         if self.power != self.capacity:
             self.count_frame += 1
-            if self.count_frame == self.cd_time * FPS:
+            if self.count_frame == self.cd_time * 30:
                 self.power += 1
                 self.count_frame = 0
         self.update_children()

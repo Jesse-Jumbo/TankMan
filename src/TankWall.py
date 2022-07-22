@@ -1,8 +1,8 @@
 from os import path
 
-from games.TankMan.GameFramework.Props import Props
-from games.TankMan.src.env import IMAGE_DIR
+from .env import IMAGE_DIR
 from mlgame.view.view_model import create_asset_init_data
+from .GameFramework.Props import Props
 
 
 class TankWall(Props):

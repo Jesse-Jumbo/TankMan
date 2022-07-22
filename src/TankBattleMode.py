@@ -1,7 +1,7 @@
 import pygame.event
+from .GameFramework.BattleMode import BattleMode
 from mlgame.game.paia_game import GameResultState, GameStatus
-
-from games.TankMan.src.TankWall import TankWall
+from .TankWall import TankWall
 from mlgame.view.view_model import create_asset_init_data, create_image_view_data, create_text_view_data, \
     create_rect_view_data, create_line_view_data
 from .TankBullet import TankBullet
@@ -9,7 +9,6 @@ from .TankSoundController import TankSoundController
 from .TankStation import TankStation
 from .collide_hit_rect import *
 from .env import *
-from games.TankMan.GameFramework.BattleMode import BattleMode
 
 
 class TankBattleMode(BattleMode):

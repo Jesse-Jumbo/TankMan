@@ -1,4 +1,4 @@
-from games.TankMan.GameFramework.Player import Player
+from ..GameFramework.Player import Player
 
 
 class TestPlayer(object):
