@@ -13,7 +13,7 @@ class TiledMap:
         self.map_height = self.tile_height * self.height
         self.tmx_data = tm
 
-    def create_init_obj(self, img_no: str, class_name, **kwargs) -> dict:
+    def create_init_obj(self, img_no: int, class_name, **kwargs) -> dict:
         obj_no = 0
         for layer in self.tmx_data.visible_layers:
             for x, y, gid, in layer:
@@ -29,8 +29,8 @@ class TiledMap:
                             return obj
 
     def create_init_obj_list(self, img_no: list or str, class_name, **kwargs) -> list:
-        if type(img_no) == int:
-            img_no = [img_no]
+        if type(img_no) != list:
+            img_no = list(map(int, [img_no]))
         obj_result = []
         obj_no = 0
         for layer in self.tmx_data.visible_layers:
