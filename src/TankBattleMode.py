@@ -295,6 +295,12 @@ class TankBattleMode(BattleMode):
                 info = player.get_info()
                 info["used_frame"] = self.used_frame
                 info["status"] = self.status
+                player_info = []
+                if player._id == 2:
+                    player_info.append(self.player_1P.get_info())
+                else:
+                    player_info.append(self.player_2P.get_info())
+                info["player_info"] = player_info
                 walls_info = []
                 for wall in self.walls:
                     if isinstance(wall, TankWall):
