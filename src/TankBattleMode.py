@@ -46,8 +46,10 @@ class TankBattleMode(BattleMode):
         self.HEIGHT_CENTER = self.map.map_height // 2
 
     def update(self, command: dict):
-        self.update_game_mode(command)
+        if "DEBUG" in command["1P"]:
+            self.is_debug = not self.is_debug
         self.walls.update()
+        self.update_game_mode(command)
         self.oil_stations.update()
         self.bullet_stations.update()
         self.bullets.update()
@@ -240,8 +242,9 @@ class TankBattleMode(BattleMode):
 
     def draw_toggle_data(self):
         all_toggle_data = []
-        for sprite in self.all_sprites:
-            all_toggle_data.extend(self.draw_rect(sprite))
+        if self.is_debug:
+            for sprite in self.all_sprites:
+                all_toggle_data.extend(self.draw_rect(sprite))
         return all_toggle_data
 
     def create_init_image_data(self):

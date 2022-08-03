@@ -39,6 +39,9 @@ class MLPlay:
 
             if pygame.K_p in keyboard:
                 command.append("SHOOT")
+            # debug
+            if pygame.K_b in keyboard:
+                command.append("DEBUG")
         else:
             if pygame.K_d in keyboard:
                 command.append("TURN_RIGHT")
