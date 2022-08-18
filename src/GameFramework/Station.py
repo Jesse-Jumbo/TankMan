@@ -10,6 +10,7 @@ class Station(Props):
         self.cd_time = kwargs["cd_time"]
 
     def update(self):
+        self.rect = self.hit_rect
         if self.power != self.capacity:
             self.count_frame += 1
             if self.count_frame == self.cd_time * 30:

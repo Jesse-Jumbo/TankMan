@@ -15,7 +15,7 @@ class GameFramework(PaiaGame):
         else:
             self.is_sound = False
         self.game_mode = self.set_game_mode()
-        self.scene = Scene(self.game_mode.map_width, self.game_mode.map_height, "#000000")
+        self.scene = Scene(self.game_mode.map_width, self.game_mode.map_height)
         self.attachements = []
 
     def get_data_from_game_to_player(self) -> dict:

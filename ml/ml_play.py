@@ -60,6 +60,9 @@ class MLPlay:
             if is_shoot:
                 command.append("SHOOT")
 
+        if not command:
+            command.append("None")
+
         return command
 
     def reset(self):

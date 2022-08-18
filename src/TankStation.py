@@ -1,3 +1,4 @@
+import random
 from os import path
 
 from .GameFramework.Station import Station

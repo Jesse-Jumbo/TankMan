@@ -8,7 +8,7 @@ from .GameFramework.Props import Props
 class TankWall(Props):
     def __init__(self, construction, **kwargs):
         super().__init__(construction, **kwargs)
-        self.lives = 5
+        self.lives = 3
 
     def update(self, *args, **kwargs) -> None:
         if self.lives <= 0:

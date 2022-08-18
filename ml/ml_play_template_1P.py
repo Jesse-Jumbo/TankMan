@@ -38,6 +38,9 @@ class MLPlay:
         if act == 0:
             command.append("SHOOT")
 
+        if not command:
+            command.append("None")
+
         return command
 
     def reset(self):

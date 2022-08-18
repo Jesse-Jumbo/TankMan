@@ -1,6 +1,6 @@
 {
     "INIT_INFO": [
-        ["side", "player number", "玩家編號"]
+        ["ai_name", "player number", "玩家編號"]
     ],
     "PLAYER_STATUS":[
         ["1P", "1P", "1P"],

@@ -7,6 +7,7 @@ from .GameMode import GameMode
 class BattleMode(GameMode):
     def __init__(self, user_num:int, map_path: str, frame_limit: int, is_sound: bool):
         super().__init__(user_num, map_path, frame_limit, is_sound)
+
     def reset(self):
         if self.player_1P.is_alive and not self.player_2P.is_alive:
             self.set_result(GameResultState.FINISH, GameStatus.GAME_1P_WIN)

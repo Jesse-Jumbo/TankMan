@@ -23,7 +23,7 @@ class Player(pygame.sprite.Sprite):
         self.rect.center = self.hit_rect.center
         self.update_children()
         self.act(commands)
-        if self.lives < 0:
+        if self.lives <= 0:
             self.is_alive = False
 
     def update_children(self):
