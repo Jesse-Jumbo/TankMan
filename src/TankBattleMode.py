@@ -214,7 +214,7 @@ class TankBattleMode(BattleMode):
         y = 20
         _x = 0
         for score in range(min(score_1P, score_2P)):
-            all_toggle_data.append(create_rect_view_data("score", x, y, 1, 10, YELLOW))
+            all_toggle_data.append(create_rect_view_data("score", x, y, 1, 10, ORANGE))
             x += 2
             if x > 500:
                 y = 32
@@ -364,3 +364,15 @@ class TankBattleMode(BattleMode):
             all_line.append(create_line_view_data(f"{sprite.get_info()['id']}", point[i][0], point[i][1], point[i+1][0], point[i+1][1], YELLOW, 2))
             all_line.append(create_line_view_data(f"hit_{sprite.get_info()['id']}", hit_point[i][0], hit_point[i][1], hit_point[i+1][0], hit_point[i+1][1], RED, 2))
         return all_line
+
+    # TODO refactor
+    def get_empty_pos(self):
+        all_pos = []
+        existed_pos = []
+        for x in range(self.map.width):
+            for y in range(self.map.height):
+                all_pos.append((self.map.tile_width * x, self.map.tile_height * y))
+        for sprite in self.all_sprites:
+            existed_pos.append(sprite.rect.topleft)
+        empty_pos = list(set(all_pos) ^ set(existed_pos))
+        return empty_pos

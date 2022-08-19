@@ -11,6 +11,7 @@ for x in range(18):
     for y in range(12):
         all_pos.append((50*x, 50*y))
 
+
 def collide_hit_rect(one: pygame.sprite, two: pygame.sprite):
     return one.hit_rect.colliderect(two.hit_rect)
 
