@@ -6,11 +6,12 @@ from .TankPlayer import TankPlayer
 from .env import *
 
 
-all_pos = []
-for x in range(18):
-    for y in range(12):
-        all_pos.append((50*x, 50*y))
-
+def get_all_pos():
+    all_pos = []
+    for x in range(18):
+        for y in range(12):
+            all_pos.append((50 * x, 50 * y))
+    return all_pos
 
 def collide_hit_rect(one: pygame.sprite, two: pygame.sprite):
     return one.hit_rect.colliderect(two.hit_rect)
@@ -41,7 +42,7 @@ def collide_with_bullet_stations(player: TankPlayer, stations: pygame.sprite.Gro
         player.get_power(hits[0].get_supply())
         for sprite in all_sprite:
             existed_pos.append(sprite.rect.topleft)
-        new_pos = list(set(all_pos) - set(existed_pos))
+        new_pos = list(set(get_all_pos()) - set(existed_pos))
         hits[0].rect.topleft = random.choice(new_pos)
         hits[0].hit_rect.center = hits[0].rect.center
 
@@ -53,6 +54,6 @@ def collide_with_oil_stations(player: TankPlayer, stations: pygame.sprite.Group,
         player.get_oil(hits[0].get_supply())
         for sprite in all_sprite:
             existed_pos.append(sprite.rect.topleft)
-        new_pos = list(set(all_pos) - set(existed_pos))
+        new_pos = list(set(get_all_pos()) - set(existed_pos))
         hits[0].rect.topleft = random.choice(new_pos)
         hits[0].hit_rect.center = hits[0].rect.center

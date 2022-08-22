@@ -2,6 +2,7 @@ import pygame.event
 
 from .GameMode import GameMode
 
+
 class SingleMode(GameMode):
     def __init__(self, map_path: str, frame_limit: int, is_sound: bool):
         super().__init__(map_path, frame_limit, is_sound)
