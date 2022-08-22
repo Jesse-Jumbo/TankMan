@@ -55,6 +55,7 @@ class GameMode:
             for player in self.players:
                 player.update(command[f"{number}P"])
                 number += 1
+                # TODO refactor reset method
                 if not player.is_alive or self.used_frame >= self.frame_limit:
                     self.reset()
             self.check_collisions()

@@ -92,15 +92,17 @@ class TankBattleMode(BattleMode):
         return score_1P, score_2P
 
     def reset_2(self):
-        score_1P = self.player_1P.score + self.calculate_score()[0]
-        score_2P = self.player_2P.score + self.calculate_score()[1]
-        if score_1P > score_2P:
-            self.set_result(GameResultState.FINISH, GameStatus.GAME_1P_WIN)
-        elif score_1P < score_2P:
-            self.set_result(GameResultState.FINISH, GameStatus.GAME_2P_WIN)
-        else:
-            self.set_result(GameResultState.FAIL, GameStatus.GAME_DRAW)
+        if self.status == GameStatus.GAME_ALIVE:
+            score_1P = self.player_1P.score + self.calculate_score()[0]
+            score_2P = self.player_2P.score + self.calculate_score()[1]
+            if score_1P > score_2P:
+                self.set_result(GameResultState.FINISH, GameStatus.GAME_1P_WIN)
+            elif score_1P < score_2P:
+                self.set_result(GameResultState.FINISH, GameStatus.GAME_2P_WIN)
+            else:
+                self.set_result(GameResultState.FAIL, GameStatus.GAME_DRAW)
 
+    def reset_game(self):
         # reset init game
         self.__init__(2, self.map_path, self.frame_limit, self.is_sound)
         # reset player pos
