@@ -1,7 +1,15 @@
+import random
+
 import pygame.sprite
 
 from .TankPlayer import TankPlayer
 from .env import *
+
+
+all_pos = []
+for x in range(18):
+    for y in range(12):
+        all_pos.append((50*x, 50*y))
 
 
 def collide_hit_rect(one: pygame.sprite, two: pygame.sprite):
@@ -26,13 +34,25 @@ def collide_with_bullets(sprite: pygame.sprite.Sprite, group: pygame.sprite.Grou
     return None, None
 
 
-def collide_with_bullet_stations(player: TankPlayer, stations: pygame.sprite.Group):
+def collide_with_bullet_stations(player: TankPlayer, stations: pygame.sprite.Group, all_sprite: pygame.sprite.Group):
     hits = pygame.sprite.spritecollide(player, stations, False, collide_hit_rect)
     if hits:
+        existed_pos = []
         player.get_power(hits[0].get_supply())
+        for sprite in all_sprite:
+            existed_pos.append(sprite.rect.topleft)
+        new_pos = list(set(all_pos) - set(existed_pos))
+        hits[0].rect.topleft = random.choice(new_pos)
+        hits[0].hit_rect.center = hits[0].rect.center
 
 
-def collide_with_oil_stations(player: TankPlayer, stations: pygame.sprite.Group):
+def collide_with_oil_stations(player: TankPlayer, stations: pygame.sprite.Group, all_sprite: pygame.sprite.Group):
     hits = pygame.sprite.spritecollide(player, stations, False, collide_hit_rect)
     if hits:
+        existed_pos = []
         player.get_oil(hits[0].get_supply())
+        for sprite in all_sprite:
+            existed_pos.append(sprite.rect.topleft)
+        new_pos = list(set(all_pos) - set(existed_pos))
+        hits[0].rect.topleft = random.choice(new_pos)
+        hits[0].hit_rect.center = hits[0].rect.center

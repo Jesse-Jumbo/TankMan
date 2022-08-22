@@ -2,7 +2,7 @@ import random
 
 
 class MLPlay:
-    def __init__(self, side):
+    def __init__(self, ai_name, *args, **kwargs):
         """
         Constructor
 
@@ -10,7 +10,7 @@ class MLPlay:
                which side.
         """
         print("Initial TankMan ml script 2P")
-        self.side = side
+        self.side = ai_name
         self.time = 0
 
     def update(self, scene_info: dict, *args, **kwargs):
@@ -37,6 +37,9 @@ class MLPlay:
             command.append("BACKWARD")
         if act == 0:
             command.append("SHOOT")
+
+        if not command:
+            command.append("None")
 
         return command
 

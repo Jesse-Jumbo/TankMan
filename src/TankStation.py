@@ -1,7 +1,8 @@
+import random
 from os import path
 
-from games.TankMan.GameFramework.Station import Station
-from games.TankMan.src.env import IMAGE_DIR
+from .GameFramework.Station import Station
+from .env import IMAGE_DIR
 from mlgame.view.view_model import create_asset_init_data
 
 

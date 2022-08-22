@@ -18,10 +18,10 @@ import pygame
 # TODO remove width and height setting
 '''width and height'''
 WINDOW_WIDTH = 1000
-WINDOW_HEIGHT = 600
+WINDOW_HEIGHT = 700
 
 '''environment data'''
-FPS = 60
+FPS = 30
 SHOOT_COOLDOWN = FPS // 4
 
 '''color'''
@@ -41,6 +41,7 @@ BROWN = "#643705"
 FOREST = "#22390A"
 MAGENTA = "#FF00FF"
 MEDGRAY = "#4B4B4B"
+ORANGE =  "#FFA500"
 
 '''command'''
 LEFT_CMD = "TURN_LEFT"

@@ -1,14 +1,14 @@
 from os import path
 
-from games.TankMan.GameFramework.Props import Props
-from games.TankMan.src.env import IMAGE_DIR
+from .env import IMAGE_DIR
 from mlgame.view.view_model import create_asset_init_data
+from .GameFramework.Props import Props
 
 
 class TankWall(Props):
     def __init__(self, construction, **kwargs):
         super().__init__(construction, **kwargs)
-        self.lives = 5
+        self.lives = 3
 
     def update(self, *args, **kwargs) -> None:
         if self.lives <= 0:
