@@ -273,7 +273,7 @@ class TankBattleMode(BattleMode):
         all_init_image_data = []
         for i in range(3):
             all_init_image_data.append(create_asset_init_data(f"floor_{i}", 50, 50
-                                                              , path.join(IMAGE_DIR, f"grass_{i}.png"), ""))
+                                                              , path.join(IMAGE_DIR, f"grass_{i}.png"), f"https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/grass_{i}.png"))
         for station in self.oil_stations:
             if isinstance(station, TankStation):
                 for data in station.get_image_init_data():
@@ -288,7 +288,7 @@ class TankBattleMode(BattleMode):
         img_url = "https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/version_0.0.10/asset/image/bullet.png"
         bullet_image_init_data = create_asset_init_data(img_id, BULLET_SIZE[0], BULLET_SIZE[1], path.join(IMAGE_DIR, f"{img_id}.png"), img_url)
         all_init_image_data.append(bullet_image_init_data)
-        border_image_init_data = create_asset_init_data("border", self.map.map_width, self.map.map_height, path.join(IMAGE_DIR, "border.png"), "")
+        border_image_init_data = create_asset_init_data("border", self.map.map_width, self.map.map_height, path.join(IMAGE_DIR, "border.png"), f"https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/border.png")
         all_init_image_data.append(border_image_init_data)
         for data in self.player_1P.get_image_init_data():
             all_init_image_data.append(data)
