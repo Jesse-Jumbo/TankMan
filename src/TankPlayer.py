@@ -1,13 +1,11 @@
 import random
-from os import path
-
 import pygame.draw
-
+from os import path
 from mlgame.view.view_model import create_asset_init_data
 from .env import WINDOW_WIDTH, WINDOW_HEIGHT, LEFT_CMD, RIGHT_CMD, FORWARD_CMD, BACKWARD_CMD, SHOOT, SHOOT_COOLDOWN, \
     IMAGE_DIR
-from games.TankMan.GameFramework.Player import Player
-from games.TankMan.GameFramework.constants import *
+from .GameFramework.Player import Player
+from .GameFramework.constants import *
 
 vec = pygame.math.Vector2
 
@@ -29,7 +27,6 @@ class TankPlayer(Player):
         self.last_shoot_frame = self.used_frame
         self.turn_cd = self.used_frame
         self.rot_speed = 45
-        self.shield = 100
         self.power = 10
         self.oil = 100
         self.is_shoot = False
@@ -41,7 +38,7 @@ class TankPlayer(Player):
     def update_children(self):
         self.rotate()
 
-        if self.used_frame - self.turn_cd > 30:
+        if self.used_frame - self.turn_cd > 10:
             self.is_turn = False
 
         if self.hit_rect.right > WINDOW_WIDTH+8 or self.hit_rect.left < -8 \
@@ -90,7 +87,9 @@ class TankPlayer(Player):
 
     def forward(self):
         if self._id != 1:
-            rot = self.rot - 180 + 360
+            rot = self.rot + 180
+            if rot >= 360:
+                rot -= 360
         else:
             rot = self.rot
         if rot == 0:
@@ -112,7 +111,9 @@ class TankPlayer(Player):
 
     def backward(self):
         if self._id != 1:
-            rot = self.rot - 180 + 360
+            rot = self.rot + 180
+            if rot >= 360:
+                rot -= 360
         else:
             rot = self.rot
         if rot == 0:
@@ -151,11 +152,7 @@ class TankPlayer(Player):
             self.forward()
 
     def collide_with_bullets(self):
-        self.shield -= random.randrange(1, 11)
-        if self.shield <= 0:
-            self.lives -= 1
-            self.shield = 100
-            self.reset()
+        self.lives -= 1
 
     def get_power(self, power: int):
         self.power += power
@@ -179,7 +176,6 @@ class TankPlayer(Player):
                 "score": self.score,
                 "power": self.power,
                 "oil": self.oil,
-                "shield": self.shield,
                 "lives": self.lives
                 }
         return info
@@ -189,7 +185,6 @@ class TankPlayer(Player):
                 "x": self.rect.x,
                 "y": self.rect.y,
                 "score": self.score,
-                "shield": self.shield,
                 "lives": self.lives
                 }
         return info

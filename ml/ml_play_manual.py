@@ -6,15 +6,15 @@ import pygame
 
 
 class MLPlay:
-    def __init__(self, side):
+    def __init__(self, ai_name, *args, **kwargs):
         """
         Constructor
 
-        @param side A string "1P" or "2P" indicates that the `MLPlay` is used by
+        @param ai_name A string "1P" or "2P" indicates that the `MLPlay` is used by
                which side.
         """
-        self.side = side
-        print(f"Initial TankMan {side} ml script")
+        self.side = ai_name
+        print(f"Initial TankMan {ai_name} ml script")
         self.time = 0
 
     def update(self, scene_info: dict, keyboard=[], *args, **kwargs):
@@ -39,6 +39,9 @@ class MLPlay:
 
             if pygame.K_p in keyboard:
                 command.append("SHOOT")
+            # debug
+            if pygame.K_b in keyboard:
+                command.append("DEBUG")
         else:
             if pygame.K_d in keyboard:
                 command.append("TURN_RIGHT")
@@ -51,6 +54,9 @@ class MLPlay:
 
             if pygame.K_f in keyboard:
                 command.append("SHOOT")
+
+        if not command:
+            command.append("None")
 
         return command
 
