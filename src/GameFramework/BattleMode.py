@@ -13,8 +13,7 @@ class BattleMode(GameMode):
             self.set_result(GameResultState.FINISH, GameStatus.GAME_1P_WIN)
         elif not self.player_1P.is_alive and self.player_2P.is_alive:
             self.set_result(GameResultState.FINISH, GameStatus.GAME_2P_WIN)
-        else:
-            self.reset_2()
+        self.reset_2()
 
     def get_act_command(self):
         """

@@ -37,7 +37,7 @@ class GameFramework(PaiaGame):
 
     def reset(self):
         self.frame_count = 0
-        self.game_mode = self.set_game_mode()
+        self.game_mode.reset()
         self.rank()
 
     def is_running(self):

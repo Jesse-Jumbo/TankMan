@@ -18,6 +18,7 @@ class TankBattleMode(BattleMode):
     def __init__(self, user_num: int, map_path: str, frame_limit: int, is_sound: bool):
         super().__init__(user_num, map_path, frame_limit, is_sound)
         pygame.init()
+        self.is_sound = is_sound
         self.sound_controller = TankSoundController(is_sound)
         self.sound_controller.play_bgm()
         # control variables
@@ -53,6 +54,18 @@ class TankBattleMode(BattleMode):
             for y in range(self.map.height):
                 no = random.randrange(3)
                 self.floor.append(no)
+        # get pos
+        self.all_pos = []
+        self.left_pos = []
+        self.right_pos = []
+        for x in range(self.map.width):
+            for y in range(self.map.height):
+                pos = (self.map.tile_width * x, self.map.tile_height * y)
+                self.all_pos.append(pos)
+                if pos[0] < WINDOW_WIDTH//2:
+                    self.left_pos.append(pos)
+                else:
+                    self.right_pos.append(pos)
 
     def update(self, command: dict):
         if command["1P"] and "DEBUG" in command["1P"]:
@@ -87,6 +100,15 @@ class TankBattleMode(BattleMode):
             self.set_result(GameResultState.FINISH, GameStatus.GAME_2P_WIN)
         else:
             self.set_result(GameResultState.FAIL, GameStatus.GAME_DRAW)
+
+        # reset init game
+        self.__init__(2, self.map_path, self.frame_limit, self.is_sound)
+        # reset player pos
+        self.player_1P.rect.topleft = random.choice(self.get_right_empty_pos())
+        self.player_2P.rect.topleft = random.choice(self.get_left_empty_pos())
+        self.player_1P.hit_rect.center = self.player_1P.rect.center
+        self.player_2P.hit_rect.center = self.player_2P.rect.center
+
 
     def get_1P_command(self) -> list:
         cmd_1P = []
@@ -367,12 +389,16 @@ class TankBattleMode(BattleMode):
 
     # TODO refactor
     def get_empty_pos(self):
-        all_pos = []
         existed_pos = []
-        for x in range(self.map.width):
-            for y in range(self.map.height):
-                all_pos.append((self.map.tile_width * x, self.map.tile_height * y))
         for sprite in self.all_sprites:
             existed_pos.append(sprite.rect.topleft)
-        empty_pos = list(set(all_pos) ^ set(existed_pos))
+        empty_pos = list(set(self.all_pos) ^ set(existed_pos))
         return empty_pos
+
+    def get_left_empty_pos(self):
+        empty_pos = self.get_empty_pos()
+        return list(set(empty_pos) & set(self.left_pos))
+
+    def get_right_empty_pos(self):
+        empty_pos = self.get_empty_pos()
+        return list(set(empty_pos) & set(self.right_pos))
