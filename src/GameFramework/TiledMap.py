@@ -1,6 +1,15 @@
 import pytmx
 
 
+def create_construction(_id: int, _no: int, _init_pos: tuple, _init_size: tuple):
+    return {
+        "_id": _id,
+        "_no": _no,
+        "_init_pos": _init_pos,
+        "_init_size": _init_size
+    }
+
+
 # Map 讀取地圖資料
 class TiledMap:
     def __init__(self, filepath: str):
@@ -23,8 +32,8 @@ class TiledMap:
                             img_id = layer.parent.tiledgidmap[gid]
                             obj_no += 1
                             img_info = {"_id": img_id, "_no": obj_no,
-                                        "x": x * self.tile_width, "y": y * self.tile_height,
-                                        "width": self.tile_width, "height": self.tile_height}
+                                        "_init_pos": (x * self.tile_width, y * self.tile_height),
+                                        "_init_size": (self.tile_width, self.tile_height)}
                             obj = class_name(img_info, **kwargs)
                             return obj
 
@@ -41,7 +50,7 @@ class TiledMap:
                             img_id = layer.parent.tiledgidmap[gid]
                             obj_no += 1
                             img_info = {"_id": img_id, "_no": obj_no,
-                                        "x": x * self.tile_width, "y": y * self.tile_height,
-                                        "width": self.tile_width, "height": self.tile_height}
+                                        "_init_pos": (x * self.tile_width, y * self.tile_height),
+                                        "_init_size": (self.tile_width, self.tile_height)}
                             obj_result.append(class_name(img_info, **kwargs))
         return obj_result

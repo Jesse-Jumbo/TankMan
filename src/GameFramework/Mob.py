@@ -8,9 +8,9 @@ class Mob(pygame.sprite.Sprite):
         super().__init__()
         self._id = construction["_id"]
         self._no = construction["_no"]
-        self.rect = pygame.Rect(construction["x"], construction["y"], construction["width"], construction["height"])
+        self.rect = pygame.Rect(construction["_init_pos"], construction["_init_size"])
         self.origin_center = self.rect.center
-        self.hit_rect = pygame.Rect(0, 0, construction["width"] - 2, construction["height"] - 2)
+        self.hit_rect = pygame.Rect(0, 0, construction["_init_size"][0] - 2, construction["_init_size"][1] - 2)
         self.hit_rect.center = self.rect.center
         self.used_frame = 0
         self.vel = vec(0, 0)
