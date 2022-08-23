@@ -1,7 +1,7 @@
 import pytmx
 
 
-def create_construction(_id: int, _no: int, _init_pos: tuple, _init_size: tuple):
+def create_construction(_id: int or str, _no: int, _init_pos: tuple, _init_size: tuple):
     return {
         "_id": _id,
         "_no": _no,

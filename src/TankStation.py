@@ -20,21 +20,19 @@ class TankStation(Station):
             self.level = 3
 
     def get_info(self):
-        if self._id == 4:
-            _id = "bullet_station"
+        if "oil" in self._id:
+            info = {"id": "oil", "x": self.rect.x, "y": self.rect.y, "power": self.power}
         else:
-            _id = "oil_station"
-        info = {"id": _id, "x": self.rect.x, "y": self.rect.y, "power": self.power}
+            info = {"id": "bullets", "x": self.rect.x, "y": self.rect.y, "power": self.power}
         return info
 
     def get_image_data(self):
-        image_data = {"id": f"", "x": self.rect.x, "y": self.rect.y, "width": self.rect.width,
-                      "height": self.rect.height, "angle": 0}
-        if self._id == 4:
-            image_data["id"] = f"bullets_{self.level}"
+        if "oil" in self._id:
+            image_data = {"id": f"oil_{self.level}", "x": self.rect.x, "y": self.rect.y, "width": self.rect.width,
+                          "height": self.rect.height, "angle": 0}
         else:
-            image_data["id"] = f"oil_{self.level}"
-
+            image_data = {"id": f"bullets_{self.level}", "x": self.rect.x, "y": self.rect.y, "width": self.rect.width,
+                          "height": self.rect.height, "angle": 0}
         return image_data
 
     def get_image_init_data(self):
@@ -43,7 +41,7 @@ class TankStation(Station):
             img_data[f"bullets_{i}"] = f"https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/bullets_{i}.png"
             img_data[f"oil_{i}"] = f"https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/oil_{i}.png"
         image_init_data = []
-        for id, url in img_data.items():
-            image_init_data.append(create_asset_init_data(id, self.rect.width, self.rect.height,
-                                                          path.join(IMAGE_DIR, f"{id}.png"), url))
+        for image_id, url in img_data.items():
+            image_init_data.append(create_asset_init_data(image_id, self.rect.width, self.rect.height,
+                                                          path.join(IMAGE_DIR, f"{image_id}.png"), url))
         return image_init_data
