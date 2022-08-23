@@ -1,16 +1,14 @@
-import random
-
 import pygame.event
-from .GameFramework.BattleMode import BattleMode
 from mlgame.game.paia_game import GameResultState, GameStatus
-
-from .GameFramework.TiledMap import create_construction
-from .TankWall import TankWall
 from mlgame.view.view_model import create_asset_init_data, create_image_view_data, create_text_view_data, \
     create_rect_view_data, create_line_view_data
+
+from .GameFramework.BattleMode import BattleMode
+from .GameFramework.TiledMap import create_construction
 from .TankBullet import TankBullet
 from .TankSoundController import TankSoundController
 from .TankStation import TankStation
+from .TankWall import TankWall
 from .collide_hit_rect import *
 from .env import *
 
@@ -68,8 +66,9 @@ class TankBattleMode(BattleMode):
             get_right_pos = random.choice(self.get_right_empty_pos())
             if get_right_pos not in init_pos:
                 count += 1
-                self.bullet_stations.add(TankStation(create_construction("bullets_right", count, get_right_pos, (50, 50))
-                                                     , margin=2, spacing=2, capacity=10, cd_time=5, level=3))
+                self.bullet_stations.add(
+                    TankStation(create_construction("bullets_right", count, get_right_pos, (50, 50))
+                                , margin=2, spacing=2, capacity=10, cd_time=5, level=3))
                 init_pos.append(get_right_pos)
         self.all_sprites.add(self.bullet_stations)
         # init oil stations
@@ -142,7 +141,6 @@ class TankBattleMode(BattleMode):
         self.player_2P.rect.topleft = random.choice(self.get_left_empty_pos())
         self.player_1P.hit_rect.center = self.player_1P.rect.center
         self.player_2P.hit_rect.center = self.player_2P.rect.center
-
 
     def get_1P_command(self) -> list:
         cmd_1P = []
@@ -272,7 +270,6 @@ class TankBattleMode(BattleMode):
     def draw_foreground_data(self):
         all_foreground_data = []
 
-
         return all_foreground_data
 
     def draw_toggle_data(self):
@@ -353,7 +350,8 @@ class TankBattleMode(BattleMode):
         all_init_image_data = []
         for i in range(3):
             all_init_image_data.append(create_asset_init_data(f"floor_{i}", 50, 50
-                                                              , path.join(IMAGE_DIR, f"grass_{i}.png"), f"https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/grass_{i}.png"))
+                                                              , path.join(IMAGE_DIR, f"grass_{i}.png"),
+                                                              f"https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/grass_{i}.png"))
         for station in self.bullet_stations:
             if isinstance(station, TankStation):
                 for data in station.get_image_init_data():
@@ -366,15 +364,20 @@ class TankBattleMode(BattleMode):
                 break
         img_id = "bullet"
         img_url = "https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/version_0.0.10/asset/image/bullet.png"
-        bullet_image_init_data = create_asset_init_data(img_id, BULLET_SIZE[0], BULLET_SIZE[1], path.join(IMAGE_DIR, f"{img_id}.png"), img_url)
+        bullet_image_init_data = create_asset_init_data(img_id, BULLET_SIZE[0], BULLET_SIZE[1],
+                                                        path.join(IMAGE_DIR, f"{img_id}.png"), img_url)
         all_init_image_data.append(bullet_image_init_data)
-        border_image_init_data = create_asset_init_data("border", self.map.map_width, WINDOW_HEIGHT, path.join(IMAGE_DIR, "border.png"), f"https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/border.png")
+        border_image_init_data = create_asset_init_data("border", self.map.map_width, WINDOW_HEIGHT,
+                                                        path.join(IMAGE_DIR, "border.png"),
+                                                        f"https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/border.png")
         all_init_image_data.append(border_image_init_data)
         for data in self.player_1P.get_image_init_data():
             all_init_image_data.append(data)
-        lives_image_init_data_1 = create_asset_init_data("1P_lives", 30, 30, path.join(IMAGE_DIR, "1P_lives.png"), "https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/1P_lives.png")
+        lives_image_init_data_1 = create_asset_init_data("1P_lives", 30, 30, path.join(IMAGE_DIR, "1P_lives.png"),
+                                                         "https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/1P_lives.png")
         all_init_image_data.append(lives_image_init_data_1)
-        lives_image_init_data_2 = create_asset_init_data("2P_lives", 30, 30, path.join(IMAGE_DIR, "2P_lives.png"), "https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/2P_lives.png")
+        lives_image_init_data_2 = create_asset_init_data("2P_lives", 30, 30, path.join(IMAGE_DIR, "2P_lives.png"),
+                                                         "https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/2P_lives.png")
         all_init_image_data.append(lives_image_init_data_2)
         return all_init_image_data
 
@@ -438,11 +441,16 @@ class TankBattleMode(BattleMode):
 
     def draw_rect(self, sprite):
         all_line = []
-        point = [(sprite.rect.x, sprite.rect.y), sprite.rect.topright, sprite.rect.bottomright, sprite.rect.bottomleft, (sprite.rect.x, sprite.rect.y)]
-        hit_point = [(sprite.hit_rect.x, sprite.hit_rect.y), sprite.hit_rect.topright, sprite.hit_rect.bottomright, sprite.hit_rect.bottomleft, (sprite.hit_rect.x, sprite.hit_rect.y)]
+        point = [(sprite.rect.x, sprite.rect.y), sprite.rect.topright, sprite.rect.bottomright, sprite.rect.bottomleft,
+                 (sprite.rect.x, sprite.rect.y)]
+        hit_point = [(sprite.hit_rect.x, sprite.hit_rect.y), sprite.hit_rect.topright, sprite.hit_rect.bottomright,
+                     sprite.hit_rect.bottomleft, (sprite.hit_rect.x, sprite.hit_rect.y)]
         for i in range(4):
-            all_line.append(create_line_view_data(f"{sprite.get_info()['id']}", point[i][0], point[i][1], point[i+1][0], point[i+1][1], YELLOW, 2))
-            all_line.append(create_line_view_data(f"hit_{sprite.get_info()['id']}", hit_point[i][0], hit_point[i][1], hit_point[i+1][0], hit_point[i+1][1], RED, 2))
+            all_line.append(
+                create_line_view_data(f"{sprite.get_info()['id']}", point[i][0], point[i][1], point[i + 1][0],
+                                      point[i + 1][1], YELLOW, 2))
+            all_line.append(create_line_view_data(f"hit_{sprite.get_info()['id']}", hit_point[i][0], hit_point[i][1],
+                                                  hit_point[i + 1][0], hit_point[i + 1][1], RED, 2))
         return all_line
 
     # TODO refactor
