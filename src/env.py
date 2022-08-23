@@ -1,16 +1,3 @@
-# 圖片來源
-"""
-https://opengameart.org/content/simple-2d-tank
-https://opengameart.org/content/motor-oil-container
-https://opengameart.org/content/simple-shooter-icons
-https://opengameart.org/content/upgrade-symbols
-"""
-# sound sours
-"""
-BGM: https://opengameart.org/content/commando-team-action-loop-cut
-SHOOT: https://opengameart.org/content/random-low-quality-sfx
-"""
-
 from os import path
 
 import pygame
@@ -30,6 +17,7 @@ WHITE = "#ffffff"
 RED = "#ff0000"
 YELLOW = "#ffff00"
 GREEN = "#00ff00"
+DARKGREEN = "#006400"
 GREY = "#8c8c8c"
 BLUE = "#0000ff"
 LIGHT_BLUE = "#21A1F1"

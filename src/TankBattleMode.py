@@ -304,15 +304,13 @@ class TankBattleMode(BattleMode):
         for frame in range((self.frame_limit - self.used_frame) // 30):
             all_toggle_data.append(create_rect_view_data("frame", x, 8, 1, 10, RED))
             x += 2
-        all_toggle_data.append(create_text_view_data(f"Score: {score_1P}",
-                                                     self.WIDTH_CENTER + 50, 8, GREEN,
-                                                     "24px Arial"))
-        all_toggle_data.append(create_text_view_data(f"Score: {score_2P}",
-                                                     self.WIDTH_CENTER + 190, 8, BLUE, "24px Arial"))
         all_toggle_data.append(create_text_view_data(f"Frame: {self.frame_limit - self.used_frame}",
                                                      self.WIDTH_CENTER + self.WIDTH_CENTER // 2 + 85, 8, RED,
-                                                     "24px Arial"))
+                                                     "24px Arial BOLD"))
         # 1P
+        x = WINDOW_WIDTH - 105
+        y = WINDOW_HEIGHT - 40
+        all_toggle_data.append(create_text_view_data(f"Score: {score_1P}", x, y, DARKGREEN, "24px Arial BOLD"))
         x = self.WIDTH_CENTER + 5
         y = WINDOW_HEIGHT - 40
         for live in range(self.player_1P.lives):
@@ -329,6 +327,9 @@ class TankBattleMode(BattleMode):
             all_toggle_data.append(create_rect_view_data("1P_power", x, y, 8, 10, BLUE))
             x += 10
         # 2P
+        x = 5
+        y = WINDOW_HEIGHT - 40
+        all_toggle_data.append(create_text_view_data(f"Score: {score_2P}", x, y, BLUE, "24px Arial BOLD"))
         x = self.WIDTH_CENTER - 40
         y = WINDOW_HEIGHT - 40
         for live in range(self.player_2P.lives):

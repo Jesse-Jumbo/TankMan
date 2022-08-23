@@ -115,4 +115,11 @@ python MLGame.py -i ml_play_template_1P.py -i ml_play_template_2P.py -f 120 Tank
 
 coming soon
 ---
+# image sours
+[hourglass](https://opengameart.org/content/animated-hourglass)
+[object](https://opengameart.org/content/simple-shooter-icons)
+[bullet](https://opengameart.org/content/simple-2d-tank)
 
+# sound sours
+[BGM](https://opengameart.org/content/commando-team-action-loop-cut)
+[SHOOT](https://opengameart.org/content/random-low-quality-sfx)
