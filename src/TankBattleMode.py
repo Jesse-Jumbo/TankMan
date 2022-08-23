@@ -278,29 +278,32 @@ class TankBattleMode(BattleMode):
         score_2P = self.player_2P.score + self.calculate_score()[1]
         x = 10
         y = 20
-        _x = 0
         for score in range(min(score_1P, score_2P)):
-            all_toggle_data.append(create_rect_view_data("score", x, y, 1, 10, ORANGE))
-            x += 2
-            if x > 500:
-                y = 32
+            all_toggle_data.append(create_rect_view_data(name="score", x=x, y=y, width=1, height=10, color=ORANGE))
+            x += 1.5
+            if x > self.WIDTH_CENTER:
+                if y == 32:
+                    y = 44
+                else:
+                    y = 32
                 x = 10
-                _x = x
         for score in range(abs(score_1P - score_2P)):
             if score_1P > score_2P:
-                all_toggle_data.append(create_rect_view_data("score", x, y, 1, 10, GREEN))
+                all_toggle_data.append(create_rect_view_data("score", x, y, 1, 10, DARKGREEN))
             else:
                 all_toggle_data.append(create_rect_view_data("score", x, y, 1, 10, BLUE))
-            x += 2
-            if x > 500:
-                y = 32
+            x += 1.5
+            if x > self.WIDTH_CENTER:
+                if y == 32:
+                    y = 44
+                else:
+                    y = 32
                 x = 10
-                if _x:
-                    x = _x
         x = 10
-        for frame in range((self.frame_limit - self.used_frame) // 30):
-            all_toggle_data.append(create_rect_view_data("frame", x, 8, 1, 10, RED))
-            x += 2
+        y = 8
+        for frame in range((self.frame_limit - self.used_frame) // int((30 * 2))):
+            all_toggle_data.append(create_rect_view_data("frame", x, y, 3, 10, RED))
+            x += 3.5
         all_toggle_data.append(create_text_view_data(f"Frame: {self.frame_limit - self.used_frame}",
                                                      self.WIDTH_CENTER + self.WIDTH_CENTER // 2 + 85, 8, RED,
                                                      "24px Arial BOLD"))

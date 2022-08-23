@@ -11,6 +11,9 @@
    xml:space="preserve"
    sodipodi:docname="1P.svg"
    inkscape:version="1.1 (c68e22c387, 2021-05-23)"
+   inkscape:export-filename="C:\Users\Jesse\Documents\PAIA\TankMan\asset\image\1P.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -24,15 +27,15 @@
    inkscape:pageopacity="0.0"
    inkscape:pagecheckerboard="0"
    showgrid="false"
-   inkscape:zoom="16.64"
-   inkscape:cx="24.969952"
-   inkscape:cy="24.969952"
+   inkscape:zoom="5.8831284"
+   inkscape:cx="18.952501"
+   inkscape:cy="57.367437"
    inkscape:window-width="1920"
    inkscape:window-height="1017"
    inkscape:window-x="-8"
    inkscape:window-y="32"
    inkscape:window-maximized="1"
-   inkscape:current-layer="圖層_1" />
+   inkscape:current-layer="g1219" />
 <style
    type="text/css"
    id="style2">
@@ -44,7 +47,11 @@
 <g
    id="g1219"
    transform="matrix(0.99834072,0,0,0.99834072,-3.1792031e-6,2.820771e-4)"><g
-     id="g1160"><g
+     id="g1160"
+     transform="rotate(90,26.571976,24.871168)"
+     inkscape:export-filename="C:\Users\Jesse\Documents\PAIA\TankMan\asset\image\1P.png"
+     inkscape:export-xdpi="96"
+     inkscape:export-ydpi="96"><g
        id="g1042"><g
          id="g985"><g
            id="g109">
@@ -71,7 +78,7 @@
 		</g>
 		<polygon
    class="st1"
-   points="28.39,46.85 28.4,48.17 21.05,48.18 21.05,46.86 11.31,46.88 11.21,2.11 18.85,2.1 18.88,3.42 30.73,3.4 30.75,2.19 38.14,2.19 38.23,46.84 "
+   points="30.73,3.4 30.75,2.19 38.14,2.19 38.23,46.84 28.39,46.85 28.4,48.17 21.05,48.18 21.05,46.86 11.31,46.88 11.21,2.11 18.85,2.1 18.88,3.42 "
    id="polygon12" />
 		
 			<linearGradient

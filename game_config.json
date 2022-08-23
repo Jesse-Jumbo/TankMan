@@ -34,7 +34,7 @@
       "name": "frame_limit",
       "verbose": "遊戲總幀數(Frame)",
       "type": "int",
-      "max": 30000,
+      "max": 9000,
       "min": 30,
       "default": 3600,
       "help": "set the frame number of game frame limit."
