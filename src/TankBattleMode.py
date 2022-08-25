@@ -274,9 +274,19 @@ class TankBattleMode(BattleMode):
 
     def draw_toggle_data(self):
         all_toggle_data = []
+        hourglass_index = self.used_frame//10 % 15
+        all_toggle_data.append(create_image_view_data(image_id=f"hourglass_{hourglass_index}", x=0, y=2, width=20, height=20, angle=0))
+        x = 23
+        y = 8
+        for frame in range((self.frame_limit - self.used_frame) // int((30 * 2))):
+            all_toggle_data.append(create_rect_view_data("frame", x, y, 3, 10, RED))
+            x += 3.5
+        all_toggle_data.append(create_text_view_data(f"Frame: {self.frame_limit - self.used_frame}",
+                                                     self.WIDTH_CENTER + self.WIDTH_CENTER // 2 + 85, 8, RED,
+                                                     "24px Arial BOLD"))
         score_1P = self.player_1P.score + self.calculate_score()[0]
         score_2P = self.player_2P.score + self.calculate_score()[1]
-        x = 10
+        x = 24
         y = 20
         for score in range(min(score_1P, score_2P)):
             all_toggle_data.append(create_rect_view_data(name="score", x=x, y=y, width=1, height=10, color=ORANGE))
@@ -286,7 +296,7 @@ class TankBattleMode(BattleMode):
                     y = 44
                 else:
                     y = 32
-                x = 10
+                x = 24
         for score in range(abs(score_1P - score_2P)):
             if score_1P > score_2P:
                 all_toggle_data.append(create_rect_view_data("score", x, y, 1, 10, DARKGREEN))
@@ -298,15 +308,7 @@ class TankBattleMode(BattleMode):
                     y = 44
                 else:
                     y = 32
-                x = 10
-        x = 10
-        y = 8
-        for frame in range((self.frame_limit - self.used_frame) // int((30 * 2))):
-            all_toggle_data.append(create_rect_view_data("frame", x, y, 3, 10, RED))
-            x += 3.5
-        all_toggle_data.append(create_text_view_data(f"Frame: {self.frame_limit - self.used_frame}",
-                                                     self.WIDTH_CENTER + self.WIDTH_CENTER // 2 + 85, 8, RED,
-                                                     "24px Arial BOLD"))
+                x = 24
         # 1P
         x = WINDOW_WIDTH - 105
         y = WINDOW_HEIGHT - 40
@@ -355,6 +357,10 @@ class TankBattleMode(BattleMode):
             all_init_image_data.append(create_asset_init_data(f"floor_{i}", 50, 50
                                                               , path.join(IMAGE_DIR, f"grass_{i}.png"),
                                                               f"https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/grass_{i}.png"))
+        for i in range(15):
+            all_init_image_data.append(create_asset_init_data(f"hourglass_{i}", 42, 42
+                                                              , path.join(IMAGE_DIR, f"hourglass_{i}.png"),
+                                                              f"https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/hourglass_{i}.png"))
         for station in self.bullet_stations:
             if isinstance(station, TankStation):
                 for data in station.get_image_init_data():
@@ -366,7 +372,7 @@ class TankBattleMode(BattleMode):
                     all_init_image_data.append(data)
                 break
         img_id = "bullet"
-        img_url = "https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/version_0.0.10/asset/image/bullet.png"
+        img_url = "https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/bullet.png"
         bullet_image_init_data = create_asset_init_data(img_id, BULLET_SIZE[0], BULLET_SIZE[1],
                                                         path.join(IMAGE_DIR, f"{img_id}.png"), img_url)
         all_init_image_data.append(bullet_image_init_data)
