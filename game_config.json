@@ -13,21 +13,12 @@
   },
   "game_params": [
     {
-      "name": "station_num",
-      "verbose": "站點數",
-      "type": "int",
-      "max": 3,
-      "min": 0,
-      "default": 3,
-      "help": "set number of station to set number of game station"
-    },
-    {
       "name": "map_no",
       "verbose": "地圖編號",
       "type": "int",
-      "max": 6,
+      "max": 1,
       "min": 1,
-      "default": 4,
+      "default": 1,
       "help": "set map number for load game scene"
     },
     {

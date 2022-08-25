@@ -20,14 +20,14 @@ class TankStation(Station):
             self.level = 3
 
     def get_info(self):
-        if "oil" in self._id:
+        if 5 == self._id:
             info = {"id": "oil", "x": self.rect.x, "y": self.rect.y, "power": self.power}
         else:
             info = {"id": "bullets", "x": self.rect.x, "y": self.rect.y, "power": self.power}
         return info
 
     def get_image_data(self):
-        if "oil" in self._id:
+        if 5 == self._id:
             image_data = {"id": f"oil_{self.level}", "x": self.rect.x, "y": self.rect.y, "width": self.rect.width,
                           "height": self.rect.height, "angle": 0}
         else:

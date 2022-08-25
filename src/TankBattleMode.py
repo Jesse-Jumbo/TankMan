@@ -15,13 +15,14 @@ from .env import *
 
 # TODO refactor attribute to methodp
 class TankBattleMode(BattleMode):
-    def __init__(self, user_num: int, station_num: int, map_path: str, frame_limit: int, is_sound: bool):
+    def __init__(self, user_num: int, map_path: str, frame_limit: int, is_sound: bool):
         super().__init__(user_num, map_path, frame_limit, is_sound)
         pygame.init()
-        self.station_num = station_num
         self.is_sound = is_sound
         self.sound_controller = TankSoundController(is_sound)
         self.sound_controller.play_bgm()
+        self.WIDTH_CENTER = self.map.map_width // 2
+        self.HEIGHT_CENTER = self.map.map_height // 2
         # control variables
         self.is_invincible = True
         self.is_through_wall = True
@@ -49,48 +50,18 @@ class TankBattleMode(BattleMode):
         self.all_sprites.add(self.player_1P, self.player_2P)
         # init walls
         walls = self.map.create_init_obj_list(WALL_IMG_NO, TankWall, margin=8, spacing=8)
-        [self.walls.add(wall) for wall in walls]
+        self.walls.add(*walls)
         self.all_sprites.add(self.walls)
         # init bullet stations
-        init_pos = []
-        count = 0
-        while count < self.station_num:
-            get_left_pos = random.choice(self.get_left_empty_pos())
-            if get_left_pos not in init_pos:
-                count += 1
-                self.bullet_stations.add(TankStation(create_construction("bullets_left", count, get_left_pos, (50, 50))
-                                                     , margin=2, spacing=2, capacity=10, cd_time=5, level=3))
-                init_pos.append(get_left_pos)
-        count = 0
-        while count < self.station_num:
-            get_right_pos = random.choice(self.get_right_empty_pos())
-            if get_right_pos not in init_pos:
-                count += 1
-                self.bullet_stations.add(
-                    TankStation(create_construction("bullets_right", count, get_right_pos, (50, 50))
-                                , margin=2, spacing=2, capacity=10, cd_time=5, level=3))
-                init_pos.append(get_right_pos)
+        bullet_stations = self.map.create_init_obj_list(BULLET_STATION_IMG_NO, TankStation
+                                                        , margin=2, spacing=2, capacity=10, cd_time=5, level=3)
+        self.bullet_stations.add(*bullet_stations)
         self.all_sprites.add(self.bullet_stations)
         # init oil stations
-        count = 0
-        while count < self.station_num:
-            get_left_pos = random.choice(self.get_left_empty_pos())
-            if get_left_pos not in init_pos:
-                count += 1
-                self.oil_stations.add(TankStation(create_construction("oil_left", count, get_left_pos, (50, 50))
-                                                  , margin=2, spacing=2, capacity=100, cd_time=1, level=3))
-                init_pos.append(get_left_pos)
-        count = 0
-        while count < self.station_num:
-            get_right_pos = random.choice(self.get_right_empty_pos())
-            if get_right_pos not in init_pos:
-                count += 1
-                self.oil_stations.add(TankStation(create_construction("oil_right", count, get_right_pos, (50, 50))
-                                                  , margin=2, spacing=2, capacity=100, cd_time=1, level=3))
-                init_pos.append(get_right_pos)
+        oil_stations = self.map.create_init_obj_list(OIL_STATION_IMG_NO, TankStation
+                                                , margin=2, spacing=2, capacity=10, cd_time=5, level=3)
+        self.oil_stations.add(*oil_stations)
         self.all_sprites.add(self.oil_stations)
-        self.WIDTH_CENTER = self.map.map_width // 2
-        self.HEIGHT_CENTER = self.map.map_height // 2
         # init floor pos
         self.floor = []
         for x in range(self.map.width):
@@ -135,7 +106,7 @@ class TankBattleMode(BattleMode):
 
     def reset_game(self):
         # reset init game
-        self.__init__(2, self.station_num, self.map_path, self.frame_limit, self.is_sound)
+        self.__init__(2, self.map_path, self.frame_limit, self.is_sound)
         # reset player pos
         self.player_1P.rect.topleft = random.choice(self.get_right_empty_pos())
         self.player_2P.rect.topleft = random.choice(self.get_left_empty_pos())
