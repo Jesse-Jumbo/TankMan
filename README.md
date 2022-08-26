@@ -28,29 +28,25 @@
 雙人對戰遊戲，1P玩家透過方向鍵操控綠色坦克車，2P玩家透過WASD操控藍色坦克車，按下空白鍵與F鍵可射擊砲彈，場上會有各類補給站，經過以補給該資源。
 
 ---
-## 畫面說明:
+## 畫面說明（2.x版本）:
 <img src="https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/view_ex.png" alt="view_ex.png" width="1000" height="600"/> 
 
 ---
 # 遊戲細節：
 ## 啟動方式:
-- 直接啟動`main.py`即可執行。
 - 在命令行輸入命令執行。
 ---
 ## 遊戲參數設定
-```python
-# main.py
-game = TankMan.TankMan(map_no=1, frame_limit=300, sound="off")
-```
-- `TankMan`後不輸入參數，則默認使用預設值，即範例參數值。
+- `TankMan`後不輸入參數，則默認使用預設值，即`game_config.json`內參數值。
 ```bash
 # MLGame.py
 # Copy and Paste to play the game with manual
-python MLGame.py -i ml_play_manual.py -f 120 TankMan --map_no 1 --sound on --frame_limit 30
+python MLGame.py -i ml_play_manual.py -f 120 TankMan --is_manual 1 --map_no 1 --sound on --frame_limit 30
 
 # Copy and Paste to play the game with AI
-python MLGame.py -i ml_play_template_1P.py -i ml_play_template_2P.py -f 120 TankMan --sound on --frame_limit 30 --map_no 1
+python MLGame.py -i ml_play_template_1P.py -i ml_play_template_2P.py -f 120 TankMan --is_manual 0 --sound on --frame_limit 30 --map_no 1
 ```
+- `is_manual`:  輸入是否啟用手動模式，以讓遊戲適合手動遊玩。
 - `map_no`:  輸入地圖編號，以選擇遊戲的地圖。
 - `frame_limit`:  輸入遊戲總frame數，以決定遊戲的幀數。
 - `sound`:  輸入`on`或`off`，控制是否播放遊戲音效。
@@ -59,7 +55,8 @@ python MLGame.py -i ml_play_template_1P.py -i ml_play_template_2P.py -f 120 Tank
 ## 遊戲操作：
 
 ### 使用鍵盤
-- 角色移動：方向鍵控制 1P（綠），WASD鍵控制 2P（藍）移動和轉彎。
+- 角色移動：方向鍵控制 1P（綠）按下，WASD鍵控制 2P（藍）移動和轉彎。
+- 角色射擊：1P（綠）按下`P`鍵進行射擊，2P（藍）按下`F`鍵進行射擊
 - 遊戲畫面: 透過 I、K、J、L 來上下左右移動畫面；透過 O、U 來放大縮小畫面。
 
 
@@ -73,7 +70,7 @@ python MLGame.py -i ml_play_template_1P.py -i ml_play_template_2P.py -f 120 Tank
 1. 雙人對戰
     1. 將對方擊敗。
     2. 加總所有積分：
-        - 對方失去的生命值。
+        - 對方失去的生命 * 20 分。
         - 每擊中一次牆壁 * 1 分。
         - 擊破牆壁 * 5 分。
 ---
@@ -90,37 +87,38 @@ python MLGame.py -i ml_play_template_1P.py -i ml_play_template_2P.py -f 120 Tank
 1. 前進、後退速度（8 px）
 2. 轉彎角度（45度）
 3. 生命機會（3次）
-4. 護盾值（100）
-5. 燃油（100）
-6. 彈匣（10）
+4. 燃油（100）
+5. 彈匣（10）
 ---
 ### Walls
-1. 生命次數（5）
+1. 生命次數（3）
 2. 顏色設定（依照生命次數決定）
 ---
 ### 補給站
 1. 燃油站
-    - 玩家經過可補充30點燃油，超過100，則無效。
+    - 最多可一次補充玩家30點燃油，超過100，則無效。
+    - 與玩家碰撞玩家，則隨機換位置。
 
 2. 彈藥站
-    - 玩家經過可補充5顆彈藥，超過10，則無效。
+    - 最多可一次補充5顆彈藥，超過10，則無效。
+    - 與玩家碰撞，則隨機換位置。
 
 ---
 # 地圖說明
-- 寬1320 pixel；高660 pixel
-- 每格60 * 60 pixel，可放置一個物件
+- 寬1000 pixel；高600 pixel
+- 每格50 * 50 pixel，可放置一個物件
 
 ---
-## 地圖製作
+# 地圖製作
+- 地圖製作教學 [Mapping.md](https://github.com/Jesse-Jumbo/TankMan/blob/main/Mapping.md)
 
-coming soon
 ---
 # image sours
-[1P/2P](https://linevoom.line.me/user/_dV001P0rSN_bh8zGE0q4jmdr4Fn5d-j73cLrjTc?utm_medium=windows&utm_source=desktop&utm_campaign=Profile)
-[object](https://opengameart.org/content/simple-shooter-icons)
-[bullet](https://opengameart.org/content/simple-2d-tank)
-[hourglass](https://opengameart.org/content/animated-hourglass)
+- [1P/2P](https://linevoom.line.me/user/_dV001P0rSN_bh8zGE0q4jmdr4Fn5d-j73cLrjTc?utm_medium=windows&utm_source=desktop&utm_campaign=Profile)
+- [object](https://opengameart.org/content/simple-shooter-icons)
+- [bullet](https://opengameart.org/content/simple-2d-tank)
+- [hourglass](https://opengameart.org/content/animated-hourglass)
 
 # sound sours
-[BGM](https://opengameart.org/content/commando-team-action-loop-cut)
-[SHOOT](https://opengameart.org/content/random-low-quality-sfx)
+- [BGM](https://opengameart.org/content/commando-team-action-loop-cut)
+- [SHOOT](https://opengameart.org/content/random-low-quality-sfx)
