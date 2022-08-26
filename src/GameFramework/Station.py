@@ -5,18 +5,10 @@ class Station(Props):
     def __init__(self, construction, **kwargs):
         super().__init__(construction, **kwargs)
         self.count_frame = 0
-        self.capacity = kwargs["capacity"]
         self.power = kwargs["capacity"]
-        self.cd_time = kwargs["cd_time"]
 
     def update(self):
         self.rect = self.hit_rect
-        if self.power != self.capacity:
-            self.count_frame += 1
-            if self.count_frame == self.cd_time * 30:
-                self.power += 1
-                self.count_frame = 0
-        self.update_children()
 
     def update_children(self):
         """
@@ -25,9 +17,7 @@ class Station(Props):
         print("Please overwrite 'self.update_children'")
 
     def get_supply(self):
-        power = self.power
-        self.power = 0
-        return power
+        return self.power
 
     def get_info(self):
         """

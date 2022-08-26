@@ -62,7 +62,7 @@ class TestTankPlayer(object):
         assert 100 >= self.player.shield > 0
         assert 10 >= self.player.power > 0
         assert 100 >= self.player.oil > 0
-        assert type(self.player.turn_cd) == int
+        assert type(self.player.last_turn_frame) == int
         assert type(self.player.is_shoot) == bool
         assert self.player.is_alive
         assert type(self.player.is_turn) == bool
@@ -112,12 +112,12 @@ class TestTankPlayer(object):
     def turn(self, right_or_left: str, is_turn: bool):
         origin_rot = self.player.rot
         self.player.is_turn = is_turn
-        self.player.turn_cd = 500
+        self.player.last_turn_frame = 500
         if right_or_left == "right":
             self.player.turn_right()
         else:
             self.player.turn_left()
-        return self.player.turn_cd, origin_rot, self.player.rot, self.player.is_turn
+        return self.player.last_turn_frame, origin_rot, self.player.rot, self.player.is_turn
 
     # TODO how better
     def test_turn_method(self):

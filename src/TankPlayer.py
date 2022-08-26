@@ -25,7 +25,7 @@ class TankPlayer(Player):
                      "down": vec(0, self.speed)}
         self.rot = 0
         self.last_shoot_frame = self.used_frame
-        self.turn_cd = self.used_frame
+        self.last_turn_frame = self.used_frame
         self.rot_speed = 45
         self.power = 10
         self.oil = 100
@@ -34,11 +34,12 @@ class TankPlayer(Player):
         self.is_turn = False
         self.is_forward = False
         self.is_backward = False
+        self.turn_cd = kwargs["turn_cd"]
 
     def update_children(self):
         self.rotate()
 
-        if self.used_frame - self.turn_cd > 10:
+        if self.used_frame - self.last_turn_frame > self.turn_cd:
             self.is_turn = False
 
         if self.hit_rect.right > WINDOW_WIDTH+8 or self.hit_rect.left < -8 \
@@ -135,13 +136,13 @@ class TankPlayer(Player):
 
     def turn_left(self):
         if not self.is_turn:
-            self.turn_cd = self.used_frame
+            self.last_turn_frame = self.used_frame
             self.rot += self.rot_speed
             self.is_turn = True
 
     def turn_right(self):
         if not self.is_turn:
-            self.turn_cd = self.used_frame
+            self.last_turn_frame = self.used_frame
             self.rot -= self.rot_speed
             self.is_turn = True
 
@@ -169,6 +170,11 @@ class TankPlayer(Player):
             self.oil = 0
 
     def get_info(self) -> dict:
+        rot = self.rot
+        if self._id != 1:
+            rot = self.rot + 180
+            if rot >= 360:
+                rot -= 360
         info = {"id": f"{self._id}P",
                 "x": self.rect.x,
                 "y": self.rect.y,
@@ -176,7 +182,8 @@ class TankPlayer(Player):
                 "score": self.score,
                 "power": self.power,
                 "oil": self.oil,
-                "lives": self.lives
+                "lives": self.lives,
+                "angle": rot
                 }
         return info
 

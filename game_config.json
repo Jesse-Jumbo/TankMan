@@ -13,6 +13,23 @@
   },
   "game_params": [
     {
+      "name": "is_manual",
+      "verbose": "使否手動遊玩",
+      "type": "int",
+      "choices": [
+        {
+          "verbose": "是",
+          "value": 1
+        },
+        {
+          "verbose": "否",
+          "value": 0
+        }
+      ],
+      "help": "'1' can turn on the player rotate cool down .",
+      "default": 0
+    },
+    {
       "name": "map_no",
       "verbose": "地圖編號",
       "type": "int",

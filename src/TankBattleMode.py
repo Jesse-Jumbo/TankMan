@@ -1,3 +1,5 @@
+import random
+
 import pygame.event
 from mlgame.game.paia_game import GameResultState, GameStatus
 from mlgame.view.view_model import create_asset_init_data, create_image_view_data, create_text_view_data, \
@@ -15,10 +17,11 @@ from .env import *
 
 # TODO refactor attribute to methodp
 class TankBattleMode(BattleMode):
-    def __init__(self, user_num: int, map_path: str, frame_limit: int, is_sound: bool):
+    def __init__(self, user_num: int, is_manual: int, map_path: str, frame_limit: int, is_sound: bool):
         super().__init__(user_num, map_path, frame_limit, is_sound)
         pygame.init()
         self.is_sound = is_sound
+        self.is_manual = is_manual
         self.sound_controller = TankSoundController(is_sound)
         self.sound_controller.play_bgm()
         self.WIDTH_CENTER = self.map.map_width // 2
@@ -33,19 +36,28 @@ class TankBattleMode(BattleMode):
         self.oil_stations = pygame.sprite.Group()
         # get pos
         self.all_pos = []
-        self.left_pos = []
-        self.right_pos = []
+        self.quadrant_1_pos = []
+        self.quadrant_2_pos = []
+        self.quadrant_3_pos = []
+        self.quadrant_4_pos = []
         for x in range(self.map.width):
             for y in range(self.map.height):
                 pos = (self.map.tile_width * x, self.map.tile_height * y)
                 self.all_pos.append(pos)
-                if pos[0] < WINDOW_WIDTH // 2:
-                    self.left_pos.append(pos)
+                if pos[0] >= self.WIDTH_CENTER and pos[1] < self.HEIGHT_CENTER:
+                    self.quadrant_1_pos.append(pos)
+                elif pos[0] < self.WIDTH_CENTER and pos[1] < self.HEIGHT_CENTER:
+                    self.quadrant_2_pos.append(pos)
+                elif pos[0] < self.WIDTH_CENTER and pos[1] >= self.HEIGHT_CENTER:
+                    self.quadrant_3_pos.append(pos)
                 else:
-                    self.right_pos.append(pos)
+                    self.quadrant_4_pos.append(pos)
         # init players
-        self.player_1P = self.map.create_init_obj(PLAYER_1_IMG_NO, TankPlayer)
-        self.player_2P = self.map.create_init_obj(PLAYER_2_IMG_NO, TankPlayer)
+        turn_cd = 0
+        if self.is_manual:
+            turn_cd = 10
+        self.player_1P = self.map.create_init_obj(PLAYER_1_IMG_NO, TankPlayer, turn_cd=turn_cd)
+        self.player_2P = self.map.create_init_obj(PLAYER_2_IMG_NO, TankPlayer, turn_cd=turn_cd)
         self.players.add(self.player_1P, self.player_2P)
         self.all_sprites.add(self.player_1P, self.player_2P)
         # init walls
@@ -54,12 +66,12 @@ class TankBattleMode(BattleMode):
         self.all_sprites.add(self.walls)
         # init bullet stations
         bullet_stations = self.map.create_init_obj_list(BULLET_STATION_IMG_NO, TankStation
-                                                        , margin=2, spacing=2, capacity=10, cd_time=5, level=3)
+                                                        , margin=2, spacing=2, capacity=5, quadrant=1)
         self.bullet_stations.add(*bullet_stations)
         self.all_sprites.add(self.bullet_stations)
         # init oil stations
         oil_stations = self.map.create_init_obj_list(OIL_STATION_IMG_NO, TankStation
-                                                , margin=2, spacing=2, capacity=10, cd_time=5, level=3)
+                                                     , margin=2, spacing=2, capacity=30, quadrant=1)
         self.oil_stations.add(*oil_stations)
         self.all_sprites.add(self.oil_stations)
         # init floor pos
@@ -106,10 +118,10 @@ class TankBattleMode(BattleMode):
 
     def reset_game(self):
         # reset init game
-        self.__init__(2, self.map_path, self.frame_limit, self.is_sound)
+        self.__init__(2, self.is_manual, self.map_path, self.frame_limit, self.is_sound)
         # reset player pos
-        self.player_1P.rect.topleft = random.choice(self.get_right_empty_pos())
-        self.player_2P.rect.topleft = random.choice(self.get_left_empty_pos())
+        self.player_1P.rect.topleft = random.choice(self.get_quadrant_1_empty_pos())
+        self.player_2P.rect.topleft = random.choice(self.get_quadrant_2_empty_pos())
         self.player_1P.hit_rect.center = self.player_1P.rect.center
         self.player_2P.hit_rect.center = self.player_2P.rect.center
 
@@ -161,25 +173,33 @@ class TankBattleMode(BattleMode):
             for player in self.players:
                 collide_with_bullets(player, self.bullets)
                 # TODO refactor stations
-                bs = collide_with_bullet_stations(player, self.bullet_stations, self.all_sprites)
-                if bs:
-                    if "left" in bs._id:
-                        bs.rect.topleft = random.choice(self.get_left_empty_pos())
-                    else:
-                        bs.rect.topleft = random.choice(self.get_right_empty_pos())
-                    bs.hit_rect.center = bs.rect.center
-                os = collide_with_oil_stations(player, self.oil_stations, self.all_sprites)
-                if os:
-                    if "left" in os._id:
-                        os.rect.topleft = random.choice(self.get_left_empty_pos())
-                    else:
-                        os.rect.topleft = random.choice(self.get_right_empty_pos())
-                    os.hit_rect.center = os.rect.center
+                bs = collide_with_bullet_stations(player, self.bullet_stations)
+                self.change_obj_pos(bs)
+                os = collide_with_oil_stations(player, self.oil_stations)
+                self.change_obj_pos(os)
         for wall in self.walls:
             player_id, score = collide_with_bullets(wall, self.bullets)
             for player in self.players:
                 if player._id == player_id:
                     player.score += score
+
+    def change_obj_pos(self, station: TankStation):
+        if not station:
+            return
+        if station.get_quadrant() == 2 or station.get_quadrant() == 3:
+            quadrant = random.choice([2, 3])
+            station.set_quadrant(quadrant)
+        else:
+            quadrant = random.choice([1, 4])
+            station.set_quadrant(quadrant)
+        if quadrant == 1:
+            station.change_pos(self.get_quadrant_1_empty_pos())
+        elif quadrant == 2:
+            station.change_pos(self.get_quadrant_2_empty_pos())
+        elif quadrant == 3:
+            station.change_pos(self.get_quadrant_3_empty_pos())
+        else:
+            station.change_pos(self.get_quadrant_4_empty_pos())
 
     def create_bullet(self, shoot_info):
         self.sound_controller.play_shoot_sound()
@@ -441,10 +461,18 @@ class TankBattleMode(BattleMode):
         empty_pos = list(set(self.all_pos) ^ set(existed_pos))
         return empty_pos
 
-    def get_left_empty_pos(self) -> list:
+    def get_quadrant_1_empty_pos(self) -> list:
         empty_pos = self.get_empty_pos()
-        return list(set(empty_pos) & set(self.left_pos))
+        return list(set(empty_pos) & set(self.quadrant_1_pos))
 
-    def get_right_empty_pos(self) -> list:
+    def get_quadrant_2_empty_pos(self) -> list:
         empty_pos = self.get_empty_pos()
-        return list(set(empty_pos) & set(self.right_pos))
+        return list(set(empty_pos) & set(self.quadrant_2_pos))
+
+    def get_quadrant_3_empty_pos(self) -> list:
+        empty_pos = self.get_empty_pos()
+        return list(set(empty_pos) & set(self.quadrant_3_pos))
+
+    def get_quadrant_4_empty_pos(self) -> list:
+        empty_pos = self.get_empty_pos()
+        return list(set(empty_pos) & set(self.quadrant_4_pos))
