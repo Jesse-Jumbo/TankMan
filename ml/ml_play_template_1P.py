@@ -22,10 +22,8 @@ class MLPlay:
             return "RESET"
 
         command = []
-        act = None
-        self.time += 1
-        if self.time % 30 == 0:
-            act = random.randrange(5)
+        act = random.randrange(5)
+        is_shoot = random.randrange(1)
 
         if act == 1:
             command.append("TURN_RIGHT")
@@ -35,11 +33,11 @@ class MLPlay:
             command.append("FORWARD")
         elif act == 4:
             command.append("BACKWARD")
-        if act == 0:
-            command.append("SHOOT")
-
-        if not command:
+        else:
             command.append("None")
+
+        if is_shoot == 0:
+            command.append("SHOOT")
 
         return command
 

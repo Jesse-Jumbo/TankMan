@@ -17,7 +17,7 @@ from .env import *
 
 # TODO refactor attribute to methodp
 class TankBattleMode(BattleMode):
-    def __init__(self, user_num: int, is_manual: int, map_path: str, frame_limit: int, is_sound: bool):
+    def __init__(self, user_num: int, is_manual: str, map_path: str, frame_limit: int, is_sound: bool):
         super().__init__(user_num, map_path, frame_limit, is_sound)
         pygame.init()
         self.is_sound = is_sound

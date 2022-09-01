@@ -41,10 +41,10 @@
 ```bash
 # MLGame.py
 # Copy and Paste to play the game with manual
-python MLGame.py -i ml_play_manual.py -f 120 TankMan --is_manual 1 --map_no 1 --sound on --frame_limit 30
+python MLGame.py -i ml_play_manual.py -f 120 TankMan --is_manual "1" --map_no 1 --sound on --frame_limit 30
 
 # Copy and Paste to play the game with AI
-python MLGame.py -i ml_play_template_1P.py -i ml_play_template_2P.py -f 120 TankMan --is_manual 0 --sound on --frame_limit 30 --map_no 1
+python MLGame.py -i ml_play_template_1P.py -i ml_play_template_2P.py -f 120 TankMan --is_manual "" --sound on --frame_limit 30 --map_no 1
 ```
 - `is_manual`:  輸入是否啟用手動模式，以讓遊戲適合手動遊玩。
 - `map_no`:  輸入地圖編號，以選擇遊戲的地圖。
