@@ -1,5 +1,7 @@
 import random
 
+import pygame
+
 
 class MLPlay:
     def __init__(self, ai_name, *args, **kwargs):
@@ -24,7 +26,9 @@ class MLPlay:
         command = []
         act = random.randrange(5)
         is_shoot = random.randrange(1)
-
+        # debug
+        if pygame.K_b in args[0]:
+            command.append("DEBUG")
         if act == 1:
             command.append("TURN_RIGHT")
         elif act == 2:
