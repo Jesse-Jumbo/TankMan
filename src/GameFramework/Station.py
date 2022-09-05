@@ -8,7 +8,7 @@ class Station(Props):
         self.power = kwargs["capacity"]
 
     def update(self):
-        self.rect = self.hit_rect
+        self.rect.center = self.hit_rect.center
 
     def update_children(self):
         """

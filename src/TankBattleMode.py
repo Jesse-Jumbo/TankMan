@@ -17,7 +17,7 @@ from .env import *
 
 # TODO refactor attribute to methodp
 class TankBattleMode(BattleMode):
-    def __init__(self, user_num: int, is_manual: int, map_path: str, frame_limit: int, is_sound: bool):
+    def __init__(self, user_num: int, is_manual: str, map_path: str, frame_limit: int, is_sound: bool):
         super().__init__(user_num, map_path, frame_limit, is_sound)
         pygame.init()
         self.is_sound = is_sound
@@ -34,24 +34,14 @@ class TankBattleMode(BattleMode):
         self.bullets = pygame.sprite.Group()
         self.bullet_stations = pygame.sprite.Group()
         self.oil_stations = pygame.sprite.Group()
-        # get pos
+        # init pos list
         self.all_pos = []
         self.quadrant_1_pos = []
         self.quadrant_2_pos = []
         self.quadrant_3_pos = []
         self.quadrant_4_pos = []
-        for x in range(self.map.width):
-            for y in range(self.map.height):
-                pos = (self.map.tile_width * x, self.map.tile_height * y)
-                self.all_pos.append(pos)
-                if pos[0] >= self.WIDTH_CENTER and pos[1] < self.HEIGHT_CENTER:
-                    self.quadrant_1_pos.append(pos)
-                elif pos[0] < self.WIDTH_CENTER and pos[1] < self.HEIGHT_CENTER:
-                    self.quadrant_2_pos.append(pos)
-                elif pos[0] < self.WIDTH_CENTER and pos[1] >= self.HEIGHT_CENTER:
-                    self.quadrant_3_pos.append(pos)
-                else:
-                    self.quadrant_4_pos.append(pos)
+        self.floor_image_data_list = []
+        self.init_pos_list()
         # init players
         turn_cd = 0
         if self.is_manual:
@@ -74,12 +64,6 @@ class TankBattleMode(BattleMode):
                                                      , margin=2, spacing=2, capacity=30, quadrant=1)
         self.oil_stations.add(*oil_stations)
         self.all_sprites.add(self.oil_stations)
-        # init floor pos
-        self.floor = []
-        for x in range(self.map.width):
-            for y in range(self.map.height):
-                no = random.randrange(3)
-                self.floor.append(no)
 
     def update(self, command: dict):
         if command["1P"] and "DEBUG" in command["1P"]:
@@ -209,15 +193,7 @@ class TankBattleMode(BattleMode):
         self.all_sprites.add(bullet)
 
     def draw_sprite_data(self):
-        all_sprite_data = []
-        i = 0
-        for x in range(self.map.width):
-            for y in range(self.map.height):
-                no = self.floor[i]
-                i += 1
-                all_sprite_data.append(create_image_view_data(f"floor_{no}"
-                                                              , x * self.map.tile_width, y * self.map.tile_height
-                                                              , 50, 50, 0))
+        all_sprite_data = self.floor_image_data_list.copy()
         for oil_station in self.oil_stations:
             if isinstance(oil_station, TankStation):
                 data = oil_station.get_image_data()
@@ -452,6 +428,23 @@ class TankBattleMode(BattleMode):
             all_line.append(create_line_view_data(f"hit_{sprite.get_info()['id']}", hit_point[i][0], hit_point[i][1],
                                                   hit_point[i + 1][0], hit_point[i + 1][1], RED, 2))
         return all_line
+
+    def init_pos_list(self) -> None:
+        for x in range(self.map.width):
+            for y in range(self.map.height):
+                pos = (x * self.map.tile_width, y * self.map.tile_height)
+                self.all_pos.append(pos)
+                if pos[0] >= self.WIDTH_CENTER and pos[1] < self.HEIGHT_CENTER:
+                    self.quadrant_1_pos.append(pos)
+                elif pos[0] < self.WIDTH_CENTER and pos[1] < self.HEIGHT_CENTER:
+                    self.quadrant_2_pos.append(pos)
+                elif pos[0] < self.WIDTH_CENTER and pos[1] >= self.HEIGHT_CENTER:
+                    self.quadrant_3_pos.append(pos)
+                else:
+                    self.quadrant_4_pos.append(pos)
+                no = random.randrange(3)
+                self.floor_image_data_list.append(
+                    create_image_view_data(f"floor_{no}", pos[0], pos[1], 50, 50, 0))
 
     # TODO refactor
     def get_empty_pos(self) -> list:

@@ -11,10 +11,9 @@ from .GameFramework.MyGame import GameFramework
 
 
 class TankMan(GameFramework):
-    def __init__(self, user_num: int, is_manual: int, map_no: int, frame_limit: int, sound: str):
+    def __init__(self, user_num: int, is_manual: str, map_no: int, frame_limit: int, sound: str):
         self.is_manual = is_manual
         super().__init__(user_num, map_no, frame_limit, sound)
-        self.game_mode = self.set_game_mode()
         self.scene = Scene(width=self.game_mode.map_width, height=self.game_mode.map_height+100, color="#ffffff", bias_y=50)
 
     def set_game_mode(self):
