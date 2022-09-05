@@ -449,15 +449,3 @@ class TankBattleMode(BattleMode):
             all_line.append(create_line_view_data(f"hit_{sprite.get_info()['id']}", hit_point[i][0], hit_point[i][1],
                                                   hit_point[i + 1][0], hit_point[i + 1][1], RED, 2))
         return all_line
-
-    def get_quadrant_1_empty_pos(self) -> tuple:
-        return random.choice(self.empty_quadrant_1_pos)
-
-    def get_quadrant_2_empty_pos(self) -> tuple:
-        return random.choice(self.empty_quadrant_2_pos)
-
-    def get_quadrant_3_empty_pos(self) -> tuple:
-        return random.choice(self.empty_quadrant_3_pos)
-
-    def get_quadrant_4_empty_pos(self) -> tuple:
-        return random.choice(self.empty_quadrant_4_pos)
