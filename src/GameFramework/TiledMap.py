@@ -21,13 +21,20 @@ class TiledMap:
         self.map_width = self.tile_width * self.width
         self.map_height = self.tile_height * self.height
         self.tmx_data = tm
+        self._is_record = False
+        self.empty_pos_list = []
+        self.all_pos_list = []
+        self.empty_quadrant_1_pos_list = []
+        self.empty_quadrant_2_pos_list = []
+        self.empty_quadrant_3_pos_list = []
+        self.empty_quadrant_4_pos_list = []
 
     def create_init_obj(self, img_no: int, class_name, **kwargs) -> dict:
         obj_no = 0
         for layer in self.tmx_data.visible_layers:
             for x, y, gid, in layer:
                 if isinstance(layer, pytmx.TiledTileLayer):
-                    if gid != 0:  # 0代表空格，無圖塊
+                    if gid:  # 0代表空格，無圖塊
                         if layer.parent.tiledgidmap[gid] == img_no:
                             img_id = layer.parent.tiledgidmap[gid]
                             obj_no += 1
@@ -45,12 +52,26 @@ class TiledMap:
         for layer in self.tmx_data.visible_layers:
             for x, y, gid, in layer:
                 if isinstance(layer, pytmx.TiledTileLayer):
-                    if gid != 0:  # 0代表空格，無圖塊
+                    pos = (x * self.tile_width, y * self.tile_height)
+                    if not self._is_record:
+                        self.all_pos_list.append(pos)
+                    if not self._is_record and not gid:  # 0代表空格，無圖塊
+                        self.empty_pos_list.append(pos)
+                        if pos[0] >= self.map_width // 2 and pos[1] < self.map_height // 2:
+                            self.empty_quadrant_1_pos_list.append(pos)
+                        elif pos[0] < self.map_width // 2 and pos[1] < self.map_height // 2:
+                            self.empty_quadrant_2_pos_list.append(pos)
+                        elif pos[0] < self.map_width // 2 and pos[1] >= self.map_height // 2:
+                            self.empty_quadrant_3_pos_list.append(pos)
+                        else:
+                            self.empty_quadrant_4_pos_list.append(pos)
+                    elif gid:
                         if layer.parent.tiledgidmap[gid] in img_no:
                             img_id = layer.parent.tiledgidmap[gid]
                             obj_no += 1
                             img_info = {"_id": img_id, "_no": obj_no,
-                                        "_init_pos": (x * self.tile_width, y * self.tile_height),
+                                        "_init_pos": pos,
                                         "_init_size": (self.tile_width, self.tile_height)}
                             obj_result.append(class_name(img_info, **kwargs))
+        self._is_record = True
         return obj_result
