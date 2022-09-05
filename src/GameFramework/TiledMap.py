@@ -29,6 +29,7 @@ class TiledMap:
         self.empty_quadrant_3_pos_list = []
         self.empty_quadrant_4_pos_list = []
         self.all_obj_data_dict = {}
+        # TODO refactor
         self.all_obj = {}
 
     def add_init_obj_data(self, img_id: int, cls, **kwargs):
@@ -69,4 +70,5 @@ class TiledMap:
                         except KeyError:
                             pass
         self._is_record = True
+        return self.all_obj
 

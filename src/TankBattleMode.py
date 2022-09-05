@@ -27,8 +27,8 @@ class TankBattleMode(BattleMode):
         self.WIDTH_CENTER = self.map.map_width // 2
         self.HEIGHT_CENTER = self.map.map_height // 2
         # control variables
-        self.is_invincible = True
-        self.is_through_wall = True
+        self.is_invincible = False
+        self.is_through_wall = False
         # initialize sprites group
         self.walls = pygame.sprite.Group()
         self.bullets = pygame.sprite.Group()
@@ -45,20 +45,20 @@ class TankBattleMode(BattleMode):
         self.map.add_init_obj_data(BULLET_STATION_IMG_NO, TankStation, margin=2, spacing=2, capacity=5, quadrant=1)
         self.map.add_init_obj_data(OIL_STATION_IMG_NO, TankStation, margin=2, spacing=2, capacity=30, quadrant=1)
         # create obj
-        self.map.create_init_obj_dict()
+        all_obj = self.map.create_init_obj_dict()
         # init player
-        self.player_1P = self.map.all_obj[PLAYER_1_IMG_NO][0]
-        self.player_2P = self.map.all_obj[PLAYER_2_IMG_NO][0]
+        self.player_1P = all_obj[PLAYER_1_IMG_NO][0]
+        self.player_2P = all_obj[PLAYER_2_IMG_NO][0]
         self.players.add(self.player_1P, self.player_2P)
         self.all_sprites.add(self.player_1P, self.player_2P)
         # init walls
-        self.walls.add(self.map.all_obj[WALL_IMG_NO])
+        self.walls.add(all_obj[WALL_IMG_NO])
         self.all_sprites.add(self.walls)
         # init bullet stations
-        self.bullet_stations.add(self.map.all_obj[BULLET_STATION_IMG_NO])
+        self.bullet_stations.add(all_obj[BULLET_STATION_IMG_NO])
         self.all_sprites.add(self.bullet_stations)
         # init oil stations
-        self.oil_stations.add(self.map.all_obj[OIL_STATION_IMG_NO])
+        self.oil_stations.add(all_obj[OIL_STATION_IMG_NO])
         self.all_sprites.add(self.oil_stations)
         # init pos list
         self.all_pos_list = self.map.all_pos_list
@@ -159,52 +159,51 @@ class TankBattleMode(BattleMode):
         return cmd_2P
 
     def check_collisions(self):
-        if self.is_through_wall:
-            for player in self.players:
-                collide_with_walls(player, self.walls)
-        if self.is_invincible:
-            for player in self.players:
-                collide_with_bullets(player, self.bullets)
-                # TODO refactor stations
-                bs = collide_with_bullet_stations(player, self.bullet_stations)
-                self.change_obj_pos(bs)
-                os = collide_with_oil_stations(player, self.oil_stations)
-                self.change_obj_pos(os)
-        for wall in self.walls:
-            player_id, score = collide_with_bullets(wall, self.bullets)
-            for player in self.players:
-                if player._id == player_id:
-                    player.score += score
+        if not self.is_through_wall:
+            collide_with_walls(self.players, self.walls)
+        if not self.is_invincible:
+            collide_with_bullets(self.players, self.bullets)
+            # TODO refactor stations
+            bs = collide_with_bullet_stations(self.players, self.bullet_stations)
+            self.change_obj_pos(bs)
+            os = collide_with_oil_stations(self.players, self.oil_stations)
+            self.change_obj_pos(os)
+        player_id, score = collide_with_bullets(self.walls, self.bullets)
+        if player_id == 1:
+            self.player_1P.score += score
+        elif player_id == 2:
+            self.player_2P.score += score
 
-    def change_obj_pos(self, station: TankStation):
-        if not station:
+    def change_obj_pos(self, stations: list):
+        if not stations:
             return
-        if station.get_quadrant() == 1:
-            self.empty_quadrant_1_pos.append(station.get_xy_pos())
-        elif station.get_quadrant() == 2:
-            self.empty_quadrant_2_pos.append(station.get_xy_pos())
-        elif station.get_quadrant() == 3:
-            self.empty_quadrant_3_pos.append(station.get_xy_pos())
-        else:
-            self.empty_quadrant_4_pos.append(station.get_xy_pos())
-        if station.get_quadrant() == 2 or station.get_quadrant() == 3:
-            quadrant = random.choice([2, 3])
-            station.set_quadrant(quadrant)
-        else:
-            quadrant = random.choice([1, 4])
-            station.set_quadrant(quadrant)
-        if quadrant == 1:
-            new_pos = self.empty_quadrant_1_pos.pop(random.randrange(len(self.empty_quadrant_1_pos)))
-            station.change_pos(new_pos)
-        elif quadrant == 2:
-            new_pos = self.empty_quadrant_2_pos.pop(random.randrange(len(self.empty_quadrant_2_pos)))
-            station.change_pos(new_pos)
-        elif quadrant == 3:
-            new_pos = self.empty_quadrant_3_pos.pop(random.randrange(len(self.empty_quadrant_3_pos)))
-            station.change_pos(new_pos)
-        else:
-            new_pos = self.empty_quadrant_4_pos.pop(random.randrange(len(self.empty_quadrant_4_pos)))
-            station.change_pos(new_pos)
+        for station in stations:
+            if station.get_quadrant() == 1:
+                self.empty_quadrant_1_pos.append(station.get_xy_pos())
+            elif station.get_quadrant() == 2:
+                self.empty_quadrant_2_pos.append(station.get_xy_pos())
+            elif station.get_quadrant() == 3:
+                self.empty_quadrant_3_pos.append(station.get_xy_pos())
+            else:
+                self.empty_quadrant_4_pos.append(station.get_xy_pos())
+            if station.get_quadrant() == 2 or station.get_quadrant() == 3:
+                quadrant = random.choice([2, 3])
+                station.set_quadrant(quadrant)
+            else:
+                quadrant = random.choice([1, 4])
+                station.set_quadrant(quadrant)
+            if quadrant == 1:
+                new_pos = self.empty_quadrant_1_pos.pop(random.randrange(len(self.empty_quadrant_1_pos)))
+                station.change_pos(new_pos)
+            elif quadrant == 2:
+                new_pos = self.empty_quadrant_2_pos.pop(random.randrange(len(self.empty_quadrant_2_pos)))
+                station.change_pos(new_pos)
+            elif quadrant == 3:
+                new_pos = self.empty_quadrant_3_pos.pop(random.randrange(len(self.empty_quadrant_3_pos)))
+                station.change_pos(new_pos)
+            else:
+                new_pos = self.empty_quadrant_4_pos.pop(random.randrange(len(self.empty_quadrant_4_pos)))
+                station.change_pos(new_pos)
 
     def create_bullet(self, shoot_info):
         self.sound_controller.play_shoot_sound()
