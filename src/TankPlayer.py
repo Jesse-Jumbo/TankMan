@@ -34,12 +34,14 @@ class TankPlayer(Player):
         self.is_turn = False
         self.is_forward = False
         self.is_backward = False
-        self.turn_cd = kwargs["turn_cd"]
+        self.act_cd = kwargs["act_cd"]
 
     def update_children(self):
         self.rotate()
 
-        if self.used_frame - self.last_turn_frame > self.turn_cd:
+        if not self.act_cd:
+            self.is_turn = False
+        elif self.used_frame - self.last_turn_frame > self.act_cd:
             self.is_turn = False
 
         if self.hit_rect.right > WINDOW_WIDTH+8 or self.hit_rect.left < -8 \
@@ -62,8 +64,11 @@ class TankPlayer(Player):
         if not commands:
             return None
         if self.power and SHOOT in commands:
-            if self.used_frame - self.last_shoot_frame > SHOOT_COOLDOWN:
+            if not self.act_cd and self.used_frame - self.last_shoot_frame > SHOOT_COOLDOWN:
                 self.last_shoot_frame = self.used_frame
+                self.power -= 1
+                self.is_shoot = True
+            else:
                 self.power -= 1
                 self.is_shoot = True
         if self.oil <= 0:

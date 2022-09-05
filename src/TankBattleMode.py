@@ -15,7 +15,7 @@ from .collide_hit_rect import *
 from .env import *
 
 
-# TODO refactor attribute to methodp
+# TODO refactor attribute to method
 class TankBattleMode(BattleMode):
     def __init__(self, user_num: int, is_manual: str, map_path: str, frame_limit: int, is_sound: bool):
         super().__init__(user_num, map_path, frame_limit, is_sound)
@@ -34,36 +34,43 @@ class TankBattleMode(BattleMode):
         self.bullets = pygame.sprite.Group()
         self.bullet_stations = pygame.sprite.Group()
         self.oil_stations = pygame.sprite.Group()
-        # init pos list
-        self.all_pos = []
-        self.quadrant_1_pos = []
-        self.quadrant_2_pos = []
-        self.quadrant_3_pos = []
-        self.quadrant_4_pos = []
-        self.floor_image_data_list = []
-        self.init_pos_list()
         # init players
-        turn_cd = 0
+        act_cd = 0
         if self.is_manual:
-            turn_cd = 10
-        self.player_1P = self.map.create_init_obj(PLAYER_1_IMG_NO, TankPlayer, turn_cd=turn_cd)
-        self.player_2P = self.map.create_init_obj(PLAYER_2_IMG_NO, TankPlayer, turn_cd=turn_cd)
+            act_cd = 10
+        # init obj data
+        self.map.add_init_obj_data(PLAYER_1_IMG_NO, TankPlayer, act_cd=act_cd)
+        self.map.add_init_obj_data(PLAYER_2_IMG_NO, TankPlayer, act_cd=act_cd)
+        self.map.add_init_obj_data(WALL_IMG_NO, TankWall, margin=8, spacing=8)
+        self.map.add_init_obj_data(BULLET_STATION_IMG_NO, TankStation, margin=2, spacing=2, capacity=5, quadrant=1)
+        self.map.add_init_obj_data(OIL_STATION_IMG_NO, TankStation, margin=2, spacing=2, capacity=30, quadrant=1)
+        # create obj
+        self.map.create_init_obj_dict()
+        # init player
+        self.player_1P = self.map.all_obj[PLAYER_1_IMG_NO][0]
+        self.player_2P = self.map.all_obj[PLAYER_2_IMG_NO][0]
         self.players.add(self.player_1P, self.player_2P)
         self.all_sprites.add(self.player_1P, self.player_2P)
         # init walls
-        walls = self.map.create_init_obj_list(WALL_IMG_NO, TankWall, margin=8, spacing=8)
-        self.walls.add(*walls)
+        self.walls.add(self.map.all_obj[WALL_IMG_NO])
         self.all_sprites.add(self.walls)
         # init bullet stations
-        bullet_stations = self.map.create_init_obj_list(BULLET_STATION_IMG_NO, TankStation
-                                                        , margin=2, spacing=2, capacity=5, quadrant=1)
-        self.bullet_stations.add(*bullet_stations)
+        self.bullet_stations.add(self.map.all_obj[BULLET_STATION_IMG_NO])
         self.all_sprites.add(self.bullet_stations)
         # init oil stations
-        oil_stations = self.map.create_init_obj_list(OIL_STATION_IMG_NO, TankStation
-                                                     , margin=2, spacing=2, capacity=30, quadrant=1)
-        self.oil_stations.add(*oil_stations)
+        self.oil_stations.add(self.map.all_obj[OIL_STATION_IMG_NO])
         self.all_sprites.add(self.oil_stations)
+        # init pos list
+        self.all_pos_list = self.map.all_pos_list
+        self.empty_quadrant_1_pos = self.map.empty_quadrant_1_pos_list
+        self.empty_quadrant_2_pos = self.map.empty_quadrant_2_pos_list
+        self.empty_quadrant_3_pos = self.map.empty_quadrant_3_pos_list
+        self.empty_quadrant_4_pos = self.map.empty_quadrant_4_pos_list
+        self.floor_image_data_list = []
+        for pos in self.all_pos_list:
+            no = random.randrange(3)
+            self.floor_image_data_list.append(
+                create_image_view_data(f"floor_{no}", pos[0], pos[1], 50, 50, 0))
 
     def update(self, command: dict):
         if command["1P"] and "DEBUG" in command["1P"]:
@@ -104,8 +111,10 @@ class TankBattleMode(BattleMode):
         # reset init game
         self.__init__(2, self.is_manual, self.map_path, self.frame_limit, self.is_sound)
         # reset player pos
-        self.player_1P.rect.topleft = random.choice(self.get_quadrant_1_empty_pos())
-        self.player_2P.rect.topleft = random.choice(self.get_quadrant_2_empty_pos())
+        self.empty_quadrant_1_pos.append(self.player_1P.origin_pos)
+        self.empty_quadrant_2_pos.append(self.player_2P.origin_pos)
+        self.player_1P.rect.topleft = self.empty_quadrant_1_pos.pop(random.randrange(len(self.empty_quadrant_1_pos)))
+        self.player_2P.rect.topleft = self.empty_quadrant_2_pos.pop(random.randrange(len(self.empty_quadrant_2_pos)))
         self.player_1P.hit_rect.center = self.player_1P.rect.center
         self.player_2P.hit_rect.center = self.player_2P.rect.center
 
@@ -170,6 +179,14 @@ class TankBattleMode(BattleMode):
     def change_obj_pos(self, station: TankStation):
         if not station:
             return
+        if station.get_quadrant() == 1:
+            self.empty_quadrant_1_pos.append(station.get_xy_pos())
+        elif station.get_quadrant() == 2:
+            self.empty_quadrant_2_pos.append(station.get_xy_pos())
+        elif station.get_quadrant() == 3:
+            self.empty_quadrant_3_pos.append(station.get_xy_pos())
+        else:
+            self.empty_quadrant_4_pos.append(station.get_xy_pos())
         if station.get_quadrant() == 2 or station.get_quadrant() == 3:
             quadrant = random.choice([2, 3])
             station.set_quadrant(quadrant)
@@ -177,13 +194,17 @@ class TankBattleMode(BattleMode):
             quadrant = random.choice([1, 4])
             station.set_quadrant(quadrant)
         if quadrant == 1:
-            station.change_pos(self.get_quadrant_1_empty_pos())
+            new_pos = self.empty_quadrant_1_pos.pop(random.randrange(len(self.empty_quadrant_1_pos)))
+            station.change_pos(new_pos)
         elif quadrant == 2:
-            station.change_pos(self.get_quadrant_2_empty_pos())
+            new_pos = self.empty_quadrant_2_pos.pop(random.randrange(len(self.empty_quadrant_2_pos)))
+            station.change_pos(new_pos)
         elif quadrant == 3:
-            station.change_pos(self.get_quadrant_3_empty_pos())
+            new_pos = self.empty_quadrant_3_pos.pop(random.randrange(len(self.empty_quadrant_3_pos)))
+            station.change_pos(new_pos)
         else:
-            station.change_pos(self.get_quadrant_4_empty_pos())
+            new_pos = self.empty_quadrant_4_pos.pop(random.randrange(len(self.empty_quadrant_4_pos)))
+            station.change_pos(new_pos)
 
     def create_bullet(self, shoot_info):
         self.sound_controller.play_shoot_sound()
@@ -428,44 +449,3 @@ class TankBattleMode(BattleMode):
             all_line.append(create_line_view_data(f"hit_{sprite.get_info()['id']}", hit_point[i][0], hit_point[i][1],
                                                   hit_point[i + 1][0], hit_point[i + 1][1], RED, 2))
         return all_line
-
-    def init_pos_list(self) -> None:
-        for x in range(self.map.width):
-            for y in range(self.map.height):
-                pos = (x * self.map.tile_width, y * self.map.tile_height)
-                self.all_pos.append(pos)
-                if pos[0] >= self.WIDTH_CENTER and pos[1] < self.HEIGHT_CENTER:
-                    self.quadrant_1_pos.append(pos)
-                elif pos[0] < self.WIDTH_CENTER and pos[1] < self.HEIGHT_CENTER:
-                    self.quadrant_2_pos.append(pos)
-                elif pos[0] < self.WIDTH_CENTER and pos[1] >= self.HEIGHT_CENTER:
-                    self.quadrant_3_pos.append(pos)
-                else:
-                    self.quadrant_4_pos.append(pos)
-                no = random.randrange(3)
-                self.floor_image_data_list.append(
-                    create_image_view_data(f"floor_{no}", pos[0], pos[1], 50, 50, 0))
-
-    # TODO refactor
-    def get_empty_pos(self) -> list:
-        existed_pos = []
-        for sprite in self.all_sprites:
-            existed_pos.append(sprite.rect.topleft)
-        empty_pos = list(set(self.all_pos) ^ set(existed_pos))
-        return empty_pos
-
-    def get_quadrant_1_empty_pos(self) -> list:
-        empty_pos = self.get_empty_pos()
-        return list(set(empty_pos) & set(self.quadrant_1_pos))
-
-    def get_quadrant_2_empty_pos(self) -> list:
-        empty_pos = self.get_empty_pos()
-        return list(set(empty_pos) & set(self.quadrant_2_pos))
-
-    def get_quadrant_3_empty_pos(self) -> list:
-        empty_pos = self.get_empty_pos()
-        return list(set(empty_pos) & set(self.quadrant_3_pos))
-
-    def get_quadrant_4_empty_pos(self) -> list:
-        empty_pos = self.get_empty_pos()
-        return list(set(empty_pos) & set(self.quadrant_4_pos))
