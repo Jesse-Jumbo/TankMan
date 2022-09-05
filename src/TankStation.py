@@ -52,6 +52,6 @@ class TankStation(Station):
                                                     path.join(IMAGE_DIR, f"{oil_id}.png"), oil_url)]
         return image_init_data
 
-    def change_pos(self, empty_pos: list):
-        self.rect.topleft = random.choice(empty_pos)
+    def change_pos(self, pos: tuple):
+        self.rect.topleft = pos
         self.hit_rect.center = self.rect.center
