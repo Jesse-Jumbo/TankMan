@@ -6,8 +6,8 @@ from mlgame.view.view_model import create_asset_init_data, create_image_view_dat
     create_rect_view_data, create_line_view_data
 
 from .GameFramework.BattleMode import BattleMode
-from .GameFramework.TiledMap import create_construction
 from .TankBullet import TankBullet
+from .TankPlayer import TankPlayer
 from .TankSoundController import TankSoundController
 from .TankStation import TankStation
 from .TankWall import TankWall
@@ -261,8 +261,9 @@ class TankBattleMode(BattleMode):
 
     def draw_toggle_data(self):
         all_toggle_data = []
-        hourglass_index = self.used_frame//10 % 15
-        all_toggle_data.append(create_image_view_data(image_id=f"hourglass_{hourglass_index}", x=0, y=2, width=20, height=20, angle=0))
+        hourglass_index = self.used_frame // 10 % 15
+        all_toggle_data.append(
+            create_image_view_data(image_id=f"hourglass_{hourglass_index}", x=0, y=2, width=20, height=20, angle=0))
         x = 23
         y = 8
         for frame in range((self.frame_limit - self.used_frame) // int((30 * 2))):
