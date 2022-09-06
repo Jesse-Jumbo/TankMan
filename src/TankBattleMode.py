@@ -261,7 +261,8 @@ class TankBattleMode(BattleMode):
 
     def draw_toggle_data(self):
         all_toggle_data = []
-        hourglass_index = self.used_frame // 10 % 15
+        # hourglass_index = self.used_frame // 10 % 15
+        hourglass_index = 1
         all_toggle_data.append(
             create_image_view_data(image_id=f"hourglass_{hourglass_index}", x=0, y=2, width=20, height=20, angle=0))
         x = 23
@@ -345,7 +346,7 @@ class TankBattleMode(BattleMode):
             all_init_image_data.append(create_asset_init_data(f"floor_{i}", 50, 50
                                                               , path.join(IMAGE_DIR, f"grass_{i}.png"),
                                                               f"https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/grass_{i}.png"))
-        for i in range(15):
+        for i in range(1, 2):
             all_init_image_data.append(create_asset_init_data(f"hourglass_{i}", 42, 42
                                                               , path.join(IMAGE_DIR, f"hourglass_{i}.png"),
                                                               f"https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/hourglass_{i}.png"))
