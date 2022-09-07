@@ -261,8 +261,10 @@ class TankBattleMode(BattleMode):
 
     def draw_toggle_data(self):
         all_toggle_data = []
-        # hourglass_index = self.used_frame // 10 % 15
-        hourglass_index = 1
+        if self.is_manual:
+            hourglass_index = self.used_frame // 10 % 15
+        else:
+            hourglass_index = 0
         all_toggle_data.append(
             create_image_view_data(image_id=f"hourglass_{hourglass_index}", x=0, y=2, width=20, height=20, angle=0))
         x = 23
@@ -342,24 +344,34 @@ class TankBattleMode(BattleMode):
 
     def create_init_image_data(self):
         all_init_image_data = []
+        # floor
         for i in range(3):
             all_init_image_data.append(create_asset_init_data(f"floor_{i}", 50, 50
                                                               , path.join(IMAGE_DIR, f"grass_{i}.png"),
                                                               f"https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/grass_{i}.png"))
-        for i in range(1, 2):
+        # hourglass
+        if self.is_manual:
+            index = 15
+        else:
+            index = 1
+        for i in range(index):
             all_init_image_data.append(create_asset_init_data(f"hourglass_{i}", 42, 42
                                                               , path.join(IMAGE_DIR, f"hourglass_{i}.png"),
                                                               f"https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/hourglass_{i}.png"))
-        for station in self.bullet_stations:
-            if isinstance(station, TankStation):
-                for data in station.get_image_init_data():
-                    all_init_image_data.append(data)
-                break
+        # walls
         for wall in self.walls:
             if isinstance(wall, TankWall):
                 for data in wall.get_image_init_data():
                     all_init_image_data.append(data)
                 break
+
+        # bullet stations
+        for station in self.bullet_stations:
+            if isinstance(station, TankStation):
+                for data in station.get_image_init_data():
+                    all_init_image_data.append(data)
+                break
+
         img_id = "bullet"
         img_url = "https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/bullet.png"
         bullet_image_init_data = create_asset_init_data(img_id, BULLET_SIZE[0], BULLET_SIZE[1],

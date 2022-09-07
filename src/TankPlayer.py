@@ -64,11 +64,11 @@ class TankPlayer(Player):
         if not commands:
             return None
         if self.power and SHOOT in commands:
-            if not self.act_cd and self.used_frame - self.last_shoot_frame > SHOOT_COOLDOWN:
+            if self.act_cd and self.used_frame - self.last_shoot_frame > SHOOT_COOLDOWN:
                 self.last_shoot_frame = self.used_frame
                 self.power -= 1
                 self.is_shoot = True
-            else:
+            elif not self.act_cd:
                 self.power -= 1
                 self.is_shoot = True
         if self.oil <= 0:

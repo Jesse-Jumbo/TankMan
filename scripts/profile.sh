@@ -9,3 +9,7 @@ python -m cProfile -s cumtime -o $FILE \
 --is_manual="" --map_no=2 --frame_limit=30 --sound="off"
 
 python -m gprof2dot -f pstats $FILE | dot -T png -o ${FILE}.png
+
+# python -m pstats profile.pstats
+# sort cumtime
+# stats
