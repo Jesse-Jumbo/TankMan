@@ -1,26 +1,38 @@
 import pygame
 from os import path
-from mlgame.view.view_model import create_asset_init_data
+from mlgame.view.view_model import create_asset_init_data, create_image_view_data
+
+from .template.Props import Props
 from .env import WINDOW_HEIGHT, WINDOW_WIDTH, IMAGE_DIR
-from .GameFramework.Bullet import Bullet
 
 vec = pygame.math.Vector2
 
 
-class TankBullet(Bullet):
-    def __init__(self, _id: int, center: tuple, width: int, height: int, rot: int):
-        super().__init__(center, width, height)
+class TankBullet(Props):
+    def __init__(self, construction, **kwargs):
+        super().__init__(construction, **kwargs)
+        self.rect.center = construction["_init_pos"]
+        self.speed = 10
         self.map_width = WINDOW_WIDTH
         self.map_height = WINDOW_HEIGHT
-        self._id = _id
-        self.rot = rot
-        self.angle = 3.14 / 180 * (self.rot + 90)
+        self.rot = kwargs["rot"]
+        self._play_rect_area = kwargs["play_rect_area"]
+        self._angle = 3.14 / 180 * (self.rot + 90)
         self.move = {"left_up": vec(-self.speed, -self.speed), "right_up": vec(self.speed, -self.speed),
                      "left_down": vec(-self.speed, self.speed), "right_down": vec(self.speed, self.speed),
                      "left": vec(-self.speed, 0), "right": vec(self.speed, 0), "up": vec(0, -self.speed),
                      "down": vec(0, self.speed)}
 
-    def update_bullet(self):
+    def update(self):
+        if self._play_rect_area.top < self.rect.centery < self._play_rect_area.bottom \
+                and self._play_rect_area.left < self.rect.centerx < self._play_rect_area.right:
+            is_out = False
+        else:
+            is_out = True
+
+        if is_out:
+            self.kill()
+
         if self.rot == 0 or self.rot == 360:
             self.rect.center += self.move["left"]
         elif self.rot == 315 or self.rot == -45:
@@ -38,13 +50,17 @@ class TankBullet(Bullet):
         elif self.rot == 45 or self.rot == -315:
             self.rect.center += self.move["left_down"]
 
-    def get_image_init_data(self):
-        img_data = {"bullet": "https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/bullet.png"}
-        id, url = img_data.items()
-        image_init_data = create_asset_init_data(id, self.rect.width, self.rect.height, path.join(IMAGE_DIR, f"{id}.png"), url)
+    def get_obj_init_data(self):
+        url = "https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/bullet.png"
+        image_init_data = create_asset_init_data("bullet", self.rect.width, self.rect.height,
+                                                 path.join(IMAGE_DIR, "bullet.png"), url)
         return image_init_data
 
-    def get_info(self) -> dict:
+    def get_obj_progress_data(self):
+        return create_image_view_data("bullet", self.rect.x, self.rect.y, self.rect.width, self.rect.height,
+                                      self._angle)
+
+    def get_data_from_obj_to_game(self) -> dict:
         info = {"id": f"{self._id}P_bullet",
                 "x": self.rect.x,
                 "y": self.rect.y,
