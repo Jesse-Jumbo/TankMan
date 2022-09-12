@@ -10,13 +10,9 @@ from mlgame.view.view_model import create_asset_init_data, create_image_view_dat
 class TankWall(Props):
     def __init__(self, construction, **kwargs):
         super().__init__(construction, **kwargs)
-        self.hit_rect = pygame.Rect(0, 0, construction["_init_size"][0] - kwargs["margin"]
-                                    , construction["_init_size"][1] - kwargs["spacing"])
-        self.hit_rect.center = self.rect.center
         self._lives = 3
 
     def update(self, *args, **kwargs) -> None:
-        self.hit_rect.center = self.rect.center
         if self._lives <= 0:
             self.kill()
 

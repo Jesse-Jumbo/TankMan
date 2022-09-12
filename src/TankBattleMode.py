@@ -76,8 +76,6 @@ class TankBattleMode(BattleMode):
         self.used_frame += 1
         self.check_collisions()
         self.walls.update()
-        self.oil_stations.update()
-        self.bullet_stations.update()
         self.create_bullet(self.players)
         self.bullets.update()
         self.players.update(command)
@@ -348,9 +346,5 @@ class TankBattleMode(BattleMode):
                 top_left = sprite.rect.topleft
                 points = [top_left, sprite.rect.topright, sprite.rect.bottomright
                           , sprite.rect.bottomleft, top_left]
-                top_left = sprite.hit_rect.topleft
-                hit_points = [top_left, sprite.hit_rect.topright, sprite.hit_rect.bottomright
-                              , sprite.hit_rect.bottomleft, top_left]
                 for index in range(len(points)-1):
                     self.obj_rect_list.append(create_line_view_data("rect", *points[index], *points[index+1], WHITE))
-                    self.obj_rect_list.append(create_line_view_data("hit_rect", *hit_points[index], *hit_points[index+1], RED))

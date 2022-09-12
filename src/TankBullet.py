@@ -12,9 +12,6 @@ class TankBullet(Props):
     def __init__(self, construction, **kwargs):
         super().__init__(construction, **kwargs)
         self.rect.center = construction["_init_pos"]
-        self.hit_rect = pygame.Rect(0, 0, construction["_init_size"][0] - kwargs["margin"]
-                                    , construction["_init_size"][1] - kwargs["spacing"])
-        self.hit_rect.center = self.rect.center
         self.speed = 10
         self.map_width = WINDOW_WIDTH
         self.map_height = WINDOW_HEIGHT
@@ -26,8 +23,6 @@ class TankBullet(Props):
                      "down": vec(0, self.speed)}
 
     def update(self):
-        self.hit_rect.center = self.rect.center
-
         if self.rect.bottom < 0 or self.rect.top > self.map_height \
                 or self.rect.left > self.map_width or self.rect.right < 0:
             self.kill()

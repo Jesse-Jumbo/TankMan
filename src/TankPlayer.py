@@ -15,8 +15,6 @@ class TankPlayer(Player):
         super().__init__(construction, **kwargs)
         self.origin_size = (self.rect.width, self.rect.height)
         self.surface = pygame.Surface((self.rect.width, self.rect.height))
-        self.hit_rect = pygame.Rect(0, 0, construction["_init_size"][0]-2, construction["_init_size"][1]-2)
-        self.hit_rect.center = self.rect.center
         self.speed = 8
         # TODO refactor use vel
         self.move = {"left_up": vec(-self.speed, -self.speed), "right_up": vec(self.speed, -self.speed),
@@ -35,7 +33,6 @@ class TankPlayer(Player):
 
     def update(self, command: dict):
         self._used_frame += 1
-        self.hit_rect.center = self.rect.center
         self.act(command[get_ai_name(self._id-1)])
         if self._lives <= 0:
             self._is_alive = False
@@ -47,8 +44,8 @@ class TankPlayer(Player):
         elif self._used_frame - self.last_turn_frame > self.act_cd:
             self.is_turn = False
 
-        if self.hit_rect.right > WINDOW_WIDTH+8 or self.hit_rect.left < -8 \
-                or self.hit_rect.bottom > WINDOW_HEIGHT+8 or self.hit_rect.top < -8:
+        if self.rect.right > WINDOW_WIDTH or self.rect.left < 0\
+                or self.rect.bottom > WINDOW_HEIGHT or self.rect.top < 0:
             self.collide_with_walls()
 
     def rotate(self):
