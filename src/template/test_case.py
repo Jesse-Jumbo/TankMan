@@ -1,4 +1,4 @@
-from ..GameFramework.Player import Player
+from ..template.Player import Player
 
 
 class TestPlayer(object):

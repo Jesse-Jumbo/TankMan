@@ -1,37 +1,38 @@
 from os import path
 
+import pygame
+
+from .template.Props import Props
 from .env import IMAGE_DIR
-from mlgame.view.view_model import create_asset_init_data
-from .GameFramework.Props import Props
+from mlgame.view.view_model import create_asset_init_data, create_image_view_data
 
 
 class TankWall(Props):
     def __init__(self, construction, **kwargs):
         super().__init__(construction, **kwargs)
-        self.lives = 3
+        self.hit_rect = pygame.Rect(0, 0, construction["_init_size"][0] - kwargs["margin"]
+                                    , construction["_init_size"][1] - kwargs["spacing"])
+        self.hit_rect.center = self.rect.center
+        self._lives = 3
 
     def update(self, *args, **kwargs) -> None:
-        if self.lives <= 0:
+        self.hit_rect.center = self.rect.center
+        if self._lives <= 0:
             self.kill()
 
     def collide_with_bullets(self):
-        if self.lives > 0:
-            self.lives -= 1
+        if self._lives > 0:
+            self._lives -= 1
 
-    def get_xy_pos(self):
-        return self.rect.x, self.rect.y
-
-    def get_info(self):
-        info = {"id": f"wall_{self.lives}", "x": self.rect.x, "y": self.rect.y, "lives": self.lives}
+    def get_data_from_obj_to_game(self):
+        info = {"id": f"wall_{self._lives}", "x": self.rect.x, "y": self.rect.y, "lives": self._lives}
         return info
 
-    def get_image_data(self):
-        if self.lives > 0:
-            image_data = {"id": f"wall_{self.lives}", "x": self.rect.x, "y": self.rect.y,
-                          "width": self.rect.width, "height": self.rect.height, "angle": 0}
-            return image_data
+    def get_obj_progress_data(self):
+        return create_image_view_data(f"wall_{self._lives}", self.rect.x, self.rect.y
+                                      , self.rect.width, self.rect.height, 0)
 
-    def get_image_init_data(self):
+    def get_obj_init_data(self):
         image_init_data = []
         for i in range(1, 4):
             image_init_data.append(create_asset_init_data(f"wall_{i}", self.rect.width, self.rect.height,
