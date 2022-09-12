@@ -83,7 +83,8 @@ class Game(PaiaGame):
         sound_path = ""
         if self.is_sound:
             sound_path = SOUND_DIR
-        game_mode = BattleMode(map_path, sound_path)
+        play_rect_area = pygame.Rect(0, 0, 1000, 600)
+        game_mode = BattleMode(map_path, sound_path, play_rect_area)
         return game_mode
 
     def rank(self):

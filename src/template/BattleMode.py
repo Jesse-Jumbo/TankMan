@@ -10,7 +10,7 @@ from .Player import Player
 
 
 class BattleMode:
-    def __init__(self, map_path: str, sound_path: str):
+    def __init__(self, map_path: str, sound_path: str, play_rect_area: pygame.Rect):
         pygame.init()
         self._user_num = 2
         self.sound_path = sound_path
@@ -18,6 +18,7 @@ class BattleMode:
         self.map = TiledMap(self.map_path)
         self.scene_width = self.map.map_width
         self.scene_height = self.map.map_height
+        self.play_rect_area = play_rect_area
         self.all_sprites = pygame.sprite.Group()
         self.players = pygame.sprite.Group()
         self.player_1P = Player(create_construction(get_ai_name(0), 0, (0, 0), (50, 50)))
@@ -41,7 +42,7 @@ class BattleMode:
         raise Exception("Please overwrite update")
 
     def reset(self) -> None:
-        self.__init__(self.map_path,self.sound_path)
+        self.__init__(self.map_path,self.sound_path, self.play_rect_area)
 
         raise Exception("Please overwrite reset")
 

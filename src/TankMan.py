@@ -7,6 +7,9 @@ from .template.Game import Game
 from .TankBattleMode import TankBattleMode
 from .env import MAP_DIR, IMAGE_DIR, SOUND_DIR
 
+MAP_WIDTH = 1000
+MAP_HEIGHT = 600
+
 
 class TankMan(Game):
     def __init__(self, user_num: int, is_manual: str, map_no: int, frame_limit: int, sound: str):
@@ -26,5 +29,6 @@ class TankMan(Game):
         sound_path = ""
         if self.is_sound:
             sound_path = SOUND_DIR
-        game_mode = TankBattleMode(self.is_manual, map_path, self.frame_limit, sound_path)
+        play_rect_area = pygame.Rect(0, 0, MAP_WIDTH, MAP_HEIGHT)
+        game_mode = TankBattleMode(self.is_manual, map_path, self.frame_limit, sound_path, play_rect_area)
         return game_mode

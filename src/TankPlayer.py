@@ -13,6 +13,7 @@ vec = pygame.math.Vector2
 class TankPlayer(Player):
     def __init__(self, construction, **kwargs):
         super().__init__(construction, **kwargs)
+        self._play_rect_area = kwargs["play_rect_area"]
         self.origin_size = (self.rect.width, self.rect.height)
         self.surface = pygame.Surface((self.rect.width, self.rect.height))
         self.speed = 8
@@ -26,9 +27,10 @@ class TankPlayer(Player):
         self.last_turn_frame = self._used_frame
         self.rot_speed = 45
         self.oil = 100
-        self.is_turn = False
         self.is_forward = False
         self.is_backward = False
+        self.is_turn_right = False
+        self.is_turn_left = False
         self.act_cd = kwargs["act_cd"]
 
     def update(self, command: dict):
@@ -40,12 +42,16 @@ class TankPlayer(Player):
         self.rotate()
 
         if not self.act_cd:
-            self.is_turn = False
+            self.is_turn_right = False
+            self.is_turn_left = False
         elif self._used_frame - self.last_turn_frame > self.act_cd:
-            self.is_turn = False
+            self.is_turn_right = False
+            self.is_turn_left = False
 
-        if self.rect.right > WINDOW_WIDTH or self.rect.left < 0\
-                or self.rect.bottom > WINDOW_HEIGHT or self.rect.top < 0:
+        if self.rect.right > self._play_rect_area.right \
+                or self.rect.left < self._play_rect_area.left \
+                or self.rect.bottom > self._play_rect_area.bottom \
+                or self.rect.top < self._play_rect_area.top:
             self.collide_with_walls()
 
     def rotate(self):
@@ -139,21 +145,25 @@ class TankPlayer(Player):
             self.rect.center += self.move["right_up"]
 
     def turn_left(self):
-        if not self.is_turn:
+        if not self.is_turn_left:
             self.last_turn_frame = self._used_frame
             self.rot += self.rot_speed
-            self.is_turn = True
+            self.is_turn_left = True
 
     def turn_right(self):
-        if not self.is_turn:
+        if not self.is_turn_right:
             self.last_turn_frame = self._used_frame
             self.rot -= self.rot_speed
-            self.is_turn = True
+            self.is_turn_right = True
 
     def collide_with_walls(self):
+        if self.is_turn_left:
+            self.turn_right()
+        elif self.is_turn_right:
+            self.turn_left()
         if self.is_forward:
             self.backward()
-        else:
+        elif self.is_backward:
             self.forward()
 
     def collide_with_bullets(self):
