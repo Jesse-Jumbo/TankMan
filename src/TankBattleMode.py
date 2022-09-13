@@ -81,6 +81,7 @@ class TankBattleMode(BattleMode):
         self.create_bullet(self.players)
         self.bullets.update()
         self.players.update(command)
+        self.get_player_end()
         if self.used_frame >= self.frame_limit:
             self.get_game_end()
 
