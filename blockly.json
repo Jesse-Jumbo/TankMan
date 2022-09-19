@@ -20,21 +20,22 @@
         ["scene_info['score']", "score of player", "玩家分數"],
         ["scene_info['power']", "power of player", "玩家子彈數"],
         ["scene_info['oil']", "oil of player", "玩家油量"],
-        ["scene_info['shield']", "shield of player", "玩家的生命值"],
         ["scene_info['lives']", "lives of player", "玩家的生命次數"],
+        ["scene_info['angle']", "angle of player", "玩家的面朝角度"],
         ["scene_info['used_frame']", "# frame", "# 幀數"],
         ["scene_info['status']", "game status", "遊戲狀態"],
+        ["scene_info['competitor_info']", "coordinate of all competitor", "所有對手的所有資訊"],
         ["scene_info['walls_info']", "coordinate of all walls", "所有牆的所有資訊"],
         ["scene_info['bullet_stations_info']", "information of all walls", "所有彈藥庫的所有資訊"],
         ["scene_info['oil_stations_info']", "information of all walls", "所有加油站的所有資訊"]
     ],
     "CONSTANT": [
         [0, "left boundary", "左邊界"],
-        [1320, "right boundary", "右邊界"],
+        [1000, "right boundary", "右邊界"],
         [0, "top boundary", "上邊界"],
-        [660, "bottom boundary", "下邊界"],
-        [60, "tank width", "坦克寬度"],
-        [60, "tank height", "坦克高度"]
+        [600, "bottom boundary", "下邊界"],
+        [50, "obj width", "物件寬度"],
+        [50, "obj height", "物件高度"]
     ],
     "ACTION": [
         ["['FORWARD']", "forward", "前進"],

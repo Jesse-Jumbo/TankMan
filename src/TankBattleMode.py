@@ -316,7 +316,7 @@ class TankBattleMode(BattleMode):
                 to_game_data = player.get_data_from_obj_to_game()
                 to_game_data["used_frame"] = self.used_frame
                 to_game_data["status"] = self.status
-                to_game_data["player_info"] = [ai.get_data_from_obj_to_game() for ai in self.players if isinstance(ai, TankPlayer)]
+                to_game_data["competitor_info"] = [ai.get_data_from_obj_to_game() for ai in self.players if isinstance(ai, TankPlayer) and ai.get_id() != player.get_id()]
                 to_game_data["walls_info"] = [wall.get_data_from_obj_to_game() for wall in self.walls if isinstance(wall, TankWall)]
                 to_game_data["bullet_stations_info"] = [bullst_station.get_data_from_obj_to_game() for bullst_station in self.bullet_stations if isinstance(bullst_station, TankStation)]
                 to_game_data["oil_stations_info"] = [oil_station.get_data_from_obj_to_game() for oil_station in self.oil_stations if isinstance(oil_station, TankStation)]

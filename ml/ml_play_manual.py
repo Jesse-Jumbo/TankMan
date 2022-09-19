@@ -21,7 +21,12 @@ class MLPlay:
         """
         Generate the command according to the received scene information
         """
-        # print(scene_info)
+        if scene_info["used_frame"] == 1:
+            print(scene_info.keys())
+            if scene_info["id"] == "1P":
+                print(f'1P_{scene_info["competitor_info"]}')
+            else:
+                print(f'2P_{scene_info["competitor_info"]}')
         # print(keyboard)
         if scene_info["status"] != "GAME_ALIVE":
             return "RESET"
