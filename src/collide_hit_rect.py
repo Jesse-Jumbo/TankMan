@@ -13,13 +13,13 @@ def collide_with_bullets(group1: pygame.sprite.Group, group2: pygame.sprite.Grou
     hits = pygame.sprite.groupcollide(group1, group2, False, False, pygame.sprite.collide_rect_ratio(0.8))
     for sprite, bullets in hits.items():
         for bullet in bullets:
-            if bullet._id != sprite._id:
+            if bullet.id != sprite.id:
                 bullet.kill()
                 score = 1
-                if sprite.get_lives() == 1:
+                if sprite.lives == 1:
                     score += 5
                 sprite.collide_with_bullets()
-                return bullet._id, score
+                return bullet.id, score
     return None, None
 
 
