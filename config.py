@@ -2,9 +2,9 @@ import sys
 from os import path
 
 sys.path.append(path.dirname(__file__))
-from src.TankMan import TankMan
+from src.Game import Game
 
 GAME_SETUP = {
-    "game": TankMan,
+    "game": Game,
 }
 

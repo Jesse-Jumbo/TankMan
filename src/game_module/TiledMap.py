@@ -1,4 +1,3 @@
-import pygame
 import pytmx
 
 
@@ -61,10 +60,9 @@ class TiledMap:
                         kwargs = self.all_obj_data_dict[img_id]["kwargs"]
                         obj_no += 1
                         img_info = {"_id": img_id, "_no": obj_no
-                                    , "_init_pos": pos
-                                    , "_init_size": (self.tile_width, self.tile_height)
+                            , "_init_pos": pos
+                            , "_init_size": (self.tile_width, self.tile_height)
                                     }
                         self.all_obj[img_id].append(self.all_obj_data_dict[img_id]["cls"](img_info, **kwargs))
         self._is_record = True
         return self.all_obj
-

@@ -1,4 +1,4 @@
-from ..template.Player import Player
+from src.template.Player import Player
 
 
 class TestPlayer(object):

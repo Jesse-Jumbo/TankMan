@@ -639,7 +639,7 @@
 											"top": 423,
 											"width": 180.29248046875,
 											"height": 13,
-											"text": "TankBattleMode"
+											"text": "BattleMode"
 										},
 										{
 											"_type": "LabelView",
@@ -2246,7 +2246,7 @@
 											"top": 343,
 											"width": 170.5234375,
 											"height": 13,
-											"text": "TankPlayer"
+											"text": "Player"
 										},
 										{
 											"_type": "LabelView",
@@ -4451,7 +4451,7 @@
 											"top": 695,
 											"width": 289.40869140625,
 											"height": 13,
-											"text": "TankBullet"
+											"text": "Bullet"
 										},
 										{
 											"_type": "LabelView",
@@ -5304,7 +5304,7 @@
 											"top": 271,
 											"width": 55.376953125,
 											"height": 13,
-											"text": "TankMan"
+											"text": "Game"
 										},
 										{
 											"_type": "LabelView",
@@ -7495,7 +7495,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "TankBattleMode",
+					"name": "BattleMode",
 					"ownedElements": [
 						{
 							"_type": "UMLAssociation",
@@ -8426,7 +8426,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "TankPlayer",
+					"name": "Player",
 					"ownedElements": [
 						{
 							"_type": "UMLGeneralization",
@@ -9310,7 +9310,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "TankBullet",
+					"name": "Bullet",
 					"ownedElements": [
 						{
 							"_type": "UMLGeneralization",
@@ -9622,7 +9622,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "TankMan",
+					"name": "Game",
 					"ownedElements": [
 						{
 							"_type": "UMLGeneralization",

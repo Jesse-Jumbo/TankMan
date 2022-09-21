@@ -14,19 +14,19 @@ class MLPlay:
                which side.
         """
         self.side = ai_name
-        print(f"Initial TankMan {ai_name} ml script")
+        print(f"Initial Game {ai_name} ml script")
         self.time = 0
 
     def update(self, scene_info: dict, keyboard=[], *args, **kwargs):
         """
         Generate the command according to the received scene information
         """
-        if scene_info["used_frame"] == 1:
-            print(scene_info.keys())
-            if scene_info["id"] == "1P":
-                print(f'1P_{scene_info["competitor_info"]}')
-            else:
-                print(f'2P_{scene_info["competitor_info"]}')
+        # if scene_info["used_frame"] == 1:
+        #     print(f"{self.side}_scene_info_{scene_info.keys()}")
+        #     if scene_info["id"] == "1P":
+        #         print(f'1P_competitor_info{scene_info["competitor_info"]}')
+        #     else:
+        #         print(f'2P_competitor_info{scene_info["competitor_info"]}')
         # print(keyboard)
         if scene_info["status"] != "GAME_ALIVE":
             return "RESET"
@@ -69,4 +69,4 @@ class MLPlay:
         """
         Reset the status
         """
-        print(f"reset TankMan {self.side}")
+        print(f"reset Game {self.side}")

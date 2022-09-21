@@ -1,17 +1,18 @@
-import random
 from os import path
 
 import pygame
 from mlgame.view.view_model import create_asset_init_data, create_image_view_data
 
-from .template.Props import Props
 from .env import IMAGE_DIR, WINDOW_HEIGHT, WINDOW_WIDTH
 
 
-class TankStation(Props):
+class Station(pygame.sprite.Sprite):
     def __init__(self, construction, **kwargs):
-        super().__init__(construction, **kwargs)
+        super().__init__()
+        self.id = construction["_id"]
+        self.rect = pygame.Rect(construction["_init_pos"], construction["_init_size"])
         self.power = kwargs["capacity"]
+        self.angle = 0
         if self.rect.x >= WINDOW_WIDTH // 2 and self.rect.y < (WINDOW_HEIGHT - 100) // 2:
             self.quadrant = 1
         elif self.rect.x < WINDOW_WIDTH // 2 and self.rect.y < (WINDOW_HEIGHT - 100) // 2:
@@ -21,29 +22,20 @@ class TankStation(Props):
         else:
             self.quadrant = 4
 
-    def get_supply(self):
-        return self.power
-
-    def get_quadrant(self) -> int:
-        return self.quadrant
-
-    def set_quadrant(self, quadrant: int) -> None:
-        self.quadrant = quadrant
-
     def get_data_from_obj_to_game(self):
-        if 5 == self._id:
+        if 5 == self.id:
             info = {"id": "oil", "x": self.rect.x, "y": self.rect.y, "power": self.power}
         else:
             info = {"id": "bullets", "x": self.rect.x, "y": self.rect.y, "power": self.power}
         return info
 
     def get_obj_progress_data(self):
-        if 5 == self._id:
+        if 5 == self.id:
             return create_image_view_data(f"oil", self.rect.x, self.rect.y
-                                          , self.rect.width, self.rect.height, 0)
+                                          , self.rect.width, self.rect.height, self.angle)
         else:
             return create_image_view_data(f"bullets", self.rect.x, self.rect.y
-                                          , self.rect.width, self.rect.height, 0)
+                                          , self.rect.width, self.rect.height, self.angle)
 
     def get_obj_init_data(self):
         bullets_id = "bullets"

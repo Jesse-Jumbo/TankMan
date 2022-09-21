@@ -1,31 +1,34 @@
-import pygame
 from os import path
+
+import pygame
 from mlgame.view.view_model import create_asset_init_data, create_image_view_data
 
-from .template.Props import Props
 from .env import WINDOW_HEIGHT, WINDOW_WIDTH, IMAGE_DIR
 
-vec = pygame.math.Vector2
+Vec = pygame.math.Vector2
 
 
-class TankBullet(Props):
+class Bullet(pygame.sprite.Sprite):
     def __init__(self, construction, **kwargs):
-        super().__init__(construction, **kwargs)
+        super().__init__()
+        self.id = construction["_id"]
+        self.rect = pygame.Rect((0, 0), construction["_init_size"])
         self.rect.center = construction["_init_pos"]
+        self.rot = kwargs["rot"]
+        self.play_rect_area = kwargs["play_rect_area"]
+        self.angle = 0
         self.speed = 10
         self.map_width = WINDOW_WIDTH
         self.map_height = WINDOW_HEIGHT
-        self.rot = kwargs["rot"]
-        self._play_rect_area = kwargs["play_rect_area"]
-        self._angle = 3.14 / 180 * (self.rot + 90)
-        self.move = {"left_up": vec(-self.speed, -self.speed), "right_up": vec(self.speed, -self.speed),
-                     "left_down": vec(-self.speed, self.speed), "right_down": vec(self.speed, self.speed),
-                     "left": vec(-self.speed, 0), "right": vec(self.speed, 0), "up": vec(0, -self.speed),
-                     "down": vec(0, self.speed)}
+        self.angle = 3.14 / 180 * (self.rot + 90)
+        self.move = {"left_up": Vec(-self.speed, -self.speed), "right_up": Vec(self.speed, -self.speed),
+                     "left_down": Vec(-self.speed, self.speed), "right_down": Vec(self.speed, self.speed),
+                     "left": Vec(-self.speed, 0), "right": Vec(self.speed, 0), "up": Vec(0, -self.speed),
+                     "down": Vec(0, self.speed)}
 
     def update(self):
-        if self._play_rect_area.top < self.rect.centery < self._play_rect_area.bottom \
-                and self._play_rect_area.left < self.rect.centerx < self._play_rect_area.right:
+        if self.play_rect_area.top < self.rect.centery < self.play_rect_area.bottom \
+                and self.play_rect_area.left < self.rect.centerx < self.play_rect_area.right:
             is_out = False
         else:
             is_out = True
@@ -58,10 +61,10 @@ class TankBullet(Props):
 
     def get_obj_progress_data(self):
         return create_image_view_data("bullet", self.rect.x, self.rect.y, self.rect.width, self.rect.height,
-                                      self._angle)
+                                      self.angle)
 
     def get_data_from_obj_to_game(self) -> dict:
-        info = {"id": f"{self._id}P_bullet",
+        info = {"id": f"{self.id}P_bullet",
                 "x": self.rect.x,
                 "y": self.rect.y,
                 "speed": self.speed,
