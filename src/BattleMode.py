@@ -9,18 +9,17 @@ from mlgame.view.view_model import create_asset_init_data, create_text_view_data
 from mlgame.view.view_model import create_image_view_data
 
 from src.game_module.SoundController import create_sounds_data, create_bgm_data, SoundController
-# TODO refactor attribute to method
 from src.game_module.TiledMap import create_construction, TiledMap
-from .TankBullet import TankBullet
-from .TankPlayer import TankPlayer
-from .TankStation import TankStation
-from .TankWall import TankWall
+from .Bullet import Bullet
+from .Player import Player
+from .Station import Station
+from .Wall import Wall
 from .collide_hit_rect import *
 from .env import *
-from .game_module.fuctions import set_topleft, add_score, set_shoot
+from .game_module.fuctions import set_topleft, add_score, set_shoot, get_sprites_progress_data
 
 
-class TankBattleMode:
+class BattleMode:
     def __init__(self, is_manual: bool, map_path: str, frame_limit: int, sound_path: str, play_rect_area: pygame.Rect):
         # init game
         pygame.init()
@@ -56,11 +55,11 @@ class TankBattleMode:
         if self.is_manual:
             act_cd = 10
         # init obj data
-        self.map.add_init_obj_data(PLAYER_1_IMG_NO, TankPlayer, act_cd=act_cd, play_rect_area=self.play_rect_area)
-        self.map.add_init_obj_data(PLAYER_2_IMG_NO, TankPlayer, act_cd=act_cd, play_rect_area=self.play_rect_area)
-        self.map.add_init_obj_data(WALL_IMG_NO, TankWall, margin=8, spacing=8)
-        self.map.add_init_obj_data(BULLET_STATION_IMG_NO, TankStation, margin=2, spacing=2, capacity=5, quadrant=1)
-        self.map.add_init_obj_data(OIL_STATION_IMG_NO, TankStation, margin=2, spacing=2, capacity=30, quadrant=1)
+        self.map.add_init_obj_data(PLAYER_1_IMG_NO, Player, act_cd=act_cd, play_rect_area=self.play_rect_area)
+        self.map.add_init_obj_data(PLAYER_2_IMG_NO, Player, act_cd=act_cd, play_rect_area=self.play_rect_area)
+        self.map.add_init_obj_data(WALL_IMG_NO, Wall, margin=8, spacing=8)
+        self.map.add_init_obj_data(BULLET_STATION_IMG_NO, Station, margin=2, spacing=2, capacity=5, quadrant=1)
+        self.map.add_init_obj_data(OIL_STATION_IMG_NO, Station, margin=2, spacing=2, capacity=30, quadrant=1)
         # create obj
         all_obj = self.map.create_init_obj_dict()
         # init player
@@ -80,11 +79,13 @@ class TankBattleMode:
         # init pos list
         self.all_pos_list = self.map.all_pos_list
         self.empty_quadrant_pos_dict = self.map.empty_quadrant_pos_dict
-        self.floor_image_data_list = []
+        self.background = []
         for pos in self.all_pos_list:
             no = random.randrange(3)
-            self.floor_image_data_list.append(
+            self.background.append(
                 create_image_view_data(f"floor_{no}", pos[0], pos[1], 50, 50, 0))
+        self.obj_list = [self.oil_stations, self.bullet_stations, self.bullets, self.players, self.walls]
+        self.background.append(create_image_view_data("border", 0, -50, self.scene_width, WINDOW_HEIGHT, 0))
 
     def update(self, command: dict):
         self.used_frame += 1
@@ -132,7 +133,7 @@ class TankBattleMode:
         """Define the end of game will return the player's info for user"""
         res = []
         for player in self.players:
-            if isinstance(player, TankPlayer):
+            if isinstance(player, Player):
                 get_res = player.get_info_to_game_result()
                 get_res["state"] = self.state
                 get_res["status"] = self.status
@@ -156,18 +157,19 @@ class TankBattleMode:
         elif player_id == 2:
             add_score(self.player_2P, score)
 
+    # TODO move method to Station
     def change_obj_pos(self, objs=None):
         if objs is None:
             return
         for obj in objs:
-            if isinstance(obj, TankStation):
-                quadrant = obj.get_quadrant()
+            if isinstance(obj, Station):
+                quadrant = obj.quadrant
                 self.empty_quadrant_pos_dict[quadrant].append(obj.rect.topleft)
                 if quadrant == 2 or quadrant == 3:
-                    obj.set_quadrant(random.choice([2, 3]))
+                    obj.quadrant = random.choice([2, 3])
                 else:
-                    obj.set_quadrant(random.choice([1, 4]))
-                quadrant = obj.get_quadrant()
+                    obj.quadrant = random.choice([1, 4])
+                quadrant = obj.quadrant
                 new_pos = self.empty_quadrant_pos_dict[quadrant].pop(
                     random.randrange(len(self.empty_quadrant_pos_dict[quadrant])))
                 set_topleft(obj, new_pos)
@@ -178,15 +180,11 @@ class TankBattleMode:
                 continue
             self.sound_controller.play_sound("shoot", 0.03, -1)
             init_data = create_construction(sprite.id, 0, sprite.rect.center, (13, 13))
-            bullet = TankBullet(init_data, rot=sprite.get_rot(), margin=2, spacing=2,
-                                play_rect_area=self.play_rect_area)
+            bullet = Bullet(init_data, rot=sprite.get_rot(), margin=2, spacing=2,
+                            play_rect_area=self.play_rect_area)
             self.bullets.add(bullet)
             self.all_sprites.add(bullet)
             set_shoot(sprite, False)
-
-    def get_background_view_data(self):
-        background_view_data = []
-        return background_view_data
 
     def get_init_image_data(self):
         init_image_data = []
@@ -199,12 +197,12 @@ class TankBattleMode:
                                                           , path.join(IMAGE_DIR, f"hourglass_{i}.png"),
                                                           f"https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/hourglass_{i}.png"))
         for station in self.bullet_stations:
-            if isinstance(station, TankStation):
+            if isinstance(station, Station):
                 for data in station.get_obj_init_data():
                     init_image_data.append(data)
                 break
         for wall in self.walls:
-            if isinstance(wall, TankWall):
+            if isinstance(wall, Wall):
                 for data in wall.get_obj_init_data():
                     init_image_data.append(data)
                 break
@@ -226,37 +224,6 @@ class TankBattleMode:
                                                          "https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/2P_lives.png")
         init_image_data.append(lives_image_init_data_2)
         return init_image_data
-
-    def get_obj_progress_data(self):
-        obj_progress_data = self.floor_image_data_list.copy()
-        for oil_station in self.oil_stations:
-            if isinstance(oil_station, TankStation):
-                obj_progress_data.append(oil_station.get_obj_progress_data())
-
-        for bullet_station in self.bullet_stations:
-            if isinstance(bullet_station, TankStation):
-                obj_progress_data.append(bullet_station.get_obj_progress_data())
-
-        for bullet in self.bullets:
-            if isinstance(bullet, TankBullet):
-                obj_progress_data.append(bullet.get_obj_progress_data())
-
-        for player in self.draw_players():
-            obj_progress_data.append(player)
-
-        for wall in self.walls:
-            if isinstance(wall, TankWall):
-                obj_progress_data.append(wall.get_obj_progress_data())
-
-        obj_progress_data.extend(self.obj_rect_list)
-
-        obj_progress_data.append(create_image_view_data("border", 0, -50, self.scene_width, WINDOW_HEIGHT, 0))
-
-        return obj_progress_data
-
-    def get_bias_toggle_progress_data(self) -> list:
-        bias_toggle_progress_data = []
-        return bias_toggle_progress_data
 
     def get_toggle_progress_data(self):
         toggle_data = []
@@ -340,34 +307,26 @@ class TankBattleMode:
 
         return toggle_data
 
-    def get_foreground_progress_data(self) -> list:
-        foreground_data = []
-        return foreground_data
-
-    def get_user_info_data(self) -> list:
-        user_info_data = []
-        return user_info_data
-
-    def get_game_sys_info_data(self) -> dict:
-        game_sys_info_data = {}
-        return game_sys_info_data
-
     def get_ai_data_to_player(self):
         to_player_data = {}
         num = 0
+        competitor_info = {1: self.player_2P.get_data_from_obj_to_game()
+                           , 2: self.player_1P.get_data_from_obj_to_game()
+                           }
+        walls_info = [wall.get_data_from_obj_to_game() for wall in self.walls if isinstance(wall, Wall)]
+        bullet_stations_info = [bullst_station.get_data_from_obj_to_game() for bullst_station in self.bullet_stations if
+                                isinstance(bullst_station, Station)]
+        oil_stations_info = [oil_station.get_data_from_obj_to_game() for oil_station in self.oil_stations if
+                             isinstance(oil_station, Station)]
         for player in self.players:
-            if isinstance(player, TankPlayer):
+            if isinstance(player, Player):
                 to_game_data = player.get_data_from_obj_to_game()
                 to_game_data["used_frame"] = self.used_frame
                 to_game_data["status"] = self.status
-                to_game_data["competitor_info"] = [ai.get_data_from_obj_to_game() for ai in self.players if
-                                                   isinstance(ai, TankPlayer) and ai.id != player.id]
-                to_game_data["walls_info"] = [wall.get_data_from_obj_to_game() for wall in self.walls if
-                                              isinstance(wall, TankWall)]
-                to_game_data["bullet_stations_info"] = [bullst_station.get_data_from_obj_to_game() for bullst_station in
-                                                        self.bullet_stations if isinstance(bullst_station, TankStation)]
-                to_game_data["oil_stations_info"] = [oil_station.get_data_from_obj_to_game() for oil_station in
-                                                     self.oil_stations if isinstance(oil_station, TankStation)]
+                to_game_data["competitor_info"] = competitor_info[player.id]
+                to_game_data["walls_info"] = walls_info
+                to_game_data["bullet_stations_info"] = bullet_stations_info
+                to_game_data["oil_stations_info"] = oil_stations_info
                 to_player_data[get_ai_name(num)] = to_game_data
                 num += 1
 
@@ -387,14 +346,6 @@ class TankBattleMode:
             add_score(self.player_1P, 20)
         else:
             add_score(self.player_2P, 20)
-
-    def draw_players(self) -> list:
-        player_data = []
-        for player in self.players:
-            if isinstance(player, TankPlayer):
-                player_data.append(player.get_obj_progress_data())
-
-        return player_data
 
     def debugging(self, is_debug: bool):
         self.obj_rect_list = []

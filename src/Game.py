@@ -4,17 +4,18 @@ import pygame
 from mlgame.game.paia_game import PaiaGame, GameStatus
 from mlgame.view.view_model import Scene
 
-from .TankBattleMode import TankBattleMode
+from .BattleMode import BattleMode
+from .game_module.fuctions import get_sprites_progress_data
 
 MAP_WIDTH = 1000
 MAP_HEIGHT = 600
 GAME_DIR = path.dirname(__file__)
-MAP_DIR = path.join(GAME_DIR, "..", "asset", 'maps')
+MAP_DIR = path.join(GAME_DIR, "..", "asset", "maps")
 SOUND_DIR = path.join(GAME_DIR, "..", "asset", "sound")
 IMAGE_DIR = path.join(GAME_DIR, "..", "asset", "image")
 
 
-class TankMan(PaiaGame):
+class Game(PaiaGame):
     def __init__(self, user_num: int, is_manual: str, map_no: int, frame_limit: int, sound: str):
         super().__init__(user_num)
         # window settings
@@ -68,15 +69,21 @@ class TankMan(PaiaGame):
         """
         Get the position of src objects for drawing on the web
         """
-        scene_progress = {'background': self.game_mode.get_background_view_data(),
-                          'object_list': self.game_mode.get_obj_progress_data(),
-                          'toggle_with_bias': self.game_mode.get_bias_toggle_progress_data(),
+        scene_progress = {'background': self.game_mode.background,
+                          'object_list': self.get_obj_progress_data(),
+                          'toggle_with_bias': [],
                           'toggle': self.game_mode.get_toggle_progress_data(),
-                          'foreground': self.game_mode.get_foreground_progress_data(),
-                          'user_info': self.game_mode.get_user_info_data(),
-                          'game_sys_info': self.game_mode.get_game_sys_info_data()}
+                          'foreground': [],
+                          'user_info': [],
+                          'game_sys_info': {}}
 
         return scene_progress
+
+    def get_obj_progress_data(self):
+        obj_list = []
+        for sprites in self.game_mode.obj_list:
+            obj_list.extend(get_sprites_progress_data(sprites))
+        return obj_list
 
     def get_game_result(self):
         """
@@ -109,5 +116,5 @@ class TankMan(PaiaGame):
         if self.is_sound:
             sound_path = SOUND_DIR
         play_rect_area = pygame.Rect(0, 0, MAP_WIDTH, MAP_HEIGHT)
-        game_mode = TankBattleMode(self.is_manual, map_path, self.frame_limit, sound_path, play_rect_area)
+        game_mode = BattleMode(self.is_manual, map_path, self.frame_limit, sound_path, play_rect_area)
         return game_mode

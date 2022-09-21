@@ -146,7 +146,7 @@
 
 ## 地圖存放路徑
 ```python
-TankMan/asset/maps/
+Game/asset/maps/
 ```
 ![](https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/mapping/image_path.png)
 

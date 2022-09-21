@@ -8,7 +8,7 @@ from .env import WINDOW_HEIGHT, WINDOW_WIDTH, IMAGE_DIR
 Vec = pygame.math.Vector2
 
 
-class TankBullet(pygame.sprite.Sprite):
+class Bullet(pygame.sprite.Sprite):
     def __init__(self, construction, **kwargs):
         super().__init__()
         self.id = construction["_id"]

@@ -6,7 +6,7 @@ from mlgame.view.view_model import create_asset_init_data, create_image_view_dat
 from .env import IMAGE_DIR, WINDOW_HEIGHT, WINDOW_WIDTH
 
 
-class TankStation(pygame.sprite.Sprite):
+class Station(pygame.sprite.Sprite):
     def __init__(self, construction, **kwargs):
         super().__init__()
         self.id = construction["_id"]
@@ -21,15 +21,6 @@ class TankStation(pygame.sprite.Sprite):
             self.quadrant = 3
         else:
             self.quadrant = 4
-
-    def get_supply(self):
-        return self.power
-
-    def get_quadrant(self) -> int:
-        return self.quadrant
-
-    def set_quadrant(self, quadrant: int) -> None:
-        self.quadrant = quadrant
 
     def get_data_from_obj_to_game(self):
         if 5 == self.id:
@@ -53,6 +44,6 @@ class TankStation(pygame.sprite.Sprite):
         oil_url = f"https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/{oil_id}.png"
         image_init_data = [create_asset_init_data(bullets_id, self.rect.width, self.rect.height,
                                                   path.join(IMAGE_DIR, f"{bullets_id}.png"), bullets_url)
-            , create_asset_init_data(oil_id, self.rect.width, self.rect.height,
-                                     path.join(IMAGE_DIR, f"{oil_id}.png"), oil_url)]
+                           , create_asset_init_data(oil_id, self.rect.width, self.rect.height,
+                                                    path.join(IMAGE_DIR, f"{oil_id}.png"), oil_url)]
         return image_init_data

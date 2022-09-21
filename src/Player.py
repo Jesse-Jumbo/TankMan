@@ -10,7 +10,7 @@ from .env import LEFT_CMD, RIGHT_CMD, FORWARD_CMD, BACKWARD_CMD, SHOOT, SHOOT_CO
 Vec = pygame.math.Vector2
 
 
-class TankPlayer(pygame.sprite.Sprite):
+class Player(pygame.sprite.Sprite):
     def __init__(self, construction, **kwargs):
         super().__init__()
         """

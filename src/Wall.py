@@ -6,7 +6,7 @@ from mlgame.view.view_model import create_asset_init_data, create_image_view_dat
 from .env import IMAGE_DIR
 
 
-class TankWall(pygame.sprite.Sprite):
+class Wall(pygame.sprite.Sprite):
     def __init__(self, construction, **kwargs):
         super().__init__()
         self.id = construction["_id"]

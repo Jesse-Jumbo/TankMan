@@ -15,7 +15,7 @@ class MLPlay:
                which side.
         """
         self.side = ai_name
-        print(f"Initial TankMan {ai_name} ml script")
+        print(f"Initial Game {ai_name} ml script")
         self.time = 0
 
     def update(self, scene_info: dict, keyboard=[], *args, **kwargs):
@@ -69,4 +69,4 @@ class MLPlay:
         """
         Reset the status
         """
-        print(f"reset TankMan {self.side}")
+        print(f"reset Game {self.side}")
