@@ -5,7 +5,7 @@ from mlgame.game.paia_game import GameResultState, GameStatus
 from mlgame.utils.enum import get_ai_name
 from mlgame.view.view_model import create_line_view_data
 
-from game_module.TiledMap import create_construction
+from .game_module.TiledMap import create_construction
 from .Player import Player
 from .env import WHITE, RED
 
