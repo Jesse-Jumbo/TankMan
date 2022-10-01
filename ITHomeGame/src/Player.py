@@ -28,6 +28,7 @@ class Player(pygame.sprite.Sprite):
         self.id = construction["_id"]
         self.no = construction["_no"]
         self.rect = pygame.Rect(construction["_init_pos"], construction["_init_size"])
+        self.play_rect_area = kwargs["play_rect_area"]
         self.origin_xy = self.rect.topleft
         self.origin_center = self.rect.center
         self.angle = 0
@@ -56,13 +57,13 @@ class Player(pygame.sprite.Sprite):
     def act(self, action: list) -> None:
         if SHOOT_CMD in action:
             self.shoot()
-        if LEFT_CMD in action:
+        if LEFT_CMD in action and self.rect.left > self.play_rect_area.left:
             self.move_left()
-        elif RIGHT_CMD in action:
+        elif RIGHT_CMD in action and self.rect.right < self.play_rect_area.right:
             self.move_right()
-        elif UP_CMD in action and DOWN_CMD not in action:
+        elif UP_CMD in action and DOWN_CMD not in action and self.rect.top > self.play_rect_area.top:
             self.move_up()
-        elif DOWN_CMD in action and UP_CMD not in action:
+        elif DOWN_CMD in action and UP_CMD not in action and self.rect.bottom < self.play_rect_area.bottom:
             self.move_down()
         else:
             self.vel = Vec(0, 0)
