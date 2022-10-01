@@ -34,6 +34,7 @@ class Player(pygame.sprite.Sprite):
         self.used_frame = 0
         self.vel = Vec(0, 0)
         self.is_alive = True
+        self.speed = 10
 
     def update(self, command: dict) -> None:
         """
@@ -63,7 +64,8 @@ class Player(pygame.sprite.Sprite):
             self.move_up()
         elif DOWN_CMD in action and UP_CMD not in action:
             self.move_down()
-
+        else:
+            self.vel = Vec(0, 0)
 
     def get_size(self) -> tuple:
         """
@@ -111,14 +113,14 @@ class Player(pygame.sprite.Sprite):
         pass
 
     def move_left(self):
-        pass
+        self.vel.x = -self.speed
 
     def move_right(self):
-        pass
+        self.vel.x = self.speed
 
     def move_up(self):
-        pass
+        self.vel.y = -self.speed
 
     def move_down(self):
-        pass
+        self.vel.y = self.speed
 
