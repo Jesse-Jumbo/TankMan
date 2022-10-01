@@ -6,6 +6,12 @@ from mlgame.view.view_model import create_image_view_data, create_asset_init_dat
 
 from .env import IMAGE_DIR
 
+
+DOWN_CMD = "DOWN"
+UP_CMD = "UP"
+RIGHT_CMD = "RIGHT"
+LEFT_CMD = "LEFT"
+SHOOT_CMD = "SHOOT"
 Vec = pygame.math.Vector2
 
 
@@ -47,7 +53,17 @@ class Player(pygame.sprite.Sprite):
         self.rect.topleft = self.origin_xy
 
     def act(self, action: list) -> None:
-        pass
+        if SHOOT_CMD in action:
+            self.shoot()
+        if LEFT_CMD in action:
+            self.move_left()
+        elif RIGHT_CMD in action:
+            self.move_right()
+        elif UP_CMD in action and DOWN_CMD not in action:
+            self.move_up()
+        elif DOWN_CMD in action and UP_CMD not in action:
+            self.move_down()
+
 
     def get_size(self) -> tuple:
         """
@@ -90,4 +106,19 @@ class Player(pygame.sprite.Sprite):
                 , "y": self.rect.y
                 }
         return info
+
+    def shoot(self):
+        pass
+
+    def move_left(self):
+        pass
+
+    def move_right(self):
+        pass
+
+    def move_up(self):
+        pass
+
+    def move_down(self):
+        pass
 
