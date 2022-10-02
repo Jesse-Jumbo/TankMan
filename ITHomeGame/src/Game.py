@@ -12,7 +12,7 @@ GAME_DIR = path.dirname(__file__)
 MAP_DIR = path.join(GAME_DIR, "..", "asset", 'maps')
 SOUND_DIR = path.join(GAME_DIR, "..", "asset", "sound")
 HEIGHT = 600
-WIDTH = 1000
+WIDTH = 800
 
 
 class Game(PaiaGame):
