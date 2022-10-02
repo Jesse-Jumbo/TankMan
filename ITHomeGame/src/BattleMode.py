@@ -5,6 +5,7 @@ from mlgame.game.paia_game import GameResultState, GameStatus
 from mlgame.utils.enum import get_ai_name
 from mlgame.view.view_model import create_line_view_data
 
+from .Mob import Mob
 from .game_module.TiledMap import create_construction
 from .Player import Player
 from .env import WHITE, RED
@@ -21,12 +22,22 @@ class BattleMode:
         self.scene_height = SCENE_HEIGHT
         self.play_rect_area = play_rect_area
         self.all_sprites = pygame.sprite.Group()
+        # init players
         self.players = pygame.sprite.Group()
         self.player_1P = Player(create_construction(get_ai_name(0), 0, (0, 0), (50, 50)), play_rect_area=play_rect_area)
         self.player_2P = Player(create_construction(get_ai_name(1), 1, (SCENE_WIDTH-50, SCENE_HEIGHT-50), (50, 50)), play_rect_area=play_rect_area)
         self.players.add(self.player_1P)
         self.players.add(self.player_2P)
         self.all_sprites.add(*self.players)
+        # init mobs
+        self.mobs = pygame.sprite.Group()
+        count = 0
+        for x in range(0, self.scene_width, 50):
+            for y in range(0, self.scene_height, 50):
+                count += 1
+                mob = Mob(create_construction(f"mob_{count}", count, (0, 0), (50, 50)), play_rect_area=play_rect_area)
+                self.mobs.add(mob)
+        self.all_sprites.add(*self.mobs)
         self.used_frame = 0
         self.state = GameResultState.FAIL
         self.status = GameStatus.GAME_ALIVE
