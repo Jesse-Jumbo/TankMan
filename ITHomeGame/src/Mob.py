@@ -13,7 +13,7 @@ Vec = pygame.math.Vector2
 class Mob(pygame.sprite.Sprite):
     def __init__(self, construction: dict, **kwargs):
         """
-        初始化玩家資料
+        初始化怪物資料
         construction可直接由TiledMap打包地圖資訊後傳入
         :param construction:
         :param kwargs:
@@ -34,7 +34,7 @@ class Mob(pygame.sprite.Sprite):
 
     def update(self) -> None:
         """
-        更新玩家資料
+        更新怪物資料
         :param command:
         :return:
         """
@@ -43,7 +43,7 @@ class Mob(pygame.sprite.Sprite):
 
     def reset(self) -> None:
         """
-        Reset Player center = origin_center
+        Reset Mob center = origin_center
         :return:
         """
         self.rect.topleft = self.origin_xy
