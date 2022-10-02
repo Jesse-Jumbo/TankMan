@@ -59,7 +59,7 @@ class Mob(pygame.sprite.Sprite):
         在遊戲主程式獲取遊戲資料給AI時被調用
         :return:
         """
-        info = {"id": f"{self.id}P"
+        info = {"id": self.image_id
                 , "x": self.rect.x
                 , "y": self.rect.y
                 }
