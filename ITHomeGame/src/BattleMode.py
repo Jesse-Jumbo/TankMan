@@ -20,6 +20,8 @@ class BattleMode:
         self._user_num = 2
         self.scene_width = SCENE_WIDTH
         self.scene_height = SCENE_HEIGHT
+        self.width_center = SCENE_WIDTH // 2
+        self.height_center = SCENE_HEIGHT // 2
         self.play_rect_area = play_rect_area
         self.all_sprites = pygame.sprite.Group()
         # init players
@@ -32,17 +34,15 @@ class BattleMode:
         # init mobs
         self.mobs = pygame.sprite.Group()
         count = 0
-        for x in range(0, self.scene_width, 50):
-            for y in range(0, self.scene_height, 50):
+        for x in range(50, self.scene_width - 50, 50):
+            for y in range(50, self.height_center, 50):
                 count += 1
-                mob = Mob(create_construction(f"mob_{count}", count, (0, 0), (50, 50)), play_rect_area=play_rect_area)
+                mob = Mob(create_construction(f"mob_{count}", count, (x, y), (50, 50)), play_rect_area=play_rect_area)
                 self.mobs.add(mob)
         self.all_sprites.add(*self.mobs)
         self.used_frame = 0
         self.state = GameResultState.FAIL
         self.status = GameStatus.GAME_ALIVE
-        self.width_center = SCENE_WIDTH // 2
-        self.height_center = SCENE_HEIGHT // 2
         self.obj_rect_list = []
 
     def update(self, command: dict) -> None:
@@ -80,6 +80,9 @@ class BattleMode:
         for player in self.players:
             if isinstance(player, Player):
                 init_image_data.append(player.get_obj_init_data())
+        for mob in self.mobs:
+            if isinstance(mob, Mob):
+                init_image_data.append(mob.get_obj_init_data())
         return init_image_data
 
     def get_ai_data_to_player(self):
@@ -104,6 +107,9 @@ class BattleMode:
         for player in self.players:
             if isinstance(player, Player):
                 obj_progress_data.append(player.get_obj_progress_data())
+        for mob in self.mobs:
+            if isinstance(mob, Mob):
+                obj_progress_data.append(mob.get_obj_progress_data())
         if self.obj_rect_list:
             obj_progress_data.extend(self.obj_rect_list)
 
