@@ -26,8 +26,8 @@ class BattleMode:
         self.all_sprites = pygame.sprite.Group()
         # init players
         self.players = pygame.sprite.Group()
-        self.player_1P = Player(create_construction(get_ai_name(0), 0, (0, 0), (50, 50)), play_rect_area=play_rect_area)
-        self.player_2P = Player(create_construction(get_ai_name(1), 1, (SCENE_WIDTH-50, SCENE_HEIGHT-50), (50, 50)), play_rect_area=play_rect_area)
+        self.player_1P = Player(create_construction(get_ai_name(0), 0, (self.width_center//2-50, self.scene_height-50), (50, 50)), play_rect_area=play_rect_area)
+        self.player_2P = Player(create_construction(get_ai_name(1), 1, (self.width_center+self.width_center//2, SCENE_HEIGHT-50), (50, 50)), play_rect_area=play_rect_area)
         self.players.add(self.player_1P)
         self.players.add(self.player_2P)
         self.all_sprites.add(*self.players)
