@@ -27,7 +27,10 @@ class Mob(pygame.sprite.Sprite):
         self.origin_xy = self.rect.topleft
         self.origin_center = self.rect.center
         self.angle = 0
+        self.move_steps = 15
         self.used_frame = 0
+        self.last_move_frame = 0
+        self.move_cd = 15
         self.vel = Vec(0, 0)
         self.is_alive = True
         self.speed = 10
@@ -40,6 +43,18 @@ class Mob(pygame.sprite.Sprite):
         """
         self.used_frame += 1
         self.rect.center += self.vel
+        if self.used_frame - self.last_move_frame > self.move_cd:
+            if self.move_steps > 10:
+                self.move_right()
+            else:
+                self.move_left()
+            self.move_steps -= 1
+            if self.move_steps <= 0:
+                self.move_steps = 20
+                self.move_down()
+            self.last_move_frame = self.used_frame
+        else:
+            self.vel = Vec(0, 0)
 
     def reset(self) -> None:
         """

@@ -48,6 +48,7 @@ class BattleMode:
     def update(self, command: dict) -> None:
         self.used_frame += 1
         self.players.update(command)
+        self.mobs.update()
         self.get_player_end()
 
     def reset(self) -> None:

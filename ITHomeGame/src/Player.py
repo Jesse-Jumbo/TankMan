@@ -55,6 +55,8 @@ class Player(pygame.sprite.Sprite):
         self.rect.topleft = self.origin_xy
 
     def act(self, action: list) -> None:
+        if not action:
+            return
         if SHOOT_CMD in action:
             self.shoot()
         if LEFT_CMD in action and self.rect.left > self.play_rect_area.left:
