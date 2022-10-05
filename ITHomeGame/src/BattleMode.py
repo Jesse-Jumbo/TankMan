@@ -112,7 +112,7 @@ class BattleMode:
         obj_progress_data = []
         for player in self.players:
             if isinstance(player, Player):
-                obj_progress_data.append(player.get_obj_progress_data())
+                obj_progress_data.extend(player.get_obj_progress_data())
         for mob in self.mobs:
             if isinstance(mob, Mob):
                 obj_progress_data.append(mob.get_obj_progress_data())
