@@ -3,12 +3,12 @@ import pygame
 from os import path
 from mlgame.game.paia_game import GameResultState, GameStatus
 from mlgame.utils.enum import get_ai_name
-from mlgame.view.view_model import create_line_view_data
+from mlgame.view.view_model import create_line_view_data, create_asset_init_data
 
 from .Mob import Mob
 from .game_module.TiledMap import create_construction
 from .Player import Player
-from .env import WHITE, RED
+from .env import WHITE, RED, IMAGE_DIR
 
 SCENE_WIDTH = 800
 SCENE_HEIGHT = 600
@@ -84,6 +84,11 @@ class BattleMode:
         for mob in self.mobs:
             if isinstance(mob, Mob):
                 init_image_data.append(mob.get_obj_init_data())
+                break
+        for no in range(1, 7):
+            init_image_data.append(create_asset_init_data(f"bullet_{no}", *(12, 27)
+                                                          , path.join(IMAGE_DIR, f"bullet_0{no}.png"), "url"))
+
         return init_image_data
 
     def get_ai_data_to_player(self):
@@ -127,4 +132,3 @@ class BattleMode:
                     , sprite.rect.bottomleft, top_left]
                 for index in range(len(points) - 1):
                     self.obj_rect_list.append(create_line_view_data("rect", *points[index], *points[index + 1], WHITE))
-

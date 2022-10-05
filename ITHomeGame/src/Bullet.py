@@ -23,6 +23,7 @@ class Bullet(pygame.sprite.Sprite):
         self.id = construction["_id"]
         self.no = construction["_no"]
         self.rect = pygame.Rect(construction["_init_pos"], construction["_init_size"])
+        self.rect.center = construction["_init_pos"]
         self.play_rect_area = kwargs["play_rect_area"]
         self.origin_xy = self.rect.topleft
         self.origin_center = self.rect.center
@@ -61,17 +62,8 @@ class Bullet(pygame.sprite.Sprite):
         使用view_model函式，建立符合mlgame物件更新資料格式的資料，在遊戲主程式更新畫面資訊時被調用
         :return:
         """
-        image_data = create_image_view_data(self.image_id+"_"+self.id, *self.rect.topleft, self.rect.width, self.rect.height, self.angle)
+        image_data = create_image_view_data(f"{self.image_id}_{self.no}", *self.rect.topleft, *self.get_size(), self.angle)
         return image_data
-
-    def get_obj_init_data(self) -> dict or list:
-        """
-        使用view_model函式，建立符合mlgame物件初始資料格式的資料，在遊戲主程式初始畫面資訊時被調用
-        :return:
-        """
-        image_init_data = create_asset_init_data(self.image_id, self.rect.width, self.rect.height
-                                                 , path.join(IMAGE_DIR, f"{self.image_id}_0{self.no}.png"), "url")
-        return image_init_data
 
     def get_info_to_game_result(self):
         info = {"id": self.image_id+"_"+self.id
@@ -86,3 +78,5 @@ class Bullet(pygame.sprite.Sprite):
     def move_down(self):
         self.vel.y = self.speed
 
+    def get_size(self):
+        return self.rect.width, self.rect.height

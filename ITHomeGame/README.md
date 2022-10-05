@@ -136,5 +136,6 @@ python -m mlgame \
 ## Image Sours
 
 Mob Image —— @金吉局 繪師
+Bullet Image —— @金吉局 繪師
 
 ## Sound Sours
