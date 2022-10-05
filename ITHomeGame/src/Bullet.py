@@ -46,6 +46,12 @@ class Bullet(pygame.sprite.Sprite):
         else:
             self.move_down()
 
+    def get_size(self) -> tuple:
+        """
+        :return: width, height
+        """
+        return self.rect.width, self.rect.height
+
     def get_data_from_obj_to_game(self) -> dict:
         """
         在遊戲主程式獲取遊戲資料給AI時被調用
@@ -77,6 +83,3 @@ class Bullet(pygame.sprite.Sprite):
 
     def move_down(self):
         self.vel.y = self.speed
-
-    def get_size(self):
-        return self.rect.width, self.rect.height
