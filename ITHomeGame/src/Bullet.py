@@ -57,7 +57,7 @@ class Bullet(pygame.sprite.Sprite):
         在遊戲主程式獲取遊戲資料給AI時被調用
         :return:
         """
-        info = {"id": self.image_id
+        info = {"id": f"{self.image_id}_{self.id}"
                 , "x": self.rect.x
                 , "y": self.rect.y
                 }
@@ -70,13 +70,6 @@ class Bullet(pygame.sprite.Sprite):
         """
         image_data = create_image_view_data(f"{self.image_id}_{self.no}", *self.rect.topleft, *self.get_size(), self.angle)
         return image_data
-
-    def get_info_to_game_result(self):
-        info = {"id": self.image_id+"_"+self.id
-                , "x": self.rect.x
-                , "y": self.rect.y
-                }
-        return info
 
     def move_up(self):
         self.vel.y = -self.speed
