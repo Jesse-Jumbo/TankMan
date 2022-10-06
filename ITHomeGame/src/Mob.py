@@ -1,9 +1,12 @@
+import random
 from os import path
 
 import pygame
 from mlgame.utils.enum import get_ai_name
 from mlgame.view.view_model import create_image_view_data, create_asset_init_data
 
+from src.Bullet import Bullet
+from src.game_module.TiledMap import create_construction
 from .env import IMAGE_DIR
 
 
@@ -30,10 +33,13 @@ class Mob(pygame.sprite.Sprite):
         self.move_steps = 15
         self.used_frame = 0
         self.last_move_frame = 0
+        self.last_shoot_frame = 0
         self.move_cd = 15
+        self.shoot_cd = random.randint(120, 300)
         self.vel = Vec(0, 0)
         self.is_alive = True
         self.speed = 10
+        self.bullets = pygame.sprite.Group()
 
     def update(self) -> None:
         """
@@ -42,6 +48,9 @@ class Mob(pygame.sprite.Sprite):
         :return:
         """
         self.used_frame += 1
+        self.bullets.update()
+        if self.used_frame - self.last_shoot_frame > self.shoot_cd:
+            self.shoot()
         self.rect.center += self.vel
         if self.used_frame - self.last_move_frame > self.move_cd:
             if self.move_steps > 10:
@@ -85,8 +94,12 @@ class Mob(pygame.sprite.Sprite):
         使用view_model函式，建立符合mlgame物件更新資料格式的資料，在遊戲主程式更新畫面資訊時被調用
         :return:
         """
-        image_data = create_image_view_data(self.image_id, *self.rect.topleft, self.rect.width, self.rect.height, self.angle)
-        return image_data
+        progress_date_list = []
+        for bullet in self.bullets:
+            if isinstance(bullet, Bullet):
+                progress_date_list.append(bullet.get_obj_progress_data())
+        progress_date_list.append(create_image_view_data(self.image_id, *self.rect.topleft, self.rect.width, self.rect.height, self.angle))
+        return progress_date_list
 
     def get_obj_init_data(self) -> dict or list:
         """
@@ -105,7 +118,13 @@ class Mob(pygame.sprite.Sprite):
         return info
 
     def shoot(self):
-        pass
+        self.last_shoot_frame = self.used_frame
+        _id = "mob"
+        _no = random.randint(1, 6)
+        bullet = Bullet(construction=create_construction(_id=_id, _no=_no
+                                                         , _init_pos=self.rect.center, _init_size=(12, 27))
+                        , play_rect_area=self.play_rect_area)
+        self.bullets.add(bullet)
 
     def move_left(self):
         self.vel.x = -self.speed

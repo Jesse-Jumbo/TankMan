@@ -115,7 +115,7 @@ class BattleMode:
                 obj_progress_data.extend(player.get_obj_progress_data())
         for mob in self.mobs:
             if isinstance(mob, Mob):
-                obj_progress_data.append(mob.get_obj_progress_data())
+                obj_progress_data.extend(mob.get_obj_progress_data())
         if self.obj_rect_list:
             obj_progress_data.extend(self.obj_rect_list)
 
