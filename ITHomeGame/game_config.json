@@ -12,5 +12,22 @@
     "max": 2
   },
   "game_params": [
+    {
+      "name": "is_manual",
+      "verbose": "使否手動遊玩",
+      "type": "str",
+      "choices": [
+        {
+          "verbose": "是",
+          "value": "1"
+        },
+        {
+          "verbose": "否",
+          "value": ""
+        }
+      ],
+      "help": "'1' enables the player to fire continuously.",
+      "default": 0
+    }
   ]
 }

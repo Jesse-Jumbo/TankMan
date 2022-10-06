@@ -15,7 +15,7 @@ SCENE_HEIGHT = 600
 
 
 class BattleMode:
-    def __init__(self, play_rect_area: pygame.Rect):
+    def __init__(self, play_rect_area: pygame.Rect, is_manual: bool):
         pygame.init()
         self._user_num = 2
         self.scene_width = SCENE_WIDTH
@@ -24,10 +24,15 @@ class BattleMode:
         self.height_center = SCENE_HEIGHT // 2
         self.play_rect_area = play_rect_area
         self.all_sprites = pygame.sprite.Group()
+        self.is_manual = is_manual
         # init players
         self.players = pygame.sprite.Group()
-        self.player_1P = Player(create_construction(get_ai_name(0), 0, (self.width_center//2-50, self.scene_height-50), (50, 50)), play_rect_area=play_rect_area)
-        self.player_2P = Player(create_construction(get_ai_name(1), 1, (self.width_center+self.width_center//2, SCENE_HEIGHT-50), (50, 50)), play_rect_area=play_rect_area)
+        self.player_1P = Player(create_construction(get_ai_name(0), 0
+                                                    , (self.width_center//2-50, self.scene_height-50)
+                                                    , (50, 50)), play_rect_area=play_rect_area, is_manual=is_manual)
+        self.player_2P = Player(create_construction(get_ai_name(1), 1
+                                                    , (self.width_center+self.width_center//2, SCENE_HEIGHT-50)
+                                                    , (50, 50)), play_rect_area=play_rect_area, is_manual=is_manual)
         self.players.add(self.player_1P)
         self.players.add(self.player_2P)
         self.all_sprites.add(*self.players)
@@ -52,7 +57,7 @@ class BattleMode:
         self.get_player_end()
 
     def reset(self) -> None:
-        self.__init__(self.play_rect_area)
+        self.__init__(self.play_rect_area, self.is_manual)
 
     def get_player_end(self):
         if self.player_1P.is_alive and not self.player_2P.is_alive:

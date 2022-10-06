@@ -32,15 +32,18 @@ class Player(pygame.sprite.Sprite):
         self.no = construction["_no"]
         self.rect = pygame.Rect(construction["_init_pos"], construction["_init_size"])
         self.play_rect_area = kwargs["play_rect_area"]
+        self.is_manual = kwargs["is_manual"]
         self.origin_xy = self.rect.topleft
         self.origin_center = self.rect.center
         self.angle = 0
         self.used_frame = 0
         self.last_shoot_frame = 0
-        self.shoot_cd = 10
+        self.shoot_cd = 0
+        if self.is_manual:
+            self.shoot_cd = 10
+        self.speed = 10
         self.vel = Vec(0, 0)
         self.is_alive = True
-        self.speed = 10
         self.bullets = pygame.sprite.Group()
 
     def update(self, command: dict) -> None:
