@@ -35,6 +35,9 @@ class Player(pygame.sprite.Sprite):
         self.is_manual = kwargs["is_manual"]
         self.origin_xy = self.rect.topleft
         self.origin_center = self.rect.center
+        self.shield = 100
+        self.lives = 3
+        self.score = 0
         self.angle = 0
         self.used_frame = 0
         self.last_shoot_frame = 0
@@ -56,6 +59,11 @@ class Player(pygame.sprite.Sprite):
         self.used_frame += 1
         self.rect.center += self.vel
         self.act(command[self.id])
+        if self.shield <= 0:
+            self.lives -= 1
+            if self.lives <= 0:
+                self.is_alive = False
+            self.shield = 100
 
     def reset(self) -> None:
         """

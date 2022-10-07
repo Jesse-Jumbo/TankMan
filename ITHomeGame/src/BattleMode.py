@@ -54,6 +54,7 @@ class BattleMode:
         self.used_frame += 1
         self.players.update(command)
         self.mobs.update()
+        self.handle_collisions()
         self.get_player_end()
 
     def reset(self) -> None:
@@ -137,3 +138,19 @@ class BattleMode:
                     , sprite.rect.bottomleft, top_left]
                 for index in range(len(points) - 1):
                     self.obj_rect_list.append(create_line_view_data("rect", *points[index], *points[index + 1], WHITE))
+
+    def handle_collisions(self):
+        for mob in self.mobs:
+            if isinstance(mob, Mob):
+                bullets = pygame.sprite.spritecollide(mob, self.player_1P.bullets, True, pygame.sprite.collide_rect_ratio(0.8))
+                if bullets:
+                    mob.kill()
+                    self.player_1P.score += 10
+                bullets = pygame.sprite.spritecollide(mob, self.player_2P.bullets, True, pygame.sprite.collide_rect_ratio(0.8))
+                if bullets:
+                    mob.kill()
+                    self.player_2P.score += 10
+                hits_dict = pygame.sprite.groupcollide(self.players, mob.bullets, False, True, pygame.sprite.collide_rect_ratio(0.8))
+                for player, bullet in hits_dict.items():
+                    if isinstance(player, Player):
+                        player.shield -= len(bullet) * 10
