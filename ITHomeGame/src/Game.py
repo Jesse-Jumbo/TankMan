@@ -3,8 +3,9 @@ from os import path
 import pygame.key
 from mlgame.game.paia_game import PaiaGame, GameStatus
 from mlgame.utils.enum import get_ai_name
-from mlgame.view.view_model import Scene
+from mlgame.view.view_model import Scene, create_rect_view_data
 
+from src.env import DARKGREY, LIGHTGREY
 from .BattleMode import BattleMode
 
 
@@ -24,6 +25,7 @@ class Game(PaiaGame):
         self.is_manual = False
         if is_manual:
             self.is_manual = True
+        self.scene = Scene(WIDTH, HEIGHT+100, color=DARKGREY, bias_y=100)
         self.game_mode = self.set_game_mode()
         self.attachements = []
 
@@ -58,10 +60,10 @@ class Game(PaiaGame):
         """
         Get the position of src objects for drawing on the web
         """
-        scene_progress = {'background': [],
+        scene_progress = {'background': [create_rect_view_data(name="BG", x=0, y=0, width=WIDTH, height=HEIGHT, color=LIGHTGREY)],
                           'object_list': self.game_mode.get_obj_progress_data(),
                           'toggle_with_bias': [],
-                          'toggle': [],
+                          'toggle': self.game_mode.get_toggle_data(),
                           'foreground': [],
                           'user_info': [],
                           'game_sys_info': {}}

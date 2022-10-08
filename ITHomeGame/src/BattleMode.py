@@ -3,12 +3,12 @@ import pygame
 from os import path
 from mlgame.game.paia_game import GameResultState, GameStatus
 from mlgame.utils.enum import get_ai_name
-from mlgame.view.view_model import create_line_view_data, create_asset_init_data
+from mlgame.view.view_model import create_line_view_data, create_asset_init_data, create_text_view_data
 
 from .Mob import Mob
 from .game_module.TiledMap import create_construction
 from .Player import Player
-from .env import WHITE, RED, IMAGE_DIR
+from .env import WHITE, RED, IMAGE_DIR, YELLOW, GREEN
 
 SCENE_WIDTH = 800
 SCENE_HEIGHT = 600
@@ -126,6 +126,15 @@ class BattleMode:
             obj_progress_data.extend(self.obj_rect_list)
 
         return obj_progress_data
+
+    def get_toggle_data(self) -> list:
+        toggle_data_list = [create_text_view_data(content=f"Frame: {self.used_frame}", x=self.scene_width-180, y=10
+                                                      , color=RED, font_style="30px Arial BOLD")]
+        data_1P = f"1P Lives: {self.player_1P.lives} Shield: {self.player_1P.shield} Score: {self.player_1P.score}"
+        data_2P = f"2P Lives: {self.player_2P.lives} Shield: {self.player_2P.shield} Score: {self.player_2P.score}"
+        toggle_data_list.append(create_text_view_data(content=data_1P, x=10, y=10, color=GREEN, font_style="28px Arial"))
+        toggle_data_list.append(create_text_view_data(content=data_2P, x=10, y=50, color=YELLOW, font_style="28px Arial"))
+        return toggle_data_list
 
     def debugging(self, is_debug: bool) -> list:
         self.obj_rect_list = []
