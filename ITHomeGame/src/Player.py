@@ -65,6 +65,11 @@ class Player(pygame.sprite.Sprite):
                 self.is_alive = False
             self.shield = 100
 
+        for bullet in self.bullets:
+            out = bullet.rect.colliderect(self.play_rect_area)
+            if not out:
+                bullet.kill()
+
     def reset(self) -> None:
         """
         Reset Player center = origin_center
