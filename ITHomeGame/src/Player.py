@@ -104,7 +104,7 @@ class Player(pygame.sprite.Sprite):
         在遊戲主程式獲取遊戲資料給AI時被調用
         :return:
         """
-        info = {"id": f"{self.id}P",
+        info = {"id": self.id,
                 "x": self.rect.x,
                 "y": self.rect.y,
                 "angle": self.angle
@@ -120,7 +120,7 @@ class Player(pygame.sprite.Sprite):
         for bullet in self.bullets:
             if isinstance(bullet, Bullet):
                 progress_date_list.append(bullet.get_obj_progress_data())
-        progress_date_list.append(create_image_view_data(f"{self.id}P", *self.rect.topleft, self.rect.width, self.rect.height, self.angle))
+        progress_date_list.append(create_image_view_data(f"{self.id}", *self.rect.topleft, self.rect.width, self.rect.height, self.angle))
         return progress_date_list
 
     def get_obj_init_data(self) -> dict or list:
@@ -128,14 +128,15 @@ class Player(pygame.sprite.Sprite):
         使用view_model函式，建立符合mlgame物件初始資料格式的資料，在遊戲主程式初始畫面資訊時被調用
         :return:
         """
-        image_init_data = create_asset_init_data(f"{self.id}P", self.rect.width, self.rect.height
+        image_init_data = create_asset_init_data(f"{self.id}", self.rect.width, self.rect.height
                                                  , path.join(IMAGE_DIR, f"{self.id}.png"), "url")
         return image_init_data
 
     def get_info_to_game_result(self):
-        info = {"id": f"{self.id}P"
+        info = {"id": self.id
                 , "x": self.rect.x
                 , "y": self.rect.y
+                , "score": self.score
                 }
         return info
 

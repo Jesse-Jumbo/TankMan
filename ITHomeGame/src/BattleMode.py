@@ -15,7 +15,7 @@ SCENE_HEIGHT = 600
 
 
 class BattleMode:
-    def __init__(self, play_rect_area: pygame.Rect, is_manual: bool):
+    def __init__(self, play_rect_area: pygame.Rect, is_manual: bool, level: int):
         pygame.init()
         self._user_num = 2
         self.scene_width = SCENE_WIDTH
@@ -25,6 +25,7 @@ class BattleMode:
         self.play_rect_area = play_rect_area
         self.all_sprites = pygame.sprite.Group()
         self.is_manual = is_manual
+        self.game_level = level
         # init players
         self.players = pygame.sprite.Group()
         self.player_1P = Player(create_construction(get_ai_name(0), 0
@@ -38,17 +39,20 @@ class BattleMode:
         self.all_sprites.add(*self.players)
         # init mobs
         self.mobs = pygame.sprite.Group()
-        count = 0
-        for x in range(50, self.scene_width - 50, 50):
-            for y in range(50, self.height_center, 50):
-                count += 1
-                mob = Mob(create_construction(f"mob_{count}", count, (x, y), (50, 50)), play_rect_area=play_rect_area)
-                self.mobs.add(mob)
-        self.all_sprites.add(*self.mobs)
+        self.create_mobs(self.game_level)
         self.used_frame = 0
         self.state = GameResultState.FAIL
         self.status = GameStatus.GAME_ALIVE
         self.obj_rect_list = []
+
+    def create_mobs(self, level: int):
+        count = 0
+        for x in range(50, self.scene_width - 50, 50):
+            for y in range(50, self.height_center, 50):
+                count += 1
+                mob = Mob(create_construction(level, count, (x, y), (50, 50)), play_rect_area=self.play_rect_area)
+                self.mobs.add(mob)
+        self.all_sprites.add(*self.mobs)
 
     def update(self, command: dict) -> None:
         self.used_frame += 1
@@ -58,13 +62,18 @@ class BattleMode:
         self.get_player_end()
 
     def reset(self) -> None:
-        self.__init__(self.play_rect_area, self.is_manual)
+        self.__init__(self.play_rect_area, self.is_manual, self.game_level)
 
     def get_player_end(self):
-        if self.player_1P.is_alive and not self.player_2P.is_alive:
-            self.set_result(GameResultState.FINISH, GameStatus.GAME_1P_WIN)
-        elif not self.player_1P.is_alive and self.player_2P.is_alive:
-            self.set_result(GameResultState.FINISH, GameStatus.GAME_2P_WIN)
+        if not self.player_1P.is_alive and not self.player_2P.is_alive:
+            self.set_result(GameResultState.FINISH, GameStatus.GAME_OVER)
+        elif not len(self.mobs):
+            if self.player_1P.score > self.player_2P.score:
+                self.set_result(GameResultState.FINISH, GameStatus.GAME_1P_WIN)
+            elif self.player_1P.score < self.player_2P.score:
+                self.set_result(GameResultState.FINISH, GameStatus.GAME_2P_WIN)
+            else:
+                self.set_result(GameResultState.FINISH, GameStatus.GAME_DRAW)
 
     def set_result(self, state: str, status: str):
         self.state = state

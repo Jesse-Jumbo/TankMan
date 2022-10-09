@@ -22,8 +22,8 @@ class Mob(pygame.sprite.Sprite):
         :param kwargs:
         """
         super().__init__()
-        self.image_id = "mob"
         self.id = construction["_id"]
+        self.image_id = f"mob_{self.id}"
         self.no = construction["_no"]
         self.rect = pygame.Rect(construction["_init_pos"], construction["_init_size"])
         self.play_rect_area = kwargs["play_rect_area"]
@@ -49,9 +49,19 @@ class Mob(pygame.sprite.Sprite):
         """
         self.used_frame += 1
         self.bullets.update()
-        if self.used_frame - self.last_shoot_frame > self.shoot_cd:
-            self.shoot()
         self.rect.center += self.vel
+        self.act()
+
+        for bullet in self.bullets:
+            out = bullet.rect.colliderect(self.play_rect_area)
+            if not out:
+                bullet.kill()
+
+    def act(self):
+        if self.id == 1:
+            return
+        if self.id > 3 and self.used_frame - self.last_shoot_frame > self.shoot_cd:
+            self.shoot()
         if self.used_frame - self.last_move_frame > self.move_cd:
             if self.move_steps > 10:
                 self.move_right()
@@ -60,15 +70,11 @@ class Mob(pygame.sprite.Sprite):
             self.move_steps -= 1
             if self.move_steps <= 0:
                 self.move_steps = 20
-                self.move_down()
+                if self.id > 2:
+                    self.move_down()
             self.last_move_frame = self.used_frame
         else:
             self.vel = Vec(0, 0)
-
-        for bullet in self.bullets:
-            out = bullet.rect.colliderect(self.play_rect_area)
-            if not out:
-                bullet.kill()
 
     def reset(self) -> None:
         """

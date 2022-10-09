@@ -28,6 +28,15 @@
       ],
       "help": "'1' enables the player to fire continuously.",
       "default": 0
+    },
+    {
+      "name": "level",
+      "verbose": "遊玩等級",
+      "type": "int",
+      "max": 5,
+      "min": 1,
+      "default": 1,
+      "help": "set the game level number between 1～5"
     }
   ]
 }

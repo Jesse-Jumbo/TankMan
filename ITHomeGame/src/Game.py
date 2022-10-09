@@ -17,7 +17,7 @@ WIDTH = 800
 
 
 class Game(PaiaGame):
-    def __init__(self, user_num, is_manual: str):
+    def __init__(self, user_num, is_manual: str, level: int):
         super().__init__(user_num)
         self.is_paused = False
         self.is_debug = False
@@ -26,6 +26,7 @@ class Game(PaiaGame):
         if is_manual:
             self.is_manual = True
         self.scene = Scene(WIDTH, HEIGHT+100, color=DARKGREY, bias_y=100)
+        self.game_level = level
         self.game_mode = self.set_game_mode()
         self.attachements = []
 
@@ -97,5 +98,5 @@ class Game(PaiaGame):
 
     def set_game_mode(self):
         play_rect_area = pygame.Rect(0, 0, WIDTH, HEIGHT)
-        game_mode = BattleMode(play_rect_area, self.is_manual)
+        game_mode = BattleMode(play_rect_area, self.is_manual, self.game_level)
         return game_mode
