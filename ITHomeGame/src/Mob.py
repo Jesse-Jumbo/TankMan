@@ -40,6 +40,9 @@ class Mob(pygame.sprite.Sprite):
         self.is_alive = True
         self.speed = 10
         self.bullets = pygame.sprite.Group()
+        self.is_attack = False
+        self.attack_ract = self.rect.copy()
+        self.attack_vel = Vec(random.randint(-10, 10), random.randint(5, 10))
 
     def update(self) -> None:
         """
@@ -60,8 +63,10 @@ class Mob(pygame.sprite.Sprite):
     def act(self):
         if self.id == 1:
             return
-        if self.id > 3 and self.used_frame - self.last_shoot_frame > self.shoot_cd:
+        if self.id > 3 and not self.is_attack and self.used_frame - self.last_shoot_frame > self.shoot_cd:
             self.shoot()
+            if self.id >= 5 and not self.is_attack:
+                self.is_attack = random.choice([True, False, False, False, False, False])
         if self.used_frame - self.last_move_frame > self.move_cd:
             if self.move_steps > 10:
                 self.move_right()
@@ -109,7 +114,14 @@ class Mob(pygame.sprite.Sprite):
         for bullet in self.bullets:
             if isinstance(bullet, Bullet):
                 progress_date_list.append(bullet.get_obj_progress_data())
-        progress_date_list.append(create_image_view_data(self.image_id, *self.rect.topleft, self.rect.width, self.rect.height, self.angle))
+        if self.is_attack:
+            progress_date_list.append(create_image_view_data(self.image_id, *self.attack_ract.topleft, self.attack_ract.width, self.attack_ract.height, self.angle))
+            self.attack_ract.center += self.attack_vel
+            if not self.attack_ract.colliderect(self.play_rect_area):
+                self.attack_ract = self.rect.copy()
+                self.is_attack = False
+        else:
+            progress_date_list.append(create_image_view_data(self.image_id, *self.rect.topleft, self.rect.width, self.rect.height, self.angle))
         return progress_date_list
 
     def get_obj_init_data(self) -> dict or list:
