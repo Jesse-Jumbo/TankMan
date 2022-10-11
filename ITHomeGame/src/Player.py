@@ -55,15 +55,21 @@ class Player(pygame.sprite.Sprite):
         :param command:
         :return:
         """
-        self.bullets.update()
-        self.used_frame += 1
-        self.rect.center += self.vel
-        self.act(command[self.id])
-        if self.shield <= 0:
-            self.lives -= 1
+        if self.is_alive:
+            self.bullets.update()
+            self.used_frame += 1
+            self.rect.center += self.vel
+            self.act(command[self.id])
             if self.lives <= 0:
                 self.is_alive = False
-            self.shield = 100
+            if self.shield <= 0:
+                self.lives -= 1
+                self.shield = 100
+        else:
+            if self.id == "1P":
+                self.rect.topleft = (self.play_rect_area.centerx, -100)
+            else:
+                self.rect.topleft = (self.play_rect_area.centerx, -50)
 
         for bullet in self.bullets:
             out = bullet.rect.colliderect(self.play_rect_area)

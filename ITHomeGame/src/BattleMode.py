@@ -172,3 +172,15 @@ class BattleMode:
                 for player, bullet in hits_dict.items():
                     if isinstance(player, Player):
                         player.shield -= len(bullet) * 10
+                players = pygame.sprite.spritecollide(mob, self.players, False, self.collide_attack_rect)
+                for player in  players:
+                    if mob.is_attack:
+                        mob.kill()
+                        player.lives -= 1
+
+    def collide_attack_rect(self, mob: Mob, player: Player) -> int:
+        mob_hit_rect = pygame.Rect(*mob.attack_rect.topleft, mob.attack_rect.width - 2, mob.attack_rect.height - 2)
+        mob_hit_rect.center = mob.attack_rect.center
+        player_hit_rect = pygame.Rect(*player.rect.topleft, player.rect.width-2, player.rect.height-2)
+        player_hit_rect.center = player.rect.center
+        return mob_hit_rect.colliderect(player_hit_rect)

@@ -41,7 +41,7 @@ class Mob(pygame.sprite.Sprite):
         self.speed = 10
         self.bullets = pygame.sprite.Group()
         self.is_attack = False
-        self.attack_ract = self.rect.copy()
+        self.attack_rect = self.rect.copy()
         self.attack_vel = Vec(random.randint(-10, 10), random.randint(5, 10))
 
     def update(self) -> None:
@@ -115,10 +115,10 @@ class Mob(pygame.sprite.Sprite):
             if isinstance(bullet, Bullet):
                 progress_date_list.append(bullet.get_obj_progress_data())
         if self.is_attack:
-            progress_date_list.append(create_image_view_data(self.image_id, *self.attack_ract.topleft, self.attack_ract.width, self.attack_ract.height, self.angle))
-            self.attack_ract.center += self.attack_vel
-            if not self.attack_ract.colliderect(self.play_rect_area):
-                self.attack_ract = self.rect.copy()
+            progress_date_list.append(create_image_view_data(self.image_id, *self.attack_rect.topleft, self.attack_rect.width, self.attack_rect.height, self.angle))
+            self.attack_rect.center += self.attack_vel
+            if not self.attack_rect.colliderect(self.play_rect_area):
+                self.attack_rect = self.rect.copy()
                 self.is_attack = False
         else:
             progress_date_list.append(create_image_view_data(self.image_id, *self.rect.topleft, self.rect.width, self.rect.height, self.angle))
