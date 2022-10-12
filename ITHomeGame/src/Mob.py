@@ -102,6 +102,8 @@ class Mob(pygame.sprite.Sprite):
         info = {"id": self.image_id
                 , "x": self.rect.x
                 , "y": self.rect.y
+                , "is_attack": self.is_attack
+                , "bullets": [bullet.rect.midbottom for bullet in self.bullets if isinstance(bullet, Bullet)]
                 }
         return info
 

@@ -112,12 +112,15 @@ class BattleMode:
         competitor_info = {1: self.player_2P.get_data_from_obj_to_game()
                            , 2: self.player_1P.get_data_from_obj_to_game()
                            }
+        mobs_info = [mob.get_data_from_obj_to_game() for mob in self.mobs if isinstance(mob, Mob)]
+
         for player in self.players:
             if isinstance(player, Player):
                 to_game_data = player.get_data_from_obj_to_game()
                 to_game_data["used_frame"] = self.used_frame
                 to_game_data["status"] = self.status
-                to_game_data["competitor_info"] = competitor_info
+                to_game_data["partner_info"] = competitor_info
+                to_game_data["mob_info"] = mobs_info
                 to_player_data[get_ai_name(num)] = to_game_data
                 num += 1
 

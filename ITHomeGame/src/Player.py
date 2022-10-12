@@ -110,10 +110,14 @@ class Player(pygame.sprite.Sprite):
         在遊戲主程式獲取遊戲資料給AI時被調用
         :return:
         """
-        info = {"id": self.id,
-                "x": self.rect.x,
-                "y": self.rect.y,
-                "angle": self.angle
+        info = {"id": self.id
+                , "x": self.rect.x
+                , "y": self.rect.y
+                , "vel": self.vel
+                , "score": self.score
+                , "shield": self.shield
+                , "lives": self.lives
+                , "angle": self.angle
                 }
         return info
 
@@ -140,9 +144,9 @@ class Player(pygame.sprite.Sprite):
 
     def get_info_to_game_result(self):
         info = {"id": self.id
-                , "x": self.rect.x
-                , "y": self.rect.y
-                , "score": self.score
+            , "x": self.rect.x
+            , "y": self.rect.y
+            , "score": self.score
                 }
         return info
 
