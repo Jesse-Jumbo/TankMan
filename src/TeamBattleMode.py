@@ -20,11 +20,9 @@ from .game_module.fuctions import set_topleft, add_score, set_shoot, get_sprites
 
 
 class TeamBattleMode:
-    def __init__(self, team_a_user_num: int, team_b_user_num: int, is_manual: bool, map_path: str, frame_limit: int, sound_path: str, play_rect_area: pygame.Rect):
+    def __init__(self, is_manual: bool, map_path: str, frame_limit: int, sound_path: str, play_rect_area: pygame.Rect):
         # init game
         pygame.init()
-        self._team_a_user_num = team_a_user_num
-        self._team_b_user_num = team_b_user_num
         self.sound_path = sound_path
         self.map_path = map_path
         self.map = TiledMap(self.map_path)
@@ -69,12 +67,15 @@ class TeamBattleMode:
         # create obj
         all_obj = self.map.create_init_obj_dict()
         # init players
-        all_obj[PLAYER_1_IMG_NO][0].no = 1
-        all_obj[PLAYER_1_IMG_NO][1].no = 2
-        all_obj[PLAYER_2_IMG_NO][0].no = 3
-        all_obj[PLAYER_2_IMG_NO][1].no = 4
         self.players_a.add(all_obj[PLAYER_1_IMG_NO])
         self.players_b.add(all_obj[PLAYER_2_IMG_NO])
+        no = 1
+        for player in self.players_a:
+            player.no = no
+            no += 1
+        for player in self.players_b:
+            player.no = no
+            no += 1
         self.all_players.add(*self.players_a, *self.players_b)
         self.all_sprites.add(*self.players_a, *self.players_b)
         # init walls
@@ -110,7 +111,7 @@ class TeamBattleMode:
 
     def reset(self):
         # reset init game
-        self.__init__(self._team_a_user_num, self._team_b_user_num, self.is_manual, self.map_path, self.frame_limit, self.sound_path, self.play_rect_area)
+        self.__init__(self.is_manual, self.map_path, self.frame_limit, self.sound_path, self.play_rect_area)
         # reset player pos
         for player in self.players_a:
             if isinstance(player, Player):

@@ -4,7 +4,6 @@ import pygame
 from mlgame.game.paia_game import PaiaGame, GameStatus
 from mlgame.view.view_model import Scene
 
-from .BattleMode import BattleMode
 from .TeamBattleMode import TeamBattleMode
 from .game_module.fuctions import get_sprites_progress_data
 
@@ -17,15 +16,14 @@ IMAGE_DIR = path.join(GAME_DIR, "..", "asset", "image")
 
 
 class Game(PaiaGame):
-    def __init__(self, user_num: int, is_manual: str, map_no: int, frame_limit: int, sound: str):
+    def __init__(self, user_num: int, team_a_user_num: int, team_b_user_num: int, is_manual: str, frame_limit: int, sound: str):
         super().__init__(user_num)
         # window settings
         pygame.display.set_icon(pygame.image.load(path.join(IMAGE_DIR, "logo.png")))
         pygame.display.set_caption(
-            f"TankMan！ user_num: {user_num} ；is_manual: {is_manual} ；map_no: {map_no} ；frame_limit: {frame_limit} ；sound: {sound}")
+            f"TankMan！ user_num: {user_num} ；is_manual: {is_manual}　frame_limit: {frame_limit} ；sound: {sound}")
         # init game
-        self.map_name = f"map_0.tmx"#{map_no}.tmx"
-        # self.map_name = f"map_0{map_no}.tmx"
+        self.map_name = f"map_{team_a_user_num}_v_{team_b_user_num}.tmx"
         self.is_paused = False
         self.is_debug = False
         self.is_sound = False
@@ -119,6 +117,5 @@ class Game(PaiaGame):
         if self.is_sound:
             sound_path = SOUND_DIR
         play_rect_area = pygame.Rect(0, 0, MAP_WIDTH, MAP_HEIGHT)
-        # game_mode = BattleMode(self.is_manual, map_path, self.frame_limit, sound_path, play_rect_area)
-        game_mode = TeamBattleMode(1, 1, self.is_manual, map_path, self.frame_limit, sound_path, play_rect_area)
+        game_mode = TeamBattleMode(self.is_manual, map_path, self.frame_limit, sound_path, play_rect_area)
         return game_mode
