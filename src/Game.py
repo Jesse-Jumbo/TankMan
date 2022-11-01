@@ -85,6 +85,7 @@ class Game(PaiaGame):
         obj_list = []
         for sprites in self.game_mode.obj_list:
             obj_list.extend(get_sprites_progress_data(sprites))
+        obj_list.extend(self.game_mode.obj_rect_list)
         return obj_list
 
     def get_game_result(self):

@@ -59,6 +59,7 @@ class Player(pygame.sprite.Sprite):
         self.act(command[get_ai_name(self.no - 1)])
         if self.lives <= 0:
             self.is_alive = False
+            self.out()
 
         self.rotate()
 
@@ -248,3 +249,6 @@ class Player(pygame.sprite.Sprite):
                 , "lives": self.lives
                 }
         return info
+
+    def out(self):
+        self.rect.topleft = ((self.play_rect_area.width // 2 - 100) + 50 * self.no, -50)

@@ -388,6 +388,10 @@ class TeamBattleMode:
         self.obj_rect_list = []
         if not is_debug:
             return
+        play_rect_area_points = [self.play_rect_area.topleft, self.play_rect_area.topright
+                                 , self.play_rect_area.bottomright, self.play_rect_area.bottomleft
+                                 , self.play_rect_area.topleft]
+
         for sprite in self.all_sprites:
             if isinstance(sprite, pygame.sprite.Sprite):
                 top_left = sprite.rect.topleft
@@ -395,8 +399,5 @@ class TeamBattleMode:
                     , sprite.rect.bottomleft, top_left]
                 for index in range(len(points) - 1):
                     self.obj_rect_list.append(create_line_view_data("rect", *points[index], *points[index + 1], WHITE))
-                    self.obj_rect_list.append(create_line_view_data("play_rect_area"
-                                                                    , self.play_rect_area.x
-                                                                    , self.play_rect_area.y
-                                                                    , self.play_rect_area.width
-                                                                    , self.play_rect_area.height, RED))
+                    self.obj_rect_list.append(create_line_view_data("play_rect_area", *play_rect_area_points[index]
+                                                                    , *play_rect_area_points[index + 1],RED))
