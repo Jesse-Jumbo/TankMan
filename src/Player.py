@@ -53,7 +53,14 @@ class Player(pygame.sprite.Sprite):
         self.is_turn_right = False
         self.is_turn_left = False
         self.act_cd = kwargs["act_cd"]
-
+        if self.rect.x >= self.play_rect_area.width // 2 and self.rect.y < (self.play_rect_area.height - 100) // 2:
+            self.quadrant = 1
+        elif self.rect.x < self.play_rect_area.width // 2 and self.rect.y < (self.play_rect_area.height - 100) // 2:
+            self.quadrant = 2
+        elif self.rect.x < self.play_rect_area.width // 2 and self.rect.y >= (self.play_rect_area.height - 100) // 2:
+            self.quadrant = 3
+        else:
+            self.quadrant = 4
     def update(self, command: dict):
         self.used_frame += 1
         self.act(command[get_ai_name(self.no - 1)])

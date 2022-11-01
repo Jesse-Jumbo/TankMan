@@ -39,8 +39,8 @@ class TeamBattleMode:
         self.frame_limit = frame_limit
         self.is_manual = is_manual
         self.obj_rect_list = []
-        self.score_team_a = 0
-        self.score_team_b = 0
+        self.team_a_score = 0
+        self.team_b_score = 0
 
         # control variables
         self.is_invincible = False
@@ -99,6 +99,8 @@ class TeamBattleMode:
         self.background.append(create_image_view_data("border", 0, -50, self.scene_width, WINDOW_HEIGHT, 0))
 
     def update(self, command: dict):
+        self.team_a_score = sum([player.score for player in self.players_a if isinstance(player, Player)])
+        self.team_b_score = sum([player.score for player in self.players_b if isinstance(player, Player)])
         self.used_frame += 1
         self.check_collisions()
         self.walls.update()
@@ -113,22 +115,7 @@ class TeamBattleMode:
         # reset init game
         self.__init__(self.is_manual, self.map_path, self.frame_limit, self.sound_path, self.play_rect_area)
         # reset player pos
-        for player in self.players_a:
-            if isinstance(player, Player):
-                self.empty_quadrant_pos_dict[1].append(player.origin_xy)
-
-        for player in self.players_b:
-            if isinstance(player, Player):
-                self.empty_quadrant_pos_dict[2].append(player.origin_xy)
-
-        for player in self.players_a:
-            if isinstance(player, Player):
-                set_topleft(player,
-                        self.empty_quadrant_pos_dict[1].pop(random.randrange(len(self.empty_quadrant_pos_dict[1]))))
-        for player in self.players_b:
-            if isinstance(player, Player):
-                set_topleft(player,
-                        self.empty_quadrant_pos_dict[2].pop(random.randrange(len(self.empty_quadrant_pos_dict[2]))))
+        self.change_obj_pos(self.all_players)
 
     def get_player_end(self):
         if len(self.players_a) and not len(self.players_b):
@@ -137,10 +124,10 @@ class TeamBattleMode:
             self.set_result(GameResultState.FINISH, "GAME_TEAM_B_WIN")
 
     def get_game_end(self):
-        if self.score_team_a > self.score_team_b:
-            self.set_result(GameResultState.FINISH, GameStatus.GAME_1P_WIN)
-        elif self.score_team_a < self.score_team_b:
-            self.set_result(GameResultState.FINISH, GameStatus.GAME_2P_WIN)
+        if self.team_a_score > self.team_b_score:
+            self.set_result(GameResultState.FINISH, "GAME_TEAM_A_WIN")
+        elif self.team_a_score < self.team_b_score:
+            self.set_result(GameResultState.FINISH, "GAME_TEAM_B_WIN")
         else:
             self.set_result(GameResultState.FINISH, GameStatus.GAME_DRAW)
 
@@ -180,17 +167,16 @@ class TeamBattleMode:
         if objs is None:
             return
         for obj in objs:
-            if isinstance(obj, Station):
-                quadrant = obj.quadrant
-                self.empty_quadrant_pos_dict[quadrant].append(obj.rect.topleft)
-                if quadrant == 2 or quadrant == 3:
-                    obj.quadrant = random.choice([2, 3])
-                else:
-                    obj.quadrant = random.choice([1, 4])
-                quadrant = obj.quadrant
-                new_pos = self.empty_quadrant_pos_dict[quadrant].pop(
-                    random.randrange(len(self.empty_quadrant_pos_dict[quadrant])))
-                set_topleft(obj, new_pos)
+            quadrant = obj.quadrant
+            self.empty_quadrant_pos_dict[quadrant].append(obj.rect.topleft)
+            if quadrant == 2 or quadrant == 3:
+                obj.quadrant = random.choice([2, 3])
+            else:
+                obj.quadrant = random.choice([1, 4])
+            quadrant = obj.quadrant
+            new_pos = self.empty_quadrant_pos_dict[quadrant].pop(
+                random.randrange(len(self.empty_quadrant_pos_dict[quadrant])))
+            set_topleft(obj, new_pos)
 
     def create_bullet(self, sprites: pygame.sprite.Group):
         for sprite in sprites:
@@ -262,11 +248,9 @@ class TeamBattleMode:
         toggle_data.append(create_text_view_data(f"Frame: {self.frame_limit - self.used_frame}",
                                                  self.width_center + self.width_center // 2 + 85, 8, RED,
                                                  "24px Arial BOLD"))
-        team_a_score = sum([player.score for player in self.players_a if isinstance(player, Player)])
-        team_b_score = sum([player.score for player in self.players_b if isinstance(player, Player)])
         x = 24
         y = 20
-        for score in range(min(team_a_score, team_b_score)):
+        for score in range(min(self.team_a_score,self. team_b_score)):
             toggle_data.append(create_rect_view_data(name="score", x=x, y=y, width=1, height=10, color=ORANGE))
             x += 1.5
             if x > self.width_center:
@@ -275,8 +259,8 @@ class TeamBattleMode:
                 else:
                     y = 32
                 x = 24
-        for score in range(abs(team_a_score - team_b_score)):
-            if team_a_score > team_b_score:
+        for score in range(abs(self.team_a_score -self. team_b_score)):
+            if self.team_a_score > self.team_b_score:
                 toggle_data.append(create_rect_view_data("score", x, y, 1, 10, DARKGREEN))
             else:
                 toggle_data.append(create_rect_view_data("score", x, y, 1, 10, BLUE))
@@ -290,7 +274,7 @@ class TeamBattleMode:
         # 1P
         x = WINDOW_WIDTH - 105
         y = WINDOW_HEIGHT - 40
-        toggle_data.append(create_text_view_data(f"Score: {team_a_score}", x, y, DARKGREEN, "24px Arial BOLD"))
+        toggle_data.append(create_text_view_data(f"Score: {self.team_a_score}", x, y, DARKGREEN, "24px Arial BOLD"))
         x = self.width_center + 5
         y = WINDOW_HEIGHT - 40
         team_a_lives = sum([player.lives for player in self.players_a if isinstance(player, Player)])
@@ -312,7 +296,7 @@ class TeamBattleMode:
         # 2P
         x = 5
         y = WINDOW_HEIGHT - 40
-        toggle_data.append(create_text_view_data(f"Score: {team_b_score}", x, y, BLUE, "24px Arial BOLD"))
+        toggle_data.append(create_text_view_data(f"Score: {self.team_b_score}", x, y, BLUE, "24px Arial BOLD"))
         x = self.width_center - 40
         y = WINDOW_HEIGHT - 40
         team_b_lives = sum([player.lives for player in self.players_b if isinstance(player, Player)])
