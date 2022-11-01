@@ -24,8 +24,8 @@ class Game(PaiaGame):
         pygame.display.set_caption(
             f"TankMan！ user_num: {user_num} ；is_manual: {is_manual} ；map_no: {map_no} ；frame_limit: {frame_limit} ；sound: {sound}")
         # init game
-        # self.map_name = f"map_0.tmx"#{map_no}.tmx"
-        self.map_name = f"map_0{map_no}.tmx"
+        self.map_name = f"map_0.tmx"#{map_no}.tmx"
+        # self.map_name = f"map_0{map_no}.tmx"
         self.is_paused = False
         self.is_debug = False
         self.is_sound = False
@@ -118,6 +118,6 @@ class Game(PaiaGame):
         if self.is_sound:
             sound_path = SOUND_DIR
         play_rect_area = pygame.Rect(0, 0, MAP_WIDTH, MAP_HEIGHT)
-        game_mode = BattleMode(self.is_manual, map_path, self.frame_limit, sound_path, play_rect_area)
-        # game_mode = TeamBattleMode(1, 1, self.is_manual, map_path, self.frame_limit, sound_path, play_rect_area)
+        # game_mode = BattleMode(self.is_manual, map_path, self.frame_limit, sound_path, play_rect_area)
+        game_mode = TeamBattleMode(1, 1, self.is_manual, map_path, self.frame_limit, sound_path, play_rect_area)
         return game_mode
