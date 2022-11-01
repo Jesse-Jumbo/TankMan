@@ -64,7 +64,9 @@ class BattleMode:
         all_obj = self.map.create_init_obj_dict()
         # init player
         self.player_1P = all_obj[PLAYER_1_IMG_NO][0]
+        self.player_1P.no = 1
         self.player_2P = all_obj[PLAYER_2_IMG_NO][0]
+        self.player_2P.no = 2
         self.players.add(self.player_1P, self.player_2P)
         self.all_sprites.add(self.player_1P, self.player_2P)
         # init walls
@@ -179,7 +181,7 @@ class BattleMode:
             if not sprite.is_shoot:
                 continue
             self.sound_controller.play_sound("shoot", 0.03, -1)
-            init_data = create_construction(sprite.id, 0, sprite.rect.center, (13, 13))
+            init_data = create_construction("bullet", sprite.no, sprite.rect.center, (13, 13))
             bullet = Bullet(init_data, rot=sprite.get_rot(), margin=2, spacing=2,
                             play_rect_area=self.play_rect_area)
             self.bullets.add(bullet)

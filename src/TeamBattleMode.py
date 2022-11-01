@@ -69,6 +69,10 @@ class TeamBattleMode:
         # create obj
         all_obj = self.map.create_init_obj_dict()
         # init players
+        all_obj[PLAYER_1_IMG_NO][0].no = 1
+        all_obj[PLAYER_1_IMG_NO][1].no = 2
+        all_obj[PLAYER_2_IMG_NO][0].no = 3
+        all_obj[PLAYER_2_IMG_NO][1].no = 4
         self.players_a.add(all_obj[PLAYER_1_IMG_NO])
         self.players_b.add(all_obj[PLAYER_2_IMG_NO])
         self.all_players.add(*self.players_a, *self.players_b)
@@ -165,9 +169,9 @@ class TeamBattleMode:
             self.change_obj_pos(bs)
             os = collide_with_oil_stations(self.all_players, self.oil_stations)
             self.change_obj_pos(os)
-        player_id, score = collide_with_bullets(self.walls, self.bullets)
+        player_no, score = collide_with_bullets(self.walls, self.bullets)
         for player in self.all_players:
-            if player_id == player.id and isinstance(player, Player):
+            if player_no == player.no and isinstance(player, Player):
                 add_score(player, score)
 
     # TODO move method to Station
@@ -192,7 +196,7 @@ class TeamBattleMode:
             if not sprite.is_shoot:
                 continue
             self.sound_controller.play_sound("shoot", 0.03, -1)
-            init_data = create_construction(sprite.id, 0, sprite.rect.center, (13, 13))
+            init_data = create_construction("bullet", sprite.no, sprite.rect.center, (13, 13))
             bullet = Bullet(init_data, rot=sprite.get_rot(), margin=2, spacing=2,
                             play_rect_area=self.play_rect_area)
             self.bullets.add(bullet)
@@ -341,12 +345,23 @@ class TeamBattleMode:
                                 isinstance(bullst_station, Station)]
         oil_stations_info = [oil_station.get_data_from_obj_to_game() for oil_station in self.oil_stations if
                              isinstance(oil_station, Station)]
-        for player in self.all_players:
+        for player in self.players_a:
             if isinstance(player, Player):
                 to_game_data = player.get_data_from_obj_to_game()
                 to_game_data["used_frame"] = self.used_frame
                 to_game_data["status"] = self.status
-                to_game_data["competitor_info"] = competitor_info[player.id]
+                to_game_data["competitor_info"] = competitor_info[2]
+                to_game_data["walls_info"] = walls_info
+                to_game_data["bullet_stations_info"] = bullet_stations_info
+                to_game_data["oil_stations_info"] = oil_stations_info
+                to_player_data[get_ai_name(num)] = to_game_data
+                num += 1
+        for player in self.players_b:
+            if isinstance(player, Player):
+                to_game_data = player.get_data_from_obj_to_game()
+                to_game_data["used_frame"] = self.used_frame
+                to_game_data["status"] = self.status
+                to_game_data["competitor_info"] = competitor_info[1]
                 to_game_data["walls_info"] = walls_info
                 to_game_data["bullet_stations_info"] = bullet_stations_info
                 to_game_data["oil_stations_info"] = oil_stations_info
@@ -362,11 +377,11 @@ class TeamBattleMode:
         return [create_sounds_data("shoot", "shoot.wav")
             , create_sounds_data("touch", "touch.wav")]
 
-    def add_player_score(self, player_id: int):
-        if not player_id:
+    def add_player_score(self, player_no: int):
+        if not player_no:
             return
         for player in self.all_players:
-            if player_id == player.id and isinstance(player, Player):
+            if player_no == player.no and isinstance(player, Player):
                 add_score(player, 20)
 
     def debugging(self, is_debug: bool):

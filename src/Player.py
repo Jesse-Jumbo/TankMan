@@ -56,7 +56,7 @@ class Player(pygame.sprite.Sprite):
 
     def update(self, command: dict):
         self.used_frame += 1
-        self.act(command[get_ai_name(self.id - 1)])
+        self.act(command[get_ai_name(self.no - 1)])
         if self.lives <= 0:
             self.is_alive = False
 
@@ -215,7 +215,7 @@ class Player(pygame.sprite.Sprite):
             rot = self.rot + 180
             if rot >= 360:
                 rot -= 360
-        info = {"id": f"{self.id}P",
+        info = {"id": f"{self.no}P",
                 "x": self.rect.x,
                 "y": self.rect.y,
                 "speed": self.speed,
@@ -241,10 +241,10 @@ class Player(pygame.sprite.Sprite):
         return image_init_data
 
     def get_info_to_game_result(self) -> dict:
-        info = {"id": f"{self.id}P"
-            , "x": self.rect.x
-            , "y": self.rect.y
-            , "score": self.score
-            , "lives": self.lives
+        info = {"no": f"{self.no}P"
+                , "x": self.rect.x
+                , "y": self.rect.y
+                , "score": self.score
+                , "lives": self.lives
                 }
         return info

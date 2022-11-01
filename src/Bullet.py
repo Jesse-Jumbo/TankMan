@@ -12,6 +12,7 @@ class Bullet(pygame.sprite.Sprite):
     def __init__(self, construction, **kwargs):
         super().__init__()
         self.id = construction["_id"]
+        self.no = construction["_no"]
         self.rect = pygame.Rect((0, 0), construction["_init_size"])
         self.rect.center = construction["_init_pos"]
         self.rot = kwargs["rot"]
