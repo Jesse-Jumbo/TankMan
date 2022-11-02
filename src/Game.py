@@ -18,10 +18,6 @@ IMAGE_DIR = path.join(GAME_DIR, "..", "asset", "image")
 class Game(PaiaGame):
     def __init__(self, user_num: int, team_a_user_num: int, team_b_user_num: int, is_manual: str, frame_limit: int, sound: str):
         super().__init__(user_num)
-        # window settings
-        pygame.display.set_icon(pygame.image.load(path.join(IMAGE_DIR, "logo.png")))
-        pygame.display.set_caption(
-            f"TankMan！ user_num: {user_num} ；is_manual: {is_manual}　frame_limit: {frame_limit} ；sound: {sound}")
         # init game
         self.map_name = f"map_{team_a_user_num}_v_{team_b_user_num}.tmx"
         self.is_paused = False

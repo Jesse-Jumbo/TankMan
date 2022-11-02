@@ -2,10 +2,10 @@ from os import path
 
 import pygame.draw
 from mlgame.utils.enum import get_ai_name
-from mlgame.view.view_model import create_asset_init_data, create_image_view_data
+from mlgame.view.view_model import create_asset_init_data, create_image_view_data, create_rect_view_data
 
 from .env import LEFT_CMD, RIGHT_CMD, FORWARD_CMD, BACKWARD_CMD, SHOOT, SHOOT_COOLDOWN, \
-    IMAGE_DIR
+    IMAGE_DIR, ORANGE, BLUE
 
 Vec = pygame.math.Vector2
 
@@ -63,7 +63,8 @@ class Player(pygame.sprite.Sprite):
             self.quadrant = 4
     def update(self, command: dict):
         self.used_frame += 1
-        self.act(command[get_ai_name(self.no - 1)])
+        if self.is_alive:
+            self.act(command[get_ai_name(self.no - 1)])
         if self.lives <= 0:
             self.is_alive = False
             self.out()
@@ -239,6 +240,42 @@ class Player(pygame.sprite.Sprite):
         image_data = create_image_view_data(f"{self.id}P", *self.rect.topleft, *self.origin_size, self.angle)
         return image_data
 
+    def get_obj_toggle_data(self) -> list:
+        image_data = []
+        team_id = "team_a"
+        # 初始位置為中點 + 5，再根據 1P～3P 依序往右
+        x = self.play_rect_area.midbottom[0] + 5 + (self.no-1) * 50
+        y = self.play_rect_area.height + 65
+        if self.no > 3:
+            team_id = "team_b"
+            # 初始位置為中點，再根據 4P～6P 依序往左
+            x = self.play_rect_area.midbottom[0] - (self.no-1) * 50 + 100
+        # lives A_x: 520, B_x: 620
+        for live in range(self.lives):
+            image_data.append(create_image_view_data(f"{team_id}_lives", x, y, 30, 30))
+            x += 5
+            y -= 5
+        # oil A_x: 650, B_x: 360
+        y = self.play_rect_area.height + 60
+        if self.no > 3:
+            x = self.play_rect_area.midbottom[0] - 65 - (self.no-1) * 80 + 75
+            image_data.append(create_rect_view_data(f"{team_id}_oil", x, y, int(self.oil*0.75), 10, ORANGE))
+        else:
+            x = self.play_rect_area.midbottom[0] + 150 + (self.no-1) * 80
+            image_data.append(create_rect_view_data(f"{team_id}_oil", x, y, int(self.oil*0.75), 10, ORANGE))
+        y = self.play_rect_area.height + 80
+        if self.no > 3:
+            for power in range(self.power):
+                image_data.append(create_rect_view_data(f"{team_id}_power", x+67, y, 5, 10, BLUE))
+                x -= 7
+        else:
+            for power in range(self.power):
+                image_data.append(create_rect_view_data(f"{team_id}_power", x+2, y, 5, 10, BLUE))
+                x += 7
+        # power A_x: 650, B_x: 360
+
+        return image_data
+
     def get_obj_init_data(self) -> list:
         img_data = {"1P": "https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/1P.svg",
                     "2P": "https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/2P.svg"}
@@ -249,13 +286,17 @@ class Player(pygame.sprite.Sprite):
         return image_init_data
 
     def get_info_to_game_result(self) -> dict:
-        info = {"no": f"{self.no}P"
-                , "x": self.rect.x
-                , "y": self.rect.y
-                , "score": self.score
-                , "lives": self.lives
+        team_id = "a"
+        if self.no > 3:
+            team_id = "b"
+        info = {"no": f"{team_id}_{self.no}P"
+            , "x": self.rect.x
+            , "y": self.rect.y
+            , "score": self.score
+            , "lives": self.lives
                 }
         return info
 
     def out(self):
         self.rect.topleft = ((self.play_rect_area.width // 2 - 100) + 50 * self.no, -50)
+        self.rot = 0

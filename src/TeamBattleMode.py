@@ -119,15 +119,15 @@ class TeamBattleMode:
 
     def get_player_end(self):
         if len(self.players_a) and not len(self.players_b):
-            self.set_result(GameResultState.FINISH, "GAME_TEAM_A_WIN")
+            self.set_result(GameResultState.FINISH, "TEAM_A_WIN")
         elif not len(self.players_a) and len(self.players_b):
-            self.set_result(GameResultState.FINISH, "GAME_TEAM_B_WIN")
+            self.set_result(GameResultState.FINISH, "TEAM_B_WIN")
 
     def get_game_end(self):
         if self.team_a_score > self.team_b_score:
-            self.set_result(GameResultState.FINISH, "GAME_TEAM_A_WIN")
+            self.set_result(GameResultState.FINISH, "TEAM_A_WIN")
         elif self.team_a_score < self.team_b_score:
-            self.set_result(GameResultState.FINISH, "GAME_TEAM_B_WIN")
+            self.set_result(GameResultState.FINISH, "TEAM_B_WIN")
         else:
             self.set_result(GameResultState.FINISH, GameStatus.GAME_DRAW)
 
@@ -275,47 +275,16 @@ class TeamBattleMode:
         x = WINDOW_WIDTH - 105
         y = WINDOW_HEIGHT - 40
         toggle_data.append(create_text_view_data(f"Score: {self.team_a_score}", x, y, DARKGREEN, "24px Arial BOLD"))
-        x = self.width_center + 5
-        y = WINDOW_HEIGHT - 40
-        team_a_lives = sum([player.lives for player in self.players_a if isinstance(player, Player)])
-        for live in range(team_a_lives):
-            toggle_data.append(create_image_view_data("team_a_lives", x, y, 30, 30))
-            x += 35
-        # 620 px
-        x = self.width_center + 120
-        y = WINDOW_HEIGHT - 40
-        team_a_oil = sum([player.oil for player in self.players_a if isinstance(player, Player)])
-        toggle_data.append(
-            create_rect_view_data("1P_oil", x, y, team_a_oil, 10, ORANGE))
-        x = self.width_center + 121
-        y = WINDOW_HEIGHT - 20
-        team_a_power = sum([player.power for player in self.players_a if isinstance(player, Player)])
-        for power in range(team_a_power):
-            toggle_data.append(create_rect_view_data("team_a_power", x, y, 8, 10, BLUE))
-            x += 10
+        for player in self.players_a:
+            if isinstance(player, Player):
+                toggle_data.extend(player.get_obj_toggle_data())
         # 2P
         x = 5
         y = WINDOW_HEIGHT - 40
         toggle_data.append(create_text_view_data(f"Score: {self.team_b_score}", x, y, BLUE, "24px Arial BOLD"))
-        x = self.width_center - 40
-        y = WINDOW_HEIGHT - 40
-        team_b_lives = sum([player.lives for player in self.players_b if isinstance(player, Player)])
-        for live in range(team_b_lives):
-            toggle_data.append(create_image_view_data("team_b_lives", x, y, 30, 30))
-            x -= 35
-        # 375 px
-        team_b_oil = sum([player.oil for player in self.players_b if isinstance(player, Player)])
-        x = self.width_center - 125 - 100 + (100 - team_b_oil)
-        y = WINDOW_HEIGHT - 40
-        toggle_data.append(
-            create_rect_view_data("2P_oil", x, y, team_b_oil, 10,
-                                  ORANGE))
-        x = self.width_center - 125 - 9
-        y = WINDOW_HEIGHT - 20
-        team_b_power = sum([player.power for player in self.players_b if isinstance(player, Player)])
-        for power in range(team_b_power):
-            toggle_data.append(create_rect_view_data("team_b_power", x, y, 8, 10, BLUE))
-            x -= 10
+        for player in self.players_b:
+            if isinstance(player, Player):
+                toggle_data.extend(player.get_obj_toggle_data())
 
         return toggle_data
 
