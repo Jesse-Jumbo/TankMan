@@ -61,13 +61,15 @@ class Player(pygame.sprite.Sprite):
             self.quadrant = 3
         else:
             self.quadrant = 4
+
     def update(self, command: dict):
         self.used_frame += 1
+        if self.lives <= 0:
+            self.out()
+            self.is_alive = False
+
         if self.is_alive:
             self.act(command[get_ai_name(self.no - 1)])
-        if self.lives <= 0:
-            self.is_alive = False
-            self.out()
 
         self.rotate()
 
@@ -224,15 +226,15 @@ class Player(pygame.sprite.Sprite):
             rot = self.rot + 180
             if rot >= 360:
                 rot -= 360
-        info = {"id": f"{self.no}P",
-                "x": self.rect.x,
-                "y": self.rect.y,
-                "speed": self.speed,
-                "score": self.score,
-                "power": self.power,
-                "oil": self.oil,
-                "lives": self.lives,
-                "angle": rot
+        info = {"id": f"{self.no}P"
+                , "x": self.rect.x
+                , "y": self.rect.y
+                , "speed": self.speed
+                , "score": self.score
+                , "power": self.power
+                , "oil": self.oil
+                , "lives": self.lives
+                , "angle": rot
                 }
         return info
 
@@ -263,16 +265,18 @@ class Player(pygame.sprite.Sprite):
         else:
             x = self.play_rect_area.midbottom[0] + 150 + (self.no-1) * 80
             image_data.append(create_rect_view_data(f"{team_id}_oil", x, y, int(self.oil*0.75), 10, ORANGE))
+        # power A_x: 650, B_x: 360
         y = self.play_rect_area.height + 80
         if self.no > 3:
             for power in range(self.power):
                 image_data.append(create_rect_view_data(f"{team_id}_power", x+67, y, 5, 10, BLUE))
                 x -= 7
+
         else:
             for power in range(self.power):
                 image_data.append(create_rect_view_data(f"{team_id}_power", x+2, y, 5, 10, BLUE))
                 x += 7
-        # power A_x: 650, B_x: 360
+
 
         return image_data
 
@@ -290,13 +294,16 @@ class Player(pygame.sprite.Sprite):
         if self.no > 3:
             team_id = "b"
         info = {"no": f"{team_id}_{self.no}P"
-            , "x": self.rect.x
-            , "y": self.rect.y
-            , "score": self.score
-            , "lives": self.lives
+                , "x": self.rect.x
+                , "y": self.rect.y
+                , "score": self.score
+                , "lives": self.lives
                 }
         return info
 
     def out(self):
-        self.rect.topleft = ((self.play_rect_area.width // 2 - 100) + 50 * self.no, -50)
+        if self.no > 3:
+            self.rect.topleft = ((self.play_rect_area.width // 2 + 150) + -50 * self.no, -50)
+        else:
+            self.rect.topleft = ((self.play_rect_area.width // 2 - 50) + 50 * self.no, -50)
         self.rot = 0
