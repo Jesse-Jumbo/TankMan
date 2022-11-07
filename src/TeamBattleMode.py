@@ -288,6 +288,16 @@ class TeamBattleMode:
 
         return toggle_data
 
+    def get_foreground_data(self):
+        foreground_data = []
+        color = DARKGREEN
+        for player in self.all_players:
+            if isinstance(player, Player):
+                if player.no > 3:
+                    color = BLUE
+                foreground_data.append(create_text_view_data(f"{player.no}P", *player.rect.midleft, color, "16px Arial"))
+        return foreground_data
+
     def get_ai_data_to_player(self):
         to_player_data = {}
         num = 0

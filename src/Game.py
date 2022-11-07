@@ -69,7 +69,7 @@ class Game(PaiaGame):
                           'object_list': self.get_obj_progress_data(),
                           'toggle_with_bias': [],
                           'toggle': self.game_mode.get_toggle_progress_data(),
-                          'foreground': [],
+                          'foreground': self.game_mode.get_foreground_data(),
                           'user_info': [],
                           'game_sys_info': {}}
 
