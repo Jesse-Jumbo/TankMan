@@ -161,6 +161,13 @@ class TeamBattleMode:
         for player in self.all_players:
             if player_no == player.no and isinstance(player, Player):
                 add_score(player, score)
+            # collide with player and other players
+            # other_player = self.all_players.copy()
+            # other_player.remove(player)
+            # hits = pygame.sprite.spritecollide(player, other_player, False, pygame.sprite.collide_rect_ratio(0.8))
+            # for hit in hits:
+            #     if isinstance(hit, Player):
+            #         hit.collide_with_walls()
 
     # TODO move method to Station
     def change_obj_pos(self, objs=None):
