@@ -67,9 +67,9 @@ class Game(PaiaGame):
         """
         scene_progress = {'background': self.game_mode.background,
                           'object_list': self.get_obj_progress_data(),
-                          'toggle_with_bias': [],
+                          'toggle_with_bias': [*self.game_mode.get_toggle_with_bias_data()],
                           'toggle': self.game_mode.get_toggle_progress_data(),
-                          'foreground': self.game_mode.get_foreground_data(),
+                          'foreground': [],
                           'user_info': [],
                           'game_sys_info': {}}
 

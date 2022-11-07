@@ -65,7 +65,6 @@ class Player(pygame.sprite.Sprite):
     def update(self, command: dict):
         self.used_frame += 1
         if self.lives <= 0:
-            self.out()
             self.is_alive = False
 
         if self.is_alive:
@@ -239,45 +238,9 @@ class Player(pygame.sprite.Sprite):
         return info
 
     def get_obj_progress_data(self) -> dict:
+        if not self.is_alive:
+            return []
         image_data = create_image_view_data(f"{self.id}P", *self.rect.topleft, *self.origin_size, self.angle)
-        return image_data
-
-    def get_obj_toggle_data(self) -> list:
-        image_data = []
-        team_id = "team_a"
-        # 初始位置為中點 + 5，再根據 1P～3P 依序往右
-        x = self.play_rect_area.midbottom[0] + 5 + (self.no-1) * 50
-        y = self.play_rect_area.height + 65
-        if self.no > 3:
-            team_id = "team_b"
-            # 初始位置為中點，再根據 4P～6P 依序往左
-            x = self.play_rect_area.midbottom[0] - (self.no-1) * 50 + 100
-        # lives A_x: 520, B_x: 620
-        for live in range(self.lives):
-            image_data.append(create_image_view_data(f"{team_id}_lives", x, y, 30, 30))
-            x += 5
-            y -= 5
-        # oil A_x: 650, B_x: 360
-        y = self.play_rect_area.height + 60
-        if self.no > 3:
-            x = self.play_rect_area.midbottom[0] - 65 - (self.no-1) * 80 + 75
-            image_data.append(create_rect_view_data(f"{team_id}_oil", x, y, int(self.oil*0.75), 10, ORANGE))
-        else:
-            x = self.play_rect_area.midbottom[0] + 150 + (self.no-1) * 80
-            image_data.append(create_rect_view_data(f"{team_id}_oil", x, y, int(self.oil*0.75), 10, ORANGE))
-        # power A_x: 650, B_x: 360
-        y = self.play_rect_area.height + 80
-        if self.no > 3:
-            for power in range(self.power):
-                image_data.append(create_rect_view_data(f"{team_id}_power", x+67, y, 5, 10, BLUE))
-                x -= 7
-
-        else:
-            for power in range(self.power):
-                image_data.append(create_rect_view_data(f"{team_id}_power", x+2, y, 5, 10, BLUE))
-                x += 7
-
-
         return image_data
 
     def get_obj_init_data(self) -> list:
@@ -300,10 +263,3 @@ class Player(pygame.sprite.Sprite):
                 , "lives": self.lives
                 }
         return info
-
-    def out(self):
-        if self.no > 3:
-            self.rect.topleft = ((self.play_rect_area.width // 2 + 150) + -50 * self.no, -50)
-        else:
-            self.rect.topleft = ((self.play_rect_area.width // 2 - 50) + 50 * self.no, -50)
-        self.rot = 0

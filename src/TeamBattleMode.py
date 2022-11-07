@@ -282,28 +282,56 @@ class TeamBattleMode:
         x = WINDOW_WIDTH - 105
         y = WINDOW_HEIGHT - 40
         toggle_data.append(create_text_view_data(f"Score: {self.team_a_score}", x, y, DARKGREEN, "24px Arial BOLD"))
-        for player in self.players_a:
-            if isinstance(player, Player):
-                toggle_data.extend(player.get_obj_toggle_data())
         # 2P
         x = 5
         y = WINDOW_HEIGHT - 40
         toggle_data.append(create_text_view_data(f"Score: {self.team_b_score}", x, y, BLUE, "24px Arial BOLD"))
-        for player in self.players_b:
-            if isinstance(player, Player):
-                toggle_data.extend(player.get_obj_toggle_data())
-
+        for player in self.all_players:
+            if isinstance(player, Player) and player.is_alive:
+                # lives
+                team_id = "team_a"
+                color = DARKGREEN
+                # 初始位置為中點 + 5，再根據 1P～3P 依序往右
+                x = player.play_rect_area.midbottom[0] + 5 + (player.no - 1) * 50
+                y = player.play_rect_area.height + 65
+                if player.no > 3:
+                    team_id = "team_b"
+                    color = BLUE
+                    # 初始位置為中點，再根據 4P～6P 依序往左
+                    x = player.play_rect_area.midbottom[0] - (player.no - 1) * 50 + 100
+                # lives A_x: 520, B_x: 620
+                toggle_data.append(
+                    create_text_view_data(f"{player.no}P", x - 5, y - 20, color, "22px Arial BOLD"))
+                for live in range(player.lives):
+                    toggle_data.append(create_image_view_data(f"{team_id}_lives", x, y, 30, 30))
+                    x += 5
+                    y -= 5
         return toggle_data
 
-    def get_foreground_data(self):
-        foreground_data = []
-        color = DARKGREEN
+    def get_toggle_with_bias_data(self):
+        toggle_with_bias_data = []
+        color = WHITE
         for player in self.all_players:
-            if isinstance(player, Player):
+            if isinstance(player, Player) and player.is_alive:
+                # number
                 if player.no > 3:
-                    color = BLUE
-                foreground_data.append(create_text_view_data(f"{player.no}P", *player.rect.midleft, color, "16px Arial"))
-        return foreground_data
+                    color = WHITE
+                x = player.rect.x
+                y = player.rect.y - 18
+                toggle_with_bias_data.append(create_text_view_data(f"{player.no}P", x, y, color, "16px Arial BOLD"))
+                team_id = "team_a"
+                if player.no > 3:
+                    team_id = "team_b"
+                # oil
+                y = player.rect.bottom
+                toggle_with_bias_data.append(create_rect_view_data(f"{team_id}_oil", x, y, int(player.oil*0.6), 8, ORANGE))
+                # power
+                y = player.rect.bottom + 10
+                for power in range(player.power):
+                    toggle_with_bias_data.append(create_rect_view_data(f"{team_id}_power", x, y, 4, 8, BLUE))
+                    x += 6
+
+        return toggle_with_bias_data
 
     def get_ai_data_to_player(self):
         to_player_data = {}
