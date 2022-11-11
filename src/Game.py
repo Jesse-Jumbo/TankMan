@@ -19,7 +19,8 @@ class Game(PaiaGame):
     def __init__(self, user_num: int, team_a_user_num: int, team_b_user_num: int, is_manual: str, frame_limit: int, sound: str):
         super().__init__(user_num)
         # init game
-        self.map_name = f"map_{team_a_user_num}_v_{team_b_user_num}.tmx"
+        self.team_a_user_num = team_a_user_num
+        self.team_b_user_num = team_b_user_num
         self.is_paused = False
         self.is_debug = False
         self.is_sound = False
@@ -108,10 +109,9 @@ class Game(PaiaGame):
             self.is_paused = not self.is_paused
 
     def set_game_mode(self):
-        map_path = path.join(MAP_DIR, self.map_name)
         sound_path = ""
         if self.is_sound:
             sound_path = SOUND_DIR
         play_rect_area = pygame.Rect(0, 0, MAP_WIDTH, MAP_HEIGHT)
-        game_mode = TeamBattleMode(self.is_manual, map_path, self.frame_limit, sound_path, play_rect_area)
+        game_mode = TeamBattleMode(self.team_a_user_num, self.team_b_user_num, self.is_manual, self.frame_limit, sound_path, play_rect_area)
         return game_mode

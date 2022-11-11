@@ -19,7 +19,7 @@
       "max": 3,
       "min": 1,
       "help": "set the number of team_a users.",
-      "default": 3
+      "default": 1
     },
     {
       "name": "team_b_user_num",
@@ -28,7 +28,7 @@
       "max": 3,
       "min": 1,
       "help": "set the number of team_b users.",
-      "default": 3
+      "default": 1
     },
     {
       "name": "is_manual",

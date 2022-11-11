@@ -253,11 +253,8 @@ class Player(pygame.sprite.Sprite):
         return image_init_data
 
     def get_info_to_game_result(self) -> dict:
-        team_id = "a"
-        if self.no > 3:
-            team_id = "b"
-        info = {"no": f"{team_id}_{self.no}P"
-                , "x": self.rect.x
+        info = {"no": f"{self.no}P"
+                ,"x": self.rect.x
                 , "y": self.rect.y
                 , "score": self.score
                 , "lives": self.lives

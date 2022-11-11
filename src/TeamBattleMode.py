@@ -20,11 +20,14 @@ from .game_module.fuctions import set_topleft, add_score, set_shoot, get_sprites
 
 
 class TeamBattleMode:
-    def __init__(self, is_manual: bool, map_path: str, frame_limit: int, sound_path: str, play_rect_area: pygame.Rect):
+    def __init__(self, team_a_user_num: int, team_b_user_num: int, is_manual: bool, frame_limit: int, sound_path: str, play_rect_area: pygame.Rect):
         # init game
         pygame.init()
         self.sound_path = sound_path
-        self.map_path = map_path
+        self.team_a_user_num = team_a_user_num
+        self.team_b_user_num = team_b_user_num
+        self.map_name = f"map_{team_a_user_num}_v_{team_b_user_num}.tmx"
+        self.map_path = path.join(MAP_DIR, self.map_name)
         self.map = TiledMap(self.map_path)
         self.scene_width = self.map.map_width
         self.scene_height = self.map.map_height + 100
@@ -99,6 +102,7 @@ class TeamBattleMode:
         self.background.append(create_image_view_data("border", 0, -50, self.scene_width, WINDOW_HEIGHT, 0))
 
     def update(self, command: dict):
+        # refactor
         self.team_a_score = sum([player.score for player in self.players_a if isinstance(player, Player)])
         self.team_b_score = sum([player.score for player in self.players_b if isinstance(player, Player)])
         self.used_frame += 1
@@ -113,14 +117,23 @@ class TeamBattleMode:
 
     def reset(self):
         # reset init game
-        self.__init__(self.is_manual, self.map_path, self.frame_limit, self.sound_path, self.play_rect_area)
+        self.__init__(self.team_a_user_num, self.team_b_user_num, self.is_manual, self.frame_limit, self.sound_path, self.play_rect_area)
         # reset player pos
         self.change_obj_pos(self.all_players)
 
     def get_player_end(self):
-        if len(self.players_a) and not len(self.players_b):
+        is_alive_team_a = False
+        is_alive_team_b = False
+        for player in self.all_players:
+            if isinstance(player, Player) and player.is_alive:
+                if player.no > self.team_a_user_num and not is_alive_team_b:
+                    is_alive_team_b = True
+                elif player.no <= self.team_a_user_num:
+                    is_alive_team_a = True
+
+        if not is_alive_team_b:
             self.set_result(GameResultState.FINISH, "TEAM_A_WIN")
-        elif not len(self.players_a) and len(self.players_b):
+        elif not is_alive_team_a:
             self.set_result(GameResultState.FINISH, "TEAM_B_WIN")
 
     def get_game_end(self):
@@ -140,7 +153,12 @@ class TeamBattleMode:
         res = []
         for player in self.all_players:
             if isinstance(player, Player):
+                if player.no > self.team_a_user_num:
+                    team_id = "b"
+                else:
+                    team_id = "a"
                 get_res = player.get_info_to_game_result()
+                get_res["no"] = f"{team_id}_{player.no}P"
                 get_res["state"] = self.state
                 get_res["status"] = self.status
                 get_res["used_frame"] = self.used_frame
@@ -293,12 +311,12 @@ class TeamBattleMode:
                 color = DARKGREEN
                 # 初始位置為中點 + 5，再根據 1P～3P 依序往右
                 x = player.play_rect_area.midbottom[0] + 5 + (player.no - 1) * 50
-                y = player.play_rect_area.height + 65
-                if player.no > 3:
+                y = player.play_rect_area.height + 68
+                if player.no > self.team_a_user_num:
                     team_id = "team_b"
                     color = BLUE
                     # 初始位置為中點，再根據 4P～6P 依序往左
-                    x = player.play_rect_area.midbottom[0] - (player.no - 1) * 50 + 100
+                    x = player.play_rect_area.midbottom[0] - (player.no - self.team_a_user_num) * 50
                 # lives A_x: 520, B_x: 620
                 toggle_data.append(
                     create_text_view_data(f"{player.no}P", x - 5, y - 20, color, "22px Arial BOLD"))
@@ -314,22 +332,22 @@ class TeamBattleMode:
         for player in self.all_players:
             if isinstance(player, Player) and player.is_alive:
                 # number
-                if player.no > 3:
+                if player.no > self.team_a_user_num:
                     color = WHITE
                 x = player.rect.x
                 y = player.rect.y - 18
                 toggle_with_bias_data.append(create_text_view_data(f"{player.no}P", x, y, color, "16px Arial BOLD"))
                 team_id = "team_a"
-                if player.no > 3:
+                if player.no > self.team_a_user_num:
                     team_id = "team_b"
                 # oil
                 y = player.rect.bottom
-                toggle_with_bias_data.append(create_rect_view_data(f"{team_id}_oil", x, y, int(player.oil*0.6), 8, ORANGE))
+                toggle_with_bias_data.append(create_rect_view_data(f"{team_id}_oil", x, y, int(player.oil*0.5), 8, ORANGE))
                 # power
                 y = player.rect.bottom + 10
                 for power in range(player.power):
-                    toggle_with_bias_data.append(create_rect_view_data(f"{team_id}_power", x, y, 4, 8, BLUE))
-                    x += 6
+                    toggle_with_bias_data.append(create_rect_view_data(f"{team_id}_power", x+1, y, 3, 8, BLUE))
+                    x += 5
 
         return toggle_with_bias_data
 
@@ -397,6 +415,6 @@ class TeamBattleMode:
                 points = [top_left, sprite.rect.topright, sprite.rect.bottomright
                     , sprite.rect.bottomleft, top_left]
                 for index in range(len(points) - 1):
-                    self.obj_rect_list.append(create_line_view_data("rect", *points[index], *points[index + 1], WHITE))
+                    self.obj_rect_list.append(create_line_view_data("rect", *points[index], *points[index + 1], RED))
                     self.obj_rect_list.append(create_line_view_data("play_rect_area", *play_rect_area_points[index]
-                                                                    , *play_rect_area_points[index + 1],RED))
+                                                                    , *play_rect_area_points[index + 1], RED))
