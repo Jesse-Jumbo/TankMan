@@ -208,7 +208,7 @@ class TeamBattleMode:
             if not sprite.is_shoot:
                 continue
             self.sound_controller.play_sound("shoot", 0.03, -1)
-            init_data = create_construction("bullet", sprite.no, sprite.rect.center, (13, 13))
+            init_data = create_construction(sprite.id, sprite.no, sprite.rect.center, (BULLET_SIZE[0], BULLET_SIZE[1]))
             bullet = Bullet(init_data, rot=sprite.get_rot(), margin=2, spacing=2,
                             play_rect_area=self.play_rect_area)
             self.bullets.add(bullet)
@@ -235,11 +235,12 @@ class TeamBattleMode:
                 for data in wall.get_obj_init_data():
                     init_image_data.append(data)
                 break
-        img_id = "bullet"
-        img_url = "https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/bullet.png"
-        bullet_image_init_data = create_asset_init_data(img_id, BULLET_SIZE[0], BULLET_SIZE[1],
-                                                        path.join(IMAGE_DIR, f"{img_id}.png"), img_url)
-        init_image_data.append(bullet_image_init_data)
+        img_id = ["team_a_bullet", "team_b_bullet"]
+        for id in img_id:
+            img_url = f"https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/{id}.png"
+            bullet_image_init_data = create_asset_init_data(id, BULLET_SIZE[0], BULLET_SIZE[1],
+                                                            path.join(IMAGE_DIR, f"{id}.png"), img_url)
+            init_image_data.append(bullet_image_init_data)
         border_image_init_data = create_asset_init_data("border", self.scene_width, WINDOW_HEIGHT,
                                                         path.join(IMAGE_DIR, "border.png"),
                                                         f"https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/border.png")
@@ -250,12 +251,15 @@ class TeamBattleMode:
                 init_image_data.append(data[0])
                 init_image_data.append(data[1])
                 break
-        lives_image_init_data_1 = create_asset_init_data("team_a_lives", 30, 30, path.join(IMAGE_DIR, "1P_lives.png"),
-                                                         "https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/1P_lives.png")
-        init_image_data.append(lives_image_init_data_1)
-        lives_image_init_data_2 = create_asset_init_data("team_b_lives", 30, 30, path.join(IMAGE_DIR, "2P_lives.png"),
-                                                         "https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/2P_lives.png")
-        init_image_data.append(lives_image_init_data_2)
+        for i in range(1, 4):
+            team_a_lives = "team_a_lives"
+            team_a_lives_image_init_data = create_asset_init_data(f"{team_a_lives}_{i}", LIVES_SIZE[0], LIVES_SIZE[1], path.join(IMAGE_DIR, f"{team_a_lives}_{i}.png"),
+                                                                  f"https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/f{team_a_lives}_{i}.png")
+            init_image_data.append(team_a_lives_image_init_data)
+            team_b_lives = "team_b_lives"
+            team_b_lives_image_init_data = create_asset_init_data(f"{team_b_lives}_{i}", LIVES_SIZE[0], LIVES_SIZE[1], path.join(IMAGE_DIR, f"{team_b_lives}_{i}.png"),
+                                                                  f"https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/f{team_b_lives}_{i}.png")
+            init_image_data.append(team_b_lives_image_init_data)
         return init_image_data
 
     def get_toggle_progress_data(self):
@@ -307,23 +311,17 @@ class TeamBattleMode:
         for player in self.all_players:
             if isinstance(player, Player) and player.is_alive:
                 # lives
-                team_id = "team_a"
-                color = DARKGREEN
-                # 初始位置為中點 + 5，再根據 1P～3P 依序往右
-                x = player.play_rect_area.midbottom[0] + 5 + (player.no - 1) * 50
-                y = player.play_rect_area.height + 68
-                if player.no > self.team_a_user_num:
-                    team_id = "team_b"
-                    color = BLUE
-                    # 初始位置為中點，再根據 4P～6P 依序往左
-                    x = player.play_rect_area.midbottom[0] - (player.no - self.team_a_user_num) * 50
-                # lives A_x: 520, B_x: 620
+                team_id = "team_a_lives" if player.id == 1 else "team_b_lives"
+                color = DARKGREEN  if player.id == 1 else BLUE
+                x = player.play_rect_area.midbottom[0] + 7 + (player.no - 1) * 60 if player.id == 1 \
+                    else player.play_rect_area.midbottom[0] - (player.no - self.team_a_user_num) * 60
+                y = player.play_rect_area.height + 73
                 toggle_data.append(
-                    create_text_view_data(f"{player.no}P", x - 5, y - 20, color, "22px Arial BOLD"))
-                for live in range(player.lives):
-                    toggle_data.append(create_image_view_data(f"{team_id}_lives", x, y, 30, 30))
-                    x += 5
-                    y -= 5
+                    create_text_view_data(f"{player.no}P", x - 5, y - 25, color, "22px Arial BOLD"))
+                for live in range(1, player.lives+1):
+                    toggle_data.append(create_image_view_data(f"{team_id}_{live}", x, y, LIVES_SIZE[0], LIVES_SIZE[1]))
+                    x += 10
+                    y -= 10
         return toggle_data
 
     def get_toggle_with_bias_data(self):
