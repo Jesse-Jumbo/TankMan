@@ -301,7 +301,7 @@ class TeamBattleMode:
                     y = 32
                 x = 24
         # 1P
-        x = WINDOW_WIDTH - 105
+        x = WINDOW_WIDTH - 125
         y = WINDOW_HEIGHT - 40
         toggle_data.append(create_text_view_data(f"Score: {self.team_a_score}", x, y, DARKGREEN, "24px Arial BOLD"))
         # 2P
