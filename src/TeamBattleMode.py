@@ -16,7 +16,7 @@ from .Station import Station
 from .Wall import Wall
 from .collide_hit_rect import *
 from .env import *
-from .game_module.fuctions import set_topleft, add_score, set_shoot, get_sprites_progress_data
+from .game_module.fuctions import set_topleft, add_score, set_shoot
 
 
 class TeamBattleMode:
