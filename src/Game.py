@@ -40,7 +40,7 @@ class Game(PaiaGame):
         return to_players_data
 
     def update(self, commands: dict):
-        self.handle_event()
+        self.handle_event(commands)
         self.game_mode.debugging(self.is_debug)
         if not self.is_paused:
             self.frame_count += 1
@@ -101,11 +101,10 @@ class Game(PaiaGame):
         self.attachements = self.game_mode.get_player_result()
         return self.attachements
 
-    def handle_event(self):
-        key_board_list = pygame.key.get_pressed()
-        if key_board_list[pygame.K_b]:
+    def handle_event(self, commands):
+        if ["DEBUG"] in commands.values():
             self.is_debug = not self.is_debug
-        if key_board_list[pygame.K_SPACE]:
+        if ["PAUSED"] in commands.values():
             self.is_paused = not self.is_paused
 
     def set_game_mode(self):
