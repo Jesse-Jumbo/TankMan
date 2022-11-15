@@ -35,30 +35,17 @@ class MLPlay:
             is_shoot = 0
 
         command = []
-        if self.side == "1P":
-            if act == 1:
-                command.append("TURN_RIGHT")
-            elif act == 2:
-                command.append("TURN_LEFT")
-            elif act == 3:
-                command.append("FORWARD")
-            elif act == 4:
-                command.append("BACKWARD")
+        if act == 1:
+            command.append("TURN_RIGHT")
+        elif act == 2:
+            command.append("TURN_LEFT")
+        elif act == 3:
+            command.append("FORWARD")
+        elif act == 4:
+            command.append("BACKWARD")
 
-            if is_shoot:
-                command.append("SHOOT")
-        elif self.side == "2P":
-            if act == 1:
-                command.append("TURN_RIGHT")
-            elif act == 2:
-                command.append("TURN_LEFT")
-            elif act == 3:
-                command.append("FORWARD")
-            elif act == 4:
-                command.append("BACKWARD")
-
-            if is_shoot:
-                command.append("SHOOT")
+        if is_shoot:
+            command.append("SHOOT")
 
         if not command:
             command.append("None")

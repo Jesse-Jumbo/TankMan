@@ -4,7 +4,7 @@ import pygame
 from mlgame.game.paia_game import PaiaGame, GameStatus
 from mlgame.view.view_model import Scene
 
-from .BattleMode import BattleMode
+from .TeamBattleMode import TeamBattleMode
 from .game_module.fuctions import get_sprites_progress_data
 
 MAP_WIDTH = 1000
@@ -16,14 +16,11 @@ IMAGE_DIR = path.join(GAME_DIR, "..", "asset", "image")
 
 
 class Game(PaiaGame):
-    def __init__(self, user_num: int, is_manual: str, map_no: int, frame_limit: int, sound: str):
+    def __init__(self, user_num: int, team_a_user_num: int, team_b_user_num: int, is_manual: str, frame_limit: int, sound: str):
         super().__init__(user_num)
-        # window settings
-        pygame.display.set_icon(pygame.image.load(path.join(IMAGE_DIR, "logo.png")))
-        pygame.display.set_caption(
-            f"TankMan！ user_num: {user_num} ；is_manual: {is_manual} ；map_no: {map_no} ；frame_limit: {frame_limit} ；sound: {sound}")
         # init game
-        self.map_name = f"map_0{map_no}.tmx"
+        self.team_a_user_num = team_a_user_num
+        self.team_b_user_num = team_b_user_num
         self.is_paused = False
         self.is_debug = False
         self.is_sound = False
@@ -71,7 +68,7 @@ class Game(PaiaGame):
         """
         scene_progress = {'background': self.game_mode.background,
                           'object_list': self.get_obj_progress_data(),
-                          'toggle_with_bias': [],
+                          'toggle_with_bias': [*self.game_mode.get_toggle_with_bias_data()],
                           'toggle': self.game_mode.get_toggle_progress_data(),
                           'foreground': [],
                           'user_info': [],
@@ -83,6 +80,7 @@ class Game(PaiaGame):
         obj_list = []
         for sprites in self.game_mode.obj_list:
             obj_list.extend(get_sprites_progress_data(sprites))
+        obj_list.extend(self.game_mode.obj_rect_list)
         return obj_list
 
     def get_game_result(self):
@@ -111,10 +109,9 @@ class Game(PaiaGame):
             self.is_paused = not self.is_paused
 
     def set_game_mode(self):
-        map_path = path.join(MAP_DIR, self.map_name)
         sound_path = ""
         if self.is_sound:
             sound_path = SOUND_DIR
         play_rect_area = pygame.Rect(0, 0, MAP_WIDTH, MAP_HEIGHT)
-        game_mode = BattleMode(self.is_manual, map_path, self.frame_limit, sound_path, play_rect_area)
+        game_mode = TeamBattleMode(self.team_a_user_num, self.team_b_user_num, self.is_manual, self.frame_limit, sound_path, play_rect_area)
         return game_mode

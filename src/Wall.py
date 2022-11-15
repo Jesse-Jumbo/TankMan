@@ -10,6 +10,7 @@ class Wall(pygame.sprite.Sprite):
     def __init__(self, construction, **kwargs):
         super().__init__()
         self.id = construction["_id"]
+        self.no = 0
         self.rect = pygame.Rect(construction["_init_pos"], construction["_init_size"])
         self.angle = 0
         self.is_alive = True

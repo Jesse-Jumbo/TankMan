@@ -47,14 +47,15 @@ MAP_DIR = path.join(GAME_DIR, "..", "asset", 'maps')
 '''BG View'''
 TITLE = "TankMan!"
 BG_COLOR = DARKGREY
-TILE_X_SIZE = 60
-TILE_Y_SIZE = 60
-TILE_SIZE = 60
+TILE_X_SIZE = 50
+TILE_Y_SIZE = 50
+TILE_SIZE = 50
 TEXT_SIZE = 100
 
 '''object size'''
-ALL_OBJECT_SIZE = pygame.Rect(0, 0, 60, 60)
-BULLET_SIZE = (13, 13)
+ALL_OBJECT_SIZE = pygame.Rect(0, 0, 50, 50)
+BULLET_SIZE = (14, 16)
+LIVES_SIZE = (31, 27)
 
 """all setting"""
 DOWN_IMG = 'down'

@@ -2,10 +2,10 @@ from os import path
 
 import pygame.draw
 from mlgame.utils.enum import get_ai_name
-from mlgame.view.view_model import create_asset_init_data, create_image_view_data
+from mlgame.view.view_model import create_asset_init_data, create_image_view_data, create_rect_view_data
 
 from .env import LEFT_CMD, RIGHT_CMD, FORWARD_CMD, BACKWARD_CMD, SHOOT, SHOOT_COOLDOWN, \
-    IMAGE_DIR
+    IMAGE_DIR, ORANGE, BLUE
 
 Vec = pygame.math.Vector2
 
@@ -53,12 +53,22 @@ class Player(pygame.sprite.Sprite):
         self.is_turn_right = False
         self.is_turn_left = False
         self.act_cd = kwargs["act_cd"]
+        if self.rect.x >= self.play_rect_area.width // 2 and self.rect.y < (self.play_rect_area.height - 100) // 2:
+            self.quadrant = 1
+        elif self.rect.x < self.play_rect_area.width // 2 and self.rect.y < (self.play_rect_area.height - 100) // 2:
+            self.quadrant = 2
+        elif self.rect.x < self.play_rect_area.width // 2 and self.rect.y >= (self.play_rect_area.height - 100) // 2:
+            self.quadrant = 3
+        else:
+            self.quadrant = 4
 
     def update(self, command: dict):
         self.used_frame += 1
-        self.act(command[get_ai_name(self.id - 1)])
         if self.lives <= 0:
             self.is_alive = False
+
+        if self.is_alive:
+            self.act(command[get_ai_name(self.no - 1)])
 
         self.rotate()
 
@@ -215,19 +225,21 @@ class Player(pygame.sprite.Sprite):
             rot = self.rot + 180
             if rot >= 360:
                 rot -= 360
-        info = {"id": f"{self.id}P",
-                "x": self.rect.x,
-                "y": self.rect.y,
-                "speed": self.speed,
-                "score": self.score,
-                "power": self.power,
-                "oil": self.oil,
-                "lives": self.lives,
-                "angle": rot
+        info = {"id": f"{self.no}P"
+                , "x": self.rect.x
+                , "y": self.rect.y
+                , "speed": self.speed
+                , "score": self.score
+                , "power": self.power
+                , "oil": self.oil
+                , "lives": self.lives
+                , "angle": rot
                 }
         return info
 
     def get_obj_progress_data(self) -> dict:
+        if not self.is_alive:
+            return []
         image_data = create_image_view_data(f"{self.id}P", *self.rect.topleft, *self.origin_size, self.angle)
         return image_data
 
@@ -241,10 +253,10 @@ class Player(pygame.sprite.Sprite):
         return image_init_data
 
     def get_info_to_game_result(self) -> dict:
-        info = {"id": f"{self.id}P"
-            , "x": self.rect.x
-            , "y": self.rect.y
-            , "score": self.score
-            , "lives": self.lives
+        info = {"no": f"{self.no}P"
+                ,"x": self.rect.x
+                , "y": self.rect.y
+                , "score": self.score
+                , "lives": self.lives
                 }
         return info

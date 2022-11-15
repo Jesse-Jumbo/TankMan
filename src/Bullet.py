@@ -12,6 +12,7 @@ class Bullet(pygame.sprite.Sprite):
     def __init__(self, construction, **kwargs):
         super().__init__()
         self.id = construction["_id"]
+        self.no = construction["_no"]
         self.rect = pygame.Rect((0, 0), construction["_init_size"])
         self.rect.center = construction["_init_pos"]
         self.rot = kwargs["rot"]
@@ -53,14 +54,9 @@ class Bullet(pygame.sprite.Sprite):
         elif self.rot == 45 or self.rot == -315:
             self.rect.center += self.move["left_down"]
 
-    def get_obj_init_data(self):
-        url = "https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/bullet.png"
-        image_init_data = create_asset_init_data("bullet", self.rect.width, self.rect.height,
-                                                 path.join(IMAGE_DIR, "bullet.png"), url)
-        return image_init_data
-
     def get_obj_progress_data(self):
-        return create_image_view_data("bullet", self.rect.x, self.rect.y, self.rect.width, self.rect.height,
+        img_id = "team_a_bullet" if self.id == 1 else "team_b_bullet"
+        return create_image_view_data(img_id, self.rect.x, self.rect.y, self.rect.width, self.rect.height,
                                       self.angle)
 
     def get_data_from_obj_to_game(self) -> dict:

@@ -47,7 +47,7 @@ class MLPlay:
             # debug
             if pygame.K_b in keyboard:
                 command.append("DEBUG")
-        else:
+        elif self.side == "2P":
             if pygame.K_d in keyboard:
                 command.append("TURN_RIGHT")
             elif pygame.K_a in keyboard:

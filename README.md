@@ -3,9 +3,9 @@
 <img src="https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/49dc8cb825ddd8dea61936fb6d339c846fe68d6c/asset/image/TankMan.svg" alt="logo" width="100"/> 
 
 
-[![TankMan](https://img.shields.io/github/v/tag/Jesse-Jumbo/TankMan)](https://github.com/Jesse-Jumbo/TankMan/tree/0.5.3)
+[![TankMan](https://img.shields.io/github/v/tag/Jesse-Jumbo/TankMan)](https://github.com/Jesse-Jumbo/TankMan/tree/0.6.0)
 [![Python 3.9](https://img.shields.io/badge/python-3.9-blue.svg)](https://www.python.org/downloads/release/python-390/)
-[![MLGame](https://img.shields.io/badge/MLGame-10.0.1-<COLOR>.svg)](https://github.com/PAIA-Playful-AI-Arena/MLGame/releases/tag/10.0.1)
+[![MLGame](https://img.shields.io/badge/MLGame-10.0.3-<COLOR>.svg)](https://github.com/PAIA-Playful-AI-Arena/MLGame/releases/tag/10.0.3)
 [![pygame](https://img.shields.io/badge/pygame-2.0.1-<COLOR>.svg)](https://github.com/pygame/pygame/releases/tag/2.0.1)
 
 
@@ -17,15 +17,14 @@
 ---
 ## Requirements
 - Python==3.9
-- pygame==2.0.1
+- mlgame==10.0.3
 - pytmx=3.31
 ---
-## 即將更新內容
-
-- 
+## 更新說明
+- 0.6.0 版本之後，遊戲為 2～6人 團隊對抗遊戲
 ---
 ## 遊戲簡介:
-雙人對戰遊戲，1P玩家透過方向鍵操控綠色坦克車，2P玩家透過WASD操控藍色坦克車，按下空白鍵與F鍵可射擊砲彈，場上會有各類補給站，經過以補給該資源。
+2～6位玩家進行團隊對抗賽，Team_A 為綠色坦克車，Team_B 為藍色坦克車，透過回傳遊戲指令，操控玩家與射擊砲彈，場上會有各類補給站，經過以補給該資源。
 
 ---
 ## 畫面說明（2.x版本）:
@@ -37,48 +36,51 @@
 - 在命令行輸入命令執行。
 ---
 ## 遊戲參數設定
-- `TankMan`後不輸入參數，則默認使用預設值，即`game_config.json`內參數值。
+- 在以下命令中，`.`代表執行的遊戲專案路徑，若`.`後不輸入參數，則默認使用預設值，即`game_config.json`內參數值。
 ```bash
 # MLGame.py
-# Copy and Paste to play the game with manual
-python MLGame.py -i ml_play_manual.py -f 120 TankMan --is_manual "1" --map_no 1 --sound on --frame_limit 30
+# Copy and Paste to play battle game with manual
+python -m mlgame -f 120 -i ml/ml_play_manual.py -i ml/ml_play_manual.py . --team_a_user_num 1 --team_b_user_num 1 --is_manual "1" --frame_limit 1000
 
-# Copy and Paste to play the game with AI
-python MLGame.py -i ml_play_template_1P.py -i ml_play_template_2P.py -f 120 TankMan --is_manual "" --sound on --frame_limit 30 --map_no 1
+# Copy and Paste to play battle game with AI
+python -m mlgame -f 120 -i -i ml/ml_play.py -i ml/ml_play.py . --team_a_user_num 1 --team_b_user_num 1 --frame_limit 1000
 ```
-- `is_manual`:  輸入是否啟用手動模式，以讓遊戲適合手動遊玩。
-- `map_no`:  輸入地圖編號，以選擇遊戲的地圖。
-- `frame_limit`:  輸入遊戲總frame數，以決定遊戲的幀數。
+- `team_a_user_num`：選擇數字 1～3，以決定 A隊人數。
+- `team_b_user_num`：選擇數字 1～3，以決定 B隊人數。
+- `is_manual`:  輸入 "1" 啟用手動模式，以讓遊戲適合手動遊玩。
+- `frame_limit`:  輸入數字 30～3000，以決定遊戲的總幀數。
 - `sound`:  輸入`on`或`off`，控制是否播放遊戲音效。
-- 如果在`MLgame.py`後加上`-1`，代表只執行一次遊戲。
+- 如果在`mlgame`後加上`-1`，代表只執行一次遊戲。
 ---
 ## 遊戲操作：
 
 ### 使用鍵盤
-- 角色移動：方向鍵控制 1P（綠）按下，WASD鍵控制 2P（藍）移動和轉彎。
-- 角色射擊：1P（綠）按下`P`鍵進行射擊，2P（藍）按下`F`鍵進行射擊
+- 角色移動：方向鍵控制 1P，WASD鍵控制 2P 的移動和轉彎。
+- 角色射擊：1P 按下`P`鍵進行射擊，2P 按下`F`鍵進行射擊。
 - 遊戲畫面: 透過 I、K、J、L 來上下左右移動畫面；透過 O、U 來放大縮小畫面。
+- 隱藏遊戲資訊：按下`H`鍵，可隱藏畫面中的遊戲資訊。
 
 
 ### ＡＩ控制
-- 藉由遊戲資訊，在`ml_template_1P.py`，撰寫控制1P（綠），和在ml_template_2P.py，撰寫控制2P（藍）的AI Mode。
-- 藉由遊戲資訊，在`ml_play_manual.py`，撰寫執行坦克車行動的AI Mode。
+- 藉由遊戲資訊，在`ml`資料夾，撰寫控制遊戲角色的 `.py` 檔。
+- 可參考`ml_play.py`自動範例程式，撰寫自動遊玩的程式。
+- 可參考`ml_play_manual.py`手動範例程式，撰寫手動遊玩的程式。
 ---
 # 遊戲玩法
-1. 雙人對戰 → 時間內擊敗對方，或分數高者獲勝。
+1. 團隊對抗戰 → 時間內殲滅敵對，或高分隊伍獲勝。
 ## 過關條件
-1. 雙人對戰
-    1. 將對方擊敗。
-    2. 加總所有積分：
+1. 團隊對抗戰
+    1. 將敵隊擊敗。
+    2. 高過敵隊積分：
         - 對方失去的生命 * 20 分。
         - 每擊中一次牆壁 * 1 分。
         - 擊破牆壁 * 5 分。
 ---
 ## 失敗條件
 
-1. 雙人對戰
+1. 團隊對抗戰
     1. 生命歸零。
-    2. 時間結束，分數較對方低。
+    2. 時間結束，分數較敵隊低。
 ---
 ## 物件設定：
 ### Tank
@@ -92,15 +94,15 @@ python MLGame.py -i ml_play_template_1P.py -i ml_play_template_2P.py -f 120 Tank
 ---
 ### Walls
 1. 生命次數（3）
-2. 顏色設定（依照生命次數決定）
+2. 透明設定（依照生命次數決定）
 ---
 ### 補給站
 1. 燃油站
-    - 最多可一次補充玩家30點燃油，超過100，則無效。
-    - 與玩家碰撞玩家，則隨機換位置。
+    - 玩家經過補充 30點燃油，超過 100，則無效。
+    - 與玩家碰撞，則隨機換位置。
 
 2. 彈藥站
-    - 最多可一次補充5顆彈藥，超過10，則無效。
+    - 玩家經過補充 5顆彈藥，超過 10，則無效。
     - 與玩家碰撞，則隨機換位置。
 
 ---
@@ -115,8 +117,8 @@ python MLGame.py -i ml_play_template_1P.py -i ml_play_template_2P.py -f 120 Tank
 ---
 # image sours
 - [1P/2P](https://linevoom.line.me/user/_dV001P0rSN_bh8zGE0q4jmdr4Fn5d-j73cLrjTc?utm_medium=windows&utm_source=desktop&utm_campaign=Profile)
+- [bullet](https://linevoom.line.me/user/_dV001P0rSN_bh8zGE0q4jmdr4Fn5d-j73cLrjTc?utm_medium=windows&utm_source=desktop&utm_campaign=Profile)
 - [object](https://opengameart.org/content/simple-shooter-icons)
-- [bullet](https://opengameart.org/content/simple-2d-tank)
 - [hourglass](https://opengameart.org/content/animated-hourglass)
 
 # sound sours
