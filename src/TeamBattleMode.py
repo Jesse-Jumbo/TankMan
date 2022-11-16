@@ -254,11 +254,11 @@ class TeamBattleMode:
         for i in range(1, 4):
             team_a_lives = "team_a_lives"
             team_a_lives_image_init_data = create_asset_init_data(f"{team_a_lives}_{i}", LIVES_SIZE[0], LIVES_SIZE[1], path.join(IMAGE_DIR, f"{team_a_lives}_{i}.png"),
-                                                                  f"https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/f{team_a_lives}_{i}.png")
+                                                                  f"https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/{team_a_lives}_{i}.png")
             init_image_data.append(team_a_lives_image_init_data)
             team_b_lives = "team_b_lives"
             team_b_lives_image_init_data = create_asset_init_data(f"{team_b_lives}_{i}", LIVES_SIZE[0], LIVES_SIZE[1], path.join(IMAGE_DIR, f"{team_b_lives}_{i}.png"),
-                                                                  f"https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/f{team_b_lives}_{i}.png")
+                                                                  f"https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/{team_b_lives}_{i}.png")
             init_image_data.append(team_b_lives_image_init_data)
         return init_image_data
 
