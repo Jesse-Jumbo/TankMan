@@ -237,13 +237,13 @@ class TeamBattleMode:
                 break
         img_id = ["team_a_bullet", "team_b_bullet"]
         for id in img_id:
-            img_url = f"https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/{id}.png"
+            img_url = f"https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/{id}.svg"
             bullet_image_init_data = create_asset_init_data(id, BULLET_SIZE[0], BULLET_SIZE[1],
                                                             path.join(IMAGE_DIR, f"{id}.png"), img_url)
             init_image_data.append(bullet_image_init_data)
         border_image_init_data = create_asset_init_data("border", self.scene_width, WINDOW_HEIGHT,
                                                         path.join(IMAGE_DIR, "border.png"),
-                                                        f"https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/border.png")
+                                                        f"https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/border.svg")
         init_image_data.append(border_image_init_data)
         for player in self.all_players:
             if isinstance(player, Player):
@@ -254,11 +254,11 @@ class TeamBattleMode:
         for i in range(1, 4):
             team_a_lives = "team_a_lives"
             team_a_lives_image_init_data = create_asset_init_data(f"{team_a_lives}_{i}", LIVES_SIZE[0], LIVES_SIZE[1], path.join(IMAGE_DIR, f"{team_a_lives}_{i}.png"),
-                                                                  f"https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/{team_a_lives}_{i}.png")
+                                                                  f"https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/{team_a_lives}_{i}.svg")
             init_image_data.append(team_a_lives_image_init_data)
             team_b_lives = "team_b_lives"
             team_b_lives_image_init_data = create_asset_init_data(f"{team_b_lives}_{i}", LIVES_SIZE[0], LIVES_SIZE[1], path.join(IMAGE_DIR, f"{team_b_lives}_{i}.png"),
-                                                                  f"https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/{team_b_lives}_{i}.png")
+                                                                  f"https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/{team_b_lives}_{i}.svg")
             init_image_data.append(team_b_lives_image_init_data)
         return init_image_data
 

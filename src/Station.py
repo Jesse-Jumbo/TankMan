@@ -40,8 +40,8 @@ class Station(pygame.sprite.Sprite):
     def get_obj_init_data(self):
         bullets_id = "bullets"
         oil_id = "oil"
-        bullets_url = f"https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/{bullets_id}.png"
-        oil_url = f"https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/{oil_id}.png"
+        bullets_url = f"https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/{bullets_id}.svg"
+        oil_url = f"https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/{oil_id}.svg"
         image_init_data = [create_asset_init_data(bullets_id, self.rect.width, self.rect.height,
                                                   path.join(IMAGE_DIR, f"{bullets_id}.png"), bullets_url)
                            , create_asset_init_data(oil_id, self.rect.width, self.rect.height,
