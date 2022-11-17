@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="13.229164mm"
+   height="13.227066mm"
+   viewBox="0 0 13.229164 13.227066"
+   version="1.1"
+   id="svg1783"
+   inkscape:version="1.2.1 (9c6d41e410, 2022-07-14)"
+   sodipodi:docname="TankMan_obj.svg"
+   inkscape:export-filename="C:\Users\Jesse\Documents\PAIA\MLGame\games\TankMan\asset\image\TankManObj.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1785"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:snap-bbox="true"
+     inkscape:snap-bbox-midpoints="true"
+     inkscape:zoom="1.4142136"
+     inkscape:cx="243.95183"
+     inkscape:cy="316.78382"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="1912"
+     inkscape:window-y="32"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1"
+     inkscape:bbox-nodes="true"
+     inkscape:snap-bbox-edge-midpoints="true"
+     inkscape:bbox-paths="false"
+     inkscape:object-paths="false"
+     inkscape:snap-intersection-paths="false"
+     inkscape:snap-smooth-nodes="false"
+     inkscape:snap-midpoints="false"
+     inkscape:snap-object-midpoints="true"
+     inkscape:snap-center="true"
+     inkscape:snap-text-baseline="true"
+     inkscape:snap-page="false"
+     inkscape:snap-others="true"
+     inkscape:object-nodes="true"
+     inkscape:snap-nodes="false"
+     inkscape:snap-global="true"
+     inkscape:showpageshadow="2"
+     inkscape:deskcolor="#d1d1d1" />
+  <defs
+     id="defs1780" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-93.781321,-117.81532)">
+    <g
+       id="g4259"
+       transform="matrix(0.83333333,0,0,0.83333333,-89.641229,6.9405459)"
+       inkscape:export-filename="C:\Users\Jesse\Documents\PAIA\TankMan\asset\image\TankManObj.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96">
+      <g
+         id="g7544"
+         transform="translate(-6.3500061,-2.6123647e-4)">
+        <path
+           d="m 242.33207,140.98623 a 7.9375,7.9362338 0 1 1 -15.875,0 7.9375,7.9362338 0 1 1 15.875,0 z"
+           id="path4245"
+           style="fill:#1c191e;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.661405" />
+        <path
+           d="m 241.00915,140.98623 a 6.6145836,6.6135285 0 1 1 -13.22916,0 6.6145836,6.6135285 0 1 1 13.22916,0 z"
+           id="path4247"
+           style="fill:#6a1088;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.551172" />
+        <path
+           d="m 234.39457,135.69557 c -2.49699,0 -4.59041,1.72481 -5.14697,4.05059 l 5.14697,6.5311 5.14697,-6.5311 c -0.55656,-2.32578 -2.64998,-4.05059 -5.14697,-4.05059 z"
+           id="path4249"
+           style="fill:#1c191e;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.661405" />
+        <path
+           d="m 234.39457,137.01815 c -1.81113,0 -3.32725,1.21513 -3.80339,2.87284 l 3.80339,5.06333 3.80338,-5.06333 c -0.47613,-1.65771 -1.99225,-2.87284 -3.80338,-2.87284 z"
+           id="path4251"
+           style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.661405" />
+        <path
+           d="m 234.39457,138.34072 c -1.81113,0 -3.32725,1.21514 -3.80339,2.87285 l 0.35141,0.47556 c 0.67714,-1.21 1.96549,-2.02547 3.45198,-2.02547 1.48649,0 2.77484,0.81547 3.45198,2.02547 l 0.3514,-0.47556 c -0.47613,-1.65771 -1.99225,-2.87285 -3.80338,-2.87285 z"
+           id="path4253"
+           style="fill:#1c191e;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.661405" />
+        <path
+           d="m 234.39457,140.98623 c -1.22913,0 -2.31405,0.56907 -3.03857,1.44687 l 0.57877,0.72344 c 0.67341,-0.5346 1.53074,-0.84737 2.4598,-0.84737 0.92906,0 1.78638,0.31167 2.4598,0.84737 l 0.57877,-0.72344 c -0.72453,-0.8778 -1.80945,-1.44687 -3.03857,-1.44687 z"
+           id="path4255"
+           style="fill:#1c191e;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.661405" />
+        <path
+           d="m 234.39457,143.63174 c -0.63086,0 -1.22875,0.15034 -1.757,0.41324 l 0.82682,1.03327 c 0.30057,-0.0733 0.60687,-0.12467 0.93018,-0.12467 0.32965,0 0.64506,0.044 0.95085,0.12467 l 0.80615,-1.01237 c -0.52888,-0.26767 -1.12199,-0.43414 -1.757,-0.43414 z"
+           id="path4257"
+           style="fill:#1c191e;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.661405" />
+      </g>
+    </g>
+    <g
+       id="g106"
+       inkscape:export-filename="C:\Users\Jesse\Documents\PAIA\TankMan\asset\image\TankManObj.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96"
+       transform="matrix(3.0560575,0,0,3.05557,65.772869,103.00149)">
+      <g
+         id="g218"
+         transform="translate(0.50722907,0.51925829)">
+        <path
+           d="m 8.6576688,6.4933 a 2.1644172,2.1644172 0 1 1 -4.3288344,0 2.1644172,2.1644172 0 1 1 4.3288344,0 z"
+           id="path4021"
+           style="fill:#1a191e;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.180368" />
+        <path
+           d="m 8.2969326,6.4933 a 1.803681,1.803681 0 1 1 -3.607362,0 1.803681,1.803681 0 1 1 3.607362,0 z"
+           id="path4023"
+           style="fill:#58606d;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.150307" />
+        <path
+           d="M 7.8961931,5.8556 C 7.6144434,5.5738 7.1005306,5.6309 6.7483381,5.9831 L 5.7399792,6.9914 C 5.8030862,7.2291 5.9242696,7.4547 6.11064,7.6411 6.297023,7.8275 6.5226781,7.9487 6.7603028,8.0118 L 7.7686642,7.0034 C 8.1208566,6.6512 8.1779553,6.1373 7.8961931,5.8556 Z"
+           id="path4047"
+           style="fill:#1a191e;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.180368" />
+        <path
+           d="M 7.130956,5.0903 C 6.8492063,4.8086 6.3352935,4.8657 5.983101,5.2179 L 4.9747423,6.2262 c 0.063107,0.2376 0.1842904,0.4633 0.3706606,0.6497 0.186383,0.1863 0.4120381,0.3075 0.6496628,0.3706 L 7.0034273,6.2382 C 7.3556196,5.886 7.4127184,5.372 7.130956,5.0903 Z"
+           id="path4043"
+           style="fill:#1a191e;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.180368" />
+        <path
+           d="M 6.5805952,5.2756 C 6.4651833,5.2986 6.3428766,5.3686 6.2372213,5.4743 L 6.1316441,5.5791 c 0.059954,0.1037 0.1312506,0.2007 0.2200222,0.2894 0.087404,0.087 0.1882992,0.1582 0.2901635,0.2177 L 6.747407,5.9813 C 6.9587303,5.77 7.0148625,5.4858 6.8739876,5.345 6.8035556,5.274 6.695992,5.253 6.5805952,5.276 Z M 5.8753284,5.8346 5.3845717,6.3195 c 0.051581,0.1079 0.1265431,0.2119 0.2159103,0.3013 0.089367,0.089 0.1871444,0.1597 0.2950218,0.2113 L 6.3855105,6.3416 C 6.2836462,6.2826 6.1883404,6.2107 6.1009335,6.1233 6.0120975,6.0343 5.9353451,5.9383 5.8753222,5.8346 Z"
+           id="path4045"
+           style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.180368" />
+        <path
+           d="M 7.3458323,6.0408 C 7.2304204,6.0638 7.1081137,6.1338 7.0024584,6.2395 L 6.8968812,6.3444 C 6.9568352,6.448 7.0281316,6.545 7.1169034,6.6338 7.2043074,6.7208 7.3052026,6.792 7.4070669,6.8514 L 7.5126441,6.7466 C 7.7239674,6.5352 7.7800995,6.2511 7.6392245,6.1102 7.5687925,6.0402 7.4612291,6.0172 7.3458323,6.0412 Z M 6.6405655,6.5998 6.1498088,7.0847 c 0.051581,0.1079 0.1265431,0.212 0.2159103,0.3013 0.089367,0.089 0.1871444,0.1598 0.2950218,0.2113 L 7.1507476,7.1069 C 7.0488833,7.0469 6.9535773,6.9759 6.8661706,6.8885 6.7773336,6.7995 6.7005822,6.7035 6.6405593,6.5998 Z"
+           id="path4049"
+           style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.180368" />
+        <path
+           d="M 7.2584956,5.728 C 6.9767458,5.4463 6.4628331,5.5034 6.1106406,5.8556 L 5.1022819,6.8639 c 0.063107,0.2376 0.1842902,0.4633 0.3706606,0.6497 0.186383,0.1863 0.4120381,0.3075 0.6496628,0.3706 L 7.1309667,6.8758 C 7.483159,6.5237 7.5402578,6.0098 7.2584956,5.728 Z"
+           id="path4025"
+           style="fill:#1a191e;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.180368" />
+        <path
+           d="M 6.7081348,5.9133 C 6.5927228,5.9363 6.4704161,6.0063 6.3647608,6.112 L 6.2591836,6.2168 c 0.059954,0.1037 0.1312504,0.2007 0.2200222,0.2894 0.087404,0.087 0.1882993,0.1582 0.2901636,0.2177 L 6.8749466,6.619 C 7.0862698,6.4077 7.142402,6.1235 7.0015271,5.9827 6.9310951,5.9117 6.8235316,5.8907 6.7081348,5.9137 Z M 6.0028679,6.4723 5.5121112,6.9572 c 0.051581,0.1079 0.1265432,0.2119 0.2159104,0.3013 0.089367,0.089 0.1871443,0.1597 0.2950217,0.2113 L 6.5130501,6.9793 C 6.4111858,6.9203 6.3158798,6.8484 6.2284731,6.761 6.1396361,6.672 6.0628847,6.576 6.0028618,6.4723 Z"
+           id="path4027"
+           style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.180368" />
+      </g>
+    </g>
+  </g>
+  <style
+     type="text/css"
+     id="style2">
+	.st0{fill:#535354;}
+	.st1{fill:#5AA13B;}
+	.st2{fill:url(#SVGID_1_);}
+	.st3{fill:#444444;}
+</style>
+  <style
+     type="text/css"
+     id="style2-6">
+	.st0{fill:#535354;}
+	.st1{fill:#208FC6;}
+	.st2{fill:url(#SVGID_1_);}
+	.st3{fill:#444444;}
+</style>
+  <style
+     type="text/css"
+     id="style2-0">
+	.st0{fill:#535354;}
+	.st1{fill:#208FC6;}
+	.st2{fill:url(#SVGID_1_);}
+	.st3{fill:#444444;}
+</style>
+  <style
+     type="text/css"
+     id="style2-03">
+	.st0{fill:#535354;}
+	.st1{fill:#208FC6;}
+	.st2{fill:url(#SVGID_1_);}
+	.st3{fill:#444444;}
+</style>
+  <style
+     type="text/css"
+     id="style2-1">
+	.st0{fill:#535354;}
+	.st1{fill:#5AA13B;}
+	.st2{fill:url(#SVGID_1_);}
+	.st3{fill:#444444;}
+</style>
+  <style
+     type="text/css"
+     id="style2-3">
+	.st0{fill:#535354;}
+	.st1{fill:#208FC6;}
+	.st2{fill:url(#SVGID_1_);}
+	.st3{fill:#444444;}
+</style>
+  <style
+     type="text/css"
+     id="style2-5">
+	.st0{fill:#535354;}
+	.st1{fill:#5AA13B;}
+	.st2{fill:url(#SVGID_1_);}
+	.st3{fill:#444444;}
+</style>
+  <style
+     type="text/css"
+     id="style3">
+	.st0{fill:#535354;}
+	.st1{fill:#208FC6;}
+	.st2{fill:url(#SVGID_1_);}
+	.st3{fill:#444444;}
+</style>
+  <style
+     type="text/css"
+     id="style2-00">
+	.st0{fill:#535354;}
+	.st1{fill:#5AA13B;}
+	.st2{fill:url(#SVGID_1_);}
+	.st3{fill:#444444;}
+</style>
+  <style
+     type="text/css"
+     id="style2-2">
+	.st0{fill:#535354;}
+	.st1{fill:#208FC6;}
+	.st2{fill:url(#SVGID_1_);}
+	.st3{fill:#444444;}
+</style>
+</svg>

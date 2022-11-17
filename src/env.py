@@ -55,7 +55,7 @@ TEXT_SIZE = 100
 '''object size'''
 ALL_OBJECT_SIZE = pygame.Rect(0, 0, 50, 50)
 BULLET_SIZE = (14, 16)
-LIVES_SIZE = (31, 27)
+LIVES_SIZE = (30, 25)
 
 """all setting"""
 DOWN_IMG = 'down'
