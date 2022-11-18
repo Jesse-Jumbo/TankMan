@@ -86,10 +86,10 @@ class Player(pygame.sprite.Sprite):
             self.collide_with_walls()
 
     def rotate(self):
-        new_sur = pygame.transform.rotate(self.surface, self.rot)
         self.rot = self.rot % 360
         self.angle = 3.14 / 180 * self.rot
         origin_center = self.rect.center
+        new_sur = pygame.transform.rotate(self.surface, self.rot)
         self.rect = new_sur.get_rect()
         self.rect.center = origin_center
 

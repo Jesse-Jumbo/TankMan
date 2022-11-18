@@ -17,11 +17,13 @@ class Bullet(pygame.sprite.Sprite):
         self.rect.center = construction["_init_pos"]
         self.rot = kwargs["rot"]
         self.play_rect_area = kwargs["play_rect_area"]
-        self.angle = 0
         self.speed = 10
         self.map_width = WINDOW_WIDTH
         self.map_height = WINDOW_HEIGHT
         self.angle = 3.14 / 180 * (self.rot + 90)
+        # Refactor
+        if 7 > self.angle > 6:
+            self.angle = 0
         self.move = {"left_up": Vec(-self.speed, -self.speed), "right_up": Vec(self.speed, -self.speed),
                      "left_down": Vec(-self.speed, self.speed), "right_down": Vec(self.speed, self.speed),
                      "left": Vec(-self.speed, 0), "right": Vec(self.speed, 0), "up": Vec(0, -self.speed),
