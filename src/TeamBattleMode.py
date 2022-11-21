@@ -59,8 +59,10 @@ class TeamBattleMode:
         self.oil_stations = pygame.sprite.Group()
         # init players
         act_cd = 0
+        test_gap = 50
         if self.is_manual:
             act_cd = 10
+            test_gap = 0
         # init obj data
         self.map.add_init_obj_data(PLAYER_1_IMG_NO, Player, act_cd=act_cd, play_rect_area=self.play_rect_area)
         self.map.add_init_obj_data(PLAYER_2_IMG_NO, Player, act_cd=act_cd, play_rect_area=self.play_rect_area)
@@ -97,9 +99,9 @@ class TeamBattleMode:
         for pos in self.all_pos_list:
             no = random.randrange(3)
             self.background.append(
-                create_image_view_data(f"floor_{no}", pos[0], pos[1], 50, 50, 0))
+                create_image_view_data(f"floor_{no}", pos[0], pos[1] + test_gap, 50, 50, 0))
         self.obj_list = [self.oil_stations, self.bullet_stations, self.bullets, self.all_players, self.walls]
-        self.background.append(create_image_view_data("border", 0, -50, self.scene_width, WINDOW_HEIGHT, 0))
+        self.background.append(create_image_view_data("border", 0, -50 + test_gap, self.scene_width, WINDOW_HEIGHT, 0))
 
     def update(self, command: dict):
         # refactor
