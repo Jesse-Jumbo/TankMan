@@ -66,6 +66,7 @@ class Player(pygame.sprite.Sprite):
         self.used_frame += 1
         if self.lives <= 0:
             self.is_alive = False
+            self.lives = 0
 
         if self.is_alive:
             self.act(command[get_ai_name(self.no - 1)])

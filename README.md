@@ -40,13 +40,13 @@
 ```bash
 # MLGame.py
 # Copy and Paste to play battle game with manual
-python -m mlgame -f 120 -i ml/ml_play_manual.py -i ml/ml_play_manual.py . --team_a_user_num 1 --team_b_user_num 1 --is_manual "1" --frame_limit 1000
+python -m mlgame -f 120 -i ml/ml_play_manual.py -i ml/ml_play_manual.py . --green_team_num 1 --blue_team_num 1 --is_manual "1" --frame_limit 1000
 
 # Copy and Paste to play battle game with AI
-python -m mlgame -f 120 -i -i ml/ml_play.py -i ml/ml_play.py . --team_a_user_num 1 --team_b_user_num 1 --frame_limit 1000
+python -m mlgame -f 120 -i -i ml/ml_play.py -i ml/ml_play.py . --green_team_num 1 --blue_team_num 1 --frame_limit 1000
 ```
-- `team_a_user_num`：選擇數字 1～3，以決定 A隊人數。
-- `team_b_user_num`：選擇數字 1～3，以決定 B隊人數。
+- `green_team_num`：選擇數字 1～3，以決定 A 隊人數。
+- `blue_team_num`：選擇數字 1～3，以決定 B 隊人數。
 - `is_manual`:  輸入 "1" 啟用手動模式，以讓遊戲適合手動遊玩。
 - `frame_limit`:  輸入數字 30～3000，以決定遊戲的總幀數。
 - `sound`:  輸入`on`或`off`，控制是否播放遊戲音效。
@@ -55,14 +55,14 @@ python -m mlgame -f 120 -i -i ml/ml_play.py -i ml/ml_play.py . --team_a_user_num
 ## 遊戲操作：
 
 ### 使用鍵盤
-- 角色移動：方向鍵控制 1P，WASD鍵控制 2P 的移動和轉彎。
+- 角色移動：方向鍵控制 1P，WASD 鍵控制 2P 的移動和轉彎。
 - 角色射擊：1P 按下`P`鍵進行射擊，2P 按下`F`鍵進行射擊。
-- 遊戲畫面: 透過 I、K、J、L 來上下左右移動畫面；透過 O、U 來放大縮小畫面。
+- 遊戲畫面: 透過`I、K、J、L`來上下左右移動畫面；透過`O、U`來放大縮小畫面。
 - 隱藏遊戲資訊：按下`H`鍵，可隱藏畫面中的遊戲資訊。
 
 
 ### ＡＩ控制
-- 藉由遊戲資訊，在`ml`資料夾，撰寫控制遊戲角色的 `.py` 檔。
+- 藉由遊戲資訊，在`ml`資料夾，撰寫控制遊戲角色的`.py`檔。
 - 可參考`ml_play.py`自動範例程式，撰寫自動遊玩的程式。
 - 可參考`ml_play_manual.py`手動範例程式，撰寫手動遊玩的程式。
 ---
@@ -70,11 +70,11 @@ python -m mlgame -f 120 -i -i ml/ml_play.py -i ml/ml_play.py . --team_a_user_num
 1. 團隊對抗戰 → 時間內殲滅敵對，或高分隊伍獲勝。
 ## 過關條件
 1. 團隊對抗戰
-    1. 將敵隊擊敗。
+    1. 將敵隊全數擊敗。
     2. 高過敵隊積分：
-        - 對方失去的生命 * 20 分。
-        - 每擊中一次牆壁 * 1 分。
-        - 擊破牆壁 * 5 分。
+        - 對方失去的生命 * `20`分。
+        - 每擊中一次牆壁 * `1`分。
+        - 擊破牆壁 * `5`分。
 ---
 ## 失敗條件
 
@@ -83,7 +83,7 @@ python -m mlgame -f 120 -i -i ml/ml_play.py -i ml/ml_play.py . --team_a_user_num
     2. 時間結束，分數較敵隊低。
 ---
 ## 物件設定：
-### Tank
+### **`Tank`**
 
 ---
 1. 前進、後退速度（8 px）
@@ -92,11 +92,11 @@ python -m mlgame -f 120 -i -i ml/ml_play.py -i ml/ml_play.py . --team_a_user_num
 4. 燃油（100）
 5. 彈匣（10）
 ---
-### Walls
+### **`Walls`**
 1. 生命次數（3）
 2. 透明設定（依照生命次數決定）
 ---
-### 補給站
+### **`補給站`**
 1. 燃油站
     - 玩家經過補充 30點燃油，超過 100，則無效。
     - 與玩家碰撞，則隨機換位置。
@@ -116,10 +116,10 @@ python -m mlgame -f 120 -i -i ml/ml_play.py -i ml/ml_play.py . --team_a_user_num
 
 ---
 # image sours
-- [1P/2P](https://linevoom.line.me/user/_dV001P0rSN_bh8zGE0q4jmdr4Fn5d-j73cLrjTc?utm_medium=windows&utm_source=desktop&utm_campaign=Profile)
-- [bullet](https://linevoom.line.me/user/_dV001P0rSN_bh8zGE0q4jmdr4Fn5d-j73cLrjTc?utm_medium=windows&utm_source=desktop&utm_campaign=Profile)
-- [object](https://opengameart.org/content/simple-shooter-icons)
-- [hourglass](https://opengameart.org/content/animated-hourglass)
+- [Green Tank／Blue Tank](https://linevoom.line.me/user/_dV001P0rSN_bh8zGE0q4jmdr4Fn5d-j73cLrjTc?utm_medium=windows&utm_source=desktop&utm_campaign=Profile)
+- [Bullet](https://linevoom.line.me/user/_dV001P0rSN_bh8zGE0q4jmdr4Fn5d-j73cLrjTc?utm_medium=windows&utm_source=desktop&utm_campaign=Profile)
+- [Hourglass](https://opengameart.org/content/animated-hourglass)
+- [Other Object](https://opengameart.org/content/simple-shooter-icons)
 
 # sound sours
 - [BGM](https://opengameart.org/content/commando-team-action-loop-cut)

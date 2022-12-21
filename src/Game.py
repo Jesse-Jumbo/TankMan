@@ -16,11 +16,11 @@ IMAGE_DIR = path.join(GAME_DIR, "..", "asset", "image")
 
 
 class Game(PaiaGame):
-    def __init__(self, user_num: int, team_a_user_num: int, team_b_user_num: int, is_manual: str, frame_limit: int, sound: str):
+    def __init__(self, user_num: int, green_team_num: int, blue_team_num: int, is_manual: str, frame_limit: int, sound: str):
         super().__init__(user_num)
         # init game
-        self.team_a_user_num = team_a_user_num
-        self.team_b_user_num = team_b_user_num
+        self.green_team_num = green_team_num
+        self.blue_team_num = blue_team_num
         self.is_paused = False
         self.is_debug = False
         self.is_sound = False
@@ -66,8 +66,8 @@ class Game(PaiaGame):
         """
         Get the position of src objects for drawing on the web
         """
-        scene_progress = {'background': self.game_mode.background,
-                          'object_list': self.get_obj_progress_data(),
+        scene_progress = {'background': [],
+                          'object_list': [*self.game_mode.background, *self.get_obj_progress_data()],
                           'toggle_with_bias': [*self.game_mode.get_toggle_with_bias_data()],
                           'toggle': self.game_mode.get_toggle_progress_data(),
                           'foreground': [],
@@ -112,5 +112,5 @@ class Game(PaiaGame):
         if self.is_sound:
             sound_path = SOUND_DIR
         play_rect_area = pygame.Rect(0, 0, MAP_WIDTH, MAP_HEIGHT)
-        game_mode = TeamBattleMode(self.team_a_user_num, self.team_b_user_num, self.is_manual, self.frame_limit, sound_path, play_rect_area)
+        game_mode = TeamBattleMode(self.green_team_num, self.blue_team_num, self.is_manual, self.frame_limit, sound_path, play_rect_area)
         return game_mode

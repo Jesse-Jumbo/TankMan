@@ -20,13 +20,13 @@ from .game_module.fuctions import set_topleft, add_score, set_shoot
 
 
 class TeamBattleMode:
-    def __init__(self, team_a_user_num: int, team_b_user_num: int, is_manual: bool, frame_limit: int, sound_path: str, play_rect_area: pygame.Rect):
+    def __init__(self, green_team_num: int, blue_team_num: int, is_manual: bool, frame_limit: int, sound_path: str, play_rect_area: pygame.Rect):
         # init game
         pygame.init()
         self.sound_path = sound_path
-        self.team_a_user_num = team_a_user_num
-        self.team_b_user_num = team_b_user_num
-        self.map_name = f"map_{team_a_user_num}_v_{team_b_user_num}.tmx"
+        self.green_team_num = green_team_num
+        self.blue_team_num = blue_team_num
+        self.map_name = f"map_{green_team_num}_v_{blue_team_num}.tmx"
         self.map_path = path.join(MAP_DIR, self.map_name)
         self.map = TiledMap(self.map_path)
         self.scene_width = self.map.map_width
@@ -59,10 +59,8 @@ class TeamBattleMode:
         self.oil_stations = pygame.sprite.Group()
         # init players
         act_cd = 0
-        test_gap = 50
         if self.is_manual:
             act_cd = 10
-            test_gap = 0
         # init obj data
         self.map.add_init_obj_data(PLAYER_1_IMG_NO, Player, act_cd=act_cd, play_rect_area=self.play_rect_area)
         self.map.add_init_obj_data(PLAYER_2_IMG_NO, Player, act_cd=act_cd, play_rect_area=self.play_rect_area)
@@ -99,9 +97,9 @@ class TeamBattleMode:
         for pos in self.all_pos_list:
             no = random.randrange(3)
             self.background.append(
-                create_image_view_data(f"floor_{no}", pos[0], pos[1] + test_gap, 50, 50, 0))
+                create_image_view_data(f"floor_{no}", pos[0], pos[1], 50, 50, 0))
         self.obj_list = [self.oil_stations, self.bullet_stations, self.bullets, self.all_players, self.walls]
-        self.background.append(create_image_view_data("border", 0, -50 + test_gap, self.scene_width, WINDOW_HEIGHT, 0))
+        self.background.append(create_image_view_data("border", 0, -50, self.scene_width, WINDOW_HEIGHT, 0))
 
     def update(self, command: dict):
         # refactor
@@ -119,7 +117,7 @@ class TeamBattleMode:
 
     def reset(self):
         # reset init game
-        self.__init__(self.team_a_user_num, self.team_b_user_num, self.is_manual, self.frame_limit, self.sound_path, self.play_rect_area)
+        self.__init__(self.green_team_num, self.blue_team_num, self.is_manual, self.frame_limit, self.sound_path, self.play_rect_area)
         # reset player pos
         self.change_obj_pos(self.all_players)
 
@@ -128,21 +126,21 @@ class TeamBattleMode:
         is_alive_team_b = False
         for player in self.all_players:
             if isinstance(player, Player) and player.is_alive:
-                if player.no > self.team_a_user_num and not is_alive_team_b:
+                if player.no > self.green_team_num and not is_alive_team_b:
                     is_alive_team_b = True
-                elif player.no <= self.team_a_user_num:
+                elif player.no <= self.green_team_num:
                     is_alive_team_a = True
 
         if not is_alive_team_b:
-            self.set_result(GameResultState.FINISH, "TEAM_A_WIN")
+            self.set_result(GameResultState.FINISH, "GREEN_TEAM_WIN")
         elif not is_alive_team_a:
-            self.set_result(GameResultState.FINISH, "TEAM_B_WIN")
+            self.set_result(GameResultState.FINISH, "BLUE_TEAM_WIN")
 
     def get_game_end(self):
         if self.team_a_score > self.team_b_score:
-            self.set_result(GameResultState.FINISH, "TEAM_A_WIN")
+            self.set_result(GameResultState.FINISH, "GREEN_TEAM_WIN")
         elif self.team_a_score < self.team_b_score:
-            self.set_result(GameResultState.FINISH, "TEAM_B_WIN")
+            self.set_result(GameResultState.FINISH, "BLUE_TEAM_WIN")
         else:
             self.set_result(GameResultState.FINISH, GameStatus.GAME_DRAW)
 
@@ -155,10 +153,10 @@ class TeamBattleMode:
         res = []
         for player in self.all_players:
             if isinstance(player, Player):
-                if player.no > self.team_a_user_num:
-                    team_id = "b"
+                if player.no > self.green_team_num:
+                    team_id = "blue"
                 else:
-                    team_id = "a"
+                    team_id = "green"
                 get_res = player.get_info_to_game_result()
                 get_res["no"] = f"{team_id}_{player.no}P"
                 get_res["state"] = self.state
@@ -316,7 +314,7 @@ class TeamBattleMode:
                 team_id = "team_a_lives" if player.id == 1 else "team_b_lives"
                 color = DARKGREEN  if player.id == 1 else BLUE
                 x = player.play_rect_area.midbottom[0] + 7 + (player.no - 1) * 60 if player.id == 1 \
-                    else player.play_rect_area.midbottom[0] - (player.no - self.team_a_user_num) * 60
+                    else player.play_rect_area.midbottom[0] - (player.no - self.green_team_num) * 60
                 y = player.play_rect_area.height + 73
                 toggle_data.append(
                     create_text_view_data(f"{player.no}P", x - 5, y - 25, color, "22px Arial BOLD"))
@@ -332,13 +330,13 @@ class TeamBattleMode:
         for player in self.all_players:
             if isinstance(player, Player) and player.is_alive:
                 # number
-                if player.no > self.team_a_user_num:
+                if player.no > self.green_team_num:
                     color = WHITE
                 x = player.rect.x
                 y = player.rect.y - 18
                 toggle_with_bias_data.append(create_text_view_data(f"{player.no}P", x, y, color, "16px Arial BOLD"))
                 team_id = "team_a"
-                if player.no > self.team_a_user_num:
+                if player.no > self.green_team_num:
                     team_id = "team_b"
                 # oil
                 y = player.rect.bottom
@@ -398,7 +396,7 @@ class TeamBattleMode:
         if not player_no:
             return
         for player in self.all_players:
-            if player_no == player.no and isinstance(player, Player):
+            if isinstance(player, Player) and player_no == player.no and player.lives >= 0:
                 add_score(player, 20)
 
     def debugging(self, is_debug: bool):

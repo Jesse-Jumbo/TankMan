@@ -13,21 +13,21 @@
   },
   "game_params": [
     {
-      "name": "team_a_user_num",
+      "name": "green_team_num",
       "verbose": "A隊人數為：",
       "type": "int",
       "max": 3,
       "min": 1,
-      "help": "set the number of team_a users.",
+      "help": "set the number of green_team users.",
       "default": 1
     },
     {
-      "name": "team_b_user_num",
+      "name": "blue_team_num",
       "verbose": "B隊人數為：",
       "type": "int",
       "max": 3,
       "min": 1,
-      "help": "set the number of team_b users.",
+      "help": "set the number of blue_team users.",
       "default": 1
     },
     {

@@ -26,8 +26,8 @@ class MLPlay:
         # print(keyboard)
         if scene_info["status"] != "GAME_ALIVE":
             return "RESET"
-
-        if scene_info["used_frame"] % 30 == 0:
+        shoot_cd = random.randrange(15, 31)
+        if scene_info["used_frame"] % shoot_cd == 0:
             act = random.randrange(5)
             is_shoot = random.randrange(2)
         else:
