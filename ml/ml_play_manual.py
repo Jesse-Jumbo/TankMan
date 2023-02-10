@@ -64,7 +64,7 @@ class MLPlay:
                 command.append("SHOOT")
 
         if not command:
-            command.append("None")
+            command.append("NONE")
 
         return command
 

@@ -12,7 +12,7 @@
     ],
     "GAME_STATUS": [
         ["GAME_ALIVE", "alive", "存活"],
-        ["GAME_OVER", "over", "失敗"],
+        ["GAME_DRAW", "draw", "平手"],
         ["GREEN_TEAM_WIN", "green team win", "綠隊獲勝"],
         ["BLUE_TEAM_WIN", "blue team win", "籃隊獲勝"]
     ],

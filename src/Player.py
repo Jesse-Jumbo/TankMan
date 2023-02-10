@@ -68,8 +68,8 @@ class Player(pygame.sprite.Sprite):
             self.is_alive = False
             self.lives = 0
 
-        if self.is_alive:
-            self.act(command[get_ai_name(self.no - 1)])
+        if not self.is_alive:
+            return
 
         self.rotate()
 
@@ -85,6 +85,8 @@ class Player(pygame.sprite.Sprite):
                 or self.rect.bottom > self.play_rect_area.bottom \
                 or self.rect.top < self.play_rect_area.top:
             self.collide_with_walls()
+        else:
+            self.act(command[get_ai_name(self.no - 1)])
 
     def rotate(self):
         self.rot = self.rot % 360
