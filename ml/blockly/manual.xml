@@ -1,7 +1,7 @@
 <xml xmlns="https://developers.google.com/blockly/xml">
   <variables>
-    <variable id="pOY$_k7}^}@b2EVBF*Iz">玩家ID</variable>
     <variable id="bZ+|PJdVbiuFw3KO=ry7">遊戲次數</variable>
+    <variable id="pOY$_k7}^}@b2EVBF*Iz">玩家ID</variable>
   </variables>
   <block type="mlplay_class" id="kT4*=I#)Jm$C=[8p0q4r" x="-912" y="-1612">
     <statement name="INIT">
@@ -90,7 +90,7 @@
                 <value name="IF4">
                   <block type="mlplay_is_key_pressed" id="+c~l~6I{xp#7/XX=kTN`">
                     <field name="TYPE">alpha</field>
-                    <field name="KEY">p</field>
+                    <field name="KEY">m</field>
                   </block>
                 </value>
                 <statement name="DO4">

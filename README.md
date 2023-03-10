@@ -5,7 +5,7 @@
 
 [![TankMan](https://img.shields.io/github/v/tag/Jesse-Jumbo/TankMan)](https://github.com/Jesse-Jumbo/TankMan/tree/0.6.2)
 [![Python 3.9](https://img.shields.io/badge/python-3.9-blue.svg)](https://www.python.org/downloads/release/python-390/)
-[![MLGame](https://img.shields.io/badge/MLGame-10.0.3-<COLOR>.svg)](https://github.com/PAIA-Playful-AI-Arena/MLGame/releases/tag/10.0.3)
+[![MLGame](https://img.shields.io/badge/MLGame-10.2.5a0-<COLOR>.svg)](https://pypi.org/project/mlgame/10.2.5a0/)
 [![pygame](https://img.shields.io/badge/pygame-2.0.1-<COLOR>.svg)](https://github.com/pygame/pygame/releases/tag/2.0.1)
 
 
@@ -17,7 +17,7 @@
 ---
 ## Requirements
 - Python==3.9
-- mlgame==10.0.3
+- mlgame==10.2.5a0
 - pytmx=3.31
 ---
 ## 更新說明
@@ -56,9 +56,11 @@ python -m mlgame -f 120 -i -i ml/ml_play.py -i ml/ml_play.py . --green_team_num 
 
 ### 使用鍵盤
 - 角色移動：方向鍵控制 1P，WASD 鍵控制 2P 的移動和轉彎。
-- 角色射擊：1P 按下`P`鍵進行射擊，2P 按下`F`鍵進行射擊。
+- 角色射擊：1P 按下`M`鍵進行射擊，2P 按下`F`鍵進行射擊。
 - 遊戲畫面: 透過`I、K、J、L`來上下左右移動畫面；透過`O、U`來放大縮小畫面。
 - 隱藏遊戲資訊：按下`H`鍵，可隱藏畫面中的遊戲資訊。
+- 遊戲暫停：按下`P`鍵，可暫停遊戲（mlgame 10.2 後版本才有效）。
+- 遊戲暫停：遊戲 AI 回傳`PAUSED`指令，可暫停遊戲。
 
 
 ### ＡＩ控制
