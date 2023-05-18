@@ -16,7 +16,7 @@
       "name": "green_team_num",
       "verbose": "A隊人數為：",
       "type": "int",
-      "max": 3,
+      "max": 5,
       "min": 1,
       "help": "set the number of green_team users.",
       "default": 1
@@ -25,7 +25,7 @@
       "name": "blue_team_num",
       "verbose": "B隊人數為：",
       "type": "int",
-      "max": 3,
+      "max": 5,
       "min": 1,
       "help": "set the number of blue_team users.",
       "default": 1

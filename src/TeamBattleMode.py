@@ -25,8 +25,8 @@ class TeamBattleMode:
         pygame.init()
         self.sound_path = sound_path
         self.green_team_num = green_team_num
-        self.blue_team_num = blue_team_num
-        self.map_name = f"map_{green_team_num}_v_{blue_team_num}.tmx"
+        self.blue_team_num = blue_team_num if (6 - (green_team_num + blue_team_num)) >= 0 else (6 - green_team_num)
+        self.map_name = f"map_{green_team_num}_v_{self.blue_team_num}.tmx"
         self.map_path = path.join(MAP_DIR, self.map_name)
         self.map = TiledMap(self.map_path)
         self.scene_width = self.map.map_width
