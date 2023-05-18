@@ -29,6 +29,7 @@ class MLPlay:
         #         print(f'2P_competitor_info{scene_info["competitor_info"]}')
         # print(keyboard)
         if scene_info["status"] != "GAME_ALIVE":
+            # print(scene_info)
             return "RESET"
 
         command = []

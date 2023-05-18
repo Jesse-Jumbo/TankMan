@@ -360,6 +360,8 @@ class TeamBattleMode:
                                 isinstance(bullst_station, Station)]
         oil_stations_info = [oil_station.get_data_from_obj_to_game() for oil_station in self.oil_stations if
                              isinstance(oil_station, Station)]
+        bullets_info = [bullet.get_data_from_obj_to_game() for bullet in self.bullets if
+                             isinstance(bullet, Bullet)]
         for player in self.players_a:
             if isinstance(player, Player):
                 to_game_data = player.get_data_from_obj_to_game()
@@ -368,6 +370,7 @@ class TeamBattleMode:
                 to_game_data["teammate_info"] = competitor_info[1]
                 to_game_data["competitor_info"] = competitor_info[2]
                 to_game_data["walls_info"] = walls_info
+                to_game_data["bullets_info"] = bullets_info
                 to_game_data["bullet_stations_info"] = bullet_stations_info
                 to_game_data["oil_stations_info"] = oil_stations_info
                 to_player_data[get_ai_name(num)] = to_game_data
@@ -380,6 +383,7 @@ class TeamBattleMode:
                 to_game_data["teammate_info"] = competitor_info[2]
                 to_game_data["competitor_info"] = competitor_info[1]
                 to_game_data["walls_info"] = walls_info
+                to_game_data["bullets_info"] = bullets_info
                 to_game_data["bullet_stations_info"] = bullet_stations_info
                 to_game_data["oil_stations_info"] = oil_stations_info
                 to_player_data[get_ai_name(num)] = to_game_data
