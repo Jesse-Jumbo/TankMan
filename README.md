@@ -24,7 +24,7 @@
 - 0.6.0 版本之後，遊戲為 2～6人 團隊對抗遊戲
 ---
 ## 遊戲簡介:
-2～6位玩家進行團隊對抗賽，Team_A 為綠色坦克車，Team_B 為藍色坦克車，透過回傳遊戲指令，操控玩家與射擊砲彈，場上會有各類補給站，經過以補給該資源。
+2～6位玩家進行團隊對抗賽，GreenTeam 為綠色坦克車，BlueTeam 為藍色坦克車，透過回傳遊戲指令，操控玩家與射擊砲彈，場上會有各類補給站，經過以補給該資源。
 
 ---
 ## 畫面說明（2.x版本）:
@@ -45,8 +45,8 @@ python -m mlgame -f 120 -i ml/ml_play_manual.py -i ml/ml_play_manual.py . --gree
 # Copy and Paste to play battle game with AI
 python -m mlgame -f 120 -i -i ml/ml_play.py -i ml/ml_play.py . --green_team_num 1 --blue_team_num 1 --frame_limit 1000
 ```
-- `green_team_num`：選擇數字 1～3，以決定 A 隊人數。
-- `blue_team_num`：選擇數字 1～3，以決定 B 隊人數。
+- `green_team_num`：選擇數字 1～3，以決定 綠隊 人數。
+- `blue_team_num`：選擇數字 1～3，以決定 藍隊 人數。
 - `is_manual`:  輸入 "1" 啟用手動模式，以讓遊戲適合手動遊玩。
 - `frame_limit`:  輸入數字 30～3000，以決定遊戲的總幀數。
 - `sound`:  輸入`on`或`off`，控制是否播放遊戲音效。

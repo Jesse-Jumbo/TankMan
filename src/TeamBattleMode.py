@@ -365,6 +365,7 @@ class TeamBattleMode:
                 to_game_data = player.get_data_from_obj_to_game()
                 to_game_data["used_frame"] = self.used_frame
                 to_game_data["status"] = self.status
+                to_game_data["teammate_info"] = competitor_info[1]
                 to_game_data["competitor_info"] = competitor_info[2]
                 to_game_data["walls_info"] = walls_info
                 to_game_data["bullet_stations_info"] = bullet_stations_info
@@ -376,6 +377,7 @@ class TeamBattleMode:
                 to_game_data = player.get_data_from_obj_to_game()
                 to_game_data["used_frame"] = self.used_frame
                 to_game_data["status"] = self.status
+                to_game_data["teammate_info"] = competitor_info[2]
                 to_game_data["competitor_info"] = competitor_info[1]
                 to_game_data["walls_info"] = walls_info
                 to_game_data["bullet_stations_info"] = bullet_stations_info

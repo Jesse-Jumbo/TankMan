@@ -22,9 +22,9 @@ class MLPlay:
         """
         Generate the command according to the received scene information
         """
-        # print(scene_info)
         # print(keyboard)
         if scene_info["status"] != "GAME_ALIVE":
+            # print(scene_info)
             return "RESET"
         shoot_cd = random.randrange(15, 31)
         if scene_info["used_frame"] % shoot_cd == 0:

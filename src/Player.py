@@ -257,8 +257,6 @@ class Player(pygame.sprite.Sprite):
 
     def get_info_to_game_result(self) -> dict:
         info = {"no": f"{self.no}P"
-                ,"x": self.rect.x
-                , "y": self.rect.y
                 , "score": self.score
                 , "lives": self.lives
                 }
