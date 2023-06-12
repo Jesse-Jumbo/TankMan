@@ -11,6 +11,7 @@ def collide_with_walls(group1: pygame.sprite.Group, group2: pygame.sprite.Group)
 
 def collide_with_bullets(group1: pygame.sprite.Group, group2: pygame.sprite.Group):
     hits = pygame.sprite.groupcollide(group1, group2, False, False, pygame.sprite.collide_rect_ratio(0.8))
+    scores = {}
     for sprite, bullets in hits.items():
         for bullet in bullets:
             if bullet.no != sprite.no and sprite.lives > 0:
@@ -19,8 +20,11 @@ def collide_with_bullets(group1: pygame.sprite.Group, group2: pygame.sprite.Grou
                 if sprite.lives == 1:
                     score += 5
                 sprite.collide_with_bullets()
-                return bullet.no, score
-    return None, None
+
+                if scores.get(bullet.no) is None:
+                    scores[bullet.no] = 0
+                scores[bullet.no] += 5
+    return scores
 
 
 def collide_with_bullet_stations(player: pygame.sprite.Group, stations: pygame.sprite.Group):
