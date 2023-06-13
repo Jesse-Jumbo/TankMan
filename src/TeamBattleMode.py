@@ -169,18 +169,18 @@ class TeamBattleMode:
         if not self.is_through_wall:
             collide_with_walls(self.all_players, self.walls)
         if not self.is_invincible:
-            scores = collide_with_bullets(self.all_players, self.bullets)
-            for player in scores.keys():
+            player_score_data = collide_with_bullets(self.all_players, self.bullets)
+            for player in player_score_data.keys():
                 self.add_player_score(player)
             # TODO refactor stations
             bs = collide_with_bullet_stations(self.all_players, self.bullet_stations)
             self.change_obj_pos(bs)
             os = collide_with_oil_stations(self.all_players, self.oil_stations)
             self.change_obj_pos(os)
-        scores = collide_with_bullets(self.walls, self.bullets)
+        player_score_data = collide_with_bullets(self.walls, self.bullets)
         for player in self.all_players:
-            if player.no in scores.keys() and isinstance(player, Player):
-                add_score(player, scores[player.no])
+            if player.no in player_score_data.keys() and isinstance(player, Player):
+                add_score(player, player_score_data[player.no])
             # collide with player and other players
             # other_player = self.all_players.copy()
             # other_player.remove(player)
