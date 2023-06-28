@@ -51,7 +51,7 @@ class MLPlay:
             # paused
             if pygame.K_t in keyboard:
                 command.append("PAUSED")
-        elif self.side == "2P":
+        elif self.side == "2P" or self.side == "4P":
             if pygame.K_d in keyboard:
                 command.append("TURN_RIGHT")
             elif pygame.K_a in keyboard:
