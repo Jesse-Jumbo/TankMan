@@ -4,8 +4,8 @@ import pygame.draw
 from mlgame.utils.enum import get_ai_name
 from mlgame.view.view_model import create_asset_init_data, create_image_view_data, create_rect_view_data
 
-from .env import LEFT_CMD, RIGHT_CMD, FORWARD_CMD, BACKWARD_CMD, SHOOT, SHOOT_COOLDOWN, \
-    IMAGE_DIR, ORANGE, BLUE, IS_DEBUG
+from .env import TURN_LEFT_CMD, TURN_RIGHT_CMD, FORWARD_CMD, BACKWARD_CMD, \
+    AIM_LEFT_CMD, AIM_RIGHT_CMD, SHOOT, SHOOT_COOLDOWN, IMAGE_DIR, ORANGE, BLUE, IS_DEBUG
 from .Gun import Gun
 
 Vec = pygame.math.Vector2
@@ -61,10 +61,6 @@ class Player(pygame.sprite.Sprite):
         self.quadrant = 0
 
         self.gun = Gun(self.id, self.rect.topleft, (self.rect.width, self.rect.height), **kwargs)
-        if self.id == 1:
-            self.gun_offset = pygame.Vector2(8, 0)
-        else:
-            self.gun_offset = pygame.Vector2(-8, 0)
 
         self.calculate_quadrant()
 
@@ -91,7 +87,7 @@ class Player(pygame.sprite.Sprite):
             return
 
         self.rotate()
-        self.gun.update(self.rect.center + self.gun_offset.rotate(-self.rot), self.rot)
+        self.gun.update(self.rect.center)
 
         if not self.act_cd:
             self.is_turn_right = False
@@ -120,44 +116,72 @@ class Player(pygame.sprite.Sprite):
     def act(self, commands: list):
         if not commands or self.collided:
             return None
-        command = commands.pop()
-        if self.power and SHOOT == command:
-            self.shoot()
-        if self.oil <= 0:
-            self.oil = 0
-            return
-        if LEFT_CMD == command and not self.is_turn_left and RIGHT_CMD != command:
-            self.oil -= 0.1
-            self.turn_left()
-            self.is_turn_left = True
-            self.is_forward = False
-            self.is_backward = False
-            self.is_turn_right = False
-        elif RIGHT_CMD == command and not self.is_turn_right and LEFT_CMD != command:
-            self.oil -= 0.1
-            self.turn_right()
-            self.is_turn_right = True
-            self.is_forward = False
-            self.is_backward = False
-            self.is_turn_left = False
-        elif FORWARD_CMD == command and BACKWARD_CMD != command:
-            self.oil -= 0.1
-            self.forward()
-            self.is_forward = True
-            self.is_backward = False
-            self.is_turn_right = False
-            self.is_turn_left = False
-            self.action_history.append(FORWARD_CMD)
-        elif BACKWARD_CMD == command and FORWARD_CMD != command:
-            self.oil -= 0.1
-            self.backward()
-            self.is_backward = True
-            self.is_forward = False
-            self.is_turn_right = False
-            self.is_turn_left = False
-            self.action_history.append(BACKWARD_CMD)
 
-        self.action_history = self.action_history[-1:]
+        # Only one action from the three categories can be executed in one frame
+        move_flag = False
+        shoot_flag = False
+        aim_flag = False
+
+        while commands:
+            command = commands.pop()
+
+            # Shoot
+            if not shoot_flag:
+                if self.power and SHOOT == command:
+                    self.shoot()
+
+                shoot_flag = True
+
+            # Aiming
+            # TODO: Maybe the oil should be consumed when aiming
+            if not aim_flag:
+                if command == AIM_LEFT_CMD:
+                    self.gun.turn_left()
+                elif command == AIM_RIGHT_CMD:
+                    self.gun.turn_right()
+
+                aim_flag = True
+
+            if self.oil <= 0:
+                self.oil = 0
+                continue
+
+            # Movement
+            if not move_flag:
+                if TURN_LEFT_CMD == command and not self.is_turn_left and TURN_RIGHT_CMD != command:
+                    self.oil -= 0.1
+                    self.turn_left()
+                    self.is_turn_left = True
+                    self.is_forward = False
+                    self.is_backward = False
+                    self.is_turn_right = False
+                elif TURN_RIGHT_CMD == command and not self.is_turn_right and TURN_LEFT_CMD != command:
+                    self.oil -= 0.1
+                    self.turn_right()
+                    self.is_turn_right = True
+                    self.is_forward = False
+                    self.is_backward = False
+                    self.is_turn_left = False
+                elif FORWARD_CMD == command and BACKWARD_CMD != command:
+                    self.oil -= 0.1
+                    self.forward()
+                    self.is_forward = True
+                    self.is_backward = False
+                    self.is_turn_right = False
+                    self.is_turn_left = False
+                    self.action_history.append(FORWARD_CMD)
+                elif BACKWARD_CMD == command and FORWARD_CMD != command:
+                    self.oil -= 0.1
+                    self.backward()
+                    self.is_backward = True
+                    self.is_forward = False
+                    self.is_turn_right = False
+                    self.is_turn_left = False
+                    self.action_history.append(BACKWARD_CMD)
+
+                move_flag = True
+
+            self.action_history = self.action_history[-1:]
 
     def shoot(self):
         if self.act_cd and self.used_frame - self.last_shoot_frame > SHOOT_COOLDOWN:
@@ -258,11 +282,6 @@ class Player(pygame.sprite.Sprite):
         return self.rot
 
     def get_data_from_obj_to_game(self) -> dict:
-        rot = self.rot
-        if self.id != 1:
-            rot = self.rot + 180
-            if rot >= 360:
-                rot -= 360
         info = {"id": f"{self.no}P"
                 , "x": self.rect.x
                 , "y": self.rect.y
@@ -271,7 +290,8 @@ class Player(pygame.sprite.Sprite):
                 , "power": self.power
                 , "oil": self.oil
                 , "lives": self.lives
-                , "angle": rot
+                , "angle": self.get_rot()
+                , "gun_angle": self.gun.get_rot()
                 }
         return info
 

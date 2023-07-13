@@ -17,17 +17,27 @@ class Gun(pygame.sprite.Sprite):
         self.draw_pos = self.rect.topleft
         self.surface = pygame.Surface(self.origin_size)
         self.rot = 0
+        self.rot_speed = 45
+
+        self.used_frame = 0
+        self.last_turn_frame = self.used_frame
+        self.act_cd = kwargs["act_cd"]
 
         self.is_alive = True
+        self.is_turn_left = False
+        self.is_turn_right = False
 
         if self.id == 1:
             self.pivot_offset = pygame.Vector2(-8, 0)
         else:
             self.pivot_offset = pygame.Vector2(8, 0)
 
-    def update(self, gun_pos, rot):
-        self.rot = rot
+    def update(self, gun_pos):
         self.rotate()
+
+        if not self.act_cd:
+            self.is_turn_right = False
+            self.is_turn_left = False
 
         self.rect.center = gun_pos + self.pivot_offset.rotate(-self.rot)
         self.draw_pos = self.rect.topleft
@@ -40,6 +50,25 @@ class Gun(pygame.sprite.Sprite):
         self.rect = new_sur.get_rect()
         self.rect.center = origin_center
         self.draw_pos = self.rect.topleft
+
+    def turn_left(self):
+        if self.is_turn_left:
+            return
+
+        self.rot += self.rot_speed
+        self.is_turn_left = True
+
+    def turn_right(self):
+        if self.is_turn_right:
+            return
+
+        self.rot -= self.rot_speed
+        self.is_turn_left = True
+
+    def get_rot(self):
+        if self.id == 2:
+            return (self.rot + 180) % 360
+        return self.rot
 
     def get_obj_progress_data(self) -> dict:
         if not self.is_alive:

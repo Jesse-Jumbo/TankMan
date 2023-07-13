@@ -232,7 +232,7 @@ class TeamBattleMode:
                 bullet_speed = 10
             self.sound_controller.play_sound("shoot", 0.03, -1)
             init_data = create_construction(sprite.id, sprite.no, sprite.rect.center, (BULLET_SIZE[0], BULLET_SIZE[1]))
-            bullet = Bullet(init_data, rot=sprite.get_rot(), margin=2, spacing=2, bullet_speed=bullet_speed
+            bullet = Bullet(init_data, rot=sprite.gun.get_rot(), margin=2, spacing=2, bullet_speed=bullet_speed
                             , play_rect_area=self.play_rect_area)
             self.bullets.add(bullet)
             self.all_sprites.add(bullet)
