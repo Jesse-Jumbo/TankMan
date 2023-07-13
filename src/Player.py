@@ -6,6 +6,7 @@ from mlgame.view.view_model import create_asset_init_data, create_image_view_dat
 
 from .env import LEFT_CMD, RIGHT_CMD, FORWARD_CMD, BACKWARD_CMD, SHOOT, SHOOT_COOLDOWN, \
     IMAGE_DIR, ORANGE, BLUE, IS_DEBUG
+from .Gun import Gun
 
 Vec = pygame.math.Vector2
 
@@ -59,6 +60,12 @@ class Player(pygame.sprite.Sprite):
         self.act_cd = kwargs["act_cd"]
         self.quadrant = 0
 
+        self.gun = Gun(self.id, self.rect.topleft, (self.rect.width, self.rect.height), **kwargs)
+        if self.id == 1:
+            self.gun_offset = pygame.Vector2(8, 0)
+        else:
+            self.gun_offset = pygame.Vector2(-8, 0)
+
         self.calculate_quadrant()
 
     def calculate_quadrant(self):
@@ -75,6 +82,7 @@ class Player(pygame.sprite.Sprite):
         self.used_frame += 1
         if self.lives <= 0:
             self.is_alive = False
+            self.gun.is_alive = False
             self.lives = 0
 
         if not self.is_alive:
@@ -83,6 +91,7 @@ class Player(pygame.sprite.Sprite):
             return
 
         self.rotate()
+        self.gun.update(self.rect.center + self.gun_offset.rotate(-self.rot), self.rot)
 
         if not self.act_cd:
             self.is_turn_right = False
@@ -107,8 +116,6 @@ class Player(pygame.sprite.Sprite):
         self.rect = new_sur.get_rect()
         self.rect.center = origin_center
         self.draw_pos = self.rect.topleft
-        self.rect = self.original_rect.copy()
-        self.rect.center = origin_center
 
     def act(self, commands: list):
         if not commands or self.collided:
@@ -275,12 +282,12 @@ class Player(pygame.sprite.Sprite):
         return image_data
 
     def get_obj_init_data(self) -> list:
-        img_data = {"1P": "https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/1P.svg",
-                    "2P": "https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/2P.svg"}
+        img_data = {"1P": "https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/1P_body.svg",
+                    "2P": "https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/2P_body.svg"}
         image_init_data = []
         for id, url in img_data.items():
             image_init_data.append(create_asset_init_data(id, self.origin_size[0], self.origin_size[1],
-                                                          path.join(IMAGE_DIR, f"{id}.png"), url))
+                                                          path.join(IMAGE_DIR, f"{id}_body.png"), url))
         return image_init_data
 
     def get_info_to_game_result(self) -> dict:
