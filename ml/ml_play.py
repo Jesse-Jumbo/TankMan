@@ -27,23 +27,28 @@ class MLPlay:
         if scene_info["status"] != "GAME_ALIVE":
             # print(scene_info)
             return "RESET"
-        act = random.randrange(5)
+        move_act = random.randrange(5)
+        aim_act = random.randrange(3)
         shoot_cd = random.randrange(15, 31)
+
+        is_shoot = 0
         if scene_info["used_frame"] % shoot_cd == 0:
             is_shoot = random.randrange(2)
-        else:
-            act = 0
-            is_shoot = 0
 
         command = []
-        if act == 1:
+        if move_act == 1:
             command.append("TURN_RIGHT")
-        elif act == 2:
+        elif move_act == 2:
             command.append("TURN_LEFT")
-        elif act == 3:
+        elif move_act == 3:
             command.append("FORWARD")
-        elif act == 4:
+        elif move_act == 4:
             command.append("BACKWARD")
+
+        if aim_act == 1:
+            command.append("AIM_LEFT")
+        elif aim_act == 2:
+            command.append("AIM_RIGHT")
 
         if is_shoot and not IS_DEBUG:
             command.append("SHOOT")
