@@ -43,6 +43,11 @@ class MLPlay:
             elif pygame.K_DOWN in keyboard:
                 command.append("BACKWARD")
 
+            if pygame.K_z in keyboard:
+                command.append("AIM_LEFT")
+            elif pygame.K_x in keyboard:
+                command.append("AIM_RIGHT")
+
             if pygame.K_m in keyboard:
                 command.append("SHOOT")
             # debug
@@ -60,6 +65,11 @@ class MLPlay:
                 command.append("FORWARD")
             elif pygame.K_s in keyboard:
                 command.append("BACKWARD")
+
+            if pygame.K_q in keyboard:
+                command.append("AIM_LEFT")
+            elif pygame.K_e in keyboard:
+                command.append("AIM_RIGHT")
 
             if pygame.K_f in keyboard:
                 command.append("SHOOT")

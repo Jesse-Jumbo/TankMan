@@ -12,6 +12,7 @@ from src.game_module.SoundController import create_sounds_data, create_bgm_data,
 from src.game_module.TiledMap import create_construction, TiledMap
 from .Bullet import Bullet
 from .Player import Player
+from .Gun import Gun
 from .Station import Station
 from .Wall import Wall
 from .collide_hit_rect import *
@@ -53,6 +54,7 @@ class TeamBattleMode:
         self.players_a = pygame.sprite.Group()
         self.players_b = pygame.sprite.Group()
         self.all_players = pygame.sprite.Group()
+        self.guns = pygame.sprite.Group()
         self.walls = pygame.sprite.Group()
         self.bullets = pygame.sprite.Group()
         self.bullet_stations = pygame.sprite.Group()
@@ -80,7 +82,9 @@ class TeamBattleMode:
             player.no = no
             no += 1
         self.all_players.add(*self.players_a, *self.players_b)
+        self.guns.add(*[player.gun for player in self.all_players])
         self.all_sprites.add(*self.players_a, *self.players_b)
+        self.all_sprites.add(*[player.gun for player in self.all_players])
         # init walls
         self.walls.add(all_obj[WALL_IMG_NO])
         self.all_sprites.add(*self.walls)
@@ -98,7 +102,7 @@ class TeamBattleMode:
             no = random.randrange(3)
             self.background.append(
                 create_image_view_data(f"floor_{no}", pos[0], pos[1], 50, 50, 0))
-        self.obj_list = [self.oil_stations, self.bullet_stations, self.bullets, self.all_players, self.walls]
+        self.obj_list = [self.oil_stations, self.bullet_stations, self.bullets, self.all_players, self.guns, self.walls]
         self.background.append(create_image_view_data("border", 0, -50, self.scene_width, WINDOW_HEIGHT, 0))
 
     def update(self, command: dict):
@@ -119,7 +123,7 @@ class TeamBattleMode:
         # reset init game
         self.__init__(self.green_team_num, self.blue_team_num, self.is_manual, self.frame_limit, self.sound_path, self.play_rect_area)
         # reset player pos
-        self.change_obj_pos(self.all_players)
+        self.change_player_pos()
 
     def get_player_end(self):
         is_alive_team_green = False
@@ -181,6 +185,20 @@ class TeamBattleMode:
         for player, score in player_score_data.items():
             self.add_player_score(player, score)
 
+    def change_player_pos(self):
+        for player in self.all_players:
+            quadrant = player.quadrant
+            self.empty_quadrant_pos_dict[quadrant].append(player.rect.topleft)
+            if quadrant == 2 or quadrant == 3:
+                player.quadrant = random.choice([2, 3])
+            else:
+                player.quadrant = random.choice([1, 4])
+            quadrant = player.quadrant
+            new_pos = self.empty_quadrant_pos_dict[quadrant].pop(
+                random.randrange(len(self.empty_quadrant_pos_dict[quadrant])))
+            set_topleft(player, new_pos)
+            set_topleft(player.gun, new_pos)
+
     # TODO move method to Station
     def change_obj_pos(self, objs=None):
         if objs is None:
@@ -206,7 +224,7 @@ class TeamBattleMode:
                 bullet_speed = 10
             self.sound_controller.play_sound("shoot", 0.03, -1)
             init_data = create_construction(sprite.id, sprite.no, sprite.rect.center, (BULLET_SIZE[0], BULLET_SIZE[1]))
-            bullet = Bullet(init_data, rot=sprite.get_rot(), margin=2, spacing=2, bullet_speed=bullet_speed
+            bullet = Bullet(init_data, rot=sprite.gun.get_rot(), margin=2, spacing=2, bullet_speed=bullet_speed
                             , play_rect_area=self.play_rect_area)
             self.bullets.add(bullet)
             self.all_sprites.add(bullet)
@@ -245,6 +263,12 @@ class TeamBattleMode:
         for player in self.all_players:
             if isinstance(player, Player):
                 data = player.get_obj_init_data()
+                init_image_data.append(data[0])
+                init_image_data.append(data[1])
+                break
+        for gun in self.guns:
+            if isinstance(gun, Gun):
+                data = gun.get_obj_init_data()
                 init_image_data.append(data[0])
                 init_image_data.append(data[1])
                 break
