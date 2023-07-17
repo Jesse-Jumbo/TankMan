@@ -2,8 +2,7 @@ from os import path
 
 import pygame
 from mlgame.view.view_model import (create_asset_init_data,
-                                    create_image_view_data,
-                                    create_rect_view_data)
+                                    create_image_view_data)
 
 from .env import IMAGE_DIR
 
@@ -33,9 +32,13 @@ class Gun(pygame.sprite.Sprite):
             self.pivot_offset = pygame.Vector2(8, 0)
 
     def update(self, gun_pos):
+        self.used_frame += 1
         self.rotate()
 
         if not self.act_cd:
+            self.is_turn_right = False
+            self.is_turn_left = False
+        elif self.used_frame - self.last_turn_frame > self.act_cd:
             self.is_turn_right = False
             self.is_turn_left = False
 
@@ -56,14 +59,20 @@ class Gun(pygame.sprite.Sprite):
             return
 
         self.rot += self.rot_speed
+        self.last_turn_frame = self.used_frame
+
         self.is_turn_left = True
+        self.is_turn_right = False
 
     def turn_right(self):
         if self.is_turn_right:
             return
 
         self.rot -= self.rot_speed
-        self.is_turn_left = True
+        self.last_turn_frame = self.used_frame
+
+        self.is_turn_left = False
+        self.is_turn_right = True
 
     def get_rot(self):
         if self.id == 2:
