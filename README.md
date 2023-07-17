@@ -3,7 +3,7 @@
 <img src="https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/49dc8cb825ddd8dea61936fb6d339c846fe68d6c/asset/image/TankMan.svg" alt="logo" width="100"/> 
 
 
-[![TankMan](https://img.shields.io/github/v/tag/Jesse-Jumbo/TankMan)](https://github.com/Jesse-Jumbo/TankMan/tree/0.6.11)
+[![TankMan](https://img.shields.io/github/v/tag/Jesse-Jumbo/TankMan)](https://github.com/Jesse-Jumbo/TankMan/tree/0.7.0)
 [![Python 3.9](https://img.shields.io/badge/python-3.9-blue.svg)](https://www.python.org/downloads/release/python-390/)
 [![MLGame](https://img.shields.io/badge/MLGame-10.2.5a0-<COLOR>.svg)](https://pypi.org/project/mlgame/10.2.5a0/)
 [![pygame](https://img.shields.io/badge/pygame-2.0.1-<COLOR>.svg)](https://github.com/pygame/pygame/releases/tag/2.0.1)
@@ -22,6 +22,7 @@
 ---
 ## 更新說明
 - 0.6.0 版本之後，遊戲為 2～6人 團隊對抗遊戲
+- 0.7.0 版本之後，坦克和砲管的方向可以分開控制
 ---
 ## 遊戲簡介:
 2～6位玩家進行團隊對抗賽，GreenTeam 為綠色坦克車，BlueTeam 為藍色坦克車，透過回傳遊戲指令，操控玩家與射擊砲彈，場上會有各類補給站，經過以補給該資源。
