@@ -175,9 +175,9 @@ class TeamBattleMode:
         if not self.is_through_wall:
             collide_with_walls(self.all_players, self.walls)
         if not self.is_invincible:
-            player_score_data = collide_with_bullets(self.all_players, self.bullets)
-            for player in player_score_data.keys():
-                self.add_player_score(player)
+            player_score_data = collide_with_bullets(self.all_players, self.bullets, self.green_team_num)
+            for player, score in player_score_data.items():
+                self.add_player_score(player, score)
             # TODO refactor stations
 
             # Check collision between player and stations
@@ -195,16 +195,8 @@ class TeamBattleMode:
             # Update stations position
 
         player_score_data = collide_with_bullets(self.walls, self.bullets)
-        for player in self.all_players:
-            if player.no in player_score_data.keys() and isinstance(player, Player):
-                add_score(player, player_score_data[player.no])
-            # collide with player and other players
-            # other_player = self.all_players.copy()
-            # other_player.remove(player)
-            # hits = pygame.sprite.spritecollide(player, other_player, False, pygame.sprite.collide_rect_ratio(0.8))
-            # for hit in hits:
-            #     if isinstance(hit, Player):
-            #         hit.collide_with_walls()
+        for player, score in player_score_data.items():
+            self.add_player_score(player, score)
 
     def change_player_pos(self):
         for player in self.all_players:
@@ -440,12 +432,12 @@ class TeamBattleMode:
         return [create_sounds_data("shoot", "shoot.wav")
             , create_sounds_data("touch", "touch.wav")]
 
-    def add_player_score(self, player_no: int):
-        if not player_no:
+    def add_player_score(self, player_no: int, score: int):
+        if not player_no or not score:
             return
         for player in self.all_players:
             if isinstance(player, Player) and player_no == player.no and player.lives >= 0:
-                add_score(player, 20)
+                add_score(player, score)
 
     def debugging(self, is_debug: bool):
         self.obj_rect_list = []
