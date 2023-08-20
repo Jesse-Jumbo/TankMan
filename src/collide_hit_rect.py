@@ -1,6 +1,7 @@
 import pygame.sprite
 
 from src.Player import Player
+from src.Bullet import Bullet
 
 
 def collide_with_walls(group1: pygame.sprite.Group, group2: pygame.sprite.Group):
@@ -27,17 +28,13 @@ def collide_with_bullets(group1: pygame.sprite.Group, group2: pygame.sprite.Grou
     return player_score_data
 
 
-def collide_with_bullet_stations(player: pygame.sprite.Group, stations: pygame.sprite.Group):
-    hits = pygame.sprite.groupcollide(player, stations, False, False, pygame.sprite.collide_rect_ratio(0.8))
-    for player, stations in hits.items():
-        player.get_power(stations[0].power)
-        stations[0].collect()
-        return stations
+def collide_with_stations(sprites: pygame.sprite.Group, stations: pygame.sprite.Group):
+    hits = pygame.sprite.groupcollide(sprites, stations, False, False, pygame.sprite.collide_rect_ratio(0.8))
+    for sprite, stations in hits.items():
+        if isinstance(sprite, Player):
+            sprite.get_oil(stations[0].power)
+        elif isinstance(sprite, Bullet):
+            sprite.kill()
 
-
-def collide_with_oil_stations(player: pygame.sprite.Group, stations: pygame.sprite.Group):
-    hits = pygame.sprite.groupcollide(player, stations, False, False, pygame.sprite.collide_rect_ratio(0.8))
-    for player, stations in hits.items():
-        player.get_oil(stations[0].power)
         stations[0].collect()
         return stations
