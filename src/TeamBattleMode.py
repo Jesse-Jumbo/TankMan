@@ -183,14 +183,16 @@ class TeamBattleMode:
             # Check collision between player and stations
             bs = collide_with_stations(self.all_players, self.bullet_stations)
             os = collide_with_stations(self.all_players, self.oil_stations)
+            self.change_obj_pos(bs)
+            self.change_obj_pos(os)
 
             # Check collision between bullet and stations
             bs = collide_with_stations(self.bullets, self.bullet_stations)
             os = collide_with_stations(self.bullets, self.oil_stations)
-
-            # Update stations position
             self.change_obj_pos(bs)
             self.change_obj_pos(os)
+
+            # Update stations position
 
         player_score_data = collide_with_bullets(self.walls, self.bullets)
         for player in self.all_players:
