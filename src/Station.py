@@ -22,14 +22,30 @@ class Station(pygame.sprite.Sprite):
         else:
             self.quadrant = 4
 
+        self.spawn_cd = kwargs["spawn_cd"]
+        self.cooldown = 0
+        self.is_alive = True
+
+    def update(self):
+        if not self.is_alive:
+            self.cooldown -= 1
+            if self.cooldown <= 0:
+                self.is_alive = True
+
+    def collect(self):
+        self.is_alive = False
+        self.cooldown = self.spawn_cd
+
     def get_data_from_obj_to_game(self):
         if 5 == self.id:
-            info = {"id": "oil", "x": self.rect.x, "y": self.rect.y, "power": self.power}
+            info = {"id": "oil", "x": self.rect.x, "y": self.rect.y, "power": self.power if self.is_alive else 0}
         else:
-            info = {"id": "bullets", "x": self.rect.x, "y": self.rect.y, "power": self.power}
+            info = {"id": "bullets", "x": self.rect.x, "y": self.rect.y, "power": self.power if self.is_alive else 0}
         return info
 
     def get_obj_progress_data(self):
+        if not self.is_alive:
+            return []
         if 5 == self.id:
             return create_image_view_data(f"oil", self.rect.x, self.rect.y
                                           , self.rect.width, self.rect.height, self.angle)

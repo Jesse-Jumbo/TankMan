@@ -67,8 +67,8 @@ class TeamBattleMode:
         self.map.add_init_obj_data(PLAYER_1_IMG_NO, Player, act_cd=act_cd, play_rect_area=self.play_rect_area)
         self.map.add_init_obj_data(PLAYER_2_IMG_NO, Player, act_cd=act_cd, play_rect_area=self.play_rect_area)
         self.map.add_init_obj_data(WALL_IMG_NO, Wall, margin=8, spacing=8)
-        self.map.add_init_obj_data(BULLET_STATION_IMG_NO, Station, margin=2, spacing=2, capacity=5, quadrant=1)
-        self.map.add_init_obj_data(OIL_STATION_IMG_NO, Station, margin=2, spacing=2, capacity=30, quadrant=1)
+        self.map.add_init_obj_data(BULLET_STATION_IMG_NO, Station, spawn_cd=30, margin=2, spacing=2, capacity=5, quadrant=1)
+        self.map.add_init_obj_data(OIL_STATION_IMG_NO, Station, spawn_cd=30, margin=2, spacing=2, capacity=30, quadrant=1)
         # create obj
         all_obj = self.map.create_init_obj_dict()
         # init players
@@ -114,6 +114,8 @@ class TeamBattleMode:
         self.walls.update()
         self.create_bullet(self.all_players)
         self.bullets.update()
+        self.bullet_stations.update()
+        self.oil_stations.update()
         self.all_players.update(command)
         self.get_player_end()
         if self.used_frame >= self.frame_limit:

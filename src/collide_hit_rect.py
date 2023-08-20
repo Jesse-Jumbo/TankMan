@@ -31,6 +31,7 @@ def collide_with_bullet_stations(player: pygame.sprite.Group, stations: pygame.s
     hits = pygame.sprite.groupcollide(player, stations, False, False, pygame.sprite.collide_rect_ratio(0.8))
     for player, stations in hits.items():
         player.get_power(stations[0].power)
+        stations[0].collect()
         return stations
 
 
@@ -38,4 +39,5 @@ def collide_with_oil_stations(player: pygame.sprite.Group, stations: pygame.spri
     hits = pygame.sprite.groupcollide(player, stations, False, False, pygame.sprite.collide_rect_ratio(0.8))
     for player, stations in hits.items():
         player.get_oil(stations[0].power)
+        stations[0].collect()
         return stations
