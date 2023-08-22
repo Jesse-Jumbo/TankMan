@@ -180,19 +180,18 @@ class TeamBattleMode:
                 self.add_player_score(player, score)
             # TODO refactor stations
 
-            # Check collision between player and stations
-            bs = collide_with_stations(self.all_players, self.bullet_stations)
-            os = collide_with_stations(self.all_players, self.oil_stations)
-            self.change_obj_pos(bs)
-            self.change_obj_pos(os)
+            supply_stations = []
 
-            # Check collision between bullet and stations
-            bs = collide_with_stations(self.bullets, self.bullet_stations)
-            os = collide_with_stations(self.bullets, self.oil_stations)
-            self.change_obj_pos(bs)
-            self.change_obj_pos(os)
+            # Check collision between player and supply stations
+            supply_stations.extend(collide_with_supply_stations(self.all_players, self.bullet_stations))
+            supply_stations.extend(collide_with_supply_stations(self.all_players, self.oil_stations))
+
+            # Check collision between bullet and supply stations
+            supply_stations.extend(collide_with_supply_stations(self.bullets, self.bullet_stations))
+            supply_stations.extend(collide_with_supply_stations(self.bullets, self.oil_stations))
 
             # Update stations position
+            self.change_obj_pos(supply_stations)
 
         player_score_data = collide_with_bullets(self.walls, self.bullets)
         for player, score in player_score_data.items():

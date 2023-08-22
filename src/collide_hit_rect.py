@@ -42,13 +42,17 @@ def collide_with_bullets(group1: pygame.sprite.Group, group2: pygame.sprite.Grou
     return player_score_data
 
 
-def collide_with_stations(sprites: pygame.sprite.Group, stations: pygame.sprite.Group):
-    hits = pygame.sprite.groupcollide(sprites, stations, False, False, pygame.sprite.collide_rect_ratio(0.8))
-    for sprite, stations in hits.items():
+def collide_with_supply_stations(sprites: pygame.sprite.Group, supply_stations: pygame.sprite.Group):
+    hits = pygame.sprite.groupcollide(sprites, supply_stations, False, False, pygame.sprite.collide_rect_ratio(0.8))
+    for sprite, supply_station in hits.items():
         if isinstance(sprite, Player):
-            sprite.get_oil(stations[0].power)
+            if supply_station[0].id == 5:
+                sprite.get_oil(supply_station[0].power)
+            else:
+                sprite.get_power(supply_station[0].power)
         elif isinstance(sprite, Bullet):
             sprite.kill()
 
-        stations[0].collect()
-        return stations
+        supply_station[0].collect()
+
+    return [supply_station[0] for supply_station in hits.values()]
