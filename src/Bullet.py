@@ -29,6 +29,8 @@ class Bullet(pygame.sprite.Sprite):
                      "left": Vec(-self.speed, 0), "right": Vec(self.speed, 0), "up": Vec(0, -self.speed),
                      "down": Vec(0, self.speed)}
 
+        assert kwargs["bullet_travel_distance"] % self.speed == 0, "bullet_travel_distance must be a multiple of bullet_speed"
+
         self.max_travel_distance = kwargs["bullet_travel_distance"]
         self.travel_distance = 0
 
@@ -41,7 +43,7 @@ class Bullet(pygame.sprite.Sprite):
         else:
             is_out = True
 
-        if is_out or self.travel_distance > self.max_travel_distance:
+        if is_out or self.travel_distance >= self.max_travel_distance:
             self.kill()
 
         if self.rot == 0 or self.rot == 360:
