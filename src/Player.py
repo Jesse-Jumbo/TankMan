@@ -184,11 +184,8 @@ class Player(pygame.sprite.Sprite):
             self.action_history = self.action_history[-1:]
 
     def shoot(self):
-        if self.act_cd and self.used_frame - self.last_shoot_frame > SHOOT_COOLDOWN:
+        if self.last_shoot_frame == 0 or self.used_frame - self.last_shoot_frame > SHOOT_COOLDOWN:
             self.last_shoot_frame = self.used_frame
-            self.power -= 1
-            self.is_shoot = True
-        elif not self.act_cd:
             self.power -= 1
             self.is_shoot = True
 

@@ -10,7 +10,7 @@ WINDOW_HEIGHT = 700
 
 '''environment data'''
 FPS = 30
-SHOOT_COOLDOWN = FPS // 4
+SHOOT_COOLDOWN = 15
 
 '''color'''
 BLACK = "#000000"
