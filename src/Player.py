@@ -289,6 +289,10 @@ class Player(pygame.sprite.Sprite):
                 , "lives": self.lives
                 , "angle": self.get_rot()
                 , "gun_angle": self.gun.get_rot()
+                , "cooldown": 0
+                    if self.last_shoot_frame == 0
+                    or self.used_frame - self.last_shoot_frame > SHOOT_COOLDOWN
+                    else SHOOT_COOLDOWN - self.used_frame + self.last_shoot_frame,
                 }
         return info
 
