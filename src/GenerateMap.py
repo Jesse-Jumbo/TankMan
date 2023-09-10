@@ -13,7 +13,7 @@ TILED_VERSION = "1.9.2"
 
 class MapGenerator:
 
-    def __init__(self, green_team_num : int, blue_team_num : int) -> None:
+    def __init__(self, green_team_num : int, blue_team_num : int, width : int, height : int) -> None:
 
         self.green_team_num = green_team_num
         self.blue_team_num = blue_team_num
@@ -21,8 +21,8 @@ class MapGenerator:
         # height should be a factor of 600
         # default is 20, 12
 
-        self.width = 40
-        self.height = 24
+        self.width = width
+        self.height = height
 
         self.height_per_tile = math.floor(600/self.height)
         self.width_per_tile = self.height_per_tile
