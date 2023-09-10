@@ -9,8 +9,6 @@ from .game_module.fuctions import get_sprites_progress_data
 
 from .GenerateMap import MapGenerator
 
-MAP_WIDTH = 1000
-MAP_HEIGHT = 600
 GAME_DIR = path.dirname(__file__)
 MAP_DIR = path.join(GAME_DIR, "..", "asset", "maps")
 SOUND_DIR = path.join(GAME_DIR, "..", "asset", "sound")
@@ -114,7 +112,6 @@ class Game(PaiaGame):
         if self.is_sound:
             sound_path = SOUND_DIR
         map_width, map_height = MapGenerator(1, 1).getScreeenSize()
-        # play_rect_area = pygame.Rect(0, 0, MAP_WIDTH, MAP_HEIGHT)
-        play_rect_area = pygame.Rect(0, 0, map_width, MAP_HEIGHT)
+        play_rect_area = pygame.Rect(0, 0, map_width, map_height-100)
         game_mode = TeamBattleMode(self.green_team_num, self.blue_team_num, self.is_manual, self.frame_limit, sound_path, play_rect_area)
         return game_mode

@@ -3,7 +3,7 @@
 <img src="https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/49dc8cb825ddd8dea61936fb6d339c846fe68d6c/asset/image/TankMan.svg" alt="logo" width="100"/> 
 
 
-[![TankMan](https://img.shields.io/github/v/tag/Jesse-Jumbo/TankMan)](https://github.com/Jesse-Jumbo/TankMan/tree/0.7.0)
+[![TankMan](https://img.shields.io/github/v/tag/Jesse-Jumbo/TankMan)](https://github.com/Jesse-Jumbo/TankMan/tree/0.7.1)
 [![Python 3.9](https://img.shields.io/badge/python-3.9-blue.svg)](https://www.python.org/downloads/release/python-390/)
 [![MLGame](https://img.shields.io/badge/MLGame-10.2.5a0-<COLOR>.svg)](https://pypi.org/project/mlgame/10.2.5a0/)
 [![pygame](https://img.shields.io/badge/pygame-2.0.1-<COLOR>.svg)](https://github.com/pygame/pygame/releases/tag/2.0.1)
@@ -23,6 +23,7 @@
 ## 更新說明
 - 0.6.0 版本之後，遊戲為 2～6人 團隊對抗遊戲
 - 0.7.0 版本之後，坦克和砲管的方向可以分開控制
+- 0.7.1 版本之後，物件尺寸從原來的 50ｘ50 縮小為 25ｘ25，且補給站可被破壞
 ---
 ## 遊戲簡介:
 2～6位玩家進行團隊對抗賽，GreenTeam 為綠色坦克車，BlueTeam 為藍色坦克車，透過回傳遊戲指令，操控玩家與射擊砲彈，場上會有各類補給站，經過以補給該資源。
@@ -58,6 +59,7 @@ python -m mlgame -f 120 -i -i ml/ml_play.py -i ml/ml_play.py . --green_team_num 
 ### 使用鍵盤
 - 角色移動：方向鍵控制 1P，WASD 鍵控制 2P 的移動和轉彎。
 - 角色射擊：1P 按下`M`鍵進行射擊，2P 按下`F`鍵進行射擊。
+- 砲管旋轉：1P 按下`Z`、`X`鍵左右旋轉，2P 按下`Q`、`E`鍵左右旋轉。
 - 遊戲畫面: 透過`I、K、J、L`來上下左右移動畫面；透過`O、U`來放大縮小畫面。
 - 隱藏遊戲資訊：按下`H`鍵，可隱藏畫面中的遊戲資訊。
 - 遊戲暫停：按下`P`鍵，可暫停遊戲（mlgame 10.2 後版本才有效）。
@@ -90,10 +92,11 @@ python -m mlgame -f 120 -i -i ml/ml_play.py -i ml/ml_play.py . --green_team_num 
 
 ---
 1. 前進、後退速度（8 px）
-2. 轉彎角度（45度）
-3. 生命機會（3次）
-4. 燃油（100）
-5. 彈匣（10）
+2. 車身轉彎角度（45度） 
+3. 砲管旋轉角度（45度） 
+4. 生命機會（3次） 
+5. 燃油（100） 
+6. 彈匣（10）
 ---
 ### **`Walls`**
 1. 生命次數（3）
@@ -101,21 +104,17 @@ python -m mlgame -f 120 -i -i ml/ml_play.py -i ml/ml_play.py . --green_team_num 
 ---
 ### **`補給站`**
 1. 燃油站
-    - 玩家經過補充 30點燃油，超過 100，則無效。
-    - 與玩家碰撞，則隨機換位置。
+    - 玩家經過補充 30 點燃油，超過 100，則無效。
+    - 與玩家或子彈碰撞後消失，30 幀後隨機位置顯示。
 
 2. 彈藥站
-    - 玩家經過補充 5顆彈藥，超過 10，則無效。
-    - 與玩家碰撞，則隨機換位置。
+    - 玩家經過補充 5 顆彈藥，超過 10，則無效。
+    - 與玩家或子彈碰撞後消失，30 幀後隨機位置顯示。
 
 ---
 # 地圖說明
-- 寬1000 pixel；高600 pixel
-- 每格50 * 50 pixel，可放置一個物件
-
----
-# 地圖製作
-- 地圖製作教學 [Mapping.md](https://github.com/Jesse-Jumbo/TankMan/blob/main/Mapping.md)
+- 寬 1000 pixel；高 600 pixel
+- 每格 25 * 25 pixel，可放置一個物件
 
 ---
 # image sours

@@ -34,9 +34,7 @@ class TeamBattleMode:
         self.tileSize = self.map_generator.getTileSize()
         self.map_generator.generate_map()
         self.map = TiledMap(self.map_path)
-        # self.scene_width = self.map.map_width
-        self.scene_width, _ = self.map_generator.getScreeenSize()
-        self.scene_height = self.map.map_height + 100
+        self.scene_width, self.scene_height = self.map_generator.getScreeenSize()
         self.width_center = self.scene_width // 2
         self.height_center = self.scene_height // 2
         self.play_rect_area = play_rect_area
@@ -302,34 +300,30 @@ class TeamBattleMode:
     def get_toggle_progress_data(self):
         toggle_data = []
         hourglass_index = 0
-        hourglass_size = self.tileSize*20/50
+        hourglass_size = self.tileSize
         if self.is_manual:
             hourglass_index = self.used_frame // 10 % 15
         toggle_data.append(
-            # create_image_view_data(image_id=f"hourglass_{hourglass_index}", x=0, y=2, width=20, height=20, angle=0))
             create_image_view_data(image_id=f"hourglass_{hourglass_index}", x=0, y=2, width=hourglass_size, height=hourglass_size, angle=0))
-        x = 23
+        x = 28
         y = 8
         for frame in range((self.frame_limit - self.used_frame) // int((30 * 2))):
-            toggle_data.append(create_rect_view_data("frame", x, y, 3, 10, RED))
+            toggle_data.append(create_rect_view_data("frame", x, y, 3, 15, RED))
             x += 3.5
-        # toggle_data.append(create_text_view_data(f"Frame: {self.frame_limit - self.used_frame}",
-        #                                          self.width_center + self.width_center // 2 + 85, 8, RED,
-        #                                          "24px Arial BOLD"))
         toggle_data.append(create_text_view_data(f"Frame: {self.frame_limit - self.used_frame}",
                                                  self.scene_width-165, 8, RED,
                                                  "24px Arial BOLD"))
-        x = 24
-        y = 20
+        x = 28
+        y = 25
         for score in range(min(self.team_green_score, self.team_blue_score)):
             toggle_data.append(create_rect_view_data(name="score", x=x, y=y, width=1, height=10, color=ORANGE))
             x += 1.5
             if x > self.width_center:
-                if y == 32:
-                    y = 44
+                if y == 25:
+                    y = 36
                 else:
-                    y = 32
-                x = 24
+                    y = 25
+                x = 28
         for score in range(abs(self.team_green_score - self. team_blue_score)):
             if self.team_green_score > self.team_blue_score:
                 toggle_data.append(create_rect_view_data("score", x, y, 1, 10, DARKGREEN))
@@ -343,21 +337,17 @@ class TeamBattleMode:
                     y = 32
                 x = 24
         # 1P
-        # x = WINDOW_WIDTH - 125
-        # y = WINDOW_HEIGHT - 40
         x = self.scene_width - 125
         y = self.scene_height - 40
         toggle_data.append(create_text_view_data(f"Score: {self.team_green_score}", x, y, DARKGREEN, "24px Arial BOLD"))
         # 2P
         x = 5
-        # y = WINDOW_HEIGHT - 40
-        y = self.scene_height - 40
         toggle_data.append(create_text_view_data(f"Score: {self.team_blue_score}", x, y, BLUE, "24px Arial BOLD"))
         for player in self.all_players:
             if isinstance(player, Player) and player.is_alive:
                 # lives
                 team_id = "team_a_lives" if player.id == 1 else "team_b_lives"
-                color = DARKGREEN  if player.id == 1 else BLUE
+                color = DARKGREEN if player.id == 1 else BLUE
                 x = player.play_rect_area.midbottom[0] + 7 + (player.no - 1) * 60 if player.id == 1 \
                     else player.play_rect_area.midbottom[0] - (player.no - self.green_team_num) * 60
                 y = player.play_rect_area.height + 73
