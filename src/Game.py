@@ -113,8 +113,8 @@ class Game(PaiaGame):
         sound_path = ""
         if self.is_sound:
             sound_path = SOUND_DIR
-        map_width, map_height = MapGenerator(1, 1).getScreeenSize()
-        # play_rect_area = pygame.Rect(0, 0, MAP_WIDTH, MAP_HEIGHT)
-        play_rect_area = pygame.Rect(0, 0, map_width, MAP_HEIGHT)
+        # map_width, map_height = MapGenerator(1, 1).getScreeenSize()
+        play_rect_area = pygame.Rect(0, 0, MAP_WIDTH, MAP_HEIGHT)
+        # play_rect_area = pygame.Rect(0, 0, map_width, MAP_HEIGHT)
         game_mode = TeamBattleMode(self.green_team_num, self.blue_team_num, self.is_manual, self.frame_limit, sound_path, play_rect_area)
         return game_mode

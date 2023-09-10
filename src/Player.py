@@ -7,6 +7,7 @@ from mlgame.view.view_model import create_asset_init_data, create_image_view_dat
 from .env import TURN_LEFT_CMD, TURN_RIGHT_CMD, FORWARD_CMD, BACKWARD_CMD, \
     AIM_LEFT_CMD, AIM_RIGHT_CMD, SHOOT, SHOOT_COOLDOWN, IMAGE_DIR, ORANGE, BLUE, IS_DEBUG
 from .Gun import Gun
+from .GenerateMap import MapGenerator
 
 Vec = pygame.math.Vector2
 
@@ -37,8 +38,7 @@ class Player(pygame.sprite.Sprite):
         self.lives = 3
         self.power = 10
         self.vel = Vec(0, 0)
-
-        self.speed = 8
+        self.speed = 8 * construction["_init_size"][0] / 50
         # TODO refactor use vel
         self.move_dict = {"left_up": Vec(-self.speed, -self.speed), "right_up": Vec(self.speed, -self.speed),
                      "left_down": Vec(-self.speed, self.speed), "right_down": Vec(self.speed, self.speed),

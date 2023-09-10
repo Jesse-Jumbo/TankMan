@@ -30,8 +30,9 @@ class TeamBattleMode:
         self.blue_team_num = blue_team_num if (6 - (green_team_num + blue_team_num)) >= 0 else (6 - green_team_num)
         self.map_name = f"map_{green_team_num}_v_{self.blue_team_num}.tmx" if not IS_DEBUG else f"test_map_{green_team_num}_v_{self.blue_team_num}.tmx"
         self.map_path = path.join(MAP_DIR, self.map_name)
-        self.map_generator = MapGenerator(self.green_team_num, self.blue_team_num)
+        self.map_generator = MapGenerator(self.green_team_num, self.blue_team_num, 40, 24)
         self.tileSize = self.map_generator.getTileSize()
+        self.size_multiplier = self.tileSize / 50
         self.map_generator.generate_map()
         self.map = TiledMap(self.map_path)
         # self.scene_width = self.map.map_width
@@ -40,6 +41,7 @@ class TeamBattleMode:
         self.width_center = self.scene_width // 2
         self.height_center = self.scene_height // 2
         self.play_rect_area = play_rect_area
+        self.play_rect_area.width = self.scene_width
         self.used_frame = 0
         self.state = GameResultState.FAIL
         self.status = GameStatus.GAME_ALIVE
@@ -239,7 +241,7 @@ class TeamBattleMode:
                 continue
             bullet_speed = 30
             self.sound_controller.play_sound("shoot", 0.03, -1)
-            init_data = create_construction(sprite.id, sprite.no, sprite.rect.center, (BULLET_SIZE[0], BULLET_SIZE[1]))
+            init_data = create_construction(sprite.id, sprite.no, sprite.rect.center, (BULLET_SIZE[0] * self.size_multiplier, BULLET_SIZE[1] * self.size_multiplier))
             bullet = Bullet(init_data, rot=sprite.gun.get_rot(), margin=2, spacing=2, bullet_speed=bullet_speed, bullet_travel_distance=600
                             , play_rect_area=self.play_rect_area)
             self.bullets.add(bullet)
@@ -424,6 +426,7 @@ class TeamBattleMode:
                 to_game_data["bullets_info"] = bullets_info
                 to_game_data["bullet_stations_info"] = bullet_stations_info
                 to_game_data["oil_stations_info"] = oil_stations_info
+                to_game_data["size_multiplier"] = self.size_multiplier
                 to_player_data[get_ai_name(num)] = to_game_data
                 num += 1
         for player in self.players_b:
@@ -437,6 +440,7 @@ class TeamBattleMode:
                 to_game_data["bullets_info"] = bullets_info
                 to_game_data["bullet_stations_info"] = bullet_stations_info
                 to_game_data["oil_stations_info"] = oil_stations_info
+                to_game_data["size_multiplier"] = self.size_multiplier
                 to_player_data[get_ai_name(num)] = to_game_data
                 num += 1
 
