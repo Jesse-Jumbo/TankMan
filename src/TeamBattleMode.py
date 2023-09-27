@@ -18,7 +18,8 @@ from .Wall import Wall
 from .collide_hit_rect import *
 from .env import *
 from .game_module.fuctions import set_topleft, add_score, set_shoot
-from .GenerateMap import MapGenerator
+from .MapGenerator import MapGenerator
+from .Unbreakable_Wall import Unbreakable_Wall
 
 
 class TeamBattleMode:
@@ -30,14 +31,18 @@ class TeamBattleMode:
         self.blue_team_num = blue_team_num if (6 - (green_team_num + blue_team_num)) >= 0 else (6 - green_team_num)
         self.map_name = f"map_{green_team_num}_v_{self.blue_team_num}.tmx" if not IS_DEBUG else f"test_map_{green_team_num}_v_{self.blue_team_num}.tmx"
         self.map_path = path.join(MAP_DIR, self.map_name)
-        self.map_generator = MapGenerator(self.green_team_num, self.blue_team_num)
+        self.map_generator = MapGenerator(self.green_team_num, self.blue_team_num, 40, 24)
         self.tileSize = self.map_generator.getTileSize()
+        self.size_multiplier = self.tileSize / 50
         self.map_generator.generate_map()
         self.map = TiledMap(self.map_path)
-        self.scene_width, self.scene_height = self.map_generator.getScreeenSize()
+        # self.scene_width = self.map.map_width
+        self.scene_width, _ = self.map_generator.getScreeenSize()
+        self.scene_height = self.map.map_height + 100
         self.width_center = self.scene_width // 2
         self.height_center = self.scene_height // 2
         self.play_rect_area = play_rect_area
+        self.play_rect_area.width = self.scene_width
         self.used_frame = 0
         self.state = GameResultState.FAIL
         self.status = GameStatus.GAME_ALIVE
@@ -59,6 +64,7 @@ class TeamBattleMode:
         self.all_players = pygame.sprite.Group()
         self.guns = pygame.sprite.Group()
         self.walls = pygame.sprite.Group()
+        self.unbreakable_walls = pygame.sprite.Group()
         self.bullets = pygame.sprite.Group()
         self.bullet_stations = pygame.sprite.Group()
         self.oil_stations = pygame.sprite.Group()
@@ -72,6 +78,7 @@ class TeamBattleMode:
         self.map.add_init_obj_data(WALL_IMG_NO, Wall, margin=8, spacing=8)
         self.map.add_init_obj_data(BULLET_STATION_IMG_NO, Station, spawn_cd=30, margin=2, spacing=2, capacity=5, quadrant=1)
         self.map.add_init_obj_data(OIL_STATION_IMG_NO, Station, spawn_cd=30, margin=2, spacing=2, capacity=30, quadrant=1)
+        self.map.add_init_obj_data(UNBREAK_WALL_IMG_NO, Unbreakable_Wall, margin=8, spacing=8)
         # create obj
         all_obj = self.map.create_init_obj_dict()
         # init players
@@ -91,6 +98,9 @@ class TeamBattleMode:
         # init walls
         self.walls.add(all_obj[WALL_IMG_NO])
         self.all_sprites.add(*self.walls)
+        # init unbreakable walls
+        self.unbreakable_walls.add(all_obj[UNBREAK_WALL_IMG_NO])
+        self.all_sprites.add(*self.unbreakable_walls)
         # init bullet stations
         self.bullet_stations.add(all_obj[BULLET_STATION_IMG_NO])
         self.all_sprites.add(*self.bullet_stations)
@@ -105,7 +115,7 @@ class TeamBattleMode:
             no = random.randrange(3)
             self.background.append(
                 create_image_view_data(f"floor_{no}", pos[0], pos[1], self.tileSize, self.tileSize, 0))
-        self.obj_list = [self.oil_stations, self.bullet_stations, self.bullets, self.all_players, self.guns, self.walls]
+        self.obj_list = [self.oil_stations, self.bullet_stations, self.bullets, self.all_players, self.guns, self.walls, self.unbreakable_walls]
         self.background.append(create_image_view_data("border", 0, -50, self.scene_width, WINDOW_HEIGHT, 0))
         # self.background.append(create_image_view_data("border", 0, -self.tileSize, self.scene_width, self.scene_height, 0))
 
@@ -116,6 +126,7 @@ class TeamBattleMode:
         self.used_frame += 1
         self.check_collisions()
         self.walls.update()
+        self.unbreakable_walls.update()
         self.create_bullet(self.all_players)
         self.bullets.update()
         self.bullet_stations.update()
@@ -178,6 +189,8 @@ class TeamBattleMode:
     def check_collisions(self):
         if not self.is_through_wall:
             collide_with_walls(self.all_players, self.walls)
+            collide_with_walls(self.all_players, self.unbreakable_walls)
+            
         if not self.is_invincible:
             player_score_data = collide_with_bullets(self.all_players, self.bullets, self.green_team_num)
             for player, score in player_score_data.items():
@@ -197,6 +210,7 @@ class TeamBattleMode:
             # Update stations position
             self.change_obj_pos(supply_stations)
 
+        collide_with_bullets(self.unbreakable_walls, self.bullets)
         player_score_data = collide_with_bullets(self.walls, self.bullets)
         for player, score in player_score_data.items():
             self.add_player_score(player, score)
@@ -235,10 +249,11 @@ class TeamBattleMode:
         for sprite in sprites:
             if not sprite.is_shoot:
                 continue
-            bullet_speed = 30
+            bullet_speed = 30 * self.size_multiplier
             self.sound_controller.play_sound("shoot", 0.03, -1)
-            init_data = create_construction(sprite.id, sprite.no, sprite.rect.center, (BULLET_SIZE[0], BULLET_SIZE[1]))
-            bullet = Bullet(init_data, rot=sprite.gun.get_rot(), margin=2, spacing=2, bullet_speed=bullet_speed, bullet_travel_distance=600
+            bullet_travel_distance = int(600 * self.size_multiplier)
+            init_data = create_construction(sprite.id, sprite.no, sprite.rect.center, (BULLET_SIZE[0] * self.size_multiplier, BULLET_SIZE[1] * self.size_multiplier))
+            bullet = Bullet(init_data, rot=sprite.gun.get_rot(), margin=2, spacing=2, bullet_speed=bullet_speed, bullet_travel_distance=bullet_travel_distance
                             , play_rect_area=self.play_rect_area)
             self.bullets.add(bullet)
             self.all_sprites.add(bullet)
@@ -264,6 +279,12 @@ class TeamBattleMode:
                 for data in wall.get_obj_init_data():
                     init_image_data.append(data)
                 break
+        for unbreakable_wall in self.unbreakable_walls:
+            if isinstance(unbreakable_wall, Unbreakable_Wall):
+                for data in unbreakable_wall.get_obj_init_data():
+                    init_image_data.append(data)
+                break
+        
         img_id = ["team_a_bullet", "team_b_bullet"]
         for id in img_id:
             img_url = f"https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/{id}.svg"
@@ -300,30 +321,34 @@ class TeamBattleMode:
     def get_toggle_progress_data(self):
         toggle_data = []
         hourglass_index = 0
-        hourglass_size = self.tileSize
+        hourglass_size = self.tileSize*20/50
         if self.is_manual:
             hourglass_index = self.used_frame // 10 % 15
         toggle_data.append(
+            # create_image_view_data(image_id=f"hourglass_{hourglass_index}", x=0, y=2, width=20, height=20, angle=0))
             create_image_view_data(image_id=f"hourglass_{hourglass_index}", x=0, y=2, width=hourglass_size, height=hourglass_size, angle=0))
-        x = 28
+        x = 23
         y = 8
         for frame in range((self.frame_limit - self.used_frame) // int((30 * 2))):
-            toggle_data.append(create_rect_view_data("frame", x, y, 3, 15, RED))
+            toggle_data.append(create_rect_view_data("frame", x, y, 3, 10, RED))
             x += 3.5
+        # toggle_data.append(create_text_view_data(f"Frame: {self.frame_limit - self.used_frame}",
+        #                                          self.width_center + self.width_center // 2 + 85, 8, RED,
+        #                                          "24px Arial BOLD"))
         toggle_data.append(create_text_view_data(f"Frame: {self.frame_limit - self.used_frame}",
                                                  self.scene_width-165, 8, RED,
                                                  "24px Arial BOLD"))
-        x = 28
-        y = 25
+        x = 24
+        y = 20
         for score in range(min(self.team_green_score, self.team_blue_score)):
             toggle_data.append(create_rect_view_data(name="score", x=x, y=y, width=1, height=10, color=ORANGE))
             x += 1.5
             if x > self.width_center:
-                if y == 25:
-                    y = 36
+                if y == 32:
+                    y = 44
                 else:
-                    y = 25
-                x = 28
+                    y = 32
+                x = 24
         for score in range(abs(self.team_green_score - self. team_blue_score)):
             if self.team_green_score > self.team_blue_score:
                 toggle_data.append(create_rect_view_data("score", x, y, 1, 10, DARKGREEN))
@@ -337,17 +362,21 @@ class TeamBattleMode:
                     y = 32
                 x = 24
         # 1P
+        # x = WINDOW_WIDTH - 125
+        # y = WINDOW_HEIGHT - 40
         x = self.scene_width - 125
         y = self.scene_height - 40
         toggle_data.append(create_text_view_data(f"Score: {self.team_green_score}", x, y, DARKGREEN, "24px Arial BOLD"))
         # 2P
         x = 5
+        # y = WINDOW_HEIGHT - 40
+        y = self.scene_height - 40
         toggle_data.append(create_text_view_data(f"Score: {self.team_blue_score}", x, y, BLUE, "24px Arial BOLD"))
         for player in self.all_players:
             if isinstance(player, Player) and player.is_alive:
                 # lives
                 team_id = "team_a_lives" if player.id == 1 else "team_b_lives"
-                color = DARKGREEN if player.id == 1 else BLUE
+                color = DARKGREEN  if player.id == 1 else BLUE
                 x = player.play_rect_area.midbottom[0] + 7 + (player.no - 1) * 60 if player.id == 1 \
                     else player.play_rect_area.midbottom[0] - (player.no - self.green_team_num) * 60
                 y = player.play_rect_area.height + 73
@@ -397,6 +426,8 @@ class TeamBattleMode:
                            , 2: [player.get_data_from_obj_to_game() for player in self.players_b if isinstance(player, Player)]
                            }
         walls_info = [wall.get_data_from_obj_to_game() for wall in self.walls if isinstance(wall, Wall)]
+        unbreak_wall_info = [wall.get_data_from_obj_to_game() for wall in self.unbreakable_walls if isinstance(wall, Unbreakable_Wall)]
+        walls_info.extend(unbreak_wall_info)
         bullet_stations_info = [bullst_station.get_data_from_obj_to_game() for bullst_station in self.bullet_stations if
                                 isinstance(bullst_station, Station)]
         oil_stations_info = [oil_station.get_data_from_obj_to_game() for oil_station in self.oil_stations if
@@ -414,6 +445,7 @@ class TeamBattleMode:
                 to_game_data["bullets_info"] = bullets_info
                 to_game_data["bullet_stations_info"] = bullet_stations_info
                 to_game_data["oil_stations_info"] = oil_stations_info
+                to_game_data["size_multiplier"] = self.size_multiplier
                 to_player_data[get_ai_name(num)] = to_game_data
                 num += 1
         for player in self.players_b:
@@ -427,6 +459,7 @@ class TeamBattleMode:
                 to_game_data["bullets_info"] = bullets_info
                 to_game_data["bullet_stations_info"] = bullet_stations_info
                 to_game_data["oil_stations_info"] = oil_stations_info
+                to_game_data["size_multiplier"] = self.size_multiplier
                 to_player_data[get_ai_name(num)] = to_game_data
                 num += 1
 
