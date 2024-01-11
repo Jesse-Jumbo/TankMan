@@ -38,8 +38,8 @@
         [1000, "right boundary", "右邊界"],
         [0, "top boundary", "上邊界"],
         [600, "bottom boundary", "下邊界"],
-        [50, "obj width", "物件寬度"],
-        [50, "obj height", "物件高度"]
+        [25, "obj width", "物件寬度"],
+        [25, "obj height", "物件高度"]
     ],
     "ACTION": [
         ["['FORWARD']", "forward", "前進"],
