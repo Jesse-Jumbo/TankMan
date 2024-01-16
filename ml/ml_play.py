@@ -24,6 +24,7 @@ class MLPlay:
         Generate the command according to the received scene information
         """
         # print(keyboard)
+        
         if scene_info["status"] != "GAME_ALIVE":
             # print(scene_info)
             return "RESET"
@@ -59,7 +60,7 @@ class MLPlay:
 
         if not command:
             command.append("NONE")
-
+        
         return command
 
     def reset(self):

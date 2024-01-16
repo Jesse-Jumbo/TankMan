@@ -44,7 +44,7 @@
 python -m mlgame -f 120 -i ml/ml_play_manual.py -i ml/ml_play_manual.py . --green_team_num 1 --blue_team_num 1 --is_manual "1" --frame_limit 1000
 
 # Copy and Paste to play battle game with AI
-python -m mlgame -f 120 -i -i ml/ml_play.py -i ml/ml_play.py . --green_team_num 1 --blue_team_num 1 --frame_limit 1000
+python -m mlgame -f 120 -i  ml/ml_play.py -i ml/ml_play.py . --green_team_num 1 --blue_team_num 1 --frame_limit 1000
 ```
 - `green_team_num`：選擇數字 1～3，以決定 綠隊 人數。
 - `blue_team_num`：選擇數字 1～3，以決定 藍隊 人數。
