@@ -160,3 +160,6 @@ cython_debug/
 .idea/
 
 asset/image/mapping/image.pptx
+
+ml/save
+log/
