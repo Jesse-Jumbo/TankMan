@@ -34,8 +34,8 @@ class Wall(pygame.sprite.Sprite):
 
     def get_obj_init_data(self):
         image_init_data = []
-        for i in range(1, 4):
+        for i in range(1, self.lives+1):
             image_init_data.append(create_asset_init_data(f"wall_{i}", self.rect.width, self.rect.height,
-                                                          path.join(IMAGE_DIR, f"wall_{i}.png"),
-                                                          f"https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/wall_{i}.png"))
+                                                          path.join(IMAGE_DIR, f"wall_{min(i,3)}.png"),
+                                                          f"https://raw.githubusercontent.com/Jesse-Jumbo/TankMan/main/asset/image/wall_{min(i,3)}.png"))
         return image_init_data
