@@ -230,11 +230,10 @@ class TeamBattleMode:
     def create_bullet(self, sprites: pygame.sprite.Group):
         for sprite in sprites:
             if not sprite.is_shoot:
-                continue
-            bullet_speed = 30
+                continue            
             self.sound_controller.play_sound("shoot", 0.03, -1)
             init_data = create_construction(sprite.id, sprite.no, sprite.rect.center, (BULLET_SIZE[0], BULLET_SIZE[1]))
-            bullet = Bullet(init_data, rot=sprite.gun.get_rot(), margin=2, spacing=2, bullet_speed=bullet_speed, bullet_travel_distance=600
+            bullet = Bullet(init_data, rot=sprite.gun.get_rot(), margin=2, spacing=2, bullet_speed=BULLET_SPEED, bullet_travel_distance=BULLET_TRAVEL_DISTANCE
                             , play_rect_area=self.play_rect_area)
             self.bullets.add(bullet)
             self.all_sprites.add(bullet)

@@ -3,7 +3,7 @@ from os import path
 import pygame
 from mlgame.view.view_model import create_asset_init_data, create_image_view_data
 
-from .env import IMAGE_DIR
+from .env import IMAGE_DIR, WALL_LIVE
 
 
 class Wall(pygame.sprite.Sprite):
@@ -14,7 +14,7 @@ class Wall(pygame.sprite.Sprite):
         self.rect = pygame.Rect(construction["_init_pos"], construction["_init_size"])
         self.angle = 0
         self.is_alive = True
-        self.lives = 3
+        self.lives = WALL_LIVE
 
     def update(self, *args, **kwargs) -> None:
         if self.lives <= 0:
