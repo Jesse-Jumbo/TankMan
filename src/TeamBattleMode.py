@@ -67,8 +67,8 @@ class TeamBattleMode:
         self.map.add_init_obj_data(PLAYER_1_IMG_NO, Player, act_cd=act_cd, play_rect_area=self.play_rect_area)
         self.map.add_init_obj_data(PLAYER_2_IMG_NO, Player, act_cd=act_cd, play_rect_area=self.play_rect_area)
         self.map.add_init_obj_data(WALL_IMG_NO, Wall, margin=8, spacing=8)
-        self.map.add_init_obj_data(BULLET_STATION_IMG_NO, Station, margin=2, spacing=2, capacity=5, quadrant=1)
-        self.map.add_init_obj_data(OIL_STATION_IMG_NO, Station, margin=2, spacing=2, capacity=30, quadrant=1)
+        self.map.add_init_obj_data(BULLET_STATION_IMG_NO, Station, spawn_cd=30, margin=2, spacing=2, capacity=5, quadrant=1)
+        self.map.add_init_obj_data(OIL_STATION_IMG_NO, Station, spawn_cd=30, margin=2, spacing=2, capacity=30, quadrant=1)
         # create obj
         all_obj = self.map.create_init_obj_dict()
         # init players
@@ -114,6 +114,8 @@ class TeamBattleMode:
         self.walls.update()
         self.create_bullet(self.all_players)
         self.bullets.update()
+        self.bullet_stations.update()
+        self.oil_stations.update()
         self.all_players.update(command)
         self.get_player_end()
         if self.used_frame >= self.frame_limit:
@@ -177,10 +179,20 @@ class TeamBattleMode:
             for player, score in player_score_data.items():
                 self.add_player_score(player, score)
             # TODO refactor stations
-            bs = collide_with_bullet_stations(self.all_players, self.bullet_stations)
-            self.change_obj_pos(bs)
-            os = collide_with_oil_stations(self.all_players, self.oil_stations)
-            self.change_obj_pos(os)
+
+            supply_stations = []
+
+            # Check collision between player and supply stations
+            supply_stations.extend(collide_with_supply_stations(self.all_players, self.bullet_stations))
+            supply_stations.extend(collide_with_supply_stations(self.all_players, self.oil_stations))
+
+            # Check collision between bullet and supply stations
+            supply_stations.extend(collide_with_supply_stations(self.bullets, self.bullet_stations))
+            supply_stations.extend(collide_with_supply_stations(self.bullets, self.oil_stations))
+
+            # Update stations position
+            self.change_obj_pos(supply_stations)
+
         player_score_data = collide_with_bullets(self.walls, self.bullets)
         for player, score in player_score_data.items():
             self.add_player_score(player, score)
@@ -220,11 +232,9 @@ class TeamBattleMode:
             if not sprite.is_shoot:
                 continue
             bullet_speed = 30
-            if self.is_manual:
-                bullet_speed = 10
             self.sound_controller.play_sound("shoot", 0.03, -1)
             init_data = create_construction(sprite.id, sprite.no, sprite.rect.center, (BULLET_SIZE[0], BULLET_SIZE[1]))
-            bullet = Bullet(init_data, rot=sprite.gun.get_rot(), margin=2, spacing=2, bullet_speed=bullet_speed
+            bullet = Bullet(init_data, rot=sprite.gun.get_rot(), margin=2, spacing=2, bullet_speed=bullet_speed, bullet_travel_distance=600
                             , play_rect_area=self.play_rect_area)
             self.bullets.add(bullet)
             self.all_sprites.add(bullet)
