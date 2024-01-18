@@ -77,7 +77,7 @@ BULLET_STATION_IMG_NO = 4
 OIL_STATION_IMG_NO = 5
 WALL_LIVE = 3
 BULLET_SPEED = 30
-BULLET_TRAVEL_DISTANCE = 300  # Must be a multiple of BULLET_SPEED
+BULLET_TRAVEL_DISTANCE = 300  
 
 """music"""
 BGM = 'background_music.ogg/.wav/.mp3'
