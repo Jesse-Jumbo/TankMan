@@ -30,7 +30,7 @@ class Bullet(pygame.sprite.Sprite):
                      "down": Vec(0, self.speed)}
                 
         self.max_travel_distance = (kwargs["bullet_travel_distance"] // self.speed + 1) * self.speed
-        print(self.speed, self.max_travel_distance)
+        
         self.travel_distance = 0
 
     def update(self):
