@@ -13,6 +13,9 @@ class Bullet():
                 return True    
         return False
 
+    def is_target_in_bullet_range(self, tank_pos, gun_angle, target_pos):
+        return self.will_hit_target(tank_pos, gun_angle, target_pos)
+
     def will_hit_target(self, tank_pos, gun_angle, wall_pos):    
         distance = math.sqrt((tank_pos["x"] - wall_pos["x"]) ** 2 + (tank_pos["y"] - wall_pos["y"]) **2)
         if BULLET_TRAVEL_DISTANCE < distance:
@@ -24,4 +27,4 @@ class Bullet():
         
         
         return abs(gun_rad - angle_rad) < toarance_rad        
-        
+    
