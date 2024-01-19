@@ -7,18 +7,18 @@ class Bullet():
     def __init__(self) -> None:
         pass
 
-    def is_wall_in_bullet_range(self, tank_pos, gun_angle, walls):
+    def is_wall_in_bullet_range(self, tank_pos, gun_angle, walls, detection_distance):
         for wall in walls:            
-            if self.will_hit_target(tank_pos, gun_angle, {"x":wall["x"], "y":wall["y"]}):
+            if self.will_hit_target(tank_pos, gun_angle, {"x":wall["x"], "y":wall["y"]}, detection_distance):
                 return True    
         return False
 
-    def is_target_in_bullet_range(self, tank_pos, gun_angle, target_pos):
-        return self.will_hit_target(tank_pos, gun_angle, target_pos)
+    def is_target_in_bullet_range(self, tank_pos, gun_angle, target_pos, detection_distance):
+        return self.will_hit_target(tank_pos, gun_angle, target_pos, detection_distance)
 
-    def will_hit_target(self, tank_pos, gun_angle, wall_pos):    
+    def will_hit_target(self, tank_pos, gun_angle, wall_pos, detection_distance):    
         distance = math.sqrt((tank_pos["x"] - wall_pos["x"]) ** 2 + (tank_pos["y"] - wall_pos["y"]) **2)
-        if BULLET_TRAVEL_DISTANCE < distance:
+        if detection_distance < distance:
             return False
         
         angle_rad = math.atan2(wall_pos["y"] - tank_pos["y"], wall_pos["x"] - tank_pos["x"])            
