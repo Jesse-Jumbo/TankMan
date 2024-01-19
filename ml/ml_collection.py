@@ -3,12 +3,13 @@ The template of the main script of the machine learning process
 """
 import random
 import pygame
+import numpy
 import os
 import pickle
 from datetime import datetime
-
-
-
+from ml.env import *
+import numpy as np
+import math
 class MLPlay:
     def __init__(self, ai_name, *args, **kwargs):
         """
@@ -71,32 +72,21 @@ class MLPlay:
         
         self.scene_info = []
         self.commands = []
-        self.data = {"scene_info":[], "command":[]}
+        
 
     def __rule(self, scene_info):
         command = []
-        if scene_info["id"] != "1P":
-            print("Adjust to 1P")        
+        
+        target_pos = [scene_info["competitor_info"][0]["x"], scene_info["competitor_info"][0]["y"]]
+        tank_pos = {"x": scene_info["x"], "y": scene_info["y"]}
+        tank_angle = scene_info["angle"]
+        tank_gun_angle = scene_info["gun_angle"]
 
-        if abs(scene_info["x"] - self.user_x) > 16:
-            if scene_info["angle"] != 0:
-                command.append("TURN_RIGHT")    
-            elif scene_info["x"] > self.user_x:
-                command.append("FORWARD")
-            else:
-                command.append("BACKWARD")        
-        elif scene_info["angle"] != 90:
-            command.append("TURN_RIGHT")
-        elif abs(scene_info["y"] - scene_info["competitor_info"][0]["y"]) > 4:
-            if scene_info["y"] < scene_info["competitor_info"][0]["y"] :
-                command.append("FORWARD")
-            else:
-                command.append("BACKWARD")        
-        else:
-            if scene_info["gun_angle"] != 0:
-                command.append("AIM_LEFT")
-            else:
-                command.append("SHOOT")
+        is_wall_in_bullet_range = self.__is_wall_in_bullet_range(tank_pos, tank_gun_angle, scene_info["walls_info"])
+        print(is_wall_in_bullet_range)
+        is_target_in_bullet_range = ''
+
+
 
         # 儲存資料
         self.scene_info.append(scene_info)
