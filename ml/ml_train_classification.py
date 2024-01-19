@@ -5,6 +5,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, f1_score
 from sklearn.neighbors import KNeighborsClassifier
 import pygame
+from test import *
 
 
 path  = os.path.join(os.path.dirname(__file__),"..", "log")
@@ -17,19 +18,25 @@ for file in allFile[:]:
 
 user_x = []
 user_y = []
-user_angle = []
+competitor_x = []
 competitor_y = []
+user_angle = []
 user_gun_angle = []
+is_wall_in_bullet_range = []
+is_target_in_bullet_range = []
 Command = []
+bullet = Bullet()
 
 for data in data_set:    
     for i, scene_info in enumerate(data["scene_info"]):
         user_x.append(scene_info["x"])
         user_y.append(scene_info["y"])
-        user_angle.append(scene_info["angle"])
+        competitor_x.append(scene_info["competitor_info"][0]["x"])
         competitor_y.append(scene_info["competitor_info"][0]["y"])
+        user_angle.append(scene_info["angle"])        
         user_gun_angle.append(scene_info["gun_angle"])
-    
+        is_wall_in_bullet_range.append(bullet.is_wall_in_bullet_range({"x": scene_info["x"], "y": scene_info["y"]},scene_info["gun_angle"], scene_info["walls_info"], 100))
+        is_target_in_bullet_range.append(bullet.is_target_in_bullet_range({"x": scene_info["x"], "y": scene_info["y"]}, scene_info["gun_angle"], {"x":scene_info["competitor_info"][0]["x"], "y":scene_info["competitor_info"][0]["y"]}, BULLET_TRAVEL_DISTANCE))
     for command in data["command"]:
         Command.append(command)
 
@@ -38,9 +45,9 @@ Command = Command.reshape(len(Command), 1)
 
 # Feature
 
-X = np.array([0, 0, 0, 0, 0])
+X = np.array([0, 0, 0, 0, 0, 0, 0, 0])
 for i in range(len(user_y)):
-    X = np.vstack((X, [user_x[i], user_y[i], user_angle[i], competitor_y[i], user_gun_angle[i]]))
+    X = np.vstack((X, [user_x[i], user_y[i], competitor_x[i], competitor_y[i], user_angle[i], user_gun_angle[i], is_wall_in_bullet_range[i], is_target_in_bullet_range[i]]))
 X = X[1::]
 
 Y = Command[:,0]

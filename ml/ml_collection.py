@@ -8,8 +8,10 @@ import os
 import pickle
 from datetime import datetime
 from ml.env import *
+from ml.test import *
 import numpy as np
 import math
+
 class MLPlay:
     def __init__(self, ai_name, *args, **kwargs):
         """
@@ -76,18 +78,40 @@ class MLPlay:
 
     def __rule(self, scene_info):
         command = []
-        
-        target_pos = [scene_info["competitor_info"][0]["x"], scene_info["competitor_info"][0]["y"]]
+        TORRANCE = 8
+        target_pos = {"x":scene_info["competitor_info"][0]["x"], "y":scene_info["competitor_info"][0]["y"]}
         tank_pos = {"x": scene_info["x"], "y": scene_info["y"]}
         tank_angle = scene_info["angle"]
         tank_gun_angle = scene_info["gun_angle"]
 
-        is_wall_in_bullet_range = self.__is_wall_in_bullet_range(tank_pos, tank_gun_angle, scene_info["walls_info"])
+        bullet = Bullet()
+        print("tank_gun_angle", tank_gun_angle)
+        is_wall_in_bullet_range = bullet.is_wall_in_bullet_range(tank_pos, tank_gun_angle, scene_info["walls_info"], 50)
         print(is_wall_in_bullet_range)
-        is_target_in_bullet_range = ''
-
-
-
+        is_target_in_bullet_range = bullet.is_target_in_bullet_range(tank_pos, tank_gun_angle, target_pos, BULLET_TRAVEL_DISTANCE)
+        
+        if abs(tank_pos["y"] - target_pos["y"]) > TORRANCE:
+            if tank_angle != 90:
+                command.append("TURN_RIGHT")
+            elif is_wall_in_bullet_range:
+                command.append("SHOOT")
+            else:    
+                if tank_pos["y"] < target_pos["y"]:
+                    command.append("FORWARD")
+                else:
+                    command.append("BACKWARD")
+        
+        elif abs(tank_pos["x"] - target_pos["x"]) > TORRANCE:
+            if tank_angle != 0:
+                command.append("TURN_RIGHT")
+            elif is_target_in_bullet_range or is_wall_in_bullet_range:                       
+                command.append("SHOOT")
+            else:
+                if tank_pos["x"] < target_pos["x"]:                    
+                    command.append("BACKWARD")
+                else:
+                    command.append("FORWARD")
+        
         # 儲存資料
         self.scene_info.append(scene_info)
         self.commands.append(command)

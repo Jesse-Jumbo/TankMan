@@ -3,7 +3,7 @@ The template of the main script of the machine learning process
 """
 
 import pygame
-
+from ml.test import *
 
 class MLPlay:
     def __init__(self, ai_name, *args, **kwargs):
@@ -73,7 +73,9 @@ class MLPlay:
 
             if pygame.K_f in keyboard:
                 command.append("SHOOT")
-
+        bullet = Bullet()
+        # print(scene_info["gun_angle"])
+        # print(bullet.is_wall_in_bullet_range({"x": scene_info["x"], "y": scene_info["y"]}, scene_info["gun_angle"], scene_info["walls_info"], 200))
         if not command:
             command.append("NONE")
         

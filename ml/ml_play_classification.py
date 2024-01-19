@@ -8,6 +8,7 @@ import pickle
 from datetime import datetime
 from src.env import IS_DEBUG
 import numpy as np
+from ml.test import *
 
 
 class MLPlay:
@@ -48,13 +49,17 @@ class MLPlay:
         
         if scene_info["status"] != "GAME_ALIVE":            
             return "RESET"
+        bullet = Bullet()
         user_x = scene_info["x"]
         user_y = scene_info["y"]
-        user_angle = scene_info["angle"]
+        competitor_x = scene_info["competitor_info"][0]["x"]
         competitor_y = scene_info["competitor_info"][0]["y"]
-        user_gun_angle = scene_info["gun_angle"]
-        
-        x = np.array([user_x, user_y, user_angle, competitor_y, user_gun_angle]).reshape((1, -1))   
+        user_angle = scene_info["angle"]        
+        user_gun_angle = scene_info["gun_angle"]                                                        
+        is_wall_in_bullet_range = bullet.is_wall_in_bullet_range({"x": scene_info["x"], "y": scene_info["y"]},scene_info["gun_angle"], scene_info["walls_info"], 100)
+        is_target_in_bullet_range = bullet.is_target_in_bullet_range({"x": scene_info["x"], "y": scene_info["y"]}, scene_info["gun_angle"], {"x":scene_info["competitor_info"][0]["x"], "y":scene_info["competitor_info"][0]["y"]}, BULLET_TRAVEL_DISTANCE)
+
+        x = np.array([user_x, user_y, competitor_x, competitor_y, user_angle, user_gun_angle, is_wall_in_bullet_range, is_target_in_bullet_range]).reshape((1, -1))   
         y = self.model.predict(x)        
         command = y.tolist()
 
