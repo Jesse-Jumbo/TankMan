@@ -4,6 +4,7 @@ import pygame.sprite
 from src.Player import Player
 from src.Bullet import Bullet
 from src.Wall import Wall
+from src.Unbreakable_Wall import Unbreakable_Wall
 
 
 def collide_with_walls(group1: pygame.sprite.Group, group2: pygame.sprite.Group):
@@ -17,7 +18,7 @@ def collide_with_bullets(group1: pygame.sprite.Group, group2: pygame.sprite.Grou
     player_score_data = {}
     for sprite, bullets in hits.items():
         for bullet in bullets:
-            if bullet.no != sprite.no and sprite.lives > 0:
+            if bullet.no != sprite.no and sprite.lives != 0:
                 bullet.kill()
 
                 if isinstance(sprite, Player):
@@ -27,7 +28,7 @@ def collide_with_bullets(group1: pygame.sprite.Group, group2: pygame.sprite.Grou
                         score = -20
                     else:
                         score = 20
-                elif isinstance(sprite, Wall):
+                elif isinstance(sprite, Wall) or isinstance(sprite, Unbreakable_Wall):
                     score = 1
                     if sprite.lives == 1:
                         score += 5
